@@ -36,9 +36,6 @@ class MainActivity : AppCompatActivity() {
 
         button = findViewById(R.id.wizard_button)
         button.setOnClickListener{
-            Toast.makeText(this,
-                "Click ",
-                Toast.LENGTH_SHORT).show()
             intent = Intent(this, WizardActivity::class.java)
             startActivity(intent)
         }

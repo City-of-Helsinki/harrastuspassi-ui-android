@@ -7,35 +7,40 @@ import android.support.v4.view.ViewPager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
+import android.widget.LinearLayout
+import android.widget.TextView
 
-class ViewPagerAdapter(private val context : Context) : PagerAdapter() {
+
+class WizardSliderAdapter(private val context: Context,
+                          private val color: ArrayList<Int>,
+                          private val colorName: ArrayList<String>) : PagerAdapter() {
+
     private var layoutInflater : LayoutInflater? = null
-    val Image = arrayOf(R.drawable.image_1 , R.drawable.image_2 , R.drawable.image_3)
-
 
     override fun isViewFromObject(view: View, `object`: Any): Boolean {
-        return view ===  `object`
+        return view === `object`
     }
 
     override fun getCount(): Int {
-        return Image.size
+        return color.size
     }
 
     @SuppressLint("InflateParams")
     override fun instantiateItem(container: ViewGroup, position: Int): Any {
         layoutInflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-        val view = layoutInflater!!.inflate(R.layout.viewpager_activity , null)
+        val view = layoutInflater!!.inflate(R.layout.wizard_item_slider , null)
 
-        val image = view.findViewById<View>(R.id.imageview) as ImageView
-        image.setImageResource(Image[position])
+        val textView = view.findViewById(R.id.textView) as TextView
+        val linearLayout = view.findViewById(R.id.wizard_linear_layout) as LinearLayout
         val viewPager = container as ViewPager
-        viewPager.addView(view , 0)
+
+        textView.text = colorName!![position]
+        linearLayout.setBackgroundColor(color!![position])
+
+        viewPager.addView(view, 0)
 
         return view
-
     }
-
 
     override fun destroyItem(container: ViewGroup, position: Int, `object`: Any) {
         val viewPager = container as ViewPager
