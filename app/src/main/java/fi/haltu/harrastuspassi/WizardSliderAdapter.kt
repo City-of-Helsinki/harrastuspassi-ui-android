@@ -8,12 +8,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
+import android.widget.ListView
 import android.widget.TextView
 
 
 class WizardSliderAdapter(private val context: Context,
-                          private val color: ArrayList<Int>,
-                          private val colorName: ArrayList<String>) : PagerAdapter() {
+                          private val inquirys: ArrayList<Inquiry>) : PagerAdapter() {
 
     private var layoutInflater : LayoutInflater? = null
 
@@ -22,7 +22,7 @@ class WizardSliderAdapter(private val context: Context,
     }
 
     override fun getCount(): Int {
-        return color.size
+        return inquirys.size
     }
 
     @SuppressLint("InflateParams")
@@ -33,9 +33,12 @@ class WizardSliderAdapter(private val context: Context,
         val textView = view.findViewById(R.id.textView) as TextView
         val linearLayout = view.findViewById(R.id.wizard_linear_layout) as LinearLayout
         val viewPager = container as ViewPager
+        val optionList = view.findViewById<ListView>(R.id.optionList)
+        val adapter = OptionsAdapter(context, viewPager, inquirys!![position].options)
+        optionList.adapter = adapter
 
-        textView.text = colorName!![position]
-        linearLayout.setBackgroundColor(color!![position])
+        textView.text = inquirys!![position].question
+        linearLayout.setBackgroundColor(inquirys!![position].color)
 
         viewPager.addView(view, 0)
 
