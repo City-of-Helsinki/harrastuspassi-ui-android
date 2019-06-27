@@ -12,18 +12,20 @@ class HobbyListViewHolder(inflater: LayoutInflater, parent: ViewGroup) :
     RecyclerView.ViewHolder(inflater.inflate(R.layout.hobby_item, parent, false)) {
 
     private var title: TextView? = null
-    private var description: TextView? = null
+    private var place: TextView? = null
     private var image: ImageView? = null
-
+    private var duration: TextView? = null
     init {
         title = itemView.findViewById(R.id.title)
-        description  = itemView.findViewById(R.id.description)
+        place  = itemView.findViewById(R.id.place)
         image = itemView.findViewById(R.id.image)
+        duration = itemView.findViewById(R.id.duration)
     }
 
     fun bind(hobby: Hobby) {
         title!!.text = hobby!!.title
-        description!!.text = hobby.description
+        place!!.text = hobby.place
         image!!.setImageResource(hobby.image)
+        duration!!.text = hobby.duration
     }
 }

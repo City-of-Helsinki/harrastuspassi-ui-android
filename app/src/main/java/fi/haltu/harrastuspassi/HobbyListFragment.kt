@@ -51,6 +51,10 @@ class HobbyListFragment : Fragment() {
                 " Nam sed vestibulum turpis, in condimentum urna. " +
                 "Morbi mattis bibendum massa, quis cursus erat rhoncus vel."
         hobby.image = R.drawable.image_1
+        hobby.place = "Itä-Hakkilan koulu"
+        hobby.distance = 2.0
+        hobby.duration = "ke"
+        hobby.organizer = "Valar Morghulis Taide Ry"
 
         hobbesList.add(hobby)
 
@@ -60,6 +64,10 @@ class HobbyListFragment : Fragment() {
                 " Nam sed vestibulum turpis, in condimentum urna. " +
                 "Morbi mattis bibendum massa, quis cursus erat rhoncus vel."
         hobby.image = R.drawable.image_2
+        hobby.place = "Itä-Hakkilan koulu"
+        hobby.distance = 2.0
+        hobby.duration = "ke"
+        hobby.organizer = "Valar Morghulis Taide Ry"
 
         hobbesList.add(hobby)
 
@@ -69,6 +77,10 @@ class HobbyListFragment : Fragment() {
                 " Nam sed vestibulum turpis, in condimentum urna. " +
                 "Morbi mattis bibendum massa, quis cursus erat rhoncus vel."
         hobby.image = R.drawable.image_3
+        hobby.place = "Itä-Hakkilan koulu"
+        hobby.distance = 2.0
+        hobby.duration = "ke"
+        hobby.organizer = "Valar Morghulis Taide Ry"
 
         hobbesList.add(hobby)
 
@@ -78,6 +90,10 @@ class HobbyListFragment : Fragment() {
                 " Nam sed vestibulum turpis, in condimentum urna. " +
                 "Morbi mattis bibendum massa, quis cursus erat rhoncus vel."
         hobby.image = R.drawable.image_4
+        hobby.place = "Itä-Hakkilan koulu"
+        hobby.distance = 2.0
+        hobby.duration = "ke"
+        hobby.organizer = "Valar Morghulis Taide Ry"
 
         hobbesList.add(hobby)
 
@@ -87,6 +103,10 @@ class HobbyListFragment : Fragment() {
                 " Nam sed vestibulum turpis, in condimentum urna. " +
                 "Morbi mattis bibendum massa, quis cursus erat rhoncus vel."
         hobby.image = R.drawable.image_5
+        hobby.place = "Itä-Hakkilan koulu"
+        hobby.distance = 2.0
+        hobby.duration = "ke"
+        hobby.organizer = "Valar Morghulis Taide Ry"
 
         hobbesList.add(hobby)
 
@@ -96,6 +116,10 @@ class HobbyListFragment : Fragment() {
         " Nam sed vestibulum turpis, in condimentum urna. " +
                 "Morbi mattis bibendum massa, quis cursus erat rhoncus vel."
         hobby.image = R.drawable.image_1
+        hobby.place = "Itä-Hakkilan koulu"
+        hobby.distance = 2.0
+        hobby.duration = "ke"
+        hobby.organizer = "Valar Morghulis Taide Ry"
 
         hobbesList.add(hobby)
 

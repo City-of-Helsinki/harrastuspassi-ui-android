@@ -19,8 +19,8 @@ class HobbiesAdapter(private val list: List<Hobby>) :
     }
 
     override fun onBindViewHolder(holder: HobbyListViewHolder, position: Int) {
-        val movie: Hobby = list[position]
-        holder.bind(movie)
+        val hobby: Hobby = list[position]
+        holder.bind(hobby)
     }
 
     override fun getItemCount(): Int = list.size
