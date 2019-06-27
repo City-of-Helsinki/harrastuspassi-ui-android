@@ -10,8 +10,6 @@ import org.w3c.dom.Text
 
 class HobbyListViewHolder(inflater: LayoutInflater, parent: ViewGroup) :
     RecyclerView.ViewHolder(inflater.inflate(R.layout.hobby_item, parent, false)) {
-    private var mTitleView: TextView? = null
-    private var mYearView: TextView? = null
 
     private var title: TextView? = null
     private var description: TextView? = null
@@ -27,10 +25,5 @@ class HobbyListViewHolder(inflater: LayoutInflater, parent: ViewGroup) :
         title!!.text = hobby!!.title
         description!!.text = hobby.description
         image!!.setImageResource(hobby.image)
-
-        /*image!!.setOnClickListener {
-            Toast.makeText(context, "Clicked image of " + hobby!!.title,
-                Toast.LENGTH_SHORT).show()
-        }*/
     }
 }

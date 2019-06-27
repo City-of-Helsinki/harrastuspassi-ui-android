@@ -18,7 +18,6 @@ class HobbyListFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         loadHobbiesData()
-        // Inflate the layout for this fragment
         val view: View = inflater.inflate(R.layout.hobby_list_fragment, container, false)
         listView = view.findViewById(R.id.list_view)
 
@@ -30,15 +29,7 @@ class HobbyListFragment : Fragment() {
             layoutManager = LinearLayoutManager(activity)
             adapter = hobbiesAdapter
         }
-/*        listView.adapter = attractionsAdapter
 
-        listView.dividerHeight = 10
-
-                            Toast.makeText(view.context,
-                        "Long click " + (position + 1),
-                        Toast.LENGTH_LONG).show()
-
-*/
         return view
     }
 

@@ -1,6 +1,7 @@
 package fi.haltu.harrastuspassi
 
 import android.os.Bundle
+import android.support.design.widget.TabLayout
 import android.support.v4.app.Fragment
 import android.support.v4.view.ViewPager
 import android.util.Log
@@ -13,11 +14,12 @@ class PromotedHobbyFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view: View = inflater.inflate(R.layout.promoted_hobby_fragment, container, false)
-        //sliderview
         viewpager = view.findViewById(R.id.viewpager)
         val adapter = ViewPagerAdapter(view.context)
         viewpager.adapter = adapter
 
+        val indicator = view.findViewById<TabLayout>(R.id.indicator_image)
+        indicator.setupWithViewPager(viewpager, true)
         return view
     }
 
