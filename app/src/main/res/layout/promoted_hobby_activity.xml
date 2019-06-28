@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<RelativeLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/constraintLayout"
@@ -17,22 +17,34 @@
             android:textColor="#000"
             android:textStyle="bold"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:gravity="top"
+            android:layout_alignStart= "@id/imageview"
+            android:layout_alignTop="@id/imageview"
+            android:layout_alignEnd="@id/imageview"
+            android:layout_alignBottom="@id/imageview"/>
 
     <ImageView
             android:id="@+id/imageview"
             android:background="@color/colorPrimary"
             android:layout_width="match_parent"
-            android:layout_height="150dp"
+            android:layout_height="180dp"
             android:scaleType="centerCrop"
+
     />
 
     <TextView
             android:id="@+id/description"
             android:text="Here can be long and multiple lined description of the title..."
             android:textSize="20sp"
-            android:textColor="#000"
+            android:textColor="#fff"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_alignStart= "@id/imageview"
+            android:layout_alignTop="@id/imageview"
+            android:layout_alignEnd="@id/imageview"
+            android:layout_alignBottom="@id/imageview"
+    />
 
-</LinearLayout>
+</RelativeLayout>

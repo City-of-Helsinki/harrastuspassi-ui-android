@@ -9,7 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 
-class ViewPagerAdapter(private val context : Context) : PagerAdapter() {
+class PromotedHobbiesAdapter(private val context : Context) : PagerAdapter() {
     private var layoutInflater : LayoutInflater? = null
     val Image = arrayOf(R.drawable.image_1 , R.drawable.image_2 , R.drawable.image_3)
 
@@ -25,7 +25,7 @@ class ViewPagerAdapter(private val context : Context) : PagerAdapter() {
     @SuppressLint("InflateParams")
     override fun instantiateItem(container: ViewGroup, position: Int): Any {
         layoutInflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-        val view = layoutInflater!!.inflate(R.layout.viewpager_activity , null)
+        val view = layoutInflater!!.inflate(R.layout.promoted_hobby_activity , null)
 
         val image = view.findViewById<View>(R.id.imageview) as ImageView
         image.setImageResource(Image[position])

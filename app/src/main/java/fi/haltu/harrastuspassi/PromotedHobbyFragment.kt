@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.support.design.widget.TabLayout
 import android.support.v4.app.Fragment
 import android.support.v4.view.ViewPager
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,7 +14,7 @@ class PromotedHobbyFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view: View = inflater.inflate(R.layout.promoted_hobby_fragment, container, false)
         viewpager = view.findViewById(R.id.viewpager)
-        val adapter = ViewPagerAdapter(view.context)
+        val adapter = PromotedHobbiesAdapter(view.context)
         viewpager.adapter = adapter
 
         val indicator = view.findViewById<TabLayout>(R.id.indicator_image)
