@@ -23,7 +23,8 @@ class HobbyListFragment : Fragment() {
 
 
         val seattleHobbies = getHobbiesByPlace("Seattle")
-        val hobbiesAdapter = HobbiesAdapter(seattleHobbies)
+        val hobbiesAdapter = HobbiesAdapter(seattleHobbies, {hobby: Hobby -> hobbyItemClicked(hobby)})
+
 
         listView.apply {
             layoutManager = LinearLayoutManager(activity)
@@ -42,11 +43,15 @@ class HobbyListFragment : Fragment() {
         addSeattleAttractions(hobbies)
     }
 
+    private fun hobbyItemClicked(hobby: Hobby) {
+        Toast.makeText(activity, "Clicked: ${hobby.title}", Toast.LENGTH_LONG).show()
+    }
+
     private fun addSeattleAttractions(hobbiesByCity: MutableMap<String, ArrayList<Hobby>>) {
         val hobbesList = ArrayList<Hobby>()
 
         var hobby = Hobby()
-        hobby.title = "Jalkapallokerho"
+        hobby.title = "Kitara kurssi"
         hobby.description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit." +
                 " Nam sed vestibulum turpis, in condimentum urna. " +
                 "Morbi mattis bibendum massa, quis cursus erat rhoncus vel."
@@ -59,7 +64,7 @@ class HobbyListFragment : Fragment() {
         hobbesList.add(hobby)
 
         hobby = Hobby()
-        hobby.title = "Kabaddi tutustumiskurssi"
+        hobby.title = "Taiteen alkeet"
         hobby.description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit." +
                 " Nam sed vestibulum turpis, in condimentum urna. " +
                 "Morbi mattis bibendum massa, quis cursus erat rhoncus vel."
@@ -72,7 +77,7 @@ class HobbyListFragment : Fragment() {
         hobbesList.add(hobby)
 
         hobby = Hobby()
-        hobby.title = "Koripallon alkeet"
+        hobby.title = "Jalkapallo, tutustumiskurssi"
         hobby.description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit." +
                 " Nam sed vestibulum turpis, in condimentum urna. " +
                 "Morbi mattis bibendum massa, quis cursus erat rhoncus vel."
@@ -85,7 +90,7 @@ class HobbyListFragment : Fragment() {
         hobbesList.add(hobby)
 
         hobby = Hobby()
-        hobby.title = "E-sports kurssi"
+        hobby.title = "Sulkapallo kokeneille"
         hobby.description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit." +
                 " Nam sed vestibulum turpis, in condimentum urna. " +
                 "Morbi mattis bibendum massa, quis cursus erat rhoncus vel."
@@ -98,7 +103,58 @@ class HobbyListFragment : Fragment() {
         hobbesList.add(hobby)
 
         hobby = Hobby()
-        hobby.title = "Try hard Kabaddi"
+        hobby.title = "Käsityö"
+        hobby.description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit." +
+                " Nam sed vestibulum turpis, in condimentum urna. " +
+                "Morbi mattis bibendum massa, quis cursus erat rhoncus vel."
+        hobby.image = R.drawable.image_5
+        hobby.place = "Itä-Hakkilan koulu"
+        hobby.distance = 2.0
+        hobby.duration = "ke"
+        hobby.organizer = "Valar Morghulis Taide Ry"
+
+        hobbesList.add(hobby)
+        hobby = Hobby()
+        hobby.title = "Taiteen alkeet"
+        hobby.description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit." +
+                " Nam sed vestibulum turpis, in condimentum urna. " +
+                "Morbi mattis bibendum massa, quis cursus erat rhoncus vel."
+        hobby.image = R.drawable.image_2
+        hobby.place = "Itä-Hakkilan koulu"
+        hobby.distance = 2.0
+        hobby.duration = "ke"
+        hobby.organizer = "Valar Morghulis Taide Ry"
+
+        hobbesList.add(hobby)
+
+        hobby = Hobby()
+        hobby.title = "Jalkapallo, tutustumiskurssi"
+        hobby.description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit." +
+                " Nam sed vestibulum turpis, in condimentum urna. " +
+                "Morbi mattis bibendum massa, quis cursus erat rhoncus vel."
+        hobby.image = R.drawable.image_3
+        hobby.place = "Itä-Hakkilan koulu"
+        hobby.distance = 2.0
+        hobby.duration = "ke"
+        hobby.organizer = "Valar Morghulis Taide Ry"
+
+        hobbesList.add(hobby)
+
+        hobby = Hobby()
+        hobby.title = "Sulkapallo kokeneille"
+        hobby.description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit." +
+                " Nam sed vestibulum turpis, in condimentum urna. " +
+                "Morbi mattis bibendum massa, quis cursus erat rhoncus vel."
+        hobby.image = R.drawable.image_4
+        hobby.place = "Itä-Hakkilan koulu"
+        hobby.distance = 2.0
+        hobby.duration = "ke"
+        hobby.organizer = "Valar Morghulis Taide Ry"
+
+        hobbesList.add(hobby)
+
+        hobby = Hobby()
+        hobby.title = "Käsityö"
         hobby.description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit." +
                 " Nam sed vestibulum turpis, in condimentum urna. " +
                 "Morbi mattis bibendum massa, quis cursus erat rhoncus vel."
@@ -110,20 +166,9 @@ class HobbyListFragment : Fragment() {
 
         hobbesList.add(hobby)
 
-        hobby = Hobby()
-        hobby.title = "Nettisurffailu omassa kämpässä"
-        hobby.description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit." +
-        " Nam sed vestibulum turpis, in condimentum urna. " +
-                "Morbi mattis bibendum massa, quis cursus erat rhoncus vel."
-        hobby.image = R.drawable.image_1
-        hobby.place = "Itä-Hakkilan koulu"
-        hobby.distance = 2.0
-        hobby.duration = "ke"
-        hobby.organizer = "Valar Morghulis Taide Ry"
-
-        hobbesList.add(hobby)
-
         hobbiesByCity.put("Seattle", hobbesList)
+        hobbiesByCity.put("Seattle", hobbesList)
+
     }
 
 }
