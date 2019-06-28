@@ -13,7 +13,7 @@
                 android:name="fi.haltu.harrastuspassi.PromotedHobbyFragment"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="4"
+                android:layout_weight="3"
                 android:background="#FFF"
 
         />
@@ -23,7 +23,7 @@
                 android:name="fi.haltu.harrastuspassi.HobbyListFragment"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="5"
+                android:layout_weight="6"
                 android:background="#FFF"
 
         />

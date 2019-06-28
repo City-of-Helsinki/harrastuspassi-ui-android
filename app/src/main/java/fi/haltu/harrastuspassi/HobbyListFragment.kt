@@ -1,5 +1,6 @@
 package fi.haltu.harrastuspassi
 
+import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
@@ -44,7 +45,10 @@ class HobbyListFragment : Fragment() {
     }
 
     private fun hobbyItemClicked(hobby: Hobby) {
-        Toast.makeText(activity, "Clicked: ${hobby.title}", Toast.LENGTH_LONG).show()
+        val intent = Intent(context, HobbyDetailActivity::class.java)
+
+        intent.putExtra("EXTRA_HOBBY", hobby)
+        startActivity(intent)
     }
 
     private fun addSeattleAttractions(hobbiesByCity: MutableMap<String, ArrayList<Hobby>>) {
@@ -64,7 +68,7 @@ class HobbyListFragment : Fragment() {
         hobbesList.add(hobby)
 
         hobby = Hobby()
-        hobby.title = "Taiteen alkeet"
+        hobby.title = "Taidetta muovipulloista"
         hobby.description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit." +
                 " Nam sed vestibulum turpis, in condimentum urna. " +
                 "Morbi mattis bibendum massa, quis cursus erat rhoncus vel."

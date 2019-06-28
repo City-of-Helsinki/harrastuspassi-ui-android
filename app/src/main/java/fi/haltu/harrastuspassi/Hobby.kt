@@ -1,6 +1,8 @@
 package fi.haltu.harrastuspassi
 
-class Hobby {
+import java.io.Serializable
+
+class Hobby: Serializable {
     var title: String? = null
     var description: String? = null
     var place: String? = null

@@ -27,10 +27,10 @@ class HobbiesAdapter(private val list: List<Hobby>, val clickListener: (Hobby) -
     class HobbyListViewHolder(itemView: View) :
         RecyclerView.ViewHolder(itemView) {
 
-        private var title: TextView? = null
-        private var place: TextView? = null
-        private var image: ImageView? = null
-        private var duration: TextView? = null
+        private var title: TextView
+        private var place: TextView
+        private var image: ImageView
+        private var duration: TextView
         init {
             title = itemView.findViewById(R.id.title)
             place  = itemView.findViewById(R.id.place)
@@ -39,10 +39,10 @@ class HobbiesAdapter(private val list: List<Hobby>, val clickListener: (Hobby) -
         }
 
         fun bind(hobby: Hobby, clickListener: (Hobby) -> Unit) {
-            title!!.text = hobby.title
-            place!!.text = hobby.place
-            image!!.setImageResource(hobby.image)
-            duration!!.text = hobby.duration
+            title.text = hobby.title
+            place.text = hobby.place
+            image.setImageResource(hobby.image)
+            duration.text = hobby.duration
             itemView.setOnClickListener{clickListener(hobby)}
         }
 
