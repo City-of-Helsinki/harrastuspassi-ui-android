@@ -16,6 +16,8 @@
             android:innerRadius="0dp"
             android:shape="ring"
             android:thicknessRatio="1.9"
+            android:transitionName="@string/item_detail"
+
     >
         <ImageView
                 android:layout_height="80dp"
@@ -24,6 +26,7 @@
                 android:scaleType="centerCrop">
         </ImageView>
     </android.support.v7.widget.CardView>
+
     <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:paddingStart="20dp">
         <TextView
                 android:id="@+id/title"

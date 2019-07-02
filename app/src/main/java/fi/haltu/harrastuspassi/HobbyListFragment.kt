@@ -1,8 +1,10 @@
 package fi.haltu.harrastuspassi
 
+import android.app.ActivityOptions
 import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.support.v7.widget.CardView
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
@@ -24,7 +26,7 @@ class HobbyListFragment : Fragment() {
 
 
         val seattleHobbies = getHobbiesByPlace("Seattle")
-        val hobbiesAdapter = HobbiesAdapter(seattleHobbies, {hobby: Hobby -> hobbyItemClicked(hobby)})
+        val hobbiesAdapter = HobbiesAdapter(seattleHobbies, {hobby: Hobby, cardView: CardView -> hobbyItemClicked(hobby, cardView)})
 
 
         listView.apply {
@@ -44,11 +46,15 @@ class HobbyListFragment : Fragment() {
         addSeattleAttractions(hobbies)
     }
 
-    private fun hobbyItemClicked(hobby: Hobby) {
+    private fun hobbyItemClicked(hobby: Hobby, cardView: CardView) {
         val intent = Intent(context, HobbyDetailActivity::class.java)
 
+        val sharedView: View = cardView
+        val transition = getString(R.string.item_detail)
+
         intent.putExtra("EXTRA_HOBBY", hobby)
-        startActivity(intent)
+        val transitionActivity = ActivityOptions.makeSceneTransitionAnimation(activity, sharedView, transition)
+        startActivity(intent, transitionActivity.toBundle())
     }
 
     private fun addSeattleAttractions(hobbiesByCity: MutableMap<String, ArrayList<Hobby>>) {
