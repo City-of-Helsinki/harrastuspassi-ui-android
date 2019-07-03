@@ -35,10 +35,11 @@ class HobbiesAdapter(private val list: List<Hobby>, private val clickListener: (
         private var place: TextView
         private var image: ImageView
         private var duration: TextView
+
         init {
             title = itemView.findViewById(R.id.title)
             cardView = itemView.findViewById(R.id.circle_card)
-            place  = itemView.findViewById(R.id.place)
+            place = itemView.findViewById(R.id.place)
             image = itemView.findViewById(R.id.image)
             duration = itemView.findViewById(R.id.duration)
         }
@@ -48,10 +49,8 @@ class HobbiesAdapter(private val list: List<Hobby>, private val clickListener: (
             place.text = hobby.place
             image.setImageResource(hobby.image)
             duration.text = hobby.duration
-            itemView.setOnClickListener{clickListener(hobby, cardView)}
+            itemView.setOnClickListener { clickListener(hobby, cardView) }
         }
 
-
     }
-
 }

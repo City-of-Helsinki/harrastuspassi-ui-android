@@ -14,33 +14,35 @@ import fi.haltu.harrastuspassi.Model.Inquiry
 import fi.haltu.harrastuspassi.R
 
 
-class WizardSliderAdapter(private val context: Context,
-                          private val inquirys: ArrayList<Inquiry>) : PagerAdapter() {
+class WizardSliderAdapter(
+    private val context: Context,
+    private val inquiries: ArrayList<Inquiry>
+) : PagerAdapter() {
 
-    private var layoutInflater : LayoutInflater? = null
+    private lateinit var layoutInflater: LayoutInflater
 
     override fun isViewFromObject(view: View, `object`: Any): Boolean {
         return view === `object`
     }
 
     override fun getCount(): Int {
-        return inquirys.size
+        return inquiries.size
     }
 
     @SuppressLint("InflateParams")
     override fun instantiateItem(container: ViewGroup, position: Int): Any {
         layoutInflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-        val view = layoutInflater!!.inflate(R.layout.adapter_wizard_item, null)
+        val view = layoutInflater.inflate(R.layout.adapter_wizard_item, null)
 
         val textView = view.findViewById(R.id.textView) as TextView
         val linearLayout = view.findViewById(R.id.wizard_linear_layout) as LinearLayout
         val viewPager = container as ViewPager
         val optionList = view.findViewById<ListView>(R.id.optionList)
-        val adapter = OptionsAdapter(context, viewPager, inquirys!![position].options)
+        val adapter = OptionsAdapter(context, viewPager, inquiries[position].options)
         optionList.adapter = adapter
 
-        textView.text = inquirys!![position].question
-        linearLayout.setBackgroundColor(inquirys!![position].color)
+        textView.text = inquiries[position].question
+        linearLayout.setBackgroundColor(inquiries[position].color)
 
         viewPager.addView(view, 0)
 

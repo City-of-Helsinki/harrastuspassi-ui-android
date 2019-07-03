@@ -32,15 +32,12 @@ class MainActivity : AppCompatActivity() {
         supportActionBar?.hide()
 
         button = findViewById(R.id.wizard_button)
-        button.setOnClickListener{
+        button.setOnClickListener {
             intent = Intent(this, WizardActivity::class.java)
             startActivity(intent)
         }
 
         val navView: BottomNavigationView = findViewById(R.id.nav_view)
         navView.setOnNavigationItemSelectedListener(onNavigationItemSelectedListener)
-
-        //list
-
     }
 }

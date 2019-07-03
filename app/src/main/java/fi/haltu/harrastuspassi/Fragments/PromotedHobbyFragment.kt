@@ -12,7 +12,7 @@ import fi.haltu.harrastuspassi.Model.Hobby
 import fi.haltu.harrastuspassi.R
 
 class PromotedHobbyFragment : Fragment() {
-    private lateinit var viewpager : ViewPager
+    private lateinit var viewpager: ViewPager
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view: View = inflater.inflate(R.layout.fragment_promoted_hobby, container, false)
@@ -67,8 +67,6 @@ class PromotedHobbyFragment : Fragment() {
 
         hobbiesList.add(hobby)
 
-       return hobbiesList
-
+        return hobbiesList
     }
-
 }

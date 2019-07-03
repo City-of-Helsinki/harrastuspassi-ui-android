@@ -17,21 +17,21 @@ import fi.haltu.harrastuspassi.R
 
 
 class HobbyListFragment : Fragment() {
-    private lateinit var listView : RecyclerView
+    private lateinit var listView: RecyclerView
     private val hobbies = HashMap<String, ArrayList<Hobby>>()
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         loadHobbiesData()
         val view: View = inflater.inflate(R.layout.fragment_hobby_list, container, false)
         listView = view.findViewById(R.id.list_view)
-
 
         val seattleHobbies = getHobbiesByPlace("Seattle")
         val hobbiesAdapter = HobbiesAdapter(
             seattleHobbies,
             { hobby: Hobby, cardView: CardView -> hobbyItemClicked(hobby, cardView) })
-
 
         listView.apply {
             layoutManager = LinearLayoutManager(activity)
@@ -142,7 +142,5 @@ class HobbyListFragment : Fragment() {
         hobbesList.add(hobby)
 
         hobbiesByCity.put("Seattle", hobbesList)
-
     }
-
 }

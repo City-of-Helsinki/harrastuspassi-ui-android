@@ -16,11 +16,15 @@ import fi.haltu.harrastuspassi.Activities.HobbyDetailActivity
 import fi.haltu.harrastuspassi.Model.Hobby
 import fi.haltu.harrastuspassi.R
 
-class PromotedHobbiesAdapter(private val context : Context, private val activity: FragmentActivity, private val hobbiesList: ArrayList<Hobby>) : PagerAdapter() {
-    private var layoutInflater : LayoutInflater? = null
+class PromotedHobbiesAdapter(
+    private val context: Context,
+    private val activity: FragmentActivity,
+    private val hobbiesList: ArrayList<Hobby>
+) : PagerAdapter() {
+    private var layoutInflater: LayoutInflater? = null
 
     override fun isViewFromObject(view: View, `object`: Any): Boolean {
-        return view ===  `object`
+        return view === `object`
     }
 
     override fun getCount(): Int {
@@ -37,7 +41,7 @@ class PromotedHobbiesAdapter(private val context : Context, private val activity
         image.setImageResource(hobbiesList[position].image)
         description.text = hobbiesList[position].title
         val viewPager = container as ViewPager
-        viewPager.addView(view , 0)
+        viewPager.addView(view, 0)
 
         view.setOnClickListener(View.OnClickListener {
             val intent = Intent(context, HobbyDetailActivity::class.java)
@@ -56,10 +60,6 @@ class PromotedHobbiesAdapter(private val context : Context, private val activity
     override fun destroyItem(container: ViewGroup, position: Int, `object`: Any) {
         val viewPager = container as ViewPager
         val view = `object` as View
-
-
         viewPager.removeView(view)
     }
-
-
 }

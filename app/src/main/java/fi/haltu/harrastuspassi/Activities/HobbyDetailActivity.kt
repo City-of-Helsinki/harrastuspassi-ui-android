@@ -12,7 +12,6 @@ import fi.haltu.harrastuspassi.Model.Hobby
 import fi.haltu.harrastuspassi.R
 
 
-
 class HobbyDetailActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
     private lateinit var hobbyImage: ImageView
     private lateinit var hobbyTitle: TextView
@@ -77,31 +76,23 @@ class HobbyDetailActivity : AppCompatActivity(), GestureDetector.OnGestureListen
     }
 
     override fun onDown(event: MotionEvent): Boolean {
-        Log.d("Touch detect","onDown")
-
         return true
     }
 
     override fun onLongPress(event: MotionEvent) {
-        Log.d("Touch detect","onLongPress")
-
     }
 
-    override fun onScroll(e1: MotionEvent, e2: MotionEvent,
-                          distanceX: Float, distanceY: Float): Boolean {
-        Log.d("Touch detect","onScroll")
-
+    override fun onScroll(
+        e1: MotionEvent, e2: MotionEvent,
+        distanceX: Float, distanceY: Float
+    ): Boolean {
         return true
     }
 
     override fun onShowPress(event: MotionEvent) {
-        Log.d("Touch detect","onShownPress")
-
     }
 
     override fun onSingleTapUp(event: MotionEvent): Boolean {
-        Log.d("Touch detect","onSingleTapUp")
-
         return true
     }
 }
