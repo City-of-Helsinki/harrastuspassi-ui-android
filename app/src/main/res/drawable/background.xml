@@ -2,6 +2,6 @@
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:drawable="@color/colorLogoBG"/>
     <item>
-        <bitmap android:src="@drawable/harrastus_logo_2" android:gravity="top"/>
+        <bitmap android:src="@drawable/harrastuspassi_kel_lil_2" android:gravity="center" />
     </item>
 </layer-list>
