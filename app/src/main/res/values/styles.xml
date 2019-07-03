@@ -16,5 +16,7 @@
         <item name="android:windowSharedElementEnterTransition">@transition/slide_and_changebounds</item>
         <item name="android:windowSharedElementExitTransition">@transition/slide_and_changebounds</item>
     </style>
-
+    <style name="SplashTheme" parent="Theme.AppCompat.NoActionBar">
+        <item name="android:windowBackground">@drawable/background</item>
+    </style>
 </resources>
