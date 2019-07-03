@@ -1,4 +1,4 @@
-package fi.haltu.harrastuspassi
+package fi.haltu.harrastuspassi.Adapters
 
 import android.content.Context
 import android.graphics.Color
@@ -9,7 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
 import android.widget.Button
-import kotlinx.android.synthetic.main.hobby_item.view.*
+import fi.haltu.harrastuspassi.R
 
 class OptionsAdapter(
     private val context: Context,

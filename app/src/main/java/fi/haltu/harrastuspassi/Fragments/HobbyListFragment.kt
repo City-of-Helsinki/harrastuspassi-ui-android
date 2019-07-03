@@ -1,4 +1,4 @@
-package fi.haltu.harrastuspassi
+package fi.haltu.harrastuspassi.Fragments
 
 import android.app.ActivityOptions
 import android.content.Intent
@@ -10,6 +10,10 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import fi.haltu.harrastuspassi.Activities.HobbyDetailActivity
+import fi.haltu.harrastuspassi.Adapters.HobbiesAdapter
+import fi.haltu.harrastuspassi.Model.Hobby
+import fi.haltu.harrastuspassi.R
 
 
 class HobbyListFragment : Fragment() {
@@ -24,7 +28,9 @@ class HobbyListFragment : Fragment() {
 
 
         val seattleHobbies = getHobbiesByPlace("Seattle")
-        val hobbiesAdapter = HobbiesAdapter(seattleHobbies, {hobby: Hobby, cardView: CardView -> hobbyItemClicked(hobby, cardView)})
+        val hobbiesAdapter = HobbiesAdapter(
+            seattleHobbies,
+            { hobby: Hobby, cardView: CardView -> hobbyItemClicked(hobby, cardView) })
 
 
         listView.apply {

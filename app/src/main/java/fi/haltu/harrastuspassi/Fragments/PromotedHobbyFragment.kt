@@ -1,4 +1,4 @@
-package fi.haltu.harrastuspassi
+package fi.haltu.harrastuspassi.Fragments
 
 import android.os.Bundle
 import android.support.design.widget.TabLayout
@@ -7,6 +7,9 @@ import android.support.v4.view.ViewPager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import fi.haltu.harrastuspassi.Adapters.PromotedHobbiesAdapter
+import fi.haltu.harrastuspassi.Model.Hobby
+import fi.haltu.harrastuspassi.R
 
 class PromotedHobbyFragment : Fragment() {
     private lateinit var viewpager : ViewPager

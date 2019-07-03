@@ -1,4 +1,4 @@
-package fi.haltu.harrastuspassi
+package fi.haltu.harrastuspassi.Model
 
 
 class  Inquiry{

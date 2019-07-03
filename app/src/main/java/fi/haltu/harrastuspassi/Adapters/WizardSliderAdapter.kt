@@ -1,4 +1,4 @@
-package fi.haltu.harrastuspassi
+package fi.haltu.harrastuspassi.Adapters
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -10,6 +10,8 @@ import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.ListView
 import android.widget.TextView
+import fi.haltu.harrastuspassi.Model.Inquiry
+import fi.haltu.harrastuspassi.R
 
 
 class WizardSliderAdapter(private val context: Context,
@@ -28,7 +30,7 @@ class WizardSliderAdapter(private val context: Context,
     @SuppressLint("InflateParams")
     override fun instantiateItem(container: ViewGroup, position: Int): Any {
         layoutInflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-        val view = layoutInflater!!.inflate(R.layout.wizard_item_slider , null)
+        val view = layoutInflater!!.inflate(R.layout.wizard_item_slider, null)
 
         val textView = view.findViewById(R.id.textView) as TextView
         val linearLayout = view.findViewById(R.id.wizard_linear_layout) as LinearLayout

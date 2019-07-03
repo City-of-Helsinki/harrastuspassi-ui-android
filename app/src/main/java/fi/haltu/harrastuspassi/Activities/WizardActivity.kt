@@ -1,4 +1,4 @@
-package fi.haltu.harrastuspassi
+package fi.haltu.harrastuspassi.Activities
 
 import android.graphics.Color
 import android.support.v7.app.AppCompatActivity
@@ -7,6 +7,9 @@ import android.support.design.widget.TabLayout
 import android.support.v4.view.ViewPager
 import android.view.View
 import android.widget.Button
+import fi.haltu.harrastuspassi.Model.Inquiry
+import fi.haltu.harrastuspassi.R
+import fi.haltu.harrastuspassi.Adapters.WizardSliderAdapter
 
 class WizardActivity : AppCompatActivity() {
     private lateinit var viewpager : ViewPager

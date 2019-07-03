@@ -1,10 +1,11 @@
-package fi.haltu.harrastuspassi
+package fi.haltu.harrastuspassi.Activities
 
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.ImageView
 import android.widget.TextView
-import org.w3c.dom.Text
+import fi.haltu.harrastuspassi.Model.Hobby
+import fi.haltu.harrastuspassi.R
 
 class HobbyDetailActivity : AppCompatActivity() {
     private lateinit var hobbyImage: ImageView

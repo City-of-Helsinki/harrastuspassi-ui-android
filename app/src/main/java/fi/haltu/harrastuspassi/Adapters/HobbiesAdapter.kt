@@ -1,4 +1,4 @@
-package fi.haltu.harrastuspassi
+package fi.haltu.harrastuspassi.Adapters
 
 import android.support.v7.widget.CardView
 import android.support.v7.widget.RecyclerView
@@ -7,6 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import fi.haltu.harrastuspassi.Model.Hobby
+import fi.haltu.harrastuspassi.R
 
 
 class HobbiesAdapter(private val list: List<Hobby>, private val clickListener: (Hobby, CardView) -> Unit) :

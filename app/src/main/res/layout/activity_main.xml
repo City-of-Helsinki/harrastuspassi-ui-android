@@ -6,11 +6,11 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        tools:context=".MainActivity">
+        tools:context=".Activities.MainActivity">
 
         <fragment
                 android:id="@+id/promoted_hobby_fragment"
-                android:name="fi.haltu.harrastuspassi.PromotedHobbyFragment"
+                android:name="fi.haltu.harrastuspassi.Fragments.PromotedHobbyFragment"
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
                 android:background="#FFF"
@@ -21,7 +21,7 @@
 
         <fragment
                 android:id="@+id/hobby_list_fragment"
-                android:name="fi.haltu.harrastuspassi.HobbyListFragment"
+                android:name="fi.haltu.harrastuspassi.Fragments.HobbyListFragment"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:background="#FFF"
