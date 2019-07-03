@@ -30,7 +30,7 @@ class PromotedHobbiesAdapter(private val context : Context, private val activity
     @SuppressLint("InflateParams")
     override fun instantiateItem(container: ViewGroup, position: Int): Any {
         layoutInflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-        val view = layoutInflater!!.inflate(R.layout.promoted_hobby_activity, null)
+        val view = layoutInflater!!.inflate(R.layout.adapter_promoted_hobby, null)
 
         val image = view.findViewById<View>(R.id.imageview) as ImageView
         val description = view.findViewById<TextView>(R.id.description)

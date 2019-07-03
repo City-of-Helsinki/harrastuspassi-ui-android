@@ -15,7 +15,7 @@ class PromotedHobbyFragment : Fragment() {
     private lateinit var viewpager : ViewPager
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view: View = inflater.inflate(R.layout.promoted_hobby_fragment, container, false)
+        val view: View = inflater.inflate(R.layout.fragment_promoted_hobby, container, false)
         viewpager = view.findViewById(R.id.viewpager)
         val adapter = PromotedHobbiesAdapter(view.context, activity!!, addHobbies())
         viewpager.adapter = adapter

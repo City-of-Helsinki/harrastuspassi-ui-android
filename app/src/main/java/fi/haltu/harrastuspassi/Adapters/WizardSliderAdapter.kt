@@ -30,7 +30,7 @@ class WizardSliderAdapter(private val context: Context,
     @SuppressLint("InflateParams")
     override fun instantiateItem(container: ViewGroup, position: Int): Any {
         layoutInflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-        val view = layoutInflater!!.inflate(R.layout.wizard_item_slider, null)
+        val view = layoutInflater!!.inflate(R.layout.adapter_wizard_item, null)
 
         val textView = view.findViewById(R.id.textView) as TextView
         val linearLayout = view.findViewById(R.id.wizard_linear_layout) as LinearLayout

@@ -34,7 +34,7 @@ class OptionsAdapter(
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
         // Get view for row item
-        val rowView = inflater.inflate(R.layout.options_list_item, parent, false)
+        val rowView = inflater.inflate(R.layout.adapter_list_item_option, parent, false)
         var optionButton = rowView.findViewById<Button>(R.id.optionButton)
         optionButton.text = options[position]
         optionButton.setOnClickListener {

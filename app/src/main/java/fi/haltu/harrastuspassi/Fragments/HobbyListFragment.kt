@@ -23,7 +23,7 @@ class HobbyListFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         loadHobbiesData()
-        val view: View = inflater.inflate(R.layout.hobby_list_fragment, container, false)
+        val view: View = inflater.inflate(R.layout.fragment_hobby_list, container, false)
         listView = view.findViewById(R.id.list_view)
 
 
