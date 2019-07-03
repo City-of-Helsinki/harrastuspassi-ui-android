@@ -1,25 +1,30 @@
 package fi.haltu.harrastuspassi
 
 import android.annotation.SuppressLint
+import android.app.Activity
+import android.app.ActivityOptions
 import android.content.Context
+import android.content.Intent
+import android.support.v4.app.FragmentActivity
+import android.support.v4.content.ContextCompat.startActivity
 import android.support.v4.view.PagerAdapter
 import android.support.v4.view.ViewPager
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.TextView
 
-class PromotedHobbiesAdapter(private val context : Context) : PagerAdapter() {
+class PromotedHobbiesAdapter(private val context : Context, private val activity: FragmentActivity, private val hobbiesList: ArrayList<Hobby>) : PagerAdapter() {
     private var layoutInflater : LayoutInflater? = null
-    val Image = arrayOf(R.drawable.image_1 , R.drawable.image_2 , R.drawable.image_3)
-
 
     override fun isViewFromObject(view: View, `object`: Any): Boolean {
         return view ===  `object`
     }
 
     override fun getCount(): Int {
-        return Image.size
+        return hobbiesList.size
     }
 
     @SuppressLint("InflateParams")
@@ -28,18 +33,33 @@ class PromotedHobbiesAdapter(private val context : Context) : PagerAdapter() {
         val view = layoutInflater!!.inflate(R.layout.promoted_hobby_activity , null)
 
         val image = view.findViewById<View>(R.id.imageview) as ImageView
-        image.setImageResource(Image[position])
+        val description = view.findViewById<TextView>(R.id.description)
+        image.setImageResource(hobbiesList[position].image)
+        description.text = hobbiesList[position].title
         val viewPager = container as ViewPager
         viewPager.addView(view , 0)
 
+        view.setOnClickListener(View.OnClickListener {
+            val intent = Intent(context, HobbyDetailActivity::class.java)
+
+            val sharedView: View = image
+            val transition = activity.getString(R.string.item_detail)
+
+            intent.putExtra("EXTRA_HOBBY", hobbiesList[position])
+            val transitionActivity = ActivityOptions.makeSceneTransitionAnimation(activity, sharedView, transition)
+            activity.startActivity(intent, transitionActivity.toBundle())
+        })
+
         return view
-
     }
-
 
     override fun destroyItem(container: ViewGroup, position: Int, `object`: Any) {
         val viewPager = container as ViewPager
         val view = `object` as View
+
+
         viewPager.removeView(view)
     }
+
+
 }

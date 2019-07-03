@@ -10,9 +10,7 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
-import android.widget.ListView
-import android.widget.Toast
+
 
 class HobbyListFragment : Fragment() {
     private lateinit var listView : RecyclerView
@@ -68,7 +66,7 @@ class HobbyListFragment : Fragment() {
         hobby.image = R.drawable.image_1
         hobby.place = "Itä-Hakkilan koulu"
         hobby.distance = 2.0
-        hobby.duration = "ke"
+        hobby.duration = "ma - pe klo 17 - 20"
         hobby.organizer = "Valar Morghulis Taide Ry"
 
         hobbesList.add(hobby)
@@ -79,9 +77,9 @@ class HobbyListFragment : Fragment() {
                 " Nam sed vestibulum turpis, in condimentum urna. " +
                 "Morbi mattis bibendum massa, quis cursus erat rhoncus vel."
         hobby.image = R.drawable.image_2
-        hobby.place = "Itä-Hakkilan koulu"
+        hobby.place = "Runar Schildts Park"
         hobby.distance = 2.0
-        hobby.duration = "ke"
+        hobby.duration = "pe"
         hobby.organizer = "Valar Morghulis Taide Ry"
 
         hobbesList.add(hobby)
@@ -92,9 +90,9 @@ class HobbyListFragment : Fragment() {
                 " Nam sed vestibulum turpis, in condimentum urna. " +
                 "Morbi mattis bibendum massa, quis cursus erat rhoncus vel."
         hobby.image = R.drawable.image_3
-        hobby.place = "Itä-Hakkilan koulu"
+        hobby.place = "Hatwall Areena"
         hobby.distance = 2.0
-        hobby.duration = "ke"
+        hobby.duration = "ma, ke, pe"
         hobby.organizer = "Valar Morghulis Taide Ry"
 
         hobbesList.add(hobby)
@@ -105,9 +103,9 @@ class HobbyListFragment : Fragment() {
                 " Nam sed vestibulum turpis, in condimentum urna. " +
                 "Morbi mattis bibendum massa, quis cursus erat rhoncus vel."
         hobby.image = R.drawable.image_4
-        hobby.place = "Itä-Hakkilan koulu"
+        hobby.place = "Runar Schilds Park"
         hobby.distance = 2.0
-        hobby.duration = "ke"
+        hobby.duration = "lauantai klo 14"
         hobby.organizer = "Valar Morghulis Taide Ry"
 
         hobbesList.add(hobby)
@@ -120,63 +118,23 @@ class HobbyListFragment : Fragment() {
         hobby.image = R.drawable.image_5
         hobby.place = "Itä-Hakkilan koulu"
         hobby.distance = 2.0
-        hobby.duration = "ke"
+        hobby.duration = "ma - ke"
         hobby.organizer = "Valar Morghulis Taide Ry"
 
         hobbesList.add(hobby)
         hobby = Hobby()
-        hobby.title = "Taiteen alkeet"
+        hobby.title = "Kabaddi valituille"
         hobby.description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit." +
                 " Nam sed vestibulum turpis, in condimentum urna. " +
                 "Morbi mattis bibendum massa, quis cursus erat rhoncus vel."
-        hobby.image = R.drawable.image_2
-        hobby.place = "Itä-Hakkilan koulu"
+        hobby.image = R.drawable.image_6
+        hobby.place = "Hartwall Areena"
         hobby.distance = 2.0
-        hobby.duration = "ke"
-        hobby.organizer = "Valar Morghulis Taide Ry"
+        hobby.duration = "Jokapäivä klo 8 - 18"
+        hobby.organizer = "Helsingin kabaddi seura"
 
         hobbesList.add(hobby)
 
-        hobby = Hobby()
-        hobby.title = "Jalkapallo, tutustumiskurssi"
-        hobby.description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit." +
-                " Nam sed vestibulum turpis, in condimentum urna. " +
-                "Morbi mattis bibendum massa, quis cursus erat rhoncus vel."
-        hobby.image = R.drawable.image_3
-        hobby.place = "Itä-Hakkilan koulu"
-        hobby.distance = 2.0
-        hobby.duration = "ke"
-        hobby.organizer = "Valar Morghulis Taide Ry"
-
-        hobbesList.add(hobby)
-
-        hobby = Hobby()
-        hobby.title = "Sulkapallo kokeneille"
-        hobby.description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit." +
-                " Nam sed vestibulum turpis, in condimentum urna. " +
-                "Morbi mattis bibendum massa, quis cursus erat rhoncus vel."
-        hobby.image = R.drawable.image_4
-        hobby.place = "Itä-Hakkilan koulu"
-        hobby.distance = 2.0
-        hobby.duration = "ke"
-        hobby.organizer = "Valar Morghulis Taide Ry"
-
-        hobbesList.add(hobby)
-
-        hobby = Hobby()
-        hobby.title = "Käsityö"
-        hobby.description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit." +
-                " Nam sed vestibulum turpis, in condimentum urna. " +
-                "Morbi mattis bibendum massa, quis cursus erat rhoncus vel."
-        hobby.image = R.drawable.image_5
-        hobby.place = "Itä-Hakkilan koulu"
-        hobby.distance = 2.0
-        hobby.duration = "ke"
-        hobby.organizer = "Valar Morghulis Taide Ry"
-
-        hobbesList.add(hobby)
-
-        hobbiesByCity.put("Seattle", hobbesList)
         hobbiesByCity.put("Seattle", hobbesList)
 
     }

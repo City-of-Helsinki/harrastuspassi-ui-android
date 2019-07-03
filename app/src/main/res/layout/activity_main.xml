@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<android.support.constraint.ConstraintLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -12,35 +12,40 @@
                 android:id="@+id/promoted_hobby_fragment"
                 android:name="fi.haltu.harrastuspassi.PromotedHobbyFragment"
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="3"
+                android:layout_height="200dp"
                 android:background="#FFF"
 
-        />
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toTopOf="@+id/hobby_list_fragment"/>
 
         <fragment
                 android:id="@+id/hobby_list_fragment"
                 android:name="fi.haltu.harrastuspassi.HobbyListFragment"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="6"
                 android:background="#FFF"
 
-        />
+                app:layout_constraintBottom_toTopOf="@+id/wizard_button" app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/promoted_hobby_fragment"/>
         <Button android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/wizard_button"
                 android:text="Wizard activity"
+                app:layout_constraintBottom_toTopOf="@+id/nav_view" app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
         />
 
         <android.support.design.widget.BottomNavigationView
                 xmlns:design="http://schema.android.com/apk/res/android.support.design"
                 android:id="@+id/nav_view"
-                android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
                 android:layout_alignParentBottom="true"
-                app:menu="@menu/bottom_nav_menu"/>
+                app:menu="@menu/bottom_nav_menu"
+                app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"/>
 
-</LinearLayout>
+</android.support.constraint.ConstraintLayout>

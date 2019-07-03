@@ -36,7 +36,7 @@ class OptionsAdapter(
         // Get view for row item
         val rowView = inflater.inflate(R.layout.options_list_item, parent, false)
         var optionButton = rowView.findViewById<Button>(R.id.optionButton)
-        optionButton.text = options!![position]
+        optionButton.text = options[position]
         optionButton.setOnClickListener {
             if(viewPager.adapter?.count == viewPager.currentItem.plus(1)) {
                 Log.d("Last", "Last child")
