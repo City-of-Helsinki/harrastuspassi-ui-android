@@ -31,6 +31,7 @@ class WizardActivity : AppCompatActivity() {
         val indicator = findViewById<TabLayout>(R.id.indicator)
         viewpager.adapter = adapter
         indicator.setupWithViewPager(viewpager, true)
+
     }
 
     private fun addInquiry() : ArrayList<Inquiry> {

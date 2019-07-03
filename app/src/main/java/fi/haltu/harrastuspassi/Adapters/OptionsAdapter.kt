@@ -1,6 +1,8 @@
 package fi.haltu.harrastuspassi.Adapters
 
+import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import android.graphics.Color
 import android.support.v4.view.ViewPager
 import android.util.Log
@@ -9,7 +11,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
 import android.widget.Button
+import fi.haltu.harrastuspassi.Activities.MainActivity
 import fi.haltu.harrastuspassi.R
+
+
 
 class OptionsAdapter(
     private val context: Context,
@@ -40,6 +45,10 @@ class OptionsAdapter(
         optionButton.setOnClickListener {
             if(viewPager.adapter?.count == viewPager.currentItem.plus(1)) {
                 Log.d("Last", "Last child")
+                val intent = Intent(context, MainActivity::class.java)
+                val activity = context as Activity
+                activity.startActivity(intent)
+                activity.overridePendingTransition(R.anim.slide_in_up, R.anim.slide_out_up )
 
             } else {
                 viewPager.currentItem = viewPager.currentItem + 1
