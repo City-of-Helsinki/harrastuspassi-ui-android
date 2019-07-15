@@ -1,6 +1,5 @@
 package fi.haltu.harrastuspassi.Adapters
 
-import android.support.v7.widget.CardView
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
@@ -29,26 +28,23 @@ class HobbiesAdapter(private val list: List<Hobby>) :
 
     class HobbyListViewHolder(itemView: View) :
         RecyclerView.ViewHolder(itemView) {
-
         private var title: TextView
-        private var cardView: CardView
         private var place: TextView
         private var image: ImageView
         private var duration: TextView
 
         init {
             title = itemView.findViewById(R.id.title)
-            cardView = itemView.findViewById(R.id.circle_card)
             place = itemView.findViewById(R.id.place)
             image = itemView.findViewById(R.id.image)
-            duration = itemView.findViewById(R.id.duration)
+            duration = itemView.findViewById(R.id.dateTime)
         }
 
         fun bind(hobby: Hobby) {
             title.text = hobby.title
             place.text = hobby.place
             image.setImageResource(hobby.image)
-            duration.text = hobby.duration
+            duration.text = hobby.dateTime
         }
     }
 }

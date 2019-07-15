@@ -56,7 +56,7 @@ class HobbyListFragment : Fragment() {
         hobby.image = R.drawable.image_1
         hobby.place = "Itä-Hakkilan koulu"
         hobby.distance = 2.0
-        hobby.duration = "ma - pe klo 17 - 20"
+        hobby.dateTime = "ma - pe klo 17 - 20"
         hobby.organizer = "Valar Morghulis Taide Ry"
 
         hobbesList.add(hobby)
@@ -69,7 +69,7 @@ class HobbyListFragment : Fragment() {
         hobby.image = R.drawable.image_2
         hobby.place = "Runar Schildts Park"
         hobby.distance = 2.0
-        hobby.duration = "pe"
+        hobby.dateTime = "pe"
         hobby.organizer = "Valar Morghulis Taide Ry"
 
         hobbesList.add(hobby)
@@ -82,7 +82,7 @@ class HobbyListFragment : Fragment() {
         hobby.image = R.drawable.image_3
         hobby.place = "Hatwall Areena"
         hobby.distance = 2.0
-        hobby.duration = "ma, ke, pe"
+        hobby.dateTime = "ma, ke, pe"
         hobby.organizer = "Valar Morghulis Taide Ry"
 
         hobbesList.add(hobby)
@@ -95,7 +95,7 @@ class HobbyListFragment : Fragment() {
         hobby.image = R.drawable.image_4
         hobby.place = "Runar Schilds Park"
         hobby.distance = 2.0
-        hobby.duration = "lauantai klo 14"
+        hobby.dateTime = "lauantai klo 14"
         hobby.organizer = "Valar Morghulis Taide Ry"
 
         hobbesList.add(hobby)
@@ -108,7 +108,7 @@ class HobbyListFragment : Fragment() {
         hobby.image = R.drawable.image_5
         hobby.place = "Itä-Hakkilan koulu"
         hobby.distance = 2.0
-        hobby.duration = "ma - ke"
+        hobby.dateTime = "ma - ke"
         hobby.organizer = "Valar Morghulis Taide Ry"
 
         hobbesList.add(hobby)
@@ -120,7 +120,7 @@ class HobbyListFragment : Fragment() {
         hobby.image = R.drawable.image_6
         hobby.place = "Hartwall Areena"
         hobby.distance = 2.0
-        hobby.duration = "Jokapäivä klo 8 - 18"
+        hobby.dateTime = "Jokapäivä klo 8 - 18"
         hobby.organizer = "Helsingin kabaddi seura"
 
         hobbesList.add(hobby)
