@@ -11,7 +11,7 @@ import fi.haltu.harrastuspassi.Model.Hobby
 import fi.haltu.harrastuspassi.R
 
 
-class HobbiesAdapter(private val list: List<Hobby>, private val clickListener: (Hobby, CardView) -> Unit) :
+class HobbiesAdapter(private val list: List<Hobby>) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HobbyListViewHolder {
@@ -22,7 +22,7 @@ class HobbiesAdapter(private val list: List<Hobby>, private val clickListener: (
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val hobby: Hobby = list[position]
-        (holder as HobbyListViewHolder).bind(hobby, clickListener)
+        (holder as HobbyListViewHolder).bind(hobby)
     }
 
     override fun getItemCount(): Int = list.size
@@ -44,12 +44,11 @@ class HobbiesAdapter(private val list: List<Hobby>, private val clickListener: (
             duration = itemView.findViewById(R.id.duration)
         }
 
-        fun bind(hobby: Hobby, clickListener: (Hobby, CardView) -> Unit) {
+        fun bind(hobby: Hobby) {
             title.text = hobby.title
             place.text = hobby.place
             image.setImageResource(hobby.image)
             duration.text = hobby.duration
-            itemView.setOnClickListener { clickListener(hobby, cardView) }
         }
 
     }
