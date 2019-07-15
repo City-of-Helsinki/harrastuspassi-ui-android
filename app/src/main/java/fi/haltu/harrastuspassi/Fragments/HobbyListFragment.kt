@@ -50,78 +50,88 @@ class HobbyListFragment : Fragment() {
 
         var hobby = Hobby()
         hobby.title = "Kitara kurssi"
-        hobby.description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit." +
-                " Nam sed vestibulum turpis, in condimentum urna. " +
-                "Morbi mattis bibendum massa, quis cursus erat rhoncus vel."
         hobby.image = R.drawable.image_1
         hobby.place = "Itä-Hakkilan koulu"
-        hobby.distance = 2.0
-        hobby.dateTime = "ma - pe klo 17 - 20"
-        hobby.organizer = "Valar Morghulis Taide Ry"
+        hobby.dateTime = "Ma 23.9 klo 18-20"
 
         hobbesList.add(hobby)
 
         hobby = Hobby()
         hobby.title = "Taidetta muovipulloista"
-        hobby.description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit." +
-                " Nam sed vestibulum turpis, in condimentum urna. " +
-                "Morbi mattis bibendum massa, quis cursus erat rhoncus vel."
         hobby.image = R.drawable.image_2
         hobby.place = "Runar Schildts Park"
-        hobby.distance = 2.0
-        hobby.dateTime = "pe"
-        hobby.organizer = "Valar Morghulis Taide Ry"
+        hobby.dateTime = "Ma 23.9 klo 18-20"
 
         hobbesList.add(hobby)
 
         hobby = Hobby()
         hobby.title = "Jalkapallo, tutustumiskurssi"
-        hobby.description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit." +
-                " Nam sed vestibulum turpis, in condimentum urna. " +
-                "Morbi mattis bibendum massa, quis cursus erat rhoncus vel."
         hobby.image = R.drawable.image_3
         hobby.place = "Hatwall Areena"
-        hobby.distance = 2.0
-        hobby.dateTime = "ma, ke, pe"
-        hobby.organizer = "Valar Morghulis Taide Ry"
+        hobby.dateTime = "Ma 23.9 klo 18-20"
 
         hobbesList.add(hobby)
 
         hobby = Hobby()
         hobby.title = "Sulkapallo kokeneille"
-        hobby.description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit." +
-                " Nam sed vestibulum turpis, in condimentum urna. " +
-                "Morbi mattis bibendum massa, quis cursus erat rhoncus vel."
         hobby.image = R.drawable.image_4
         hobby.place = "Runar Schilds Park"
-        hobby.distance = 2.0
-        hobby.dateTime = "lauantai klo 14"
-        hobby.organizer = "Valar Morghulis Taide Ry"
+        hobby.dateTime = "Ma 23.9 klo 18-20"
 
         hobbesList.add(hobby)
 
         hobby = Hobby()
         hobby.title = "Käsityö"
-        hobby.description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit." +
-                " Nam sed vestibulum turpis, in condimentum urna. " +
-                "Morbi mattis bibendum massa, quis cursus erat rhoncus vel."
         hobby.image = R.drawable.image_5
         hobby.place = "Itä-Hakkilan koulu"
-        hobby.distance = 2.0
-        hobby.dateTime = "ma - ke"
-        hobby.organizer = "Valar Morghulis Taide Ry"
+        hobby.dateTime = "Ma 23.9 klo 18-20"
 
         hobbesList.add(hobby)
         hobby = Hobby()
         hobby.title = "Kabaddi valituille"
-        hobby.description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit." +
-                " Nam sed vestibulum turpis, in condimentum urna. " +
-                "Morbi mattis bibendum massa, quis cursus erat rhoncus vel."
         hobby.image = R.drawable.image_6
         hobby.place = "Hartwall Areena"
-        hobby.distance = 2.0
-        hobby.dateTime = "Jokapäivä klo 8 - 18"
-        hobby.organizer = "Helsingin kabaddi seura"
+        hobby.dateTime = "Ma 23.9 klo 18-20"
+
+        hobby = Hobby()
+        hobby.title = "Taidetta muovipulloista"
+        hobby.image = R.drawable.image_2
+        hobby.place = "Runar Schildts Park"
+        hobby.dateTime = "Ma 23.9 klo 18-20"
+
+        hobbesList.add(hobby)
+
+        hobby = Hobby()
+        hobby.title = "Jalkapallo, tutustumiskurssi"
+        hobby.image = R.drawable.image_3
+        hobby.place = "Hatwall Areena"
+        hobby.dateTime = "Ma 23.9 klo 18-20"
+
+        hobbesList.add(hobby)
+
+        hobby = Hobby()
+        hobby.title = "Sulkapallo kokeneille"
+        hobby.image = R.drawable.image_4
+        hobby.place = "Runar Schilds Park"
+        hobby.dateTime = "Ma 23.9 klo 18-20"
+
+        hobbesList.add(hobby)
+
+        hobby = Hobby()
+        hobby.title = "Käsityö"
+        hobby.image = R.drawable.image_5
+        hobby.place = "Itä-Hakkilan koulu"
+        hobby.dateTime = "Ma 23.9 klo 18-20"
+
+        hobbesList.add(hobby)
+        hobby = Hobby()
+        hobby.title = "Kabaddi valituille"
+        hobby.image = R.drawable.image_6
+        hobby.place = "Hartwall Areena"
+        hobby.dateTime = "Ma 23.9 klo 18-20"
+
+        hobbesList.add(hobby)
+
 
         hobbesList.add(hobby)
 
