@@ -50,6 +50,5 @@ class HobbiesAdapter(private val list: List<Hobby>) :
             image.setImageResource(hobby.image)
             duration.text = hobby.duration
         }
-
     }
 }
