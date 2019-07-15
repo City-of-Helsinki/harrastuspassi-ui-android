@@ -26,16 +26,10 @@
                 android:layout_height="0dp"
                 android:background="#FFF"
 
-                app:layout_constraintBottom_toTopOf="@+id/wizard_button" app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/promoted_hobby_fragment"/>
-        <Button android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/wizard_button"
-                android:text="Wizard activity"
-                app:layout_constraintBottom_toTopOf="@+id/nav_view" app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-        />
+                app:layout_constraintTop_toBottomOf="@+id/promoted_hobby_fragment"
+                app:layout_constraintBottom_toTopOf="@+id/nav_view"/>
 
         <android.support.design.widget.BottomNavigationView
                 xmlns:design="http://schema.android.com/apk/res/android.support.design"

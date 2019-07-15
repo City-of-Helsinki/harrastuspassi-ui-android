@@ -31,11 +31,6 @@ class MainActivity : AppCompatActivity() {
         window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_FULLSCREEN
         supportActionBar?.hide()
 
-        button = findViewById(R.id.wizard_button)
-        button.setOnClickListener {
-            intent = Intent(this, WizardActivity::class.java)
-            startActivity(intent)
-        }
 
         val navView: BottomNavigationView = findViewById(R.id.nav_view)
         navView.setOnNavigationItemSelectedListener(onNavigationItemSelectedListener)
