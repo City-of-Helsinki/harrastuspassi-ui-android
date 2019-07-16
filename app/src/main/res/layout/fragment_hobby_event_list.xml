@@ -3,13 +3,12 @@
              android:orientation="vertical"
              android:layout_width="match_parent"
              android:layout_height="match_parent"
-             tools:context="fi.haltu.harrastuspassi.Fragments.HobbyEventListFragment">
+             tools:context="fi.haltu.harrastuspassi.fragments.HobbyEventListFragment">
 
     <android.support.v7.widget.RecyclerView
             android:id="@+id/list_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:divider="@color/material_blue_grey_800"
             android:dividerHeight="2dp"
             android:footerDividersEnabled="false"
             android:background="@color/hobbyPurple"

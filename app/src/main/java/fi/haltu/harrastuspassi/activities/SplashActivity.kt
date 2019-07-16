@@ -1,15 +1,13 @@
-package fi.haltu.harrastuspassi.Activities
+package fi.haltu.harrastuspassi.activities
 
 import android.content.Intent
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import java.lang.Thread.sleep
+import android.support.v7.app.AppCompatActivity
 
 class SplashActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        sleep(1000)
         val intent = Intent(this, MainActivity::class.java)
         startActivity(intent)
         finish()

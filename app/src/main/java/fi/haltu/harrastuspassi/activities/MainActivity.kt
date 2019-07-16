@@ -1,4 +1,4 @@
-package fi.haltu.harrastuspassi.Activities
+package fi.haltu.harrastuspassi.activities
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity

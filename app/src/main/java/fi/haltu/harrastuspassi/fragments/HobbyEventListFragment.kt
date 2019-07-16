@@ -1,4 +1,4 @@
-package fi.haltu.harrastuspassi.Fragments
+package fi.haltu.harrastuspassi.fragments
 
 import android.os.Bundle
 import android.support.v4.app.Fragment
@@ -7,9 +7,9 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import fi.haltu.harrastuspassi.Adapters.HobbyEventListAdapter
-import fi.haltu.harrastuspassi.Model.HobbyEvent
 import fi.haltu.harrastuspassi.R
+import fi.haltu.harrastuspassi.adapters.HobbyEventListAdapter
+import fi.haltu.harrastuspassi.models.HobbyEvent
 
 
 class HobbyEventListFragment : Fragment() {

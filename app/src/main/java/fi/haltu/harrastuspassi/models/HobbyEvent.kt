@@ -1,4 +1,4 @@
-package fi.haltu.harrastuspassi.Model
+package fi.haltu.harrastuspassi.models
 
 import java.io.Serializable
 

@@ -6,18 +6,18 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        tools:context=".Activities.MainActivity">
+        tools:context=".activities.MainActivity">
 
-        <fragment
-                android:id="@+id/hobby_list_fragment"
-                android:name="fi.haltu.harrastuspassi.Fragments.HobbyEventListFragment"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:background="#FFF"
+    <fragment
+            android:id="@+id/hobby_list_fragment"
+            android:name="fi.haltu.harrastuspassi.fragments.HobbyEventListFragment"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:background="#FFF"
 
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintTop_toTopOf="parent"
-        />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintTop_toTopOf="parent"
+    />
 
 </android.support.constraint.ConstraintLayout>
