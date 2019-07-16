@@ -12,7 +12,7 @@
             android:divider="@color/material_blue_grey_800"
             android:dividerHeight="2dp"
             android:footerDividersEnabled="false"
-            android:background="@color/colorLogoBG"
+            android:background="@color/hobbyPurple"
     />
 
 </FrameLayout>
