@@ -1,28 +1,37 @@
 package fi.haltu.harrastuspassi.fragments
 
+import android.os.AsyncTask
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import fi.haltu.harrastuspassi.R
 import fi.haltu.harrastuspassi.adapters.HobbyEventListAdapter
 import fi.haltu.harrastuspassi.models.HobbyEvent
+import org.json.JSONArray
+import org.json.JSONObject
+import java.io.IOException
+import java.net.URL
 
 
 class HobbyEventListFragment : Fragment() {
     private lateinit var listView: RecyclerView
-    private var hobbyEventList = ArrayList<HobbyEvent>()
+    private var hobbyEventArrayList = ArrayList<HobbyEvent>()
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        hobbyEventList = addHobbyEvents()
+        //hobbyEventList = addHobbyEvents()
         val view: View = inflater.inflate(R.layout.fragment_hobby_event_list, container, false)
-        val hobbyEventList = HobbyEventListAdapter(hobbyEventList)
+        val hobbyEventList = HobbyEventListAdapter(hobbyEventArrayList)
+
+        getHobbyEvents().execute()
 
         listView = view.findViewById(R.id.list_view)
         listView.apply {
@@ -33,93 +42,43 @@ class HobbyEventListFragment : Fragment() {
         return view
     }
 
-    private fun addHobbyEvents(): ArrayList<HobbyEvent> {
-        val hobbesList = ArrayList<HobbyEvent>()
+    internal inner class getHobbyEvents : AsyncTask<Void, Void, String>() {
+        override fun onPreExecute() {
+            super.onPreExecute()
+            Log.d("Testing","Start")
 
-        var hobbyEvent = HobbyEvent()
-        hobbyEvent.title = "Kitara kurssi"
-        hobbyEvent.image = R.drawable.image_1
-        hobbyEvent.place = "Itä-Hakkilan koulu"
-        hobbyEvent.dateTime = "Ma 23.9 klo 18-20"
+        }
 
-        hobbesList.add(hobbyEvent)
+        override fun doInBackground(vararg params: Void?): String {
+            Log.d("Testing","In progress")
+            var result: String
+            try {
+                result = URL("http://10.0.1.172:8000/hobbies/").readText()
+            } catch (e: IOException) {
+                result = "error"
+            }
 
-        hobbyEvent = HobbyEvent()
-        hobbyEvent.title = "Taidetta muovipulloista"
-        hobbyEvent.image = R.drawable.image_2
-        hobbyEvent.place = "Runar Schildts Park"
-        hobbyEvent.dateTime = "Ma 23.9 klo 18-20"
+            return result
+        }
 
-        hobbesList.add(hobbyEvent)
+        override fun onPostExecute(result: String?) {
+            super.onPostExecute(result)
+            if(result != "error") {
+                val mJsonArray = JSONArray(result)
+                for(i in 0 until mJsonArray.length()) {
+                    val sObject = mJsonArray.get(i).toString()
+                    val mItemObject = JSONObject(sObject)
+                    val title =  mItemObject.getString("name")
+                    val place =  mItemObject.getString("location")
+                    val dateTime =  mItemObject.getString("day_of_week")
+                    val image =  mItemObject.getString("image")
+                    var hobbyEvent = HobbyEvent(title, place, dateTime, image)
 
-        hobbyEvent = HobbyEvent()
-        hobbyEvent.title = "Jalkapallo, tutustumiskurssi"
-        hobbyEvent.image = R.drawable.image_3
-        hobbyEvent.place = "Hatwall Areena"
-        hobbyEvent.dateTime = "Ma 23.9 klo 18-20"
+                    hobbyEventArrayList.add(hobbyEvent)
+                }
+            }
 
-        hobbesList.add(hobbyEvent)
-
-        hobbyEvent = HobbyEvent()
-        hobbyEvent.title = "Sulkapallo kokeneille"
-        hobbyEvent.image = R.drawable.image_4
-        hobbyEvent.place = "Runar Schilds Park"
-        hobbyEvent.dateTime = "Ma 23.9 klo 18-20"
-
-        hobbesList.add(hobbyEvent)
-
-        hobbyEvent = HobbyEvent()
-        hobbyEvent.title = "Käsityö"
-        hobbyEvent.image = R.drawable.image_5
-        hobbyEvent.place = "Itä-Hakkilan koulu"
-        hobbyEvent.dateTime = "Ma 23.9 klo 18-20"
-
-        hobbesList.add(hobbyEvent)
-        hobbyEvent = HobbyEvent()
-        hobbyEvent.title = "Kabaddi valituille"
-        hobbyEvent.image = R.drawable.image_6
-        hobbyEvent.place = "Hartwall Areena"
-        hobbyEvent.dateTime = "Ma 23.9 klo 18-20"
-
-        hobbyEvent = HobbyEvent()
-        hobbyEvent.title = "Taidetta muovipulloista"
-        hobbyEvent.image = R.drawable.image_2
-        hobbyEvent.place = "Runar Schildts Park"
-        hobbyEvent.dateTime = "Ma 23.9 klo 18-20"
-
-        hobbesList.add(hobbyEvent)
-
-        hobbyEvent = HobbyEvent()
-        hobbyEvent.title = "Jalkapallo, tutustumiskurssi"
-        hobbyEvent.image = R.drawable.image_3
-        hobbyEvent.place = "Hatwall Areena"
-        hobbyEvent.dateTime = "Ma 23.9 klo 18-20"
-
-        hobbesList.add(hobbyEvent)
-
-        hobbyEvent = HobbyEvent()
-        hobbyEvent.title = "Sulkapallo kokeneille"
-        hobbyEvent.image = R.drawable.image_4
-        hobbyEvent.place = "Runar Schilds Park"
-        hobbyEvent.dateTime = "Ma 23.9 klo 18-20"
-
-        hobbesList.add(hobbyEvent)
-
-        hobbyEvent = HobbyEvent()
-        hobbyEvent.title = "Käsityö"
-        hobbyEvent.image = R.drawable.image_5
-        hobbyEvent.place = "Itä-Hakkilan koulu"
-        hobbyEvent.dateTime = "Ma 23.9 klo 18-20"
-
-        hobbesList.add(hobbyEvent)
-        hobbyEvent = HobbyEvent()
-        hobbyEvent.title = "Kabaddi valituille"
-        hobbyEvent.image = R.drawable.image_6
-        hobbyEvent.place = "Hartwall Areena"
-        hobbyEvent.dateTime = "Ma 23.9 klo 18-20"
-
-        hobbesList.add(hobbyEvent)
-
-        return hobbesList
+            listView.adapter!!.notifyDataSetChanged()
+        }
     }
 }

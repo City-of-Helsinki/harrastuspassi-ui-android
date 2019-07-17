@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import com.squareup.picasso.Picasso
 import fi.haltu.harrastuspassi.R
 import fi.haltu.harrastuspassi.models.HobbyEvent
 
@@ -36,7 +37,12 @@ class HobbyEventListAdapter(private val list: List<HobbyEvent>) :
         fun bind(hobbyEvent: HobbyEvent) {
             title.text = hobbyEvent.title
             place.text = hobbyEvent.place
-            image.setImageResource(hobbyEvent.image)
+            //R.drawable.image_placeholder_icon
+            Picasso.with(itemView.context)
+                .load(hobbyEvent.imageUrl)
+                .placeholder(R.drawable.image_placeholder_icon)
+                .error(R.drawable.image_placeholder_icon)
+                .into(image)
             duration.text = hobbyEvent.dateTime
         }
     }
