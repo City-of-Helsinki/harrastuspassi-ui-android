@@ -5,6 +5,7 @@
              android:layout_height="match_parent"
              tools:context="fi.haltu.harrastuspassi.fragments.HobbyEventListFragment">
 
+
     <android.support.v7.widget.RecyclerView
             android:id="@+id/list_view"
             android:layout_width="match_parent"
@@ -14,4 +15,21 @@
             android:background="@color/hobbyPurple"
     />
 
+    <ProgressBar
+            android:id="@+id/progressbar"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:indeterminate="true"
+            android:max="100"
+            android:indeterminateTint="#fff"
+            android:layout_marginTop="-7dp"/>
+
+    <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:id="@+id/progress_text"
+            android:textColor="#fff"
+    />
 </FrameLayout>
