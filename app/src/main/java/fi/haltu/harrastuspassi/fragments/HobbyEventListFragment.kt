@@ -1,11 +1,11 @@
 package fi.haltu.harrastuspassi.fragments
 
+import android.annotation.SuppressLint
 import android.os.AsyncTask
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -58,7 +58,7 @@ class HobbyEventListFragment : Fragment() {
 
         override fun doInBackground(vararg params: Void?): String {
             return try {
-                URL("http://10.0.1.172:8000/hobbies/").readText()
+                URL("http://10.0.1.172:8000/mobile-api/hobbies/").readText()
             } catch (e: IOException) {
                 return when (!InternetCheck().verifyAvailableNetwork(activity!!)) {
                     true -> NO_INTERNET
@@ -67,14 +67,14 @@ class HobbyEventListFragment : Fragment() {
             }
         }
 
+        @SuppressLint("SetTextI18n")
         override fun onPostExecute(result: String?) {
             super.onPostExecute(result)
-            Log.d("test", result)
 
             when (result) {
                 ERROR -> {
                     progressBar.visibility = View.INVISIBLE
-                    progressText.text = "Jokin meni vikaan. Kokeile myöhemmin uudelleen."
+                    this@HobbyEventListFragment.progressText.text = "Jokin meni vikaan. Kokeile myöhemmin uudelleen."
                 }
                 NO_INTERNET -> {
                     progressBar.visibility = View.INVISIBLE
@@ -82,6 +82,7 @@ class HobbyEventListFragment : Fragment() {
                 }
                 else -> {
                     val mJsonArray = JSONArray(result)
+
                     for (i in 0 until mJsonArray.length()) {
                         val sObject = mJsonArray.get(i).toString()
                         val mItemObject = JSONObject(sObject)
@@ -89,11 +90,16 @@ class HobbyEventListFragment : Fragment() {
                         val title = mItemObject.getString("name")
                         val place = mItemObject.getString("location")
                         val dateTime = mItemObject.getString("day_of_week")
-                        val image = mItemObject.getString("image")
+                        val image = mItemObject.getString("cover_image")
                         val hobbyEvent = HobbyEvent(title, place, dateTime, image)
 
                         hobbyEventArrayList.add(hobbyEvent)
+                    }
 
+                    if(hobbyEventArrayList.size == 0) {
+                        progressBar.visibility = View.INVISIBLE
+                        progressText.text = "Ei harrastustapahtumia."
+                    } else {
                         progressText.visibility = View.INVISIBLE
                         progressBar.visibility = View.INVISIBLE
                         listView.adapter!!.notifyDataSetChanged()
