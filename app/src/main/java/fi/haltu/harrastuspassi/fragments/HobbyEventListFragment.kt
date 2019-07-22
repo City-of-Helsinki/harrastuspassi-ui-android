@@ -19,6 +19,9 @@ import org.json.JSONArray
 import org.json.JSONObject
 import java.io.IOException
 import java.net.URL
+import android.widget.Toast
+
+
 
 
 class HobbyEventListFragment : Fragment() {
@@ -32,7 +35,7 @@ class HobbyEventListFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val view: View = inflater.inflate(R.layout.fragment_hobby_event_list, container, false)
-        val hobbyEventList = HobbyEventListAdapter(hobbyEventArrayList)
+        val hobbyEventList = HobbyEventListAdapter(hobbyEventArrayList, {hobby: HobbyEvent -> hobbyItemClicked(hobby)})
         progressBar = view.findViewById(R.id.progressbar)
         progressText = view.findViewById(R.id.progress_text)
         getHobbyEvents().execute()
@@ -43,6 +46,22 @@ class HobbyEventListFragment : Fragment() {
         }
         return view
     }
+
+    private fun hobbyItemClicked(hobby: HobbyEvent) {
+        /*val intent = Intent(context, HobbyDetailActivity::class.java)
+
+        val sharedView: View = cardView
+        val transition = getString(R.string.item_detail)
+
+        intent.putExtra("EXTRA_HOBBY", hobby)
+        val transitionActivity = ActivityOptions.makeSceneTransitionAnimation(activity, sharedView, transition)
+        startActivity(intent, transitionActivity.toBundle())
+        */
+        val toast = Toast.makeText(context, hobby.title, Toast.LENGTH_SHORT)
+        toast.show()
+    }
+
+
 
     companion object {
         const val ERROR = "error"
