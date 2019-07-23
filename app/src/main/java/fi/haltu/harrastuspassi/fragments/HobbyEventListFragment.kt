@@ -1,6 +1,7 @@
 package fi.haltu.harrastuspassi.fragments
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.AsyncTask
 import android.os.Bundle
 import android.support.v4.app.Fragment
@@ -20,8 +21,7 @@ import org.json.JSONObject
 import java.io.IOException
 import java.net.URL
 import android.widget.Toast
-
-
+import fi.haltu.harrastuspassi.activities.HobbyDetailActivity
 
 
 class HobbyEventListFragment : Fragment() {
@@ -48,15 +48,11 @@ class HobbyEventListFragment : Fragment() {
     }
 
     private fun hobbyItemClicked(hobby: HobbyEvent) {
-        /*val intent = Intent(context, HobbyDetailActivity::class.java)
-
-        val sharedView: View = cardView
-        val transition = getString(R.string.item_detail)
+        val intent = Intent(context, HobbyDetailActivity::class.java)
 
         intent.putExtra("EXTRA_HOBBY", hobby)
-        val transitionActivity = ActivityOptions.makeSceneTransitionAnimation(activity, sharedView, transition)
-        startActivity(intent, transitionActivity.toBundle())
-        */
+        startActivity(intent)
+
         val toast = Toast.makeText(context, hobby.title, Toast.LENGTH_SHORT)
         toast.show()
     }
