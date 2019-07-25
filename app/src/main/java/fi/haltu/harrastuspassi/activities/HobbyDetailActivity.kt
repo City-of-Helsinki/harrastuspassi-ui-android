@@ -25,6 +25,7 @@ class HobbyDetailActivity : AppCompatActivity(), OnMapReadyCallback{
     private lateinit var description: TextView
 
     private lateinit var map: GoogleMap
+    private lateinit var latLan: LatLng
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -53,6 +54,7 @@ class HobbyDetailActivity : AppCompatActivity(), OnMapReadyCallback{
         location.text = hobby.place.name
         description.text = hobby.description
 
+        latLan = LatLng(hobby.place.lat!!, hobby.place.lon!!)
         val mapFragment = supportFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
     }
@@ -61,7 +63,7 @@ class HobbyDetailActivity : AppCompatActivity(), OnMapReadyCallback{
         map = googleMap
 
         // Add a marker in Sydney and move the camera
-        val tampere = LatLng(61.4978, 23.7610)
+        val tampere = latLan
         map.addMarker(MarkerOptions().position(tampere).title("Marker in Tampere"))
         map.moveCamera(CameraUpdateFactory.newLatLng(tampere))
     }

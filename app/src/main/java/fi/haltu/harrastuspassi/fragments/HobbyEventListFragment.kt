@@ -110,7 +110,7 @@ class HobbyEventListFragment : Fragment() {
                         val hobbyEvent = HobbyEvent()
 
                         val locationObject = getLocation(hobbyObject, "location")
-                        var hobbyLocation = Location()
+                        val hobbyLocation = Location()
                         if (locationObject != null) {
                             val locationName = locationObject.getString("name")
                             val locationAddress = locationObject.getString("address")
@@ -136,7 +136,7 @@ class HobbyEventListFragment : Fragment() {
                             this.imageUrl = image
                         }
 
-                        Log.d("Location", "toimiiko? " + hobbyEvent.place!!.name)
+                        Log.d("Location", "toimiiko? " + hobbyEvent.place.name)
 
                         hobbyEventArrayList.add(hobbyEvent)
                     }
