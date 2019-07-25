@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,13 +16,15 @@ import android.widget.TextView
 import fi.haltu.harrastuspassi.R
 import fi.haltu.harrastuspassi.adapters.HobbyEventListAdapter
 import fi.haltu.harrastuspassi.models.HobbyEvent
-import fi.haltu.harrastuspassi.utils.InternetCheck
 import org.json.JSONArray
 import org.json.JSONObject
 import java.io.IOException
 import java.net.URL
-import android.widget.Toast
 import fi.haltu.harrastuspassi.activities.HobbyDetailActivity
+import fi.haltu.harrastuspassi.models.Location
+import fi.haltu.harrastuspassi.utils.getLatLon
+import fi.haltu.harrastuspassi.utils.getLocation
+import fi.haltu.harrastuspassi.utils.verifyAvailableNetwork
 
 
 class HobbyEventListFragment : Fragment() {
@@ -35,15 +38,16 @@ class HobbyEventListFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val view: View = inflater.inflate(R.layout.fragment_hobby_event_list, container, false)
-        val hobbyEventList = HobbyEventListAdapter(hobbyEventArrayList, {hobby: HobbyEvent -> hobbyItemClicked(hobby)})
+        val hobbyEventListAdapter = HobbyEventListAdapter(hobbyEventArrayList) { hobby: HobbyEvent -> hobbyItemClicked(hobby)}
         progressBar = view.findViewById(R.id.progressbar)
         progressText = view.findViewById(R.id.progress_text)
         getHobbyEvents().execute()
         listView = view.findViewById(R.id.list_view)
         listView.apply {
             layoutManager = LinearLayoutManager(activity)
-            adapter = hobbyEventList
+            adapter = hobbyEventListAdapter
         }
+
         return view
     }
 
@@ -53,8 +57,6 @@ class HobbyEventListFragment : Fragment() {
         intent.putExtra("EXTRA_HOBBY", hobby)
         startActivity(intent)
 
-        val toast = Toast.makeText(context, hobby.title, Toast.LENGTH_SHORT)
-        toast.show()
     }
 
 
@@ -73,9 +75,9 @@ class HobbyEventListFragment : Fragment() {
 
         override fun doInBackground(vararg params: Void?): String {
             return try {
-                URL("https://app.harrastuspassi.fi/mobile-api/hobbies/").readText()
+                URL("http://10.0.1.172:8000/mobile-api/hobbies/").readText()
             } catch (e: IOException) {
-                return when (!InternetCheck().verifyAvailableNetwork(activity!!)) {
+                return when (!verifyAvailableNetwork(activity!!)) {
                     true -> NO_INTERNET
                     else -> ERROR
                 }
@@ -100,13 +102,41 @@ class HobbyEventListFragment : Fragment() {
 
                     for (i in 0 until mJsonArray.length()) {
                         val sObject = mJsonArray.get(i).toString()
-                        val mItemObject = JSONObject(sObject)
+                        val hobbyObject = JSONObject(sObject)
 
-                        val title = mItemObject.getString("name")
-                        val place = mItemObject.getString("location")
-                        val dateTime = mItemObject.getString("day_of_week")
-                        val image = mItemObject.getString("cover_image")
-                        val hobbyEvent = HobbyEvent(title, place, dateTime, image)
+                        val title = hobbyObject.getString("name")
+                        val dateTime = hobbyObject.getString("start_day_of_week")
+                        val image = hobbyObject.getString("cover_image")
+                        val hobbyEvent = HobbyEvent()
+
+                        val locationObject = getLocation(hobbyObject, "location")
+                        var hobbyLocation = Location()
+                        if (locationObject != null) {
+                            val locationName = locationObject.getString("name")
+                            val locationAddress = locationObject.getString("address")
+                            val locationZipCode = locationObject.getString("zip_code")
+                            val locationCity = locationObject.getString("city")
+                            val locationLat = getLatLon(locationObject, "lat")
+                            val locationLon = getLatLon(locationObject, "lon")
+
+                            hobbyLocation.apply {
+                                this.name = locationName
+                                this.address = locationAddress
+                                this.zipCode = locationZipCode
+                                this.city = locationCity
+                                this.lat = locationLat
+                                this.lon = locationLon
+                            }
+                        }
+
+                        hobbyEvent.apply {
+                            this.title = title
+                            this.place = hobbyLocation
+                            this.dateTime = dateTime
+                            this.imageUrl = image
+                        }
+
+                        Log.d("Location", "toimiiko? " + hobbyEvent.place!!.name)
 
                         hobbyEventArrayList.add(hobbyEvent)
                     }

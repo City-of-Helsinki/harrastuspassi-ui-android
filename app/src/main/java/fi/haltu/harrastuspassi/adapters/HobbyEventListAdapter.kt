@@ -9,6 +9,7 @@ import android.widget.TextView
 import com.squareup.picasso.Picasso
 import fi.haltu.harrastuspassi.R
 import fi.haltu.harrastuspassi.models.HobbyEvent
+import kotlinx.android.synthetic.main.adapter_hobby_event_list_item.view.*
 
 
 class HobbyEventListAdapter(private val list: List<HobbyEvent>, private val clickListener: (HobbyEvent) -> Unit) :
@@ -16,7 +17,7 @@ class HobbyEventListAdapter(private val list: List<HobbyEvent>, private val clic
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HobbyListViewHolder {
         val inflater = LayoutInflater.from(parent.context)
-        val view = inflater.inflate(R.layout.adapter_hobby_event_list_item_hobby, parent, false)
+        val view = inflater.inflate(R.layout.adapter_hobby_event_list_item, parent, false)
         return HobbyListViewHolder(view)
     }
 
@@ -36,12 +37,13 @@ class HobbyEventListAdapter(private val list: List<HobbyEvent>, private val clic
 
         fun bind(hobbyEvent: HobbyEvent, clickListener: (HobbyEvent) -> Unit) {
             title.text = hobbyEvent.title
-            place.text = hobbyEvent.place
+            place.text = hobbyEvent.place.name
             Picasso.with(itemView.context)
                 .load(hobbyEvent.imageUrl)
                 .placeholder(R.drawable.image_placeholder_icon)
                 .error(R.drawable.image_placeholder_icon)
                 .into(image)
+
             duration.text = hobbyEvent.dateTime
             itemView.setOnClickListener { clickListener(hobbyEvent) }
         }

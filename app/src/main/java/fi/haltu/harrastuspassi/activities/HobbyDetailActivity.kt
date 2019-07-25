@@ -15,9 +15,6 @@ import fi.haltu.harrastuspassi.R
 import fi.haltu.harrastuspassi.models.HobbyEvent
 
 
-
-
-
 class HobbyDetailActivity : AppCompatActivity(), OnMapReadyCallback{
 
     private lateinit var hobbyImage: ImageView
@@ -53,13 +50,11 @@ class HobbyDetailActivity : AppCompatActivity(), OnMapReadyCallback{
         hobbyTitle.text = hobby.title
         hobbyOrganizer.text = hobby.title
         dateTime.text = hobby.dateTime
-        location.text = hobby.place
+        location.text = hobby.place.name
         description.text = hobby.description
 
         val mapFragment = supportFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
-
-
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
