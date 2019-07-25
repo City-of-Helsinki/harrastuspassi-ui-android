@@ -4,12 +4,21 @@ import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.ImageView
 import android.widget.TextView
+import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.OnMapReadyCallback
+import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.MarkerOptions
 import com.squareup.picasso.Picasso
 import fi.haltu.harrastuspassi.R
 import fi.haltu.harrastuspassi.models.HobbyEvent
-import kotlinx.android.synthetic.main.adapter_hobby_event_list_item_hobby.view.*
 
-class HobbyDetailActivity : AppCompatActivity() {
+
+
+
+
+class HobbyDetailActivity : AppCompatActivity(), OnMapReadyCallback{
 
     private lateinit var hobbyImage: ImageView
     private lateinit var hobbyTitle: TextView
@@ -17,6 +26,8 @@ class HobbyDetailActivity : AppCompatActivity() {
     private lateinit var dateTime: TextView
     private lateinit var location: TextView
     private lateinit var description: TextView
+
+    private lateinit var map: GoogleMap
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,5 +55,19 @@ class HobbyDetailActivity : AppCompatActivity() {
         dateTime.text = hobby.dateTime
         location.text = hobby.place
         description.text = hobby.description
+
+        val mapFragment = supportFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
+        mapFragment.getMapAsync(this)
+
+
+    }
+
+    override fun onMapReady(googleMap: GoogleMap) {
+        map = googleMap
+
+        // Add a marker in Sydney and move the camera
+        val tampere = LatLng(61.4978, 23.7610)
+        map.addMarker(MarkerOptions().position(tampere).title("Marker in Tampere"))
+        map.moveCamera(CameraUpdateFactory.newLatLng(tampere))
     }
 }
