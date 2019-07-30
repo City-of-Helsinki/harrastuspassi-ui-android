@@ -75,7 +75,8 @@ class HobbyEventListFragment : Fragment() {
 
         override fun doInBackground(vararg params: Void?): String {
             return try {
-                URL("http://10.0.1.172:8000/mobile-api/hobbies/").readText()
+                // URL("http://10.0.1.172:8000/mobile-api/hobbies/").readText()
+                URL("http://10.0.1.229:8000/mobile-api/hobbies/").readText()
             } catch (e: IOException) {
                 return when (!verifyAvailableNetwork(activity!!)) {
                     true -> NO_INTERNET

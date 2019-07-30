@@ -23,6 +23,8 @@ class HobbyDetailActivity : AppCompatActivity(), OnMapReadyCallback{
     private lateinit var dateTime: TextView
     private lateinit var location: TextView
     private lateinit var description: TextView
+    private lateinit var locationAddress: TextView
+    private lateinit var locationZipCode: TextView
 
     private lateinit var map: GoogleMap
     private lateinit var latLan: LatLng
@@ -41,6 +43,8 @@ class HobbyDetailActivity : AppCompatActivity(), OnMapReadyCallback{
         dateTime = findViewById(R.id.date_time)
         location = findViewById(R.id.location)
         description = findViewById(R.id.description_text)
+        locationAddress = findViewById(R.id.location_address)
+        locationZipCode = findViewById(R.id.location_zipcode)
 
         Picasso.with(this)
             .load(hobby.imageUrl)
@@ -53,6 +57,8 @@ class HobbyDetailActivity : AppCompatActivity(), OnMapReadyCallback{
         dateTime.text = hobby.dateTime
         location.text = hobby.place.name
         description.text = hobby.description
+        locationAddress.text = hobby.place.address
+        locationZipCode.text = hobby.place.zipCode
 
         latLan = LatLng(hobby.place.lat!!, hobby.place.lon!!)
         val mapFragment = supportFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
