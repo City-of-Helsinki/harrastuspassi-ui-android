@@ -42,7 +42,8 @@
                       app:layout_constraintTop_toBottomOf="@+id/hobby_image"
                       app:layout_constraintStart_toStartOf="@+id/hobby_image"
                       app:layout_constraintEnd_toEndOf="@+id/hobby_image" android:layout_marginEnd="16dp"
-                      app:layout_constraintBottom_toTopOf="@+id/hobby_organizer" android:layout_marginStart="16dp"/>
+                      app:layout_constraintBottom_toTopOf="@+id/hobby_organizer" android:layout_marginStart="16dp"
+                      android:textColor="@color/cast_expanded_controller_background_color"/>
 
             <TextView android:layout_width="0dp"
                       android:layout_height="wrap_content"
@@ -53,40 +54,45 @@
                       android:layout_marginTop="4dp"
                       app:layout_constraintTop_toBottomOf="@+id/hobby_title"
                       app:layout_constraintStart_toStartOf="@+id/hobby_title"
-                      app:layout_constraintEnd_toEndOf="@+id/hobby_title" android:layout_marginBottom="24dp"
-                      app:layout_constraintBottom_toTopOf="@+id/calendar_icon"/>
+                      app:layout_constraintEnd_toEndOf="@+id/hobby_title" android:layout_marginBottom="16dp"
+                      app:layout_constraintBottom_toTopOf="@+id/calendar_icon"
+                      android:textColor="@color/cast_expanded_controller_background_color"/>
 
 
             <TextView android:layout_width="wrap_content"
-                      android:layout_height="0dp"
+                      android:layout_height="24dp"
                       app:layout_constraintDimensionRatio="1:1"
                       android:id="@+id/calendar_icon"
                       android:background="@drawable/date_range_icon"
-                      android:backgroundTint="@color/hobbyPurple"
-                      app:layout_constraintStart_toStartOf="@+id/hobby_organizer"
+                      android:backgroundTint="@color/ic_launcher_background"
+                      app:layout_constraintStart_toStartOf="parent"
                       app:layout_constraintEnd_toStartOf="@+id/date_time"
                       app:layout_constraintTop_toBottomOf="@+id/hobby_organizer"
-                      app:layout_constraintBottom_toTopOf="@+id/location_icon"/>
+                      app:layout_constraintBottom_toTopOf="@+id/location_icon"
+                      app:layout_constraintHorizontal_bias="0.5" android:layout_marginBottom="24dp"
+                      android:layout_marginTop="16dp" android:layout_marginEnd="2dp"/>
 
             <TextView android:id="@+id/date_time"
-                      android:layout_width="0dp"
+                      android:text="DayOfWeek"
+                      android:layout_width="wrap_content"
                       android:layout_height="wrap_content"
                       android:textStyle="bold"
                       android:textSize="16sp"
                       android:fontFamily="sans-serif"
                       android:gravity="start"
-                      app:layout_constraintStart_toEndOf="@+id/calendar_icon"
+                      android:textColor="@color/ic_launcher_background"
+                      app:layout_constraintStart_toEndOf="@+id/calendar_icon" app:layout_constraintHorizontal_bias="0.5"
+                      app:layout_constraintEnd_toStartOf="@+id/start_time_icon"
+                      android:layout_marginEnd="16dp"
                       app:layout_constraintTop_toTopOf="@+id/calendar_icon"
-                      app:layout_constraintEnd_toEndOf="@+id/hobby_organizer" android:layout_marginStart="8dp"
-                      android:textColor="@color/ic_launcher_background" android:layout_marginBottom="24dp"
-                      app:layout_constraintBottom_toTopOf="@+id/location"/>
+                      app:layout_constraintBottom_toBottomOf="@+id/calendar_icon" android:layout_marginStart="2dp"/>
 
             <TextView android:id="@+id/location_icon"
                       android:layout_width="wrap_content"
                       android:layout_height="0dp"
                       app:layout_constraintDimensionRatio="1:1"
                       android:background="@drawable/location_icon"
-                      android:backgroundTint="@color/hobbyPurple"
+                      android:backgroundTint="@color/ic_launcher_background"
                       android:layout_marginTop="8dp"
                       app:layout_constraintTop_toBottomOf="@+id/calendar_icon"
                       app:layout_constraintStart_toStartOf="@+id/calendar_icon"
@@ -94,18 +100,18 @@
                       app:layout_constraintBottom_toTopOf="@+id/description_label" android:layout_marginBottom="8dp"/>
 
             <TextView android:id="@+id/location"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:textSize="14sp"
-                    android:fontFamily="sans-serif"
+                      android:layout_width="0dp"
+                      android:layout_height="wrap_content"
+                      android:textSize="14sp"
+                      android:fontFamily="sans-serif"
 
-                    android:gravity="start"
-                    app:layout_constraintStart_toEndOf="@+id/location_icon"
-                    android:layout_marginStart="8dp"
-                    app:layout_constraintBottom_toBottomOf="@+id/location_icon"
-                    app:layout_constraintTop_toTopOf="@+id/location_icon"
-                    app:layout_constraintEnd_toEndOf="@+id/date_time"
-                    android:textColor="@color/common_google_signin_btn_text_dark_focused"/>
+                      android:gravity="start"
+                      app:layout_constraintStart_toEndOf="@+id/location_icon"
+                      android:layout_marginStart="8dp"
+                      app:layout_constraintBottom_toBottomOf="@+id/location_icon"
+                      app:layout_constraintTop_toTopOf="@+id/location_icon"
+                      android:textColor="@color/common_google_signin_btn_text_dark_focused"
+                      app:layout_constraintEnd_toEndOf="@+id/hobby_organizer"/>
 
             <TextView
                     android:layout_height="wrap_content"
@@ -143,18 +149,18 @@
                       app:layout_constraintHorizontal_bias="0.0" android:layout_marginTop="8dp"
                       android:layout_marginEnd="8dp"/>
 
-            <fragment android:id="@+id/map"
-                    xmlns:android="http://schemas.android.com/apk/res/android"
-                    xmlns:map="http://schemas.android.com/apk/res-auto"
-                    android:name="com.google.android.gms.maps.SupportMapFragment"
-                    android:layout_width="0dp"
-                    android:layout_height="300dp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    android:layout_marginTop="8dp" app:layout_constraintTop_toBottomOf="@+id/description_text"
-                    app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintStart_toStartOf="parent"
-                    map:cameraZoom="13"
-                    map:liteMode="true"
-            />
+            <fragment xmlns:android="http://schemas.android.com/apk/res/android"
+                      xmlns:map="http://schemas.android.com/apk/res-auto"
+                      android:id="@+id/map"
+                      android:name="com.google.android.gms.maps.SupportMapFragment"
+                      android:layout_width="0dp"
+                      android:layout_height="300dp"
+                      app:layout_constraintEnd_toEndOf="parent"
+                      android:layout_marginTop="8dp" app:layout_constraintTop_toBottomOf="@+id/description_text"
+                      app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintStart_toStartOf="parent"
+                      map:cameraZoom="13"
+                      map:liteMode="true"/>
+
             <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -164,6 +170,60 @@
                     app:layout_constraintStart_toStartOf="@+id/location_address"
                     app:layout_constraintEnd_toEndOf="@+id/location_address" android:layout_marginBottom="24dp"
                     android:textColor="@color/cast_expanded_controller_background_color"/>
+
+            <TextView android:id="@+id/start_time"
+                      android:text="TextView"
+                      android:textStyle="bold"
+                      android:textSize="16sp"
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:textColor="@color/ic_launcher_background"
+                      app:layout_constraintStart_toEndOf="@+id/start_time_icon"
+                      app:layout_constraintHorizontal_bias="0.5" app:layout_constraintEnd_toStartOf="@+id/date_icon"
+                      android:layout_marginStart="2dp"
+                      android:layout_marginEnd="16dp"
+                      app:layout_constraintBottom_toBottomOf="@+id/start_time_icon"
+                      app:layout_constraintTop_toTopOf="@+id/start_time_icon"/>
+
+            <TextView android:id="@+id/start_time_icon"
+                      android:background="@drawable/clock_ic"
+                      android:layout_width="wrap_content"
+                      android:layout_height="0dp"
+                      app:layout_constraintDimensionRatio="1:1"
+                      android:backgroundTint="@color/hobbyPurple"
+                      app:layout_constraintStart_toEndOf="@+id/date_time"
+                      app:layout_constraintHorizontal_bias="0.5" app:layout_constraintEnd_toStartOf="@+id/start_time"
+                      android:layout_marginEnd="2dp"
+                      android:layout_marginStart="16dp"
+                      app:layout_constraintBottom_toBottomOf="@+id/date_time"
+                      app:layout_constraintTop_toTopOf="@+id/date_time"/>
+
+            <TextView android:id="@+id/date"
+                      android:text="DateHere"
+                      android:textStyle="bold"
+                      android:textSize="16sp"
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="8dp"
+                      android:textColor="@color/ic_launcher_background"
+                      app:layout_constraintStart_toEndOf="@+id/date_icon"
+                      app:layout_constraintHorizontal_bias="0.5"
+                      android:layout_marginStart="2dp" app:layout_constraintTop_toTopOf="@+id/date_icon"
+                      app:layout_constraintBottom_toBottomOf="@+id/date_icon"/>
+
+            <TextView android:id="@+id/date_icon"
+                      android:background="@drawable/today_ic"
+                      android:layout_width="wrap_content"
+                      android:layout_height="0dp"
+                      app:layout_constraintDimensionRatio="1:1"
+                      android:backgroundTint="@color/hobbyPurple"
+                      app:layout_constraintEnd_toStartOf="@+id/date"
+                      android:layout_marginEnd="2dp"
+                      app:layout_constraintStart_toEndOf="@+id/start_time"
+                      app:layout_constraintHorizontal_bias="0.5"
+                      android:layout_marginStart="16dp"
+                      app:layout_constraintTop_toTopOf="@+id/start_time"
+                      app:layout_constraintBottom_toBottomOf="@+id/start_time"/>
 
 
         </android.support.constraint.ConstraintLayout>

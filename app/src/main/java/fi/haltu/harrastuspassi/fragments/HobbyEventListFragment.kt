@@ -60,7 +60,6 @@ class HobbyEventListFragment : Fragment() {
     }
 
 
-
     companion object {
         const val ERROR = "error"
         const val NO_INTERNET = "no_internet"
@@ -75,7 +74,6 @@ class HobbyEventListFragment : Fragment() {
 
         override fun doInBackground(vararg params: Void?): String {
             return try {
-                // URL("http://10.0.1.172:8000/mobile-api/hobbies/").readText()
                 URL("http://10.0.1.229:8000/mobile-api/hobbies/").readText()
             } catch (e: IOException) {
                 return when (!verifyAvailableNetwork(activity!!)) {
@@ -105,6 +103,7 @@ class HobbyEventListFragment : Fragment() {
                         val sObject = mJsonArray.get(i).toString()
                         val hobbyObject = JSONObject(sObject)
 
+                        val id = hobbyObject.getInt("id")
                         val title = hobbyObject.getString("name")
                         val dateTime = hobbyObject.getString("start_day_of_week")
                         val image = hobbyObject.getString("cover_image")
@@ -131,13 +130,14 @@ class HobbyEventListFragment : Fragment() {
                         }
 
                         hobbyEvent.apply {
+                            this.id = id
                             this.title = title
                             this.place = hobbyLocation
                             this.dateTime = dateTime
                             this.imageUrl = image
                         }
 
-                        Log.d("Location", "toimiiko? " + hobbyEvent.place.name)
+                        //Log.d("Location", "toimiiko? " + mJsonArray.toString())
 
                         hobbyEventArrayList.add(hobbyEvent)
                     }

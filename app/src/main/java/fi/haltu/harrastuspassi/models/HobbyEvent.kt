@@ -3,6 +3,7 @@ package fi.haltu.harrastuspassi.models
 import java.io.Serializable
 
 class HobbyEvent: Serializable {
+    var id: Int = 0
     var title: String = "Ei otsikkoa"
         set(value) {
             field = if (value == "null") {
