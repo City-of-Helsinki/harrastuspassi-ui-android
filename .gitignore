@@ -2,6 +2,7 @@
 .gradle
 /local.properties
 /.idea
+**/.idea
 /.idea/caches
 /.idea/libraries
 /.idea/modules.xml
@@ -13,3 +14,4 @@
 /captures
 .externalNativeBuild
 /app/src/main/res/values/api_keys.xml
+**/local.properties

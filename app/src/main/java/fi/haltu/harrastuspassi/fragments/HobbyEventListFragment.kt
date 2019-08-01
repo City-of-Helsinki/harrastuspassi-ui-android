@@ -7,7 +7,6 @@ import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -56,7 +55,6 @@ class HobbyEventListFragment : Fragment() {
 
         intent.putExtra("EXTRA_HOBBY", hobby)
         startActivity(intent)
-
     }
 
 
@@ -104,9 +102,9 @@ class HobbyEventListFragment : Fragment() {
                         val hobbyObject = JSONObject(sObject)
 
                         val id = hobbyObject.getInt("id")
-                        val title = hobbyObject.getString("name")
-                        val dateTime = hobbyObject.getString("start_day_of_week")
-                        val image = hobbyObject.getString("cover_image")
+                        val name = hobbyObject.getString("name")
+                        val startDayOfWeek = hobbyObject.getString("start_day_of_week")
+                        val coverImage = hobbyObject.getString("cover_image")
                         val hobbyEvent = HobbyEvent()
 
                         val locationObject = getLocation(hobbyObject, "location")
@@ -131,13 +129,11 @@ class HobbyEventListFragment : Fragment() {
 
                         hobbyEvent.apply {
                             this.id = id
-                            this.title = title
+                            this.title = name
                             this.place = hobbyLocation
-                            this.dateTime = dateTime
-                            this.imageUrl = image
+                            this.dateTime = startDayOfWeek
+                            this.imageUrl = coverImage
                         }
-
-                        //Log.d("Location", "toimiiko? " + mJsonArray.toString())
 
                         hobbyEventArrayList.add(hobbyEvent)
                     }
