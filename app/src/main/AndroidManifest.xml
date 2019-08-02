@@ -40,6 +40,9 @@
         <uses-library android:name="org.apache.http.legacy" android:required="false" />
         <activity
                 android:name=".activities.HobbyDetailActivity">
+            <meta-data
+                    android:name="android.support.PARENT_ACTIVITY"
+                    android:value="fi.haltu.harrastuspassi.activities.MainActivity" />
         </activity>
         <activity
                 android:name=".activities.SplashActivity"

@@ -4,8 +4,10 @@ import android.annotation.SuppressLint
 import android.os.AsyncTask
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.support.v4.app.NavUtils
 import android.support.v7.app.AlertDialog
 import android.util.Log
+import android.view.MenuItem
 import android.widget.ImageView
 import android.widget.TextView
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -23,8 +25,10 @@ import fi.haltu.harrastuspassi.utils.getLocation
 import org.json.JSONObject
 import java.io.IOException
 import java.net.URL
+import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
+import java.util.*
 
 
 class HobbyDetailActivity : AppCompatActivity(), OnMapReadyCallback{
@@ -49,6 +53,7 @@ class HobbyDetailActivity : AppCompatActivity(), OnMapReadyCallback{
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_hobby_detail)
+        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
 
         hobby = intent.extras!!.getSerializable("EXTRA_HOBBY") as HobbyEvent
         id = (hobby.id)
@@ -119,46 +124,52 @@ class HobbyDetailActivity : AppCompatActivity(), OnMapReadyCallback{
                 }
 
                 else -> {
-                        val hobbyObject = JSONObject(result)
-                        val title = hobbyObject.getString("name")
-                        val organizer = hobbyObject.getString("organizer")
-                        val dayOfWeek = hobbyObject.getString("start_day_of_week")
-                        val startTime = hobbyObject.getString("start_time")
-                        val startDate = hobbyObject.getString("start_date")
+                    val hobbyObject = JSONObject(result)
+                    val title = hobbyObject.getString("name")
+                    val organizer = hobbyObject.getString("organizer")
+                    val dayOfWeek = hobbyObject.getString("start_day_of_week")
+                    val startTime = hobbyObject.getString("start_time")
+                    val startDate = hobbyObject.getString("start_date")
 
-                        val description = hobbyObject.getString("description")
+                    val description = hobbyObject.getString("description")
 
-                        val hobbyEvent = HobbyEvent()
+                    val hobbyEvent = HobbyEvent()
 
-                        val locationObject = getLocation(hobbyObject, "locationNameTextView")
-                        val hobbyLocation = Location()
-                        if (locationObject != null) {
-                            val locationName = locationObject.getString("name")
-                            val locationAddress = locationObject.getString("address")
-                            val locationZipCode = locationObject.getString("zip_code")
-                            val locationCity = locationObject.getString("city")
-                            val locationLat = getLatLon(locationObject, "lat")
-                            val locationLon = getLatLon(locationObject, "lon")
+                    val locationObject = getLocation(hobbyObject, "locationNameTextView")
+                    val hobbyLocation = Location()
+                    if (locationObject != null) {
+                        val locationName = locationObject.getString("name")
+                        val locationAddress = locationObject.getString("address")
+                        val locationZipCode = locationObject.getString("zip_code")
+                        val locationCity = locationObject.getString("city")
+                        val locationLat = getLatLon(locationObject, "lat")
+                        val locationLon = getLatLon(locationObject, "lon")
 
-                            hobbyLocation.apply {
-                                this.name = locationName
-                                this.address = locationAddress
-                                this.zipCode = locationZipCode
-                                this.city = locationCity
-                                this.lat = locationLat
-                                this.lon = locationLon
-                            }
+                        hobbyLocation.apply {
+                            this.name = locationName
+                            this.address = locationAddress
+                            this.zipCode = locationZipCode
+                            this.city = locationCity
+                            this.lat = locationLat
+                            this.lon = locationLon
                         }
-
-                         //var formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy")
-                         //var date = LocalDate.parse(startDate, formatter)
+                    }
 
 
-                        this@HobbyDetailActivity.titleTextView.setText(title)
+                    val parser = SimpleDateFormat("yyyy-MM-dd", Locale.US)
+                    val formatter = SimpleDateFormat("dd.MM.yyyy", Locale.US)
+                    val date = formatter.format(parser.parse(startDate))
+
+                    val timeParser = SimpleDateFormat("HH:mm:ss", Locale.US)
+                    val timeFormatter = SimpleDateFormat("HH.mm", Locale.US)
+                    val time = timeFormatter.format(timeParser.parse(startTime))
+
+
+                    this@HobbyDetailActivity.titleTextView.setText(title)
                         this@HobbyDetailActivity.organizerTextView.setText(organizer)
                         this@HobbyDetailActivity.dayOfWeekTextView.setText(dayOfWeek)
-                        this@HobbyDetailActivity.startTimeTextView.setText(startTime)
-                        this@HobbyDetailActivity.dateTextView.setText(startDate)
+                        this@HobbyDetailActivity.startTimeTextView.setText(time)
+                        this@HobbyDetailActivity.dateTextView.setText(date)
                         this@HobbyDetailActivity.descriptionTextView.setText(description)
 
 
@@ -170,7 +181,19 @@ class HobbyDetailActivity : AppCompatActivity(), OnMapReadyCallback{
         }
     }
 
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
 
+        when (item!!.itemId) {
+            R.id.home -> {
+                NavUtils.navigateUpFromSameTask(this)
+                return true
+            }
+            else -> {
+                return super.onOptionsItemSelected(item)
+            }
+        }
+
+    }
 
 }
 
