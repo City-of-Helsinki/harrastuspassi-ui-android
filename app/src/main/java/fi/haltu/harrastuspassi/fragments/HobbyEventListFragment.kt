@@ -1,6 +1,7 @@
 package fi.haltu.harrastuspassi.fragments
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.AsyncTask
 import android.os.Bundle
 import android.support.v4.app.Fragment
@@ -14,11 +15,15 @@ import android.widget.TextView
 import fi.haltu.harrastuspassi.R
 import fi.haltu.harrastuspassi.adapters.HobbyEventListAdapter
 import fi.haltu.harrastuspassi.models.HobbyEvent
-import fi.haltu.harrastuspassi.utils.InternetCheck
 import org.json.JSONArray
 import org.json.JSONObject
 import java.io.IOException
 import java.net.URL
+import fi.haltu.harrastuspassi.activities.HobbyDetailActivity
+import fi.haltu.harrastuspassi.models.Location
+import fi.haltu.harrastuspassi.utils.getLatLon
+import fi.haltu.harrastuspassi.utils.getLocation
+import fi.haltu.harrastuspassi.utils.verifyAvailableNetwork
 
 
 class HobbyEventListFragment : Fragment() {
@@ -32,17 +37,26 @@ class HobbyEventListFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val view: View = inflater.inflate(R.layout.fragment_hobby_event_list, container, false)
-        val hobbyEventList = HobbyEventListAdapter(hobbyEventArrayList)
+        val hobbyEventListAdapter = HobbyEventListAdapter(hobbyEventArrayList) { hobby: HobbyEvent -> hobbyItemClicked(hobby)}
         progressBar = view.findViewById(R.id.progressbar)
         progressText = view.findViewById(R.id.progress_text)
         getHobbyEvents().execute()
         listView = view.findViewById(R.id.list_view)
         listView.apply {
             layoutManager = LinearLayoutManager(activity)
-            adapter = hobbyEventList
+            adapter = hobbyEventListAdapter
         }
+
         return view
     }
+
+    private fun hobbyItemClicked(hobby: HobbyEvent) {
+        val intent = Intent(context, HobbyDetailActivity::class.java)
+
+        intent.putExtra("EXTRA_HOBBY", hobby)
+        startActivity(intent)
+    }
+
 
     companion object {
         const val ERROR = "error"
@@ -58,9 +72,9 @@ class HobbyEventListFragment : Fragment() {
 
         override fun doInBackground(vararg params: Void?): String {
             return try {
-                URL("https://app.harrastuspassi.fi/mobile-api/hobbies/").readText()
+                URL("http://10.0.1.229:8000/mobile-api/hobbies/").readText()
             } catch (e: IOException) {
-                return when (!InternetCheck().verifyAvailableNetwork(activity!!)) {
+                return when (!verifyAvailableNetwork(activity!!)) {
                     true -> NO_INTERNET
                     else -> ERROR
                 }
@@ -85,13 +99,41 @@ class HobbyEventListFragment : Fragment() {
 
                     for (i in 0 until mJsonArray.length()) {
                         val sObject = mJsonArray.get(i).toString()
-                        val mItemObject = JSONObject(sObject)
+                        val hobbyObject = JSONObject(sObject)
 
-                        val title = mItemObject.getString("name")
-                        val place = mItemObject.getString("location")
-                        val dateTime = mItemObject.getString("day_of_week")
-                        val image = mItemObject.getString("cover_image")
-                        val hobbyEvent = HobbyEvent(title, place, dateTime, image)
+                        val id = hobbyObject.getInt("id")
+                        val name = hobbyObject.getString("name")
+                        val startDayOfWeek = hobbyObject.getString("start_day_of_week")
+                        val coverImage = hobbyObject.getString("cover_image")
+                        val hobbyEvent = HobbyEvent()
+
+                        val locationObject = getLocation(hobbyObject, "location")
+                        val hobbyLocation = Location()
+                        if (locationObject != null) {
+                            val locationName = locationObject.getString("name")
+                            val locationAddress = locationObject.getString("address")
+                            val locationZipCode = locationObject.getString("zip_code")
+                            val locationCity = locationObject.getString("city")
+                            val locationLat = getLatLon(locationObject, "lat")
+                            val locationLon = getLatLon(locationObject, "lon")
+
+                            hobbyLocation.apply {
+                                this.name = locationName
+                                this.address = locationAddress
+                                this.zipCode = locationZipCode
+                                this.city = locationCity
+                                this.lat = locationLat
+                                this.lon = locationLon
+                            }
+                        }
+
+                        hobbyEvent.apply {
+                            this.id = id
+                            this.title = name
+                            this.place = hobbyLocation
+                            this.dateTime = startDayOfWeek
+                            this.imageUrl = coverImage
+                        }
 
                         hobbyEventArrayList.add(hobbyEvent)
                     }

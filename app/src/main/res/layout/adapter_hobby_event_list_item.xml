@@ -9,12 +9,11 @@
 >
 
     <ImageView
-            android:layout_height="92dp"
-            android:layout_width="92dp"
+            android:layout_height="100dp"
+            android:layout_width="100dp"
             android:contentDescription="@string/hobby_image"
             android:id="@+id/image" app:layout_constraintTop_toTopOf="parent"
-            android:scaleType="centerCrop" android:layout_marginTop="8dp" app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginBottom="8dp"
+            android:scaleType="centerCrop" app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintBottom_toBottomOf="parent">
     </ImageView>
 

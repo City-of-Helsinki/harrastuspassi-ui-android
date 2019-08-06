@@ -2,7 +2,6 @@ package fi.haltu.harrastuspassi.activities
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
-import android.view.View
 import fi.haltu.harrastuspassi.R
 
 class MainActivity : AppCompatActivity() {
