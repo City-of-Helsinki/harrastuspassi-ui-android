@@ -22,8 +22,10 @@ import fi.haltu.harrastuspassi.models.HobbyEvent
 import fi.haltu.harrastuspassi.models.Location
 import fi.haltu.harrastuspassi.utils.getLatLon
 import fi.haltu.harrastuspassi.utils.getLocation
+import kotlinx.android.synthetic.main.activity_hobby_detail.*
 import org.json.JSONObject
 import java.io.IOException
+import java.lang.Exception
 import java.net.URL
 import java.text.SimpleDateFormat
 import java.time.LocalDate
@@ -156,14 +158,26 @@ class HobbyDetailActivity : AppCompatActivity(), OnMapReadyCallback{
                     }
 
 
+
                     val parser = SimpleDateFormat("yyyy-MM-dd", Locale.US)
                     val formatter = SimpleDateFormat("dd.MM.yyyy", Locale.US)
-                    val date = formatter.format(parser.parse(startDate))
+                    var date = "Ei ilmoitettu"
+                    try {
+
+                        date = formatter.format(parser.parse(startDate))
+                    } catch (e: Exception) {
+                        e.printStackTrace()
+                    }
+
 
                     val timeParser = SimpleDateFormat("HH:mm:ss", Locale.US)
                     val timeFormatter = SimpleDateFormat("HH.mm", Locale.US)
-                    val time = timeFormatter.format(timeParser.parse(startTime))
-
+                    var time = "Ei ilmoiteuttu"
+                    try {
+                        time = timeFormatter.format(timeParser.parse(startTime))
+                    } catch (e: Exception) {
+                        e.printStackTrace()
+                    }
 
                     this@HobbyDetailActivity.titleTextView.setText(title)
                         this@HobbyDetailActivity.organizerTextView.setText(organizer)
