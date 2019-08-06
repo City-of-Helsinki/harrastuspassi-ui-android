@@ -46,6 +46,7 @@ class HobbyDetailActivity : AppCompatActivity(), OnMapReadyCallback{
     private lateinit var locationAddress: TextView
     private lateinit var locationZipCode: TextView
     private var id: Int = 0
+    private  var locationReceived: Boolean = true
 
     private lateinit var map: GoogleMap
     private lateinit var latLan: LatLng
@@ -82,7 +83,13 @@ class HobbyDetailActivity : AppCompatActivity(), OnMapReadyCallback{
         titleTextView.text = hobby.title
 
 
-        latLan = LatLng(hobby.place.lat!!, hobby.place.lon!!)
+        if (hobby.place.lat != null) {
+            Log.d("Latitide:", hobby.place.lat.toString())
+            latLan = LatLng(hobby.place.lat!!, hobby.place.lon!!)
+        } else {
+            locationReceived = false
+        }
+
         val mapFragment = supportFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
         getHobbyEvent().execute()
@@ -94,9 +101,14 @@ class HobbyDetailActivity : AppCompatActivity(), OnMapReadyCallback{
         locationZipCode.text = hobby.place.zipCode
         map = googleMap
 
-        val tampere = latLan
-        map.addMarker(MarkerOptions().position(tampere).title("Marker in Tampere"))
-        map.moveCamera(CameraUpdateFactory.newLatLng(tampere))
+        if (locationReceived) {
+            val markerPos = latLan
+            map.addMarker(MarkerOptions().position(markerPos).title("Marker in Tampere"))
+            map.moveCamera(CameraUpdateFactory.newLatLng(markerPos))
+        }
+
+
+
     }
 
     companion object {
@@ -107,7 +119,7 @@ class HobbyDetailActivity : AppCompatActivity(), OnMapReadyCallback{
 
         override fun doInBackground(vararg params: Void?): String {
             return try {
-                URL("http://10.0.1.229:8000/mobile-api/hobbies/" + id).readText()
+                URL(getString(R.string.API_URL) + id).readText()
             } catch (e: IOException) {
                 return ERROR
             }
@@ -180,16 +192,21 @@ class HobbyDetailActivity : AppCompatActivity(), OnMapReadyCallback{
                     }
 
                     this@HobbyDetailActivity.titleTextView.setText(title)
+                    if (organizer != "null") {
                         this@HobbyDetailActivity.organizerTextView.setText(organizer)
+                    } else {
+                        this@HobbyDetailActivity.organizerTextView.setText("Ei ilmoitettu")
+                    }
+
+                    if (dayOfWeek != "null") {
                         this@HobbyDetailActivity.dayOfWeekTextView.setText(dayOfWeek)
-                        this@HobbyDetailActivity.startTimeTextView.setText(time)
-                        this@HobbyDetailActivity.dateTextView.setText(date)
-                        this@HobbyDetailActivity.descriptionTextView.setText(description)
+                    } else {
+                        this@HobbyDetailActivity.dayOfWeekTextView.setText("?")
+                    }
 
-
-                        //Log.d("Location", "toimiiko? " + hobbyObject.toString())
-                        //Log.d("Date", "toimiiko formatting? " + formattedDate.toString())
-
+                    this@HobbyDetailActivity.startTimeTextView.setText(time)
+                    this@HobbyDetailActivity.dateTextView.setText(date)
+                    this@HobbyDetailActivity.descriptionTextView.setText(description)
                 }
             }
         }
