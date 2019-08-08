@@ -5,7 +5,6 @@ import android.net.ConnectivityManager
 import android.support.v4.app.FragmentActivity
 import java.io.IOException
 
-class InternetCheck {
     fun verifyAvailableNetwork(activity: FragmentActivity): Boolean {
         return try {
             val connectivityManager = activity.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
@@ -15,4 +14,3 @@ class InternetCheck {
             return false
         }
     }
-}
