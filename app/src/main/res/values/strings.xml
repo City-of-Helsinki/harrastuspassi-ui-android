@@ -5,4 +5,5 @@
     <string name="title_notifications">Notifications</string>
     <string name="item_detail" translatable="false">item_detail</string>
     <string name="hobby_image">IMAGE</string>
+    <string name="action_filter"></string>
 </resources>

@@ -103,9 +103,6 @@ class HobbyDetailActivity : AppCompatActivity(), OnMapReadyCallback{
             map.addMarker(MarkerOptions().position(markerPos).title("Marker in Tampere"))
             map.moveCamera(CameraUpdateFactory.newLatLng(markerPos))
         }
-
-
-
     }
 
     companion object {
