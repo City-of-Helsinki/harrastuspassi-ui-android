@@ -9,7 +9,6 @@ import android.widget.TextView
 import com.squareup.picasso.Picasso
 import fi.haltu.harrastuspassi.R
 import fi.haltu.harrastuspassi.models.HobbyEvent
-import kotlinx.android.synthetic.main.adapter_hobby_event_list_item.view.*
 
 
 class HobbyEventListAdapter(private val list: List<HobbyEvent>, private val clickListener: (HobbyEvent) -> Unit) :

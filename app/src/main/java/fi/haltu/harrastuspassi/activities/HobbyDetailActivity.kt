@@ -22,14 +22,11 @@ import fi.haltu.harrastuspassi.models.HobbyEvent
 import fi.haltu.harrastuspassi.models.Location
 import fi.haltu.harrastuspassi.utils.getLatLon
 import fi.haltu.harrastuspassi.utils.getLocation
-import kotlinx.android.synthetic.main.activity_hobby_detail.*
 import org.json.JSONObject
 import java.io.IOException
 import java.lang.Exception
 import java.net.URL
 import java.text.SimpleDateFormat
-import java.time.LocalDate
-import java.time.format.DateTimeFormatter
 import java.util.*
 
 
@@ -146,8 +143,6 @@ class HobbyDetailActivity : AppCompatActivity(), OnMapReadyCallback{
                     val startDate = hobbyObject.getString("start_date")
 
                     val description = hobbyObject.getString("description")
-
-                    val hobbyEvent = HobbyEvent()
 
                     val locationObject = getLocation(hobbyObject, "locationNameTextView")
                     val hobbyLocation = Location()
