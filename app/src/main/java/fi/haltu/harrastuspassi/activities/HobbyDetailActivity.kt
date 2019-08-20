@@ -113,7 +113,7 @@ class HobbyDetailActivity : AppCompatActivity(), OnMapReadyCallback{
 
         override fun doInBackground(vararg params: Void?): String {
             return try {
-                URL(getString(R.string.API_URL) + id).readText()
+                URL(getString(R.string.API_URL) + "hobbies/" + id).readText()
             } catch (e: IOException) {
                 return ERROR
             }

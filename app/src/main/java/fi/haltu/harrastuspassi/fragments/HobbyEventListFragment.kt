@@ -72,7 +72,7 @@ class HobbyEventListFragment : Fragment() {
 
         override fun doInBackground(vararg params: Void?): String {
             return try {
-                URL(getString(R.string.API_URL)).readText()
+                URL(getString(R.string.API_URL) + "/hobbies").readText()
             } catch (e: IOException) {
                 return when (!verifyAvailableNetwork(activity!!)) {
                     true -> NO_INTERNET
