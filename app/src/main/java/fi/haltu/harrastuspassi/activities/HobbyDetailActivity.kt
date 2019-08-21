@@ -20,8 +20,8 @@ import com.squareup.picasso.Picasso
 import fi.haltu.harrastuspassi.R
 import fi.haltu.harrastuspassi.models.HobbyEvent
 import fi.haltu.harrastuspassi.models.Location
-import fi.haltu.harrastuspassi.utils.getLatLon
-import fi.haltu.harrastuspassi.utils.getLocation
+import fi.haltu.harrastuspassi.utils.getOptionalDouble
+import fi.haltu.harrastuspassi.utils.getOptionalJSONObject
 import org.json.JSONObject
 import java.io.IOException
 import java.lang.Exception
@@ -141,15 +141,15 @@ class HobbyDetailActivity : AppCompatActivity(), OnMapReadyCallback{
 
                     val description = hobbyObject.getString("description")
 
-                    val locationObject = getLocation(hobbyObject, "locationNameTextView")
+                    val locationObject = getOptionalJSONObject(hobbyObject, "locationNameTextView")
                     val hobbyLocation = Location()
                     if (locationObject != null) {
                         val locationName = locationObject.getString("name")
                         val locationAddress = locationObject.getString("address")
                         val locationZipCode = locationObject.getString("zip_code")
                         val locationCity = locationObject.getString("city")
-                        val locationLat = getLatLon(locationObject, "lat")
-                        val locationLon = getLatLon(locationObject, "lon")
+                        val locationLat = getOptionalDouble(locationObject, "lat")
+                        val locationLon = getOptionalDouble(locationObject, "lon")
 
                         hobbyLocation.apply {
                             this.name = locationName

@@ -21,8 +21,8 @@ import java.io.IOException
 import java.net.URL
 import fi.haltu.harrastuspassi.activities.HobbyDetailActivity
 import fi.haltu.harrastuspassi.models.Location
-import fi.haltu.harrastuspassi.utils.getLatLon
-import fi.haltu.harrastuspassi.utils.getLocation
+import fi.haltu.harrastuspassi.utils.getOptionalDouble
+import fi.haltu.harrastuspassi.utils.getOptionalJSONObject
 import fi.haltu.harrastuspassi.utils.verifyAvailableNetwork
 
 
@@ -72,7 +72,7 @@ class HobbyEventListFragment : Fragment() {
 
         override fun doInBackground(vararg params: Void?): String {
             return try {
-                URL(getString(R.string.API_URL) + "/hobbies").readText()
+                URL(getString(R.string.API_URL) + "/hobbies/").readText()
             } catch (e: IOException) {
                 return when (!verifyAvailableNetwork(activity!!)) {
                     true -> NO_INTERNET
@@ -103,19 +103,19 @@ class HobbyEventListFragment : Fragment() {
 
                         val id = hobbyObject.getInt("id")
                         val name = hobbyObject.getString("name")
-                        val startDayOfWeek = hobbyObject.getString("start_day_of_week")
+                        //val startDayOfWeek = hobbyObject.getString("start_day_of_week")
                         val coverImage = hobbyObject.getString("cover_image")
                         val hobbyEvent = HobbyEvent()
 
-                        val locationObject = getLocation(hobbyObject, "location")
+                        val locationObject = getOptionalJSONObject(hobbyObject, "location")
                         val hobbyLocation = Location()
                         if (locationObject != null) {
                             val locationName = locationObject.getString("name")
                             val locationAddress = locationObject.getString("address")
                             val locationZipCode = locationObject.getString("zip_code")
                             val locationCity = locationObject.getString("city")
-                            val locationLat = getLatLon(locationObject, "lat")
-                            val locationLon = getLatLon(locationObject, "lon")
+                            val locationLat = getOptionalDouble(locationObject, "lat")
+                            val locationLon = getOptionalDouble(locationObject, "lon")
 
                             hobbyLocation.apply {
                                 this.name = locationName
@@ -131,7 +131,7 @@ class HobbyEventListFragment : Fragment() {
                             this.id = id
                             this.title = name
                             this.place = hobbyLocation
-                            this.dateTime = startDayOfWeek
+                        //    this.dateTime = startDayOfWeek
                             this.imageUrl = coverImage
                         }
 
