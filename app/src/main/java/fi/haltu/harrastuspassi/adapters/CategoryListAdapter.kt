@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.RecyclerView
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,10 +12,11 @@ import android.widget.ImageButton
 import android.widget.TextView
 import android.widget.Toast
 import fi.haltu.harrastuspassi.R
+import fi.haltu.harrastuspassi.activities.HobbyCategoriesActivity
 import fi.haltu.harrastuspassi.activities.SubCategoryActivity
 import fi.haltu.harrastuspassi.models.Category
 
-class CategoryListAdapter(private val categories: ArrayList<Category>, private val activity: AppCompatActivity, private val clickListener:(Category) -> Unit) :
+class CategoryListAdapter(private val categories: ArrayList<Category>, private val activity: AppCompatActivity, private val selectedItems: HashSet<Int>,private val clickListener:(Category) -> Unit) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CategoryListViewHolder {
@@ -30,7 +32,7 @@ class CategoryListAdapter(private val categories: ArrayList<Category>, private v
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val category: Category = categories[position]
-        (holder as CategoryListViewHolder).bind(category, activity, clickListener)
+        (holder as CategoryListViewHolder).bind(category, activity, selectedItems, clickListener)
     }
 
     class CategoryListViewHolder(itemView: View) :
@@ -38,11 +40,18 @@ class CategoryListAdapter(private val categories: ArrayList<Category>, private v
         private var name: TextView = itemView.findViewById(R.id.name)
         private var checkButton: ImageButton = itemView.findViewById(R.id.check_button)
         private var showMoreButton: ImageButton = itemView.findViewById(R.id.show_more_button)
-        fun bind(category: Category, activity: AppCompatActivity, clickListener: (Category) -> Unit) {
+        fun bind(category: Category, activity: AppCompatActivity, selectedItems: HashSet<Int>, clickListener: (Category) -> Unit) {
             name.text = category.name
             itemView.setOnClickListener { clickListener(category) }
             checkButton.setOnClickListener {
-                Toast.makeText(activity, "Check!!" + category.name, Toast.LENGTH_SHORT).show()
+                selectedItems.add(category.id!!)
+                Toast.makeText(activity, "Check!!" + selectedItems.toString(), Toast.LENGTH_SHORT).show()
+                if(selectedItems.contains(category.id!!)) {
+                    Log.d("Category", "Check disable")
+                } else {
+                    Log.d("Category", "Check activated")
+                    selectedItems.add(category.id!!)
+                }
             }
 
             if(category.childCategories!!.size == 0) {
@@ -54,7 +63,9 @@ class CategoryListAdapter(private val categories: ArrayList<Category>, private v
                     val bundle = Bundle()
                     bundle.putSerializable("CATEGORY_LIST", category.childCategories)
                     intent.putExtra("EXTRA_CATEGORY_BUNDLE", bundle)
-                    activity.startActivity(intent)
+                    intent.putExtra("EXTRA_SELECTED_ITEMS", selectedItems)
+
+                    activity.startActivityForResult(intent, 1)
                 }
             }
         }

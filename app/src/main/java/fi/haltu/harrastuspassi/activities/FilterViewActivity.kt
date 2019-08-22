@@ -21,7 +21,6 @@ class FilterViewActivity : AppCompatActivity() {
 
     fun openCategories (view: View) {
         val intent = Intent(this, HobbyCategoriesActivity::class.java).apply {
-
         }
         startActivity(intent)
     }

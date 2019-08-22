@@ -10,13 +10,20 @@ import android.widget.Toast
 import fi.haltu.harrastuspassi.R
 import fi.haltu.harrastuspassi.adapters.CategoryListAdapter
 import fi.haltu.harrastuspassi.models.Category
+import fi.haltu.harrastuspassi.protocols.SelectionManager
 import fi.haltu.harrastuspassi.utils.jsonArrayToCategoryList
 import org.json.JSONArray import java.io.IOException
 import java.net.URL
+import android.content.Intent
+
+
 
 class HobbyCategoriesActivity : AppCompatActivity() {
+
+
     private var categoryList = ArrayList<Category>()
     private lateinit var listView: RecyclerView
+    private var selectedItems: HashSet<Int> = HashSet()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,13 +32,20 @@ class HobbyCategoriesActivity : AppCompatActivity() {
         supportActionBar!!.setHomeAsUpIndicator (R.drawable.ic_clear_black_24dp)
         supportActionBar!!.title = "Valitse harrastus"
 
-        val categoryAdapter = CategoryListAdapter(categoryList, this) { category: Category -> categoryItemClicked(category)}
+        val categoryAdapter = CategoryListAdapter(categoryList, this, selectedItems) { category: Category -> categoryItemClicked(category)}
         getCategories().execute()
         listView = this.findViewById(R.id.category_list_view)
 
         listView.apply {
             layoutManager = LinearLayoutManager(this.context)
             adapter = categoryAdapter
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == 1) {
+
         }
     }
 

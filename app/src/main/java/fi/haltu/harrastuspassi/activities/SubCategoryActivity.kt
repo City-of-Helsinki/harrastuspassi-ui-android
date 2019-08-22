@@ -21,8 +21,8 @@ class SubCategoryActivity : AppCompatActivity() {
         supportActionBar!!.title = "Valitse harrastus"
         val bundle = intent.getBundleExtra("EXTRA_CATEGORY_BUNDLE")
         categoryList = bundle.getSerializable("CATEGORY_LIST") as ArrayList<Category>
-
-        val categoryAdapter = CategoryListAdapter(categoryList, this) { category: Category -> categoryItemClicked(category)}
+        val selectedItems = intent.extras!!.getSerializable("EXTRA_SELECTED_ITEMS") as HashSet<Int>
+        val categoryAdapter = CategoryListAdapter(categoryList, this, selectedItems) { category: Category -> categoryItemClicked(category)}
         listView = findViewById(R.id.category_list_view)
         listView.apply {
             layoutManager = LinearLayoutManager(this.context)
