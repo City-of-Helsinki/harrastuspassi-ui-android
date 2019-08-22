@@ -32,11 +32,9 @@
             app:layout_constraintTop_toBottomOf="@+id/add_hobby_categories_title">
 
 
-        <TextView
-                android:text="TextView"
-                android:layout_width="337dp"
-                android:layout_height="wrap_content" android:id="@+id/textView2" android:layout_weight="1"/>
-
+        <android.support.v7.widget.RecyclerView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent" android:layout_weight="1" android:id="@+id/chosen_tags_view"/>
         <ImageButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" app:srcCompat="@drawable/ic_add_black_24dp"

@@ -3,6 +3,7 @@
     <color name="hobbyPurple">#30146E</color>
     <color name="hobbyPurpleLight">#77329B</color>
     <color name="hobbyYellow">#FFEB32</color>
+    <color name="white">#FFFFFF</color>
 
     <color name="colorPrimary">#008577</color>
     <color name="colorPrimaryDark">#00574B</color>
