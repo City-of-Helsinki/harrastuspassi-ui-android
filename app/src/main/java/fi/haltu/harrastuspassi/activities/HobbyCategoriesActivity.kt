@@ -25,7 +25,7 @@ class HobbyCategoriesActivity : AppCompatActivity() {
         supportActionBar!!.setHomeAsUpIndicator (R.drawable.ic_clear_black_24dp)
         supportActionBar!!.title = "Valitse harrastus"
 
-        val categoryAdapter = CategoryListAdapter(categoryList) { category: Category -> categoryItemClicked(category)}
+        val categoryAdapter = CategoryListAdapter(categoryList, this) { category: Category -> categoryItemClicked(category)}
         getCategories().execute()
         listView = this.findViewById(R.id.category_list_view)
 
@@ -52,7 +52,6 @@ class HobbyCategoriesActivity : AppCompatActivity() {
 
         override fun onPreExecute() {
             super.onPreExecute()
-
         }
 
         override fun doInBackground(vararg params: Void?): String {

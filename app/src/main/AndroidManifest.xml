@@ -28,9 +28,11 @@
             android:theme="@style/AppTheme"
             android:usesCleartextTraffic="true"
             tools:ignore="GoogleAppIndexingWarning">
-
-        <activity android:name=".activities.HobbyCategoriesActivity"
-            android:parentActivityName=".activities.FilterViewActivity">
+        <activity android:name=".activities.SubCategoryActivity">
+        </activity>
+        <activity
+                android:name=".activities.HobbyCategoriesActivity"
+                android:parentActivityName=".activities.FilterViewActivity">
             <meta-data
                     android:name="android.support.PARENT_ACTIVITY"
                     android:value="fi.haltu.harrastuspassi.activities.FilterViewActivity"/>
@@ -38,8 +40,9 @@
         <activity
                 android:name=".activities.FilterViewActivity"
                 android:parentActivityName=".activities.MainActivity">
-            <meta-data android:name="android.support.PARENT_ACTIVITY"
-                android:value="fi.haltu.harrastuspassi.activities.MainActivity"/>
+            <meta-data
+                    android:name="android.support.PARENT_ACTIVITY"
+                    android:value="fi.haltu.harrastuspassi.activities.MainActivity"/>
         </activity>
 
         <meta-data
@@ -58,7 +61,6 @@
                     android:name="android.support.PARENT_ACTIVITY"
                     android:value="fi.haltu.harrastuspassi.activities.MainActivity"/>
         </activity>
-
         <activity
                 android:name=".activities.SplashActivity"
                 android:theme="@style/SplashTheme">
