@@ -22,7 +22,6 @@ class HobbyCategoriesActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_hobby_categories)
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
-        supportActionBar!!.setHomeAsUpIndicator (R.drawable.ic_clear_black_24dp)
         supportActionBar!!.title = "Valitse harrastus"
 
         val categoryAdapter = CategoryListAdapter(categoryList, this) { category: Category -> categoryItemClicked(category)}
@@ -34,6 +33,7 @@ class HobbyCategoriesActivity : AppCompatActivity() {
             adapter = categoryAdapter
         }
     }
+
 
     private fun categoryItemClicked(category: Category) {
         val text = category.name

@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.CheckBox
 import android.widget.ImageButton
 import android.widget.TextView
 import android.widget.Toast
@@ -36,7 +37,7 @@ class CategoryListAdapter(private val categories: ArrayList<Category>, private v
     class CategoryListViewHolder(itemView: View) :
         RecyclerView.ViewHolder(itemView) {
         private var name: TextView = itemView.findViewById(R.id.name)
-        private var checkButton: ImageButton = itemView.findViewById(R.id.check_button)
+        private var checkButton: CheckBox = itemView.findViewById(R.id.check_button)
         private var showMoreButton: ImageButton = itemView.findViewById(R.id.show_more_button)
         fun bind(category: Category, activity: AppCompatActivity, clickListener: (Category) -> Unit) {
             name.text = category.name
