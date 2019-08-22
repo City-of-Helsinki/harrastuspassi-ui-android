@@ -8,6 +8,8 @@ import fi.haltu.harrastuspassi.R
 
 class FilterViewActivity : AppCompatActivity() {
 
+    var hobbyTestResult = arrayOf("Jalkapallo","Suunnistus", "Piirtäminen")
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_filter_view)
