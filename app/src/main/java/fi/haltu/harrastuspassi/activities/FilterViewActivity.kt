@@ -3,6 +3,7 @@ package fi.haltu.harrastuspassi.activities
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -11,7 +12,7 @@ import fi.haltu.harrastuspassi.R
 class FilterViewActivity : AppCompatActivity() {
 
     var hobbyTestResult = arrayOf("Jalkapallo","Suunnistus", "Piirtäminen")
-
+    lateinit var chosenCategories: HashSet<Int>
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_filter_view)
@@ -42,6 +43,14 @@ class FilterViewActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == 1) {
+            chosenCategories = data!!.extras!!.getSerializable("EXTRA_SELECTED_ITEMS") as HashSet<Int>
+            Log.d("selectedCategories3", chosenCategories.toString())
+
+        }
+    }
 
     fun openCategories (view: View) {
         val intent = Intent(this, HobbyCategoriesActivity::class.java).apply {

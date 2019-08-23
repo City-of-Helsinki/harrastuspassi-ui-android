@@ -22,7 +22,7 @@ class HobbyCategoriesActivity : AppCompatActivity() {
 
     private var categoryList = ArrayList<Category>()
     private lateinit var listView: RecyclerView
-    private var selectedItems: HashSet<Int> = HashSet()
+    private var selectedCategories: HashSet<Int> = HashSet()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,7 +30,7 @@ class HobbyCategoriesActivity : AppCompatActivity() {
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
         supportActionBar!!.title = "Valitse harrastus"
 
-        val categoryAdapter = CategoryListAdapter(categoryList, this, selectedItems) { category: Category -> categoryItemClicked(category)}
+        val categoryAdapter = CategoryListAdapter(categoryList, this, selectedCategories) { category: Category -> categoryItemClicked(category)}
         getCategories().execute()
         listView = this.findViewById(R.id.category_list_view)
 
@@ -43,7 +43,12 @@ class HobbyCategoriesActivity : AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == 1) {
-
+            selectedCategories = data!!.extras!!.getSerializable("EXTRA_SELECTED_ITEMS") as HashSet<Int>
+            val categoryAdapter = CategoryListAdapter(categoryList, this, selectedCategories) { category: Category -> categoryItemClicked(category)}
+            listView.apply {
+                layoutManager = LinearLayoutManager(this.context)
+                adapter = categoryAdapter
+            }
         }
     }
 

@@ -44,15 +44,19 @@ class CategoryListAdapter(private val categories: ArrayList<Category>, private v
         fun bind(category: Category, activity: AppCompatActivity, selectedItems: HashSet<Int>, clickListener: (Category) -> Unit) {
             name.text = category.name
             itemView.setOnClickListener { clickListener(category) }
+
+            checkButton.isChecked = selectedItems.contains(category.id!!)
+
             checkButton.setOnClickListener {
-                selectedItems.add(category.id!!)
-                Toast.makeText(activity, "Check!!" + selectedItems.toString(), Toast.LENGTH_SHORT).show()
                 if(selectedItems.contains(category.id!!)) {
-                    Log.d("Category", "Check disable")
+                    selectedItems.remove(category.id!!)
+                    checkButton.isChecked = false
+
                 } else {
-                    Log.d("Category", "Check activated")
                     selectedItems.add(category.id!!)
+                    checkButton.isChecked = true
                 }
+                Toast.makeText(activity, "Check!!" + selectedItems.toString(), Toast.LENGTH_SHORT).show()
             }
 
             if(category.childCategories!!.size == 0) {
@@ -65,6 +69,7 @@ class CategoryListAdapter(private val categories: ArrayList<Category>, private v
                     bundle.putSerializable("CATEGORY_LIST", category.childCategories)
                     intent.putExtra("EXTRA_CATEGORY_BUNDLE", bundle)
                     intent.putExtra("EXTRA_SELECTED_ITEMS", selectedItems)
+                    intent.putExtra("EXTRA_CATEGORY_NAME", category.name)
 
                     activity.startActivityForResult(intent, 1)
                 }
