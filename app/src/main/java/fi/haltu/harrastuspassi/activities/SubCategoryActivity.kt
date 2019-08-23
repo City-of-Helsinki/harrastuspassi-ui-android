@@ -17,7 +17,6 @@ class SubCategoryActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_sub_category)
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
-        supportActionBar!!.setHomeAsUpIndicator (R.drawable.ic_clear_black_24dp)
         supportActionBar!!.title = "Valitse harrastus"
         val bundle = intent.getBundleExtra("EXTRA_CATEGORY_BUNDLE")
         categoryList = bundle.getSerializable("CATEGORY_LIST") as ArrayList<Category>

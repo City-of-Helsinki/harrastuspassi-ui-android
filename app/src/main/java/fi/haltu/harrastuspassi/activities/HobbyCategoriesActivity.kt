@@ -10,7 +10,6 @@ import android.widget.Toast
 import fi.haltu.harrastuspassi.R
 import fi.haltu.harrastuspassi.adapters.CategoryListAdapter
 import fi.haltu.harrastuspassi.models.Category
-import fi.haltu.harrastuspassi.protocols.SelectionManager
 import fi.haltu.harrastuspassi.utils.jsonArrayToCategoryList
 import org.json.JSONArray import java.io.IOException
 import java.net.URL
@@ -29,7 +28,6 @@ class HobbyCategoriesActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_hobby_categories)
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
-        supportActionBar!!.setHomeAsUpIndicator (R.drawable.ic_clear_black_24dp)
         supportActionBar!!.title = "Valitse harrastus"
 
         val categoryAdapter = CategoryListAdapter(categoryList, this, selectedItems) { category: Category -> categoryItemClicked(category)}
@@ -48,6 +46,7 @@ class HobbyCategoriesActivity : AppCompatActivity() {
 
         }
     }
+
 
     private fun categoryItemClicked(category: Category) {
         val text = category.name

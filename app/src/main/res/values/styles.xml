@@ -11,4 +11,9 @@
     <style name="SplashTheme" parent="Theme.AppCompat.NoActionBar">
         <item name="android:windowBackground">@drawable/background</item>
     </style>
+
+    <style name="MyCheckBox" parent="Theme.AppCompat.Light">
+        <item name="colorControlNormal">@color/hobbyPurple</item>
+        <item name="colorControlActivated">@color/hobbyPurpleLight</item>
+    </style>
 </resources>
