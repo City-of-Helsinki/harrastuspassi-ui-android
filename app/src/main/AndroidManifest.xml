@@ -35,16 +35,11 @@
         <activity
                 android:name=".activities.HobbyCategoriesActivity"
                 android:parentActivityName=".activities.FilterViewActivity">
-            <meta-data
-                    android:name="android.support.PARENT_ACTIVITY"
-                    android:value="fi.haltu.harrastuspassi.activities.FilterViewActivity"/>
         </activity>
         <activity
                 android:name=".activities.FilterViewActivity"
                 android:parentActivityName=".activities.MainActivity">
-            <meta-data
-                    android:name="android.support.PARENT_ACTIVITY"
-                    android:value="fi.haltu.harrastuspassi.activities.MainActivity"/>
+
         </activity>
 
         <meta-data

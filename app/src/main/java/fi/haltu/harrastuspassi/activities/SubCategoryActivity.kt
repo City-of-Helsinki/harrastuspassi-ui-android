@@ -4,16 +4,13 @@ import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
-import android.util.Log
-import android.view.Menu
-import android.view.MenuItem
 import android.widget.Toast
-import android.widget.Toolbar
 import fi.haltu.harrastuspassi.R
 import fi.haltu.harrastuspassi.adapters.CategoryListAdapter
 import fi.haltu.harrastuspassi.models.Category
-import android.R.id.toggle
 import android.content.Intent
+import android.view.Menu
+import android.view.MenuItem
 
 
 class SubCategoryActivity : AppCompatActivity() {
@@ -51,17 +48,46 @@ class SubCategoryActivity : AppCompatActivity() {
         }
     }
 
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        // Inflate the menu to use in the action bar
+        val inflater = menuInflater
+        inflater.inflate(R.menu.menu_filters, menu)
+
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            android.R.id.home -> finish()
+            R.id.save -> { finish()
+                /*val intent = Intent(this, FilterViewActivity::class.java)
+                intent.putExtra("EXTRA_SELECTED_ITEMS", selectedCategories)
+                setResult(1, intent)
+                this.startActivityForResult(intent, 1)
+                return true*/
+                //TODO Whenever user presses "save", the application must switch to filter activity
+                //TODO use resultCode to implement this feature
+            }
+        }
+        return true
+    }
+
     override fun finish() {
         val intent = Intent()
         intent.putExtra("EXTRA_SELECTED_ITEMS", selectedCategories)
         setResult(1, intent)
         super.finish()
     }
-    private fun categoryItemClicked(category: Category) {
-        val text = category.name
-        val duration = Toast.LENGTH_SHORT
 
-        val toast = Toast.makeText(applicationContext, selectedCategories.toString(), duration)
+    private fun categoryItemClicked(category: Category) {
+        if(selectedCategories.contains(category.id!!)) {
+            selectedCategories.remove(category.id!!)
+
+        } else {
+            selectedCategories.add(category.id!!)
+        }
+        listView.adapter!!.notifyDataSetChanged()
+        val toast = Toast.makeText(applicationContext, selectedCategories.toString(), Toast.LENGTH_SHORT)
         toast.show()
     }
 }

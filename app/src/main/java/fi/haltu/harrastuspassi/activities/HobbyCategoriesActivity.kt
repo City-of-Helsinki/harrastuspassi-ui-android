@@ -14,11 +14,11 @@ import fi.haltu.harrastuspassi.utils.jsonArrayToCategoryList
 import org.json.JSONArray import java.io.IOException
 import java.net.URL
 import android.content.Intent
-
+import android.view.Menu
+import android.view.MenuItem
 
 
 class HobbyCategoriesActivity : AppCompatActivity() {
-
 
     private var categoryList = ArrayList<Category>()
     private lateinit var listView: RecyclerView
@@ -29,6 +29,7 @@ class HobbyCategoriesActivity : AppCompatActivity() {
         setContentView(R.layout.activity_hobby_categories)
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
         supportActionBar!!.title = "Valitse harrastus"
+        selectedCategories = intent.extras!!.getSerializable("EXTRA_SELECTED_ITEMS") as HashSet<Int>
 
         val categoryAdapter = CategoryListAdapter(categoryList, this, selectedCategories) { category: Category -> categoryItemClicked(category)}
         getCategories().execute()
@@ -52,12 +53,41 @@ class HobbyCategoriesActivity : AppCompatActivity() {
         }
     }
 
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        // Inflate the menu to use in the action bar
+        val inflater = menuInflater
+        inflater.inflate(R.menu.menu_filters, menu)
+
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            android.R.id.home -> finish()
+            R.id.save -> finish()
+        }
+        return true
+    }
+
+    override fun finish() {
+        val intent = Intent()
+        Log.d("finish1", selectedCategories.toString())
+        intent.putExtra("EXTRA_SELECTED_ITEMS", selectedCategories)
+        setResult(1, intent)
+        super.finish()
+    }
 
     private fun categoryItemClicked(category: Category) {
-        val text = category.name
-        val duration = Toast.LENGTH_SHORT
 
-        val toast = Toast.makeText(applicationContext, text, duration)
+        if(selectedCategories.contains(category.id!!)) {
+            selectedCategories.remove(category.id!!)
+
+        } else {
+            selectedCategories.add(category.id!!)
+        }
+        listView.adapter!!.notifyDataSetChanged()
+        val text = category.name
+        val toast = Toast.makeText(applicationContext, text, Toast.LENGTH_SHORT)
         toast.show()
     }
 
