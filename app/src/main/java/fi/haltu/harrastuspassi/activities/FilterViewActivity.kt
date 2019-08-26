@@ -21,7 +21,6 @@ import fi.haltu.harrastuspassi.utils.saveFilters
 
 class FilterViewActivity : AppCompatActivity() {
     private var hobbyTestResult:ArrayList<String> = ArrayList()
-    private var chosenCategories: HashSet<Int> = HashSet()
     private lateinit var filterButton: Button
     private lateinit var categoryList: ArrayList<Category>
     private var filters: Filters = Filters()
@@ -32,47 +31,39 @@ class FilterViewActivity : AppCompatActivity() {
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
         supportActionBar!!.setHomeAsUpIndicator (R.drawable.ic_clear_black_24dp)
         supportActionBar!!.title = "Suodata"
-        filters.apply {
-            this.categories = chosenCategories
-            //this.weekdays ...
-        }
 
         categoryList = ArrayList()
+        try {
+            filters.categories = intent.extras!!.getSerializable("EXTRA_SELECTED_ITEMS") as HashSet<Int>
+        } catch (e: KotlinNullPointerException) {
+            filters = loadFilters(this)
+        }
         getCategories().execute()
-        filters = loadFilters(this)
-        chosenCategories = filters.categories
-        hobbyTestResult = idToCategoryName(chosenCategories, categoryList)
+
+        hobbyTestResult = idToCategoryName(filters.categories, categoryList)
 
         filterButton = findViewById(R.id.filterButton)
         filterButton.setOnClickListener{
             Toast.makeText(applicationContext, filters.categories.toString(), Toast.LENGTH_SHORT).show()
+            val intent = Intent(this, MainActivity::class.java)
             saveFilters(filters, this)
-            finish()
+            startActivity(intent)
         }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == 1) {
-            chosenCategories = data!!.extras!!.getSerializable("EXTRA_SELECTED_ITEMS") as HashSet<Int>
-            filters.categories = chosenCategories
-            hobbyTestResult = idToCategoryName(chosenCategories, categoryList)
+            filters.categories = data!!.extras!!.getSerializable("EXTRA_SELECTED_ITEMS") as HashSet<Int>
+            hobbyTestResult = idToCategoryName(filters.categories, categoryList)
             Toast.makeText(applicationContext,hobbyTestResult.toString(), Toast.LENGTH_SHORT).show()
-        }
-    }
-
-    override fun onResume() {
-        super.onResume()
-        if(filters.isEmpty()) {
-            filters = loadFilters(this)
-            Toast.makeText(this,filters.categories.toString() + "onResume", Toast.LENGTH_SHORT).show()
         }
     }
 
     fun openCategories (view: View) {
         val intent = Intent(this, HobbyCategoriesActivity::class.java).apply {
         }
-        intent.putExtra( "EXTRA_SELECTED_ITEMS",chosenCategories)
+        intent.putExtra( "EXTRA_SELECTED_ITEMS",filters.categories)
         startActivityForResult(intent, 1)
     }
 
@@ -112,7 +103,8 @@ class FilterViewActivity : AppCompatActivity() {
                     categoryList.clear()
                     categoryList.addAll(jsonArrayToCategoryList(jsonArray))
                     hobbyTestResult.clear()
-                    hobbyTestResult = idToCategoryName(chosenCategories, categoryList)
+                    hobbyTestResult = idToCategoryName(filters.categories, categoryList)
+                    Toast.makeText(applicationContext, hobbyTestResult.toString(), Toast.LENGTH_SHORT).show()
                     //recyclerList.adapter!!.notifyDataSetChanged()
                     //TODO ^ Remember to refresh recycler list by using that func :)^
                 }

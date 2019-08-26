@@ -62,19 +62,13 @@ class HobbyCategoriesActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            android.R.id.home -> finish()
-            R.id.save -> finish()
-        }
-        return true
-    }
-
-    override fun finish() {
         val intent = Intent()
         Log.d("finish1", selectedCategories.toString())
         intent.putExtra("EXTRA_SELECTED_ITEMS", selectedCategories)
         setResult(1, intent)
-        super.finish()
+        finish()
+
+        return true
     }
 
     private fun categoryItemClicked(category: Category) {

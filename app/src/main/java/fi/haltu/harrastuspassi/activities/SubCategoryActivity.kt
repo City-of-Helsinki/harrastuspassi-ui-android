@@ -58,25 +58,20 @@ class SubCategoryActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            android.R.id.home -> finish()
-            R.id.save -> { finish()
-                /*val intent = Intent(this, FilterViewActivity::class.java)
+            android.R.id.home -> {
+                val intent = Intent()
                 intent.putExtra("EXTRA_SELECTED_ITEMS", selectedCategories)
                 setResult(1, intent)
-                this.startActivityForResult(intent, 1)
-                return true*/
-                //TODO Whenever user presses "save", the application must switch to filter activity
-                //TODO use resultCode to implement this feature
+                finish()
+            }
+            R.id.save -> {
+                val intent = Intent(this, FilterViewActivity::class.java)
+                intent.putExtra("EXTRA_SELECTED_ITEMS", selectedCategories)
+                startActivity(intent)
+                finish()
             }
         }
         return true
-    }
-
-    override fun finish() {
-        val intent = Intent()
-        intent.putExtra("EXTRA_SELECTED_ITEMS", selectedCategories)
-        setResult(1, intent)
-        super.finish()
     }
 
     private fun categoryItemClicked(category: Category) {

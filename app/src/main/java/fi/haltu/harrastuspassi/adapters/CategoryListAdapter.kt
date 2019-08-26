@@ -24,10 +24,7 @@ class CategoryListAdapter(private val categories: ArrayList<Category>, private v
         return CategoryListViewHolder(view)
     }
 
-    override fun getItemCount(): Int {
-
-        return categories.size
-    }
+    override fun getItemCount(): Int =  categories.size
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val category: Category = categories[position]
@@ -54,11 +51,16 @@ class CategoryListAdapter(private val categories: ArrayList<Category>, private v
                     selectedItems.add(category.id!!)
                     checkButton.isChecked = true
                 }
+                setShowMoreButton(category, selectedItems, activity)
             }
+            setShowMoreButton(category, selectedItems, activity)
+        }
 
-            if(category.childCategories!!.size == 0) {
+        private fun setShowMoreButton(category: Category, selectedItems: HashSet<Int>, activity: AppCompatActivity) {
+            if(category.childCategories!!.size == 0 ) {
                 showMoreButton.visibility = View.INVISIBLE
             } else {
+                showMoreButton.visibility = View.VISIBLE
                 showMoreButton.setOnClickListener{
                     Toast.makeText(activity, "Show more!" + category.name, Toast.LENGTH_SHORT).show()
                     val intent = Intent(activity, SubCategoryActivity::class.java)
