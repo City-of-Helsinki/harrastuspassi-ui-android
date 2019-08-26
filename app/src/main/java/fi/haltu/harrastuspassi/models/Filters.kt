@@ -6,5 +6,7 @@ class Filters : Serializable {
     var categories: HashSet<Int> = HashSet()
     var dayOfWeeks: Set<String> = setOf()
     //add startTime and endTime filter
-
+    fun isEmpty(): Boolean {
+        return categories.isEmpty() && dayOfWeeks.isEmpty()
+    }
 }

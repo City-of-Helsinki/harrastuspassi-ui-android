@@ -10,7 +10,7 @@ import fi.haltu.harrastuspassi.models.Filters
 import java.lang.IllegalStateException
 
 fun saveFilters(filters: Filters, activity: Activity) {
-    val preferences = activity.getPreferences( Context.MODE_PRIVATE)
+    val preferences = activity.getSharedPreferences("FILTER_PREFERENCE", Context.MODE_PRIVATE)
     val editor: SharedPreferences.Editor = preferences.edit()
     val gson = Gson()
     val filtersJson = gson.toJson(filters)
@@ -18,33 +18,15 @@ fun saveFilters(filters: Filters, activity: Activity) {
     editor.apply()
 }
 
-fun loadFilters(activity: Activity):Filters{
-    var result = Filters()
-    try {
-        val preferences = activity.getPreferences( Context.MODE_PRIVATE)
-        var gson = Gson()
-        var json = preferences.getString("filters", "")
-        result = gson.fromJson(json, Filters::class.java)
-        Log.d("checkFilter2", result.categories.toString())
-    } catch (e: IllegalStateException) {
-        Log.d("checkFilter2", "ERROR")
-    }
-
-    return result
-}
-
-
-//TODO Fix this
 fun loadFilters(activity: FragmentActivity):Filters{
     var result = Filters()
     try {
-        val preferences = activity.getPreferences( Context.MODE_PRIVATE)
-        var gson = Gson()
-        var json = preferences.getString("filters", "")
+        val preferences = activity.getSharedPreferences("FILTER_PREFERENCE", Context.MODE_PRIVATE)
+        val gson = Gson()
+        val json = preferences.getString("filters", "")
         result = gson.fromJson(json, Filters::class.java)
-        Log.d("checkFilter2", result.categories.toString())
     } catch (e: IllegalStateException) {
-        Log.d("checkFilter2", "ERROR")
+        //TODO error handling here!
     }
     return result
 }

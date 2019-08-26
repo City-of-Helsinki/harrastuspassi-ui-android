@@ -7,11 +7,13 @@ import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ProgressBar
 import android.widget.TextView
+import android.widget.Toast
 import fi.haltu.harrastuspassi.R
 import fi.haltu.harrastuspassi.adapters.HobbyEventListAdapter
 import fi.haltu.harrastuspassi.models.HobbyEvent
@@ -20,9 +22,11 @@ import org.json.JSONObject
 import java.io.IOException
 import java.net.URL
 import fi.haltu.harrastuspassi.activities.HobbyDetailActivity
+import fi.haltu.harrastuspassi.models.Filters
 import fi.haltu.harrastuspassi.models.Location
 import fi.haltu.harrastuspassi.utils.getOptionalDouble
 import fi.haltu.harrastuspassi.utils.getOptionalJSONObject
+import fi.haltu.harrastuspassi.utils.loadFilters
 import fi.haltu.harrastuspassi.utils.verifyAvailableNetwork
 
 
@@ -31,6 +35,7 @@ class HobbyEventListFragment : Fragment() {
     private var hobbyEventArrayList = ArrayList<HobbyEvent>()
     private lateinit var progressBar: ProgressBar
     private lateinit var progressText: TextView
+    private var filters: Filters = Filters()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -40,6 +45,7 @@ class HobbyEventListFragment : Fragment() {
         val hobbyEventListAdapter = HobbyEventListAdapter(hobbyEventArrayList) { hobby: HobbyEvent -> hobbyItemClicked(hobby)}
         progressBar = view.findViewById(R.id.progressbar)
         progressText = view.findViewById(R.id.progress_text)
+
         getHobbyEvents().execute()
         listView = view.findViewById(R.id.list_view)
         listView.apply {
@@ -50,11 +56,25 @@ class HobbyEventListFragment : Fragment() {
         return view
     }
 
+    override fun onResume() {
+        super.onResume()
+        filters = loadFilters(this.activity!!)
+        Toast.makeText(this.context,filters.categories.toString(), Toast.LENGTH_SHORT).show()
+        //TODO Filter HERE!!!!
+    }
+
     private fun hobbyItemClicked(hobby: HobbyEvent) {
         val intent = Intent(context, HobbyDetailActivity::class.java)
 
         intent.putExtra("EXTRA_HOBBY", hobby)
         startActivity(intent)
+    }
+
+    private fun filterHobbies(hobbies: ArrayList<HobbyEvent>): ArrayList<HobbyEvent> {
+        for(i in 0 until hobbies.size) {
+
+        }
+        return hobbies
     }
 
 

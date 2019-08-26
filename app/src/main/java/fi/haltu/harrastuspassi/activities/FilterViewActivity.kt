@@ -5,8 +5,6 @@ import android.os.AsyncTask
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.view.Menu
-import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
 import fi.haltu.harrastuspassi.R
@@ -22,7 +20,6 @@ import fi.haltu.harrastuspassi.utils.saveFilters
 
 
 class FilterViewActivity : AppCompatActivity() {
-
     private var hobbyTestResult:ArrayList<String> = ArrayList()
     private var chosenCategories: HashSet<Int> = HashSet()
     private lateinit var filterButton: Button
@@ -44,6 +41,7 @@ class FilterViewActivity : AppCompatActivity() {
         getCategories().execute()
         filters = loadFilters(this)
         chosenCategories = filters.categories
+        hobbyTestResult = idToCategoryName(chosenCategories, categoryList)
 
         filterButton = findViewById(R.id.filterButton)
         filterButton.setOnClickListener{
@@ -51,29 +49,6 @@ class FilterViewActivity : AppCompatActivity() {
             saveFilters(filters, this)
             finish()
         }
-
-        Toast.makeText(applicationContext,hobbyTestResult.toString(), Toast.LENGTH_SHORT).show()
-
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        // Inflate the menu to use in the action bar
-        val inflater = menuInflater
-        inflater.inflate(R.menu.menu_filters, menu)
-
-        return super.onCreateOptionsMenu(menu)
-    }
-
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            R.id.save -> {
-                // insert logic for saving filters here
-                return true
-            }
-        }
-
-        return super.onOptionsItemSelected(item)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -83,6 +58,14 @@ class FilterViewActivity : AppCompatActivity() {
             filters.categories = chosenCategories
             hobbyTestResult = idToCategoryName(chosenCategories, categoryList)
             Toast.makeText(applicationContext,hobbyTestResult.toString(), Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if(filters.isEmpty()) {
+            filters = loadFilters(this)
+            Toast.makeText(this,filters.categories.toString() + "onResume", Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -101,7 +84,6 @@ class FilterViewActivity : AppCompatActivity() {
                 categories.add(category.name!!)
             }
         }
-
         return categories
     }
 
@@ -133,7 +115,6 @@ class FilterViewActivity : AppCompatActivity() {
                     hobbyTestResult = idToCategoryName(chosenCategories, categoryList)
                     //recyclerList.adapter!!.notifyDataSetChanged()
                     //TODO ^ Remember to refresh recycler list by using that func :)^
-
                 }
             }
         }
