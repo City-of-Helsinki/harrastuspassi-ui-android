@@ -4,6 +4,11 @@ import android.content.Intent
 import android.os.AsyncTask
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
+import android.support.v7.widget.StaggeredGridLayoutManager
+import android.support.v7.widget.StaggeredGridLayoutManager.GAP_HANDLING_MOVE_ITEMS_BETWEEN_SPANS
+import android.support.v7.widget.StaggeredGridLayoutManager.VERTICAL
 import android.util.Log
 import android.view.View
 import android.widget.Toast
@@ -14,9 +19,12 @@ import org.json.JSONArray
 import java.io.IOException
 import java.net.URL
 import android.widget.Button
+import android.widget.LinearLayout
+import fi.haltu.harrastuspassi.adapters.FilterTagsRecyclerViewAdapter
 import fi.haltu.harrastuspassi.models.Filters
 import fi.haltu.harrastuspassi.utils.loadFilters
 import fi.haltu.harrastuspassi.utils.saveFilters
+import kotlinx.android.synthetic.main.activity_filter_view.*
 
 
 class FilterViewActivity : AppCompatActivity() {
@@ -42,6 +50,7 @@ class FilterViewActivity : AppCompatActivity() {
 
         hobbyTestResult = idToCategoryName(filters.categories, categoryList)
 
+
         filterButton = findViewById(R.id.filterButton)
         filterButton.setOnClickListener{
             Toast.makeText(applicationContext, filters.categories.toString(), Toast.LENGTH_SHORT).show()
@@ -50,6 +59,28 @@ class FilterViewActivity : AppCompatActivity() {
             startActivity(intent)
             overridePendingTransition(R.anim.slide_in_up, R.anim.slide_out_up)
         }
+
+        Log.d("hobbyTestResults", "arr: " + hobbyTestResult.toString())
+        Log.d("categoryList", "$categoryList")
+
+        val array: ArrayList<String> = ArrayList()
+        array.add("Kuviouinti")
+        array.add("Käsityöt")
+        array.add("Ompelu")
+        array.add("Lukupiiri")
+
+
+        val straggeredGrid = StaggeredGridLayoutManager(2, VERTICAL)
+        straggeredGrid.gapStrategy = GAP_HANDLING_MOVE_ITEMS_BETWEEN_SPANS
+        straggeredGrid.canScrollHorizontally(false)
+
+
+
+        tagsRecyclerView.layoutManager = straggeredGrid
+        tagsRecyclerView.adapter = FilterTagsRecyclerViewAdapter(array)
+
+
+
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -59,6 +90,9 @@ class FilterViewActivity : AppCompatActivity() {
             hobbyTestResult = idToCategoryName(filters.categories, categoryList)
             Toast.makeText(applicationContext,hobbyTestResult.toString(), Toast.LENGTH_SHORT).show()
         }
+
+        tagsRecyclerView.layoutManager = StaggeredGridLayoutManager(2, VERTICAL)
+        tagsRecyclerView.adapter = FilterTagsRecyclerViewAdapter(hobbyTestResult)
     }
 
     fun openCategories (view: View) {
@@ -106,7 +140,7 @@ class FilterViewActivity : AppCompatActivity() {
                     hobbyTestResult.clear()
                     hobbyTestResult = idToCategoryName(filters.categories, categoryList)
                     Toast.makeText(applicationContext, hobbyTestResult.toString(), Toast.LENGTH_SHORT).show()
-                    //recyclerList.adapter!!.notifyDataSetChanged()
+                    tagsRecyclerView.adapter!!.notifyDataSetChanged()
                     //TODO ^ Remember to refresh recycler list by using that func :)^
                 }
             }
