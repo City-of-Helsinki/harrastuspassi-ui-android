@@ -48,6 +48,7 @@ class FilterViewActivity : AppCompatActivity() {
             val intent = Intent(this, MainActivity::class.java)
             saveFilters(filters, this)
             startActivity(intent)
+            overridePendingTransition(R.anim.slide_in_up, R.anim.slide_out_up)
         }
     }
 
