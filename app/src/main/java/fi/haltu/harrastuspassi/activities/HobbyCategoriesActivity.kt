@@ -28,13 +28,20 @@ class HobbyCategoriesActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_hobby_categories)
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
-        supportActionBar!!.title = "Valitse harrastus"
         selectedCategories = intent.extras!!.getSerializable("EXTRA_SELECTED_ITEMS") as HashSet<Int>
 
-        val categoryAdapter = CategoryListAdapter(categoryList, this, selectedCategories) { category: Category -> categoryItemClicked(category)}
-        getCategories().execute()
-        listView = this.findViewById(R.id.category_list_view)
 
+        if (intent.hasExtra("EXTRA_CATEGORY_BUNDLE")) {
+            val bundle = intent.getBundleExtra("EXTRA_CATEGORY_BUNDLE")
+            categoryList = bundle.getSerializable("CATEGORY_LIST") as ArrayList<Category>
+            supportActionBar!!.title = intent.getStringExtra("EXTRA_CATEGORY_NAME")
+        } else {
+            supportActionBar!!.title = "Valitse harrastus"
+            getCategories().execute()
+        }
+
+        val categoryAdapter = CategoryListAdapter(categoryList, this, selectedCategories) { category: Category -> categoryItemClicked(category)}
+        listView = this.findViewById(R.id.category_list_view)
         listView.apply {
             layoutManager = LinearLayoutManager(this.context)
             adapter = categoryAdapter
@@ -54,7 +61,6 @@ class HobbyCategoriesActivity : AppCompatActivity() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        // Inflate the menu to use in the action bar
         val inflater = menuInflater
         inflater.inflate(R.menu.menu_filters, menu)
 
@@ -62,23 +68,41 @@ class HobbyCategoriesActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        val intent = Intent()
-        Log.d("finish1", selectedCategories.toString())
-        intent.putExtra("EXTRA_SELECTED_ITEMS", selectedCategories)
-        setResult(1, intent)
-        finish()
+        when (item.itemId) {
+            android.R.id.home -> {
+                val intent = Intent()
 
+                intent.putExtra("EXTRA_SELECTED_ITEMS", selectedCategories)
+                setResult(1, intent)
+                finish()
+            }
+            R.id.save -> {
+                val intent = Intent(this, FilterViewActivity::class.java)
+                intent.putExtra("EXTRA_SELECTED_ITEMS", selectedCategories)
+                startActivity(intent)
+                finish()
+            }
+        }
         return true
     }
 
-    private fun categoryItemClicked(category: Category) {
+    override fun onBackPressed() {
+        val intent = Intent()
+        intent.putExtra("EXTRA_SELECTED_ITEMS", selectedCategories)
+        setResult(1, intent)
+        finish()
+        super.onBackPressed()
 
+    }
+
+    private fun categoryItemClicked(category: Category) {
         if(selectedCategories.contains(category.id!!)) {
             selectedCategories.remove(category.id!!)
 
         } else {
             selectedCategories.add(category.id!!)
         }
+
         listView.adapter!!.notifyDataSetChanged()
         val text = category.name
         val toast = Toast.makeText(applicationContext, text, Toast.LENGTH_SHORT)

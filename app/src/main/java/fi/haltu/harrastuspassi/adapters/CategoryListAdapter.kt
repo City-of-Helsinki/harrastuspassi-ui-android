@@ -12,10 +12,13 @@ import android.widget.ImageButton
 import android.widget.TextView
 import android.widget.Toast
 import fi.haltu.harrastuspassi.R
-import fi.haltu.harrastuspassi.activities.SubCategoryActivity
+import fi.haltu.harrastuspassi.activities.HobbyCategoriesActivity
 import fi.haltu.harrastuspassi.models.Category
 
-class CategoryListAdapter(private val categories: ArrayList<Category>, private val activity: AppCompatActivity, private val selectedItems: HashSet<Int>,private val clickListener:(Category) -> Unit) :
+class CategoryListAdapter(private val categories: ArrayList<Category>,
+                          private val activity: AppCompatActivity,
+                          private val selectedItems: HashSet<Int>,
+                          private val clickListener:(Category) -> Unit) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CategoryListViewHolder {
@@ -63,7 +66,7 @@ class CategoryListAdapter(private val categories: ArrayList<Category>, private v
                 showMoreButton.visibility = View.VISIBLE
                 showMoreButton.setOnClickListener{
                     Toast.makeText(activity, "Show more!" + category.name, Toast.LENGTH_SHORT).show()
-                    val intent = Intent(activity, SubCategoryActivity::class.java)
+                    val intent = Intent(activity, HobbyCategoriesActivity::class.java)
                     val bundle = Bundle()
                     bundle.putSerializable("CATEGORY_LIST", category.childCategories)
                     intent.putExtra("EXTRA_CATEGORY_BUNDLE", bundle)
