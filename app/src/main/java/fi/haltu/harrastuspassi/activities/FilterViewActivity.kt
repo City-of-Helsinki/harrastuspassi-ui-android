@@ -1,9 +1,12 @@
 package fi.haltu.harrastuspassi.activities
 
 import android.content.Intent
+import android.graphics.Color
 import android.os.AsyncTask
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
 import android.util.Log
 import android.view.View
 import android.widget.Toast
@@ -14,23 +17,30 @@ import org.json.JSONArray
 import java.io.IOException
 import java.net.URL
 import android.widget.Button
+import android.widget.ImageButton
+import fi.haltu.harrastuspassi.adapters.DayOfWeekListAdapter
 import fi.haltu.harrastuspassi.models.Filters
 import fi.haltu.harrastuspassi.utils.loadFilters
 import fi.haltu.harrastuspassi.utils.saveFilters
+import kotlinx.android.synthetic.main.activity_filter_view.*
 
 
-class FilterViewActivity : AppCompatActivity() {
+class FilterViewActivity : AppCompatActivity(), View.OnClickListener {
+
+
     private var hobbyTestResult:ArrayList<String> = ArrayList()
-    private lateinit var filterButton: Button
     private lateinit var categoryList: ArrayList<Category>
     private var filters: Filters = Filters()
-
+    private lateinit var weekRecyclerView: RecyclerView
+    //private lateinit var dayOfWeekMap: Map<String, Int>
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_filter_view)
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
         supportActionBar!!.setHomeAsUpIndicator (R.drawable.ic_clear_black_24dp)
         supportActionBar!!.title = "Suodata"
+        findViewById<Button>(R.id.filterButton).setOnClickListener(this)
+        findViewById<ImageButton>(R.id.open_hobby_categories_btn).setOnClickListener(this)
 
         categoryList = ArrayList()
         try {
@@ -41,14 +51,12 @@ class FilterViewActivity : AppCompatActivity() {
         getCategories().execute()
 
         hobbyTestResult = idToCategoryName(filters.categories, categoryList)
+        val dayOfWeekListAdapter = DayOfWeekListAdapter(filters.dayOfWeeks) { dayOfWeekId: Int -> weekClicked(dayOfWeekId)}
 
-        filterButton = findViewById(R.id.filterButton)
-        filterButton.setOnClickListener{
-            Toast.makeText(applicationContext, filters.categories.toString(), Toast.LENGTH_SHORT).show()
-            val intent = Intent(this, MainActivity::class.java)
-            saveFilters(filters, this)
-            startActivity(intent)
-            overridePendingTransition(R.anim.slide_in_up, R.anim.slide_out_up)
+        weekRecyclerView = findViewById(R.id.day_of_week_list)
+        weekRecyclerView.apply {
+            layoutManager = LinearLayoutManager(context)
+            adapter = dayOfWeekListAdapter
         }
     }
 
@@ -61,11 +69,34 @@ class FilterViewActivity : AppCompatActivity() {
         }
     }
 
-    fun openCategories (view: View) {
-        val intent = Intent(this, HobbyCategoriesActivity::class.java).apply {
+    override fun onClick(v: View) {
+
+        when(v.id) {
+            R.id.filterButton -> {
+                Toast.makeText(applicationContext, filters.categories.toString(), Toast.LENGTH_SHORT).show()
+                val intent = Intent(this, MainActivity::class.java)
+                saveFilters(filters, this)
+                startActivity(intent)
+                overridePendingTransition(R.anim.slide_in_up, R.anim.slide_out_up)
+            }
+            R.id.open_hobby_categories_btn -> {
+                val intent = Intent(this, HobbyCategoriesActivity::class.java).apply {
+                }
+                intent.putExtra("EXTRA_SELECTED_ITEMS", filters.categories)
+                startActivityForResult(intent, 1)
+            }
         }
-        intent.putExtra( "EXTRA_SELECTED_ITEMS",filters.categories)
-        startActivityForResult(intent, 1)
+    }
+
+    private fun weekClicked(dayOfWeekId: Int) {
+
+        if(filters.dayOfWeeks.contains(dayOfWeekId)) {
+            filters.dayOfWeeks.remove(dayOfWeekId)
+        } else {
+            filters.dayOfWeeks.add(dayOfWeekId)
+        }
+
+        weekRecyclerView.adapter!!.notifyDataSetChanged()
     }
 
     fun idToCategoryName(ids: HashSet<Int>, categoriesList: ArrayList<Category>): ArrayList<String> {

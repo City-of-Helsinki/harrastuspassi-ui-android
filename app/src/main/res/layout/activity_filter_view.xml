@@ -5,7 +5,7 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".activities.FilterViewActivity">
+        tools:context=".activities.FilterViewActivity" android:id="@+id/constraintLayout">
 
     <TextView
             android:text="@string/category_filter_component_title"
@@ -42,10 +42,17 @@
                 android:backgroundTint="@color/cast_expanded_controller_ad_container_white_stripe_color"
                 android:scaleType="fitEnd"
                 android:contentDescription="@string/openFilterCategories"
-                android:clickable="true" android:onClick="openCategories"/>
-
-
+        />
     </LinearLayout>
+    <android.support.v7.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/day_of_week_list"
+            android:layout_marginTop="8dp"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout" app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" android:layout_marginStart="8dp" android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp" app:layout_constraintBottom_toTopOf="@+id/filterButton"/>
+
     <Button android:id="@+id/filterButton" android:layout_width="0dp"
             android:text="SUODATA!!!!"
             android:layout_height="wrap_content" android:layout_marginBottom="8dp"

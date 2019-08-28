@@ -59,7 +59,7 @@ class HobbyEventListFragment : Fragment() {
         super.onResume()
         filters = loadFilters(this.activity!!)
         getHobbyEvents().execute()
-        Toast.makeText(this.context,filters.categories.toString(), Toast.LENGTH_SHORT).show()
+        Toast.makeText(this.context,filters.toString(), Toast.LENGTH_SHORT).show()
     }
 
     private fun hobbyItemClicked(hobby: HobbyEvent) {
