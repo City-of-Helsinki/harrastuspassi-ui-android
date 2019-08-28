@@ -19,7 +19,6 @@ import org.json.JSONArray
 import java.io.IOException
 import java.net.URL
 import android.widget.Button
-import android.widget.LinearLayout
 import fi.haltu.harrastuspassi.adapters.FilterTagsRecyclerViewAdapter
 import android.widget.ImageButton
 import fi.haltu.harrastuspassi.adapters.DayOfWeekListAdapter
@@ -28,7 +27,6 @@ import fi.haltu.harrastuspassi.utils.loadFilters
 import fi.haltu.harrastuspassi.utils.saveFilters
 import kotlinx.android.synthetic.main.activity_filter_view.*
 
-import kotlinx.android.synthetic.main.activity_filter_view.*
 
 class FilterViewActivity : AppCompatActivity(), View.OnClickListener {
 
@@ -37,7 +35,6 @@ class FilterViewActivity : AppCompatActivity(), View.OnClickListener {
     private lateinit var categoryList: ArrayList<Category>
     private var filters: Filters = Filters()
     private lateinit var weekRecyclerView: RecyclerView
-    //private lateinit var dayOfWeekMap: Map<String, Int>
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_filter_view)
@@ -78,13 +75,8 @@ class FilterViewActivity : AppCompatActivity(), View.OnClickListener {
         straggeredGrid.gapStrategy = GAP_HANDLING_MOVE_ITEMS_BETWEEN_SPANS
         straggeredGrid.canScrollHorizontally()
 
-
-
         tagsRecyclerView.layoutManager = straggeredGrid
         tagsRecyclerView.adapter = FilterTagsRecyclerViewAdapter(array)
-
-
-
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -148,7 +140,7 @@ class FilterViewActivity : AppCompatActivity(), View.OnClickListener {
 
         override fun doInBackground(vararg params: Void?): String {
             return try {
-                URL(getString(R.string.API_URL) + "/hobbycategories/").readText()
+                URL(getString(R.string.API_URL) + "hobbycategories/").readText()
             } catch (e: IOException) {
                 return HobbyCategoriesActivity.ERROR
             }
@@ -168,7 +160,6 @@ class FilterViewActivity : AppCompatActivity(), View.OnClickListener {
                     hobbyTestResult = idToCategoryName(filters.categories, categoryList)
                     Toast.makeText(applicationContext, hobbyTestResult.toString(), Toast.LENGTH_SHORT).show()
                     tagsRecyclerView.adapter!!.notifyDataSetChanged()
-                    //TODO ^ Remember to refresh recycler list by using that func :)^
                 }
             }
         }

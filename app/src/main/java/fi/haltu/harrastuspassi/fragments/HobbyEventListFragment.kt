@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,16 +16,13 @@ import android.widget.TextView
 import android.widget.Toast
 import fi.haltu.harrastuspassi.R
 import fi.haltu.harrastuspassi.adapters.HobbyEventListAdapter
-import fi.haltu.harrastuspassi.models.HobbyEvent
 import org.json.JSONArray
 import org.json.JSONObject
 import java.io.IOException
 import java.net.URL
 import fi.haltu.harrastuspassi.activities.HobbyDetailActivity
 import fi.haltu.harrastuspassi.models.Filters
-import fi.haltu.harrastuspassi.models.Location
-import fi.haltu.harrastuspassi.utils.getOptionalDouble
-import fi.haltu.harrastuspassi.utils.getOptionalJSONObject
+import fi.haltu.harrastuspassi.models.HobbyEvent
 import fi.haltu.harrastuspassi.utils.loadFilters
 import fi.haltu.harrastuspassi.utils.verifyAvailableNetwork
 import org.json.JSONException
@@ -42,7 +40,7 @@ class HobbyEventListFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val view: View = inflater.inflate(R.layout.fragment_hobby_event_list, container, false)
-        val hobbyEventListAdapter = HobbyEventListAdapter(hobbyEventArrayList) { hobby: HobbyEvent -> hobbyItemClicked(hobby)}
+        val hobbyEventListAdapter = HobbyEventListAdapter(hobbyEventArrayList) { hobbyEvent: HobbyEvent -> hobbyItemClicked(hobbyEvent)}
         progressBar = view.findViewById(R.id.progressbar)
         progressText = view.findViewById(R.id.progress_text)
 
@@ -62,10 +60,10 @@ class HobbyEventListFragment : Fragment() {
         Toast.makeText(this.context,filters.toString(), Toast.LENGTH_SHORT).show()
     }
 
-    private fun hobbyItemClicked(hobby: HobbyEvent) {
+    private fun hobbyItemClicked(hobbyEvent: HobbyEvent) {
         val intent = Intent(context, HobbyDetailActivity::class.java)
 
-        intent.putExtra("EXTRA_HOBBY", hobby)
+        intent.putExtra("EXTRA_HOBBY", hobbyEvent)
         startActivity(intent)
     }
 
@@ -112,41 +110,7 @@ class HobbyEventListFragment : Fragment() {
                         for (i in 0 until mJsonArray.length()) {
                             val sObject = mJsonArray.get(i).toString()
                             val hobbyObject = JSONObject(sObject)
-
-                            val id = hobbyObject.getInt("id")
-                            val name = hobbyObject.getString("name")
-                            //val startDayOfWeek = hobbyObject.getString("start_day_of_week")
-                            val coverImage = hobbyObject.getString("cover_image")
-                            val hobbyEvent = HobbyEvent()
-
-                            val locationObject = getOptionalJSONObject(hobbyObject, "location")
-                            val hobbyLocation = Location()
-                            if (locationObject != null) {
-                                val locationName = locationObject.getString("name")
-                                val locationAddress = locationObject.getString("address")
-                                val locationZipCode = locationObject.getString("zip_code")
-                                val locationCity = locationObject.getString("city")
-                                val locationLat = getOptionalDouble(locationObject, "lat")
-                                val locationLon = getOptionalDouble(locationObject, "lon")
-
-                                hobbyLocation.apply {
-                                    this.name = locationName
-                                    this.address = locationAddress
-                                    this.zipCode = locationZipCode
-                                    this.city = locationCity
-                                    this.lat = locationLat
-                                    this.lon = locationLon
-                                }
-                            }
-
-                            hobbyEvent.apply {
-                                this.id = id
-                                this.title = name
-                                this.place = hobbyLocation
-                                //    this.dateTime = startDayOfWeek
-                                this.imageUrl = coverImage
-                            }
-
+                            var hobbyEvent = HobbyEvent(hobbyObject)
                             hobbyEventArrayList.add(hobbyEvent)
                         }
 
@@ -168,11 +132,11 @@ class HobbyEventListFragment : Fragment() {
     }
 
     fun createQueryUrl(categories: HashSet<Int>): String {
-        var query = "/hobbies/"
+        var query = "hobbyevents/?include=hobby_detail"
         var arrayList = categories.toArray()
 
         if(arrayList.isNotEmpty()) {
-            query += "?"
+            query += "&"
             for (i in 0 until arrayList.size) {
                 val categoryId = arrayList[i]
                 query += if (i == arrayList.indexOfLast{true}) {
@@ -183,6 +147,7 @@ class HobbyEventListFragment : Fragment() {
             }
         }
 
+        Log.d("queryCheck", query)
         return query
     }
 }

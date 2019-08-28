@@ -8,6 +8,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.squareup.picasso.Picasso
 import fi.haltu.harrastuspassi.R
+import fi.haltu.harrastuspassi.models.Hobby
 import fi.haltu.harrastuspassi.models.HobbyEvent
 
 
@@ -35,15 +36,14 @@ class HobbyEventListAdapter(private val list: List<HobbyEvent>, private val clic
         private var duration: TextView = itemView.findViewById(R.id.dateTime)
 
         fun bind(hobbyEvent: HobbyEvent, clickListener: (HobbyEvent) -> Unit) {
-            title.text = hobbyEvent.title
-            place.text = hobbyEvent.place.name
+            title.text = hobbyEvent.hobby.name
+            place.text = hobbyEvent.hobby.location.name
             Picasso.with(itemView.context)
-                .load(hobbyEvent.imageUrl)
+                .load(hobbyEvent.hobby.imageUrl)
                 .placeholder(R.drawable.image_placeholder_icon)
                 .error(R.drawable.image_placeholder_icon)
                 .into(image)
-
-            duration.text = hobbyEvent.dateTime
+            duration.text = "${hobbyEvent.startDate} - ${hobbyEvent.endDate}"
             itemView.setOnClickListener { clickListener(hobbyEvent) }
         }
     }

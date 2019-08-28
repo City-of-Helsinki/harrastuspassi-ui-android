@@ -1,5 +1,7 @@
 package fi.haltu.harrastuspassi.models
 
+import fi.haltu.harrastuspassi.utils.getOptionalDouble
+import org.json.JSONObject
 import java.io.Serializable
 
 class Location : Serializable {
@@ -9,4 +11,13 @@ class Location : Serializable {
     var city: String? = ""
     var lat: Double? = 0.0
     var lon: Double? = 0.0
+
+    constructor(json: JSONObject) {
+        name = json.getString("name")
+        address = json.getString("address")
+        zipCode = json.getString("zip_code")
+        city = json.getString("city")
+        lat = getOptionalDouble(json, "lat")
+        lon = getOptionalDouble(json, "lon")
+    }
 }

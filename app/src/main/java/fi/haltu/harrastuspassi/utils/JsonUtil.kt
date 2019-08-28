@@ -26,6 +26,13 @@ fun getOptionalInt(json: JSONObject, key: String): Int? {
         json.getInt(key)
 }
 
+fun getOptionalString(json: JSONObject, key: String): String? {
+    return if (json.isNull(key))
+        null
+    else
+        json.getString(key)
+}
+
 fun jsonArrayToCategoryList(jsonArray: JSONArray): ArrayList<Category> {
     var categoryList = ArrayList<Category>()
 
