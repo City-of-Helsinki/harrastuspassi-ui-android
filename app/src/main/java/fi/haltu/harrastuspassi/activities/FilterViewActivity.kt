@@ -1,12 +1,14 @@
 package fi.haltu.harrastuspassi.activities
 
 import android.content.Intent
-import android.graphics.Color
 import android.os.AsyncTask
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.support.v7.widget.StaggeredGridLayoutManager
+import android.support.v7.widget.StaggeredGridLayoutManager.GAP_HANDLING_MOVE_ITEMS_BETWEEN_SPANS
+import android.support.v7.widget.StaggeredGridLayoutManager.VERTICAL
 import android.util.Log
 import android.view.View
 import android.widget.Toast
@@ -17,6 +19,8 @@ import org.json.JSONArray
 import java.io.IOException
 import java.net.URL
 import android.widget.Button
+import android.widget.LinearLayout
+import fi.haltu.harrastuspassi.adapters.FilterTagsRecyclerViewAdapter
 import android.widget.ImageButton
 import fi.haltu.harrastuspassi.adapters.DayOfWeekListAdapter
 import fi.haltu.harrastuspassi.models.Filters
@@ -24,6 +28,7 @@ import fi.haltu.harrastuspassi.utils.loadFilters
 import fi.haltu.harrastuspassi.utils.saveFilters
 import kotlinx.android.synthetic.main.activity_filter_view.*
 
+import kotlinx.android.synthetic.main.activity_filter_view.*
 
 class FilterViewActivity : AppCompatActivity(), View.OnClickListener {
 
@@ -58,6 +63,28 @@ class FilterViewActivity : AppCompatActivity(), View.OnClickListener {
             layoutManager = LinearLayoutManager(context)
             adapter = dayOfWeekListAdapter
         }
+
+        Log.d("hobbyTestResults", "arr: " + hobbyTestResult.toString())
+        Log.d("categoryList", "$categoryList")
+
+        val array: ArrayList<String> = ArrayList()
+        array.add("Kuviouinti")
+        array.add("Käsityöt")
+        array.add("Ompelu")
+        array.add("Lukupiiri")
+
+
+        val straggeredGrid = StaggeredGridLayoutManager(2, VERTICAL)
+        straggeredGrid.gapStrategy = GAP_HANDLING_MOVE_ITEMS_BETWEEN_SPANS
+        straggeredGrid.canScrollHorizontally()
+
+
+
+        tagsRecyclerView.layoutManager = straggeredGrid
+        tagsRecyclerView.adapter = FilterTagsRecyclerViewAdapter(array)
+
+
+
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -67,6 +94,9 @@ class FilterViewActivity : AppCompatActivity(), View.OnClickListener {
             hobbyTestResult = idToCategoryName(filters.categories, categoryList)
             Toast.makeText(applicationContext,hobbyTestResult.toString(), Toast.LENGTH_SHORT).show()
         }
+
+        tagsRecyclerView.layoutManager = StaggeredGridLayoutManager(2, VERTICAL)
+        tagsRecyclerView.adapter = FilterTagsRecyclerViewAdapter(hobbyTestResult)
     }
 
     override fun onClick(v: View) {
@@ -137,7 +167,7 @@ class FilterViewActivity : AppCompatActivity(), View.OnClickListener {
                     hobbyTestResult.clear()
                     hobbyTestResult = idToCategoryName(filters.categories, categoryList)
                     Toast.makeText(applicationContext, hobbyTestResult.toString(), Toast.LENGTH_SHORT).show()
-                    //recyclerList.adapter!!.notifyDataSetChanged()
+                    tagsRecyclerView.adapter!!.notifyDataSetChanged()
                     //TODO ^ Remember to refresh recycler list by using that func :)^
                 }
             }

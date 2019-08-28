@@ -33,16 +33,37 @@
 
 
         <android.support.v7.widget.RecyclerView
+                android:id="@+id/tagsRecyclerView"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent" android:layout_weight="1" android:id="@+id/chosen_tags_view"/>
-        <ImageButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" app:srcCompat="@drawable/ic_add_black_24dp"
-                android:id="@+id/open_hobby_categories_btn" android:layout_weight="1"
-                android:backgroundTint="@color/cast_expanded_controller_ad_container_white_stripe_color"
-                android:scaleType="fitEnd"
-                android:contentDescription="@string/openFilterCategories"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:scrollbars="none"
+                android:orientation="vertical"
+                app:spanCount="2"
+                android:layout_weight="1"
+                android:adjustViewBounds="true"
+                android:horizontalSpacing="0dp"
+                android:verticalSpacing="0dp"
         />
+
+        <ImageButton android:id="@+id/open_hobby_categories_btn"
+                     android:layout_width="wrap_content"
+                     android:layout_height="wrap_content"
+                     android:background="@drawable/ic_add_black_24dp"
+                     android:backgroundTint="@color/hobbyPurple"
+                     app:layout_constraintEnd_toEndOf="parent"
+                     app:layout_constraintBottom_toBottomOf="@+id/name"
+                     app:layout_constraintTop_toTopOf="@+id/name"
+                     app:layout_constraintStart_toEndOf="@+id/name"
+                     android:layout_marginEnd="16dp"
+                     android:scaleX="1.2"
+                     android:scaleY="1.2"
+                     android:layout_gravity="center_vertical"
+                     android:layout_marginVertical="6dp"/>
+
     </LinearLayout>
     <android.support.v7.widget.RecyclerView
             android:layout_width="match_parent"
