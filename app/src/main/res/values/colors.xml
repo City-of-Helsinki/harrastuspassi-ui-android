@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="hobbyPurple">#30146E</color>
+    <color name="hobbyPurpleOpacity60">#6030146E</color>
     <color name="hobbyPurpleLight">#77329B</color>
     <color name="hobbyYellow">#FFEB32</color>
     <color name="white">#FFFFFF</color>
