@@ -69,9 +69,9 @@ class FilterViewActivity : AppCompatActivity(), View.OnClickListener {
         array.add("Käsityöt")
         array.add("Ompelu")
         array.add("Lukupiiri")
+        array.add("Suunnistus")
 
-
-        val straggeredGrid = StaggeredGridLayoutManager(2, VERTICAL)
+        val straggeredGrid = StaggeredGridLayoutManager(2, LinearLayoutManager.VERTICAL)
         straggeredGrid.gapStrategy = GAP_HANDLING_MOVE_ITEMS_BETWEEN_SPANS
         straggeredGrid.canScrollHorizontally()
 
