@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.AsyncTask
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.StaggeredGridLayoutManager
@@ -53,13 +54,7 @@ class FilterViewActivity : AppCompatActivity(), View.OnClickListener {
         getCategories().execute()
 
         hobbyTestResult = idToCategoryName(filters.categories, categoryList)
-        val dayOfWeekListAdapter = DayOfWeekListAdapter(filters.dayOfWeeks) { dayOfWeekId: Int -> weekClicked(dayOfWeekId)}
 
-        weekRecyclerView = findViewById(R.id.day_of_week_list)
-        weekRecyclerView.apply {
-            layoutManager = LinearLayoutManager(context)
-            adapter = dayOfWeekListAdapter
-        }
 
         Log.d("hobbyTestResults", "arr: " + hobbyTestResult.toString())
         Log.d("categoryList", "$categoryList")
@@ -77,6 +72,21 @@ class FilterViewActivity : AppCompatActivity(), View.OnClickListener {
 
         tagsRecyclerView.layoutManager = straggeredGrid
         tagsRecyclerView.adapter = FilterTagsRecyclerViewAdapter(array)
+
+
+        ///// WEEKDAY FILTER /////
+
+        val dayOfWeekListAdapter = DayOfWeekListAdapter(filters.dayOfWeeks) { dayOfWeekId: Int -> weekClicked(dayOfWeekId)}
+
+        weekRecyclerView = findViewById(R.id.day_of_week_list)
+        weekRecyclerView.apply {
+            layoutManager = GridLayoutManager(context, 3)
+            adapter = dayOfWeekListAdapter
+
+        }
+        weekRecyclerView.setHasFixedSize(true)
+
+
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -140,7 +150,7 @@ class FilterViewActivity : AppCompatActivity(), View.OnClickListener {
 
         override fun doInBackground(vararg params: Void?): String {
             return try {
-                URL(getString(R.string.API_URL) + "hobbycategories/").readText()
+                URL(getString(R.string.API_URL) + "/hobbycategories/").readText()
             } catch (e: IOException) {
                 return HobbyCategoriesActivity.ERROR
             }
