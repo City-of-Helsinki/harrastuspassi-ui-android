@@ -28,10 +28,6 @@
             android:theme="@style/AppTheme"
             android:usesCleartextTraffic="true"
             tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".activities.SubCategoryActivity"
-                  android:parentActivityName=".activities.HobbyCategoriesActivity">
-
-        </activity>
         <activity
                 android:name=".activities.HobbyCategoriesActivity"
                 android:parentActivityName=".activities.FilterViewActivity">

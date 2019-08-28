@@ -122,7 +122,7 @@ class HobbyCategoriesActivity : AppCompatActivity() {
 
         override fun doInBackground(vararg params: Void?): String {
             return try {
-                URL(getString(R.string.API_URL) + "/hobbycategories/?include=child_categories&parent=null").readText()
+                URL(getString(R.string.API_URL) + "hobbycategories/?include=child_categories&parent=null").readText()
             } catch (e: IOException) {
                 return ERROR
             }
