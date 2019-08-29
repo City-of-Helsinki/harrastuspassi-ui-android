@@ -42,6 +42,8 @@ class DayOfWeekListAdapter(private val list: HashSet<Int>, private val clickList
             dayButton.text = dayOfWeek
             if(list.contains(position)){
                 dayButton.setBackgroundColor(ContextCompat.getColor(itemView.context, R.color.hobbyPurpleLight))
+                dayButton.setTextColor(ContextCompat.getColor(itemView.context, R.color.white))
+
             } else {
                 dayButton.setBackgroundColor(ContextCompat.getColor(itemView.context, R.color.white))
             }

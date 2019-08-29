@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.AsyncTask
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.StaggeredGridLayoutManager
@@ -53,31 +54,34 @@ class FilterViewActivity : AppCompatActivity(), View.OnClickListener {
         } catch (e: KotlinNullPointerException) {
             filters = loadFilters(this)
         }
-        Log.d("idToCategoryOncreate", filters.toString())
-        hobbyTestResult = idToCategoryName(filters.categories, categoryList)
-        // Tags
-        tagsRecyclerView = findViewById(R.id.tags_recyclerView)
-        val straggeredGrid = StaggeredGridLayoutManager(2, LinearLayoutManager.VERTICAL)
-        straggeredGrid.gapStrategy = GAP_HANDLING_MOVE_ITEMS_BETWEEN_SPANS
-        straggeredGrid.canScrollHorizontally()
-        var filterTagsAdapter = FilterTagsRecyclerViewAdapter(hobbyTestResult)
-        tagsRecyclerView.apply {
-            layoutManager = straggeredGrid
-            adapter = filterTagsAdapter
-        }
-
         getCategories().execute()
 
-        // Week days
-        weekRecyclerView = findViewById(R.id.day_of_week_list)
-        val dayOfWeekListAdapter = DayOfWeekListAdapter(filters.dayOfWeeks) { dayOfWeekId: Int -> weekClicked(dayOfWeekId)}
-        weekRecyclerView.apply {
-            layoutManager = LinearLayoutManager(context)
-            adapter = dayOfWeekListAdapter
-        }
+        hobbyTestResult = idToCategoryName(filters.categories, categoryList)
+        tagsRecyclerView = findViewById(R.id.tags_recyclerView)
 
         Log.d("hobbyTestResults", "arr: " + hobbyTestResult.toString())
         Log.d("categoryList", "$categoryList")
+
+
+        val straggeredGrid = StaggeredGridLayoutManager(2, LinearLayoutManager.VERTICAL)
+        straggeredGrid.gapStrategy = GAP_HANDLING_MOVE_ITEMS_BETWEEN_SPANS
+        straggeredGrid.canScrollHorizontally()
+
+        tagsRecyclerView.layoutManager = straggeredGrid
+        tagsRecyclerView.adapter = FilterTagsRecyclerViewAdapter(hobbyTestResult)
+
+
+        ///// WEEKDAY FILTER /////
+
+        val dayOfWeekListAdapter = DayOfWeekListAdapter(filters.dayOfWeeks) { dayOfWeekId: Int -> weekClicked(dayOfWeekId)}
+
+        weekRecyclerView = findViewById(R.id.day_of_week_list)
+        weekRecyclerView.apply {
+            layoutManager = GridLayoutManager(context, 3)
+            adapter = dayOfWeekListAdapter
+
+        }
+        weekRecyclerView.setHasFixedSize(true)
 
 
     }
