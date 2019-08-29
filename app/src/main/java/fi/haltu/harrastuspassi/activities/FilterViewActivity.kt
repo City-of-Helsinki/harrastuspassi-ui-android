@@ -62,7 +62,7 @@ class FilterViewActivity : AppCompatActivity(), View.OnClickListener {
         Log.d("hobbyTestResults", "arr: " + hobbyTestResult.toString())
         Log.d("categoryList", "$categoryList")
 
-
+        ///// TAG FILTER /////
         val straggeredGrid = StaggeredGridLayoutManager(2, LinearLayoutManager.VERTICAL)
         straggeredGrid.gapStrategy = GAP_HANDLING_MOVE_ITEMS_BETWEEN_SPANS
         straggeredGrid.canScrollHorizontally()

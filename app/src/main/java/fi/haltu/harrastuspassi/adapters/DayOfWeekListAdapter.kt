@@ -46,6 +46,8 @@ class DayOfWeekListAdapter(private val list: HashSet<Int>, private val clickList
 
             } else {
                 dayButton.setBackgroundColor(ContextCompat.getColor(itemView.context, R.color.white))
+                dayButton.setTextColor(ContextCompat.getColor(itemView.context,  R.color.hobbyPurple))
+
             }
 
             itemView.setOnClickListener {clickListener(position)}
