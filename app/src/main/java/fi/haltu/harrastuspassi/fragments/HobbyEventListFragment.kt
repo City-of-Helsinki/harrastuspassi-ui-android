@@ -131,26 +131,6 @@ class HobbyEventListFragment : Fragment() {
         }
     }
 
-    fun createQueryUrl(categories: HashSet<Int>): String {
-        var query = "hobbyevents/?include=hobby_detail"
-        var arrayList = categories.toArray()
-
-        if(arrayList.isNotEmpty()) {
-            query += "&"
-            for (i in 0 until arrayList.size) {
-                val categoryId = arrayList[i]
-                query += if (i == arrayList.indexOfLast{true}) {
-                    "category=$categoryId"
-                } else {
-                    "category=$categoryId&"
-                }
-            }
-        }
-
-        Log.d("queryCheck", query)
-        return query
-    }
-
     fun createQueryUrl(filters: Filters): String {
         var query = "hobbyevents/?include=hobby_detail"
         var categoryArrayList = filters.categories.toArray()
@@ -177,7 +157,6 @@ class HobbyEventListFragment : Fragment() {
                 }
             }
         }
-        Log.d("myquery",query)
 
         return query
     }
