@@ -32,7 +32,7 @@ class FilterTagsRecyclerViewAdapter(private val categoryTagsList: ArrayList<Stri
 
         fun bind(filterTag: String) {
             tag.text = filterTag
-            Log.d("bind", "filter tags")
+            Log.d("idToCategory", "filter tags")
 
 
         }

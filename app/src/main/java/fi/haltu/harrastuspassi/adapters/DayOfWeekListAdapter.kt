@@ -39,7 +39,6 @@ class DayOfWeekListAdapter(private val list: HashSet<Int>, private val clickList
 
         fun bind(position: Int, clickListener: (Int) -> Unit) {
             val dayOfWeek: String = dayOfWeekList[position].toString()
-            Toast.makeText(itemView.context, "data changed", Toast.LENGTH_SHORT).show()
             dayButton.text = dayOfWeek
             if(list.contains(position)){
                 dayButton.setBackgroundColor(ContextCompat.getColor(itemView.context, R.color.hobbyPurpleLight))

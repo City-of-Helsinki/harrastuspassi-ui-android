@@ -41,7 +41,7 @@
 
 
         <android.support.v7.widget.RecyclerView
-                android:id="@+id/tagsRecyclerView"
+                android:id="@+id/tags_recyclerView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:layout_constraintEnd_toEndOf="parent"

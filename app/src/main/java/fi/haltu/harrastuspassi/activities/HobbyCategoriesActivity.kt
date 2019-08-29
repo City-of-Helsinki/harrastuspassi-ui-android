@@ -23,13 +23,13 @@ class HobbyCategoriesActivity : AppCompatActivity() {
     private var categoryList = ArrayList<Category>()
     private lateinit var listView: RecyclerView
     private var selectedCategories: HashSet<Int> = HashSet()
-
+    private var selectedWeekDays: HashSet<Int> = HashSet()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_hobby_categories)
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
         selectedCategories = intent.extras!!.getSerializable("EXTRA_SELECTED_ITEMS") as HashSet<Int>
-
+        selectedWeekDays = intent.extras!!.getSerializable("EXTRA_SELECTED_WEEK_DAYS") as HashSet<Int>
 
         if (intent.hasExtra("EXTRA_CATEGORY_BUNDLE")) {
             val bundle = intent.getBundleExtra("EXTRA_CATEGORY_BUNDLE")
@@ -40,7 +40,7 @@ class HobbyCategoriesActivity : AppCompatActivity() {
             getCategories().execute()
         }
 
-        val categoryAdapter = CategoryListAdapter(categoryList, this, selectedCategories) { category: Category -> categoryItemClicked(category)}
+        val categoryAdapter = CategoryListAdapter(categoryList, this, selectedCategories, selectedWeekDays) { category: Category -> categoryItemClicked(category)}
         listView = this.findViewById(R.id.category_list_view)
         listView.apply {
             layoutManager = LinearLayoutManager(this.context)
@@ -52,7 +52,9 @@ class HobbyCategoriesActivity : AppCompatActivity() {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == 1) {
             selectedCategories = data!!.extras!!.getSerializable("EXTRA_SELECTED_ITEMS") as HashSet<Int>
-            val categoryAdapter = CategoryListAdapter(categoryList, this, selectedCategories) { category: Category -> categoryItemClicked(category)}
+            selectedWeekDays = data!!.extras!!.getSerializable("EXTRA_SELECTED_WEEK_DAY") as HashSet<Int>
+
+            val categoryAdapter = CategoryListAdapter(categoryList, this, selectedCategories, selectedWeekDays) { category: Category -> categoryItemClicked(category)}
             listView.apply {
                 layoutManager = LinearLayoutManager(this.context)
                 adapter = categoryAdapter
@@ -73,12 +75,16 @@ class HobbyCategoriesActivity : AppCompatActivity() {
                 val intent = Intent()
 
                 intent.putExtra("EXTRA_SELECTED_ITEMS", selectedCategories)
+                intent.putExtra("EXTRA_SELECTED_WEEK_DAYS",  selectedWeekDays)
                 setResult(1, intent)
                 finish()
             }
             R.id.save -> {
                 val intent = Intent(this, FilterViewActivity::class.java)
                 intent.putExtra("EXTRA_SELECTED_ITEMS", selectedCategories)
+                intent.putExtra("EXTRA_SELECTED_WEEK_DAYS",  selectedWeekDays)
+
+
                 startActivity(intent)
                 finish()
             }
@@ -89,6 +95,9 @@ class HobbyCategoriesActivity : AppCompatActivity() {
     override fun onBackPressed() {
         val intent = Intent()
         intent.putExtra("EXTRA_SELECTED_ITEMS", selectedCategories)
+        intent.putExtra("EXTRA_SELECTED_WEEK_DAYS",  selectedWeekDays)
+
+
         setResult(1, intent)
         finish()
         super.onBackPressed()

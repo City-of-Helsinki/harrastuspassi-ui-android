@@ -18,6 +18,7 @@ import fi.haltu.harrastuspassi.models.Category
 class CategoryListAdapter(private val categories: ArrayList<Category>,
                           private val activity: AppCompatActivity,
                           private val selectedItems: HashSet<Int>,
+                          private val selectedDays: HashSet<Int>,
                           private val clickListener:(Category) -> Unit) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
@@ -31,7 +32,7 @@ class CategoryListAdapter(private val categories: ArrayList<Category>,
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val category: Category = categories[position]
-        (holder as CategoryListViewHolder).bind(category, activity, selectedItems, clickListener)
+        (holder as CategoryListViewHolder).bind(category, activity, selectedItems, selectedDays, clickListener)
     }
 
     class CategoryListViewHolder(itemView: View) :
@@ -39,7 +40,7 @@ class CategoryListAdapter(private val categories: ArrayList<Category>,
         private var name: TextView = itemView.findViewById(R.id.name)
         private var checkButton: CheckBox = itemView.findViewById(R.id.check_button)
         private var showMoreButton: ImageButton = itemView.findViewById(R.id.show_more_button)
-        fun bind(category: Category, activity: AppCompatActivity, selectedItems: HashSet<Int>, clickListener: (Category) -> Unit) {
+        fun bind(category: Category, activity: AppCompatActivity, selectedItems: HashSet<Int>, selectedDays: HashSet<Int>, clickListener: (Category) -> Unit) {
             name.text = category.name
             itemView.setOnClickListener { clickListener(category) }
 
@@ -54,12 +55,12 @@ class CategoryListAdapter(private val categories: ArrayList<Category>,
                     selectedItems.add(category.id!!)
                     checkButton.isChecked = true
                 }
-                setShowMoreButton(category, selectedItems, activity)
+                setShowMoreButton(category, selectedItems, selectedDays,activity)
             }
-            setShowMoreButton(category, selectedItems, activity)
+            setShowMoreButton(category, selectedItems, selectedDays, activity)
         }
 
-        private fun setShowMoreButton(category: Category, selectedItems: HashSet<Int>, activity: AppCompatActivity) {
+        private fun setShowMoreButton(category: Category, selectedItems: HashSet<Int>, selectedDays: HashSet<Int>, activity: AppCompatActivity) {
             if(category.childCategories!!.size == 0 ) {
                 showMoreButton.visibility = View.INVISIBLE
             } else {
@@ -71,6 +72,7 @@ class CategoryListAdapter(private val categories: ArrayList<Category>,
                     bundle.putSerializable("CATEGORY_LIST", category.childCategories)
                     intent.putExtra("EXTRA_CATEGORY_BUNDLE", bundle)
                     intent.putExtra("EXTRA_SELECTED_ITEMS", selectedItems)
+                    intent.putExtra("EXTRA_SELECTED_WEEK_DAYS", selectedDays)
                     intent.putExtra("EXTRA_CATEGORY_NAME", category.name)
 
                     activity.startActivityForResult(intent, 1)
