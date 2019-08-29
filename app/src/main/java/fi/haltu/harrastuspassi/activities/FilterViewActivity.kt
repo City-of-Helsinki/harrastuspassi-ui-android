@@ -34,6 +34,7 @@ class FilterViewActivity : AppCompatActivity(), View.OnClickListener {
 
     private var hobbyTestResult:ArrayList<String> = ArrayList()
     private var categoryList: ArrayList<Category> = ArrayList()
+    private var categoryMap: MutableMap<String, Int> =  mutableMapOf<String, Int>()
     private var filters: Filters = Filters()
     private lateinit var weekRecyclerView: RecyclerView
     private lateinit var tagsRecyclerView: RecyclerView
@@ -59,8 +60,6 @@ class FilterViewActivity : AppCompatActivity(), View.OnClickListener {
         hobbyTestResult = idToCategoryName(filters.categories, categoryList)
         tagsRecyclerView = findViewById(R.id.tags_recyclerView)
 
-        Log.d("hobbyTestResults", "arr: " + hobbyTestResult.toString())
-        Log.d("categoryList", "$categoryList")
 
         ///// TAG FILTER /////
         val straggeredGrid = StaggeredGridLayoutManager(2, LinearLayoutManager.VERTICAL)
@@ -68,7 +67,7 @@ class FilterViewActivity : AppCompatActivity(), View.OnClickListener {
         straggeredGrid.canScrollHorizontally()
 
         tagsRecyclerView.layoutManager = straggeredGrid
-        tagsRecyclerView.adapter = FilterTagsRecyclerViewAdapter(hobbyTestResult)
+        tagsRecyclerView.adapter = FilterTagsRecyclerViewAdapter(hobbyTestResult) {categoryTag: String -> categoryClicked(categoryTag)}
 
 
         ///// WEEKDAY FILTER /////
@@ -92,8 +91,9 @@ class FilterViewActivity : AppCompatActivity(), View.OnClickListener {
             filters.dayOfWeeks = data!!.extras!!.getSerializable("EXTRA_SELECTED_WEEK_DAYS") as HashSet<Int>
 
             hobbyTestResult = idToCategoryName(filters.categories, categoryList)
+            categoryMap = createMap(filters.categories, categoryList)
             tagsRecyclerView.layoutManager = StaggeredGridLayoutManager(2, VERTICAL)
-            tagsRecyclerView.adapter = FilterTagsRecyclerViewAdapter(hobbyTestResult)
+            tagsRecyclerView.adapter = FilterTagsRecyclerViewAdapter(hobbyTestResult) {categoryTag: String -> categoryClicked(categoryTag)}
             weekRecyclerView.apply {
                 layoutManager = GridLayoutManager(context, 3)
                 adapter = DayOfWeekListAdapter(filters.dayOfWeeks) { dayOfWeekId: Int -> weekClicked(dayOfWeekId)}
@@ -122,6 +122,20 @@ class FilterViewActivity : AppCompatActivity(), View.OnClickListener {
         }
     }
 
+    private fun categoryClicked(categoryTag:String) {
+        if(filters.categories.contains(categoryMap[categoryTag])) {
+            filters.categories.remove(categoryMap[categoryTag])
+            hobbyTestResult = idToCategoryName(filters.categories, categoryList)
+            tagsRecyclerView.layoutManager = StaggeredGridLayoutManager(2, VERTICAL)
+            tagsRecyclerView.adapter = FilterTagsRecyclerViewAdapter(hobbyTestResult) {categoryTag: String -> categoryClicked(categoryTag)}
+
+            Toast.makeText(this, "$categoryTag deleted", Toast.LENGTH_SHORT).show()
+
+        }
+
+        tagsRecyclerView.adapter!!.notifyDataSetChanged()
+    }
+
     private fun weekClicked(dayOfWeekId: Int) {
 
         if(filters.dayOfWeeks.contains(dayOfWeekId)) {
@@ -144,6 +158,16 @@ class FilterViewActivity : AppCompatActivity(), View.OnClickListener {
             }
         }
         return categories
+    }
+
+    private fun createMap(ids: HashSet<Int>, categoriesList: ArrayList<Category>): MutableMap<String, Int>{
+        var categoryMap = mutableMapOf<String, Int>()
+        for(category in categoriesList) {
+            if(ids.contains(category.id)) {
+                categoryMap.put(category.name!!, category.id!!)
+            }
+        }
+        return categoryMap
     }
 
     internal inner class getCategories: AsyncTask<Void, Void, String>() {
@@ -170,9 +194,10 @@ class FilterViewActivity : AppCompatActivity(), View.OnClickListener {
                     val jsonArray = JSONArray(result)
                     categoryList.clear()
                     categoryList.addAll(jsonArrayToCategoryList(jsonArray))
+                    categoryMap = createMap(filters.categories, categoryList)
                     hobbyTestResult = idToCategoryName(filters.categories, categoryList)
                     tagsRecyclerView.layoutManager = StaggeredGridLayoutManager(2, VERTICAL)
-                    tagsRecyclerView.adapter = FilterTagsRecyclerViewAdapter(hobbyTestResult)
+                    tagsRecyclerView.adapter = FilterTagsRecyclerViewAdapter(hobbyTestResult) {categoryTag: String -> categoryClicked(categoryTag)}
 
                 }
             }
