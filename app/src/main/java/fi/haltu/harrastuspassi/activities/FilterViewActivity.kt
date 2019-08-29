@@ -11,6 +11,7 @@ import android.support.v7.widget.StaggeredGridLayoutManager
 import android.support.v7.widget.StaggeredGridLayoutManager.GAP_HANDLING_MOVE_ITEMS_BETWEEN_SPANS
 import android.support.v7.widget.StaggeredGridLayoutManager.VERTICAL
 import android.util.Log
+import android.util.Range
 import android.view.View
 import android.widget.Toast
 import fi.haltu.harrastuspassi.R
@@ -22,10 +23,12 @@ import java.net.URL
 import android.widget.Button
 import fi.haltu.harrastuspassi.adapters.FilterTagsRecyclerViewAdapter
 import android.widget.ImageButton
+import com.appyvet.materialrangebar.RangeBar
 import fi.haltu.harrastuspassi.adapters.DayOfWeekListAdapter
 import fi.haltu.harrastuspassi.models.Filters
 import fi.haltu.harrastuspassi.utils.loadFilters
 import fi.haltu.harrastuspassi.utils.saveFilters
+
 import kotlinx.android.synthetic.main.activity_filter_view.*
 
 
@@ -37,6 +40,7 @@ class FilterViewActivity : AppCompatActivity(), View.OnClickListener {
     private var filters: Filters = Filters()
     private lateinit var weekRecyclerView: RecyclerView
     private lateinit var tagsRecyclerView: RecyclerView
+    private lateinit var rangeBar : RangeBar
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -81,6 +85,30 @@ class FilterViewActivity : AppCompatActivity(), View.OnClickListener {
 
         }
         weekRecyclerView.setHasFixedSize(true)
+
+
+        ///// TIME SPAN FILTER //////
+
+        rangeBar = findViewById(R.id.time_span_slider)
+
+
+        rangeBar.setOnRangeBarChangeListener(object : RangeBar.OnRangeBarChangeListener {
+            override fun onRangeChangeListener(
+                rangeBar: RangeBar, leftPinIndex: Int,
+                rightPinIndex: Int, leftPinValue: String, rightPinValue: String) {
+
+            }
+
+            override fun onTouchEnded(rangeBar: RangeBar) {
+                Log.d("RangeBar", "Touch ended")
+            }
+
+            override fun onTouchStarted(rangeBar: RangeBar) {
+                Log.d("RangeBar", "Touch started")
+            }
+        })
+
+
 
 
     }

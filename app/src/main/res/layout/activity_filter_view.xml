@@ -27,7 +27,7 @@
             <TextView
                     android:id="@+id/add_hobby_categories_title"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="18dp"
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="24dp"
                     android:layout_weight="1"
@@ -38,7 +38,9 @@
                     android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:textAllCaps="true" />
+                    app:textAllCaps="true"
+                    android:layout_marginBottom="8dp"
+                    app:layout_constraintBottom_toTopOf="@+id/linearLayout"/>
 
             <LinearLayout
                     android:id="@+id/linearLayout"
@@ -115,11 +117,65 @@
                     android:layout_marginStart="16dp"
                     android:layout_marginEnd="16dp"
                     android:gravity="center_horizontal"
-                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/weekday_filter_title" />
+                    app:layout_constraintTop_toBottomOf="@+id/weekday_filter_title"/>
+
+            <TextView
+                    android:id="@+id/timespan_filter_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="18dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="32dp"
+                    android:fontFamily="Roboto"
+                    android:text="@string/timespan_filter_title"
+                    android:textColor="@color/hobbyPurple"
+                    android:textSize="13sp"
+                    android:textStyle="bold"
+                    app:layout_constraintTop_toBottomOf="@+id/day_of_week_list"
+                    app:textAllCaps="true" app:layout_constraintStart_toStartOf="parent"
+                    android:layout_marginBottom="8dp"
+                    app:layout_constraintBottom_toTopOf="@+id/time_span_slider"/>
+
+            <com.appyvet.materialrangebar.RangeBar xmlns:app="http://schemas.android.com/apk/res-auto"
+                                                   android:id="@+id/time_span_slider"
+                                                   android:layout_width="match_parent"
+                                                   android:layout_height="wrap_content"
+                                                   android:layout_marginStart="16dp"
+                                                   android:layout_marginEnd="16dp"
+                                                   app:layout_constraintTop_toBottomOf="@+id/timespan_filter_title"
+                                                   app:layout_constraintBottom_toBottomOf="parent"
+                                                   app:mrb_barWeight="2dp"
+                                                   app:mrb_connectingLineWeight="4dp"
+                                                   app:mrb_connectingLineColor="@color/hobbyPurpleLight"
+                                                   app:mrb_selectorColor="@color/hobbyPurpleLight"
+                                                   app:mrb_pinColor="@color/hobbyPurpleLight"
+                                                   app:mrb_pinMaxFont="13sp"
+                                                   app:mrb_pinMinFont="12sp"
+                                                   app:mrb_pinRadius="14dp"
+                                                   app:mrb_pinTextColor="@color/white"
+                                                   app:mrb_rangeBar="true"
+                                                   app:mrb_rangeBarPaddingBottom="30dp"
+                                                   app:mrb_rangeBar_rounded="true"
+                                                   app:mrb_selectorSize="12dp"
+                                                   app:mrb_temporaryPins="true"
+                                                   app:mrb_tickStart="1"
+                                                   app:mrb_tickDefaultColor="@color/blackOpacity0"
+                                                   app:mrb_tickEnd="24"
+                                                   app:mrb_tickInterval="1"
+
+
+
+
+
+
+
+
+            />
+
+
+
         </android.support.constraint.ConstraintLayout>
 
     </ScrollView>
