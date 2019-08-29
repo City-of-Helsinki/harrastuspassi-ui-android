@@ -81,7 +81,7 @@ class HobbyEventListFragment : Fragment() {
 
         override fun doInBackground(vararg params: Void?): String {
             return try {
-                URL(getString(R.string.API_URL) + createQueryUrl(filters.categories)).readText()
+                URL(getString(R.string.API_URL) + createQueryUrl(filters)).readText()
             } catch (e: IOException) {
                 return when (!verifyAvailableNetwork(activity!!)) {
                     true -> NO_INTERNET
@@ -148,6 +148,37 @@ class HobbyEventListFragment : Fragment() {
         }
 
         Log.d("queryCheck", query)
+        return query
+    }
+
+    fun createQueryUrl(filters: Filters): String {
+        var query = "hobbyevents/?include=hobby_detail"
+        var categoryArrayList = filters.categories.toArray()
+        var weekDayArrayList = filters.dayOfWeeks.toArray()
+        if(categoryArrayList.isNotEmpty()) {
+            query += "&"
+            for (i in 0 until categoryArrayList.size) {
+                val categoryId = categoryArrayList[i]
+                query += if (i == categoryArrayList.indexOfLast{ true }) {
+                    "category=$categoryId"
+                } else {
+                    "category=$categoryId&"
+                }
+            }
+        }
+        if(weekDayArrayList.isNotEmpty()) {
+            query += "&"
+            for(i in 0 until weekDayArrayList.size) {
+                val weekId = weekDayArrayList[i]
+                query += if(i == weekDayArrayList.indexOfLast { true }) {
+                    "start_weekday=$weekId"
+                } else {
+                    "start_weekday=$weekId&"
+                }
+            }
+        }
+        Log.d("myquery",query)
+
         return query
     }
 }

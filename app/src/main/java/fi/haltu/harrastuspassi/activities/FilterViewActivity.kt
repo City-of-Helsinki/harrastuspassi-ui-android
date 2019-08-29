@@ -72,7 +72,6 @@ class FilterViewActivity : AppCompatActivity(), View.OnClickListener {
 
 
         ///// WEEKDAY FILTER /////
-
         val dayOfWeekListAdapter = DayOfWeekListAdapter(filters.dayOfWeeks) { dayOfWeekId: Int -> weekClicked(dayOfWeekId)}
 
         weekRecyclerView = findViewById(R.id.day_of_week_list)
@@ -96,10 +95,9 @@ class FilterViewActivity : AppCompatActivity(), View.OnClickListener {
             tagsRecyclerView.layoutManager = StaggeredGridLayoutManager(2, VERTICAL)
             tagsRecyclerView.adapter = FilterTagsRecyclerViewAdapter(hobbyTestResult)
             weekRecyclerView.apply {
-                layoutManager = LinearLayoutManager(context)
+                layoutManager = GridLayoutManager(context, 3)
                 adapter = DayOfWeekListAdapter(filters.dayOfWeeks) { dayOfWeekId: Int -> weekClicked(dayOfWeekId)}
             }
-            Toast.makeText(applicationContext,categoryList.toString(), Toast.LENGTH_SHORT).show()
         }
     }
 

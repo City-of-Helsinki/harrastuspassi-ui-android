@@ -52,7 +52,7 @@ class HobbyCategoriesActivity : AppCompatActivity() {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == 1) {
             selectedCategories = data!!.extras!!.getSerializable("EXTRA_SELECTED_ITEMS") as HashSet<Int>
-            selectedWeekDays = data!!.extras!!.getSerializable("EXTRA_SELECTED_WEEK_DAY") as HashSet<Int>
+            selectedWeekDays = data!!.extras!!.getSerializable("EXTRA_SELECTED_WEEK_DAYS") as HashSet<Int>
 
             val categoryAdapter = CategoryListAdapter(categoryList, this, selectedCategories, selectedWeekDays) { category: Category -> categoryItemClicked(category)}
             listView.apply {
