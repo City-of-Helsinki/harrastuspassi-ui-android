@@ -30,7 +30,6 @@ import fi.haltu.harrastuspassi.utils.saveFilters
 
 class FilterViewActivity : AppCompatActivity(), View.OnClickListener {
 
-
     private var hobbyTestResult:ArrayList<String> = ArrayList()
     private var categoryList: ArrayList<Category> = ArrayList()
     private var categoryMap: MutableMap<String, Int> =  mutableMapOf<String, Int>()

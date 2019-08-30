@@ -24,6 +24,7 @@ import fi.haltu.harrastuspassi.activities.HobbyDetailActivity
 import fi.haltu.harrastuspassi.models.Filters
 import fi.haltu.harrastuspassi.models.HobbyEvent
 import fi.haltu.harrastuspassi.utils.loadFilters
+import fi.haltu.harrastuspassi.utils.minutesToTime
 import fi.haltu.harrastuspassi.utils.verifyAvailableNetwork
 import org.json.JSONException
 
@@ -157,6 +158,8 @@ class HobbyEventListFragment : Fragment() {
                 }
             }
         }
+        query += "&start_time_from=${minutesToTime(filters.startTimeFrom)}"
+        query += "&start_time_to=${minutesToTime(filters.startTimeTo)}"
 
         return query
     }
