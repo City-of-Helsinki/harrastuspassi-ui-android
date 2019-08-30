@@ -1,6 +1,7 @@
 package fi.haltu.harrastuspassi.fragments
 
 import android.annotation.SuppressLint
+import android.app.ActivityOptions
 import android.content.Intent
 import android.os.AsyncTask
 import android.os.Bundle
@@ -11,6 +12,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
@@ -41,7 +43,7 @@ class HobbyEventListFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val view: View = inflater.inflate(R.layout.fragment_hobby_event_list, container, false)
-        val hobbyEventListAdapter = HobbyEventListAdapter(hobbyEventArrayList) { hobbyEvent: HobbyEvent -> hobbyItemClicked(hobbyEvent)}
+        val hobbyEventListAdapter = HobbyEventListAdapter(hobbyEventArrayList) { hobbyEvent: HobbyEvent, hobbyImage: ImageView -> hobbyItemClicked(hobbyEvent, hobbyImage)}
         progressBar = view.findViewById(R.id.progressbar)
         progressText = view.findViewById(R.id.progress_text)
 
@@ -50,22 +52,20 @@ class HobbyEventListFragment : Fragment() {
             layoutManager = LinearLayoutManager(activity)
             adapter = hobbyEventListAdapter
         }
-
-        return view
-    }
-
-    override fun onResume() {
-        super.onResume()
         filters = loadFilters(this.activity!!)
         getHobbyEvents().execute()
         Toast.makeText(this.context,filters.toString(), Toast.LENGTH_SHORT).show()
+        return view
     }
 
-    private fun hobbyItemClicked(hobbyEvent: HobbyEvent) {
+    private fun hobbyItemClicked(hobbyEvent: HobbyEvent, hobbyImage: ImageView) {
         val intent = Intent(context, HobbyDetailActivity::class.java)
 
         intent.putExtra("EXTRA_HOBBY", hobbyEvent)
-        startActivity(intent)
+        val sharedView: View = hobbyImage
+        val transition = getString(R.string.item_detail)
+        val transitionActivity = ActivityOptions.makeSceneTransitionAnimation(this.activity, sharedView, transition)
+        startActivity(intent, transitionActivity.toBundle())
     }
 
     companion object {

@@ -25,6 +25,7 @@
                     android:layout_width="0dp"
                     android:layout_height="220dp"
                     android:contentDescription="@string/hobby_image"
+                    android:transitionName="@string/item_detail"
                     android:scaleType="centerCrop"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
