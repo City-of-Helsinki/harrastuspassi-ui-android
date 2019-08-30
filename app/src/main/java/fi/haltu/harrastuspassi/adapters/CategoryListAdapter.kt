@@ -14,11 +14,11 @@ import android.widget.Toast
 import fi.haltu.harrastuspassi.R
 import fi.haltu.harrastuspassi.activities.HobbyCategoriesActivity
 import fi.haltu.harrastuspassi.models.Category
+import fi.haltu.harrastuspassi.models.Filters
 
 class CategoryListAdapter(private val categories: ArrayList<Category>,
                           private val activity: AppCompatActivity,
-                          private val selectedItems: HashSet<Int>,
-                          private val selectedDays: HashSet<Int>,
+                          private val filters: Filters,
                           private val clickListener:(Category) -> Unit) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
@@ -32,7 +32,7 @@ class CategoryListAdapter(private val categories: ArrayList<Category>,
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val category: Category = categories[position]
-        (holder as CategoryListViewHolder).bind(category, activity, selectedItems, selectedDays, clickListener)
+        (holder as CategoryListViewHolder).bind(category, activity, filters, clickListener)
     }
 
     class CategoryListViewHolder(itemView: View) :
@@ -40,27 +40,27 @@ class CategoryListAdapter(private val categories: ArrayList<Category>,
         private var name: TextView = itemView.findViewById(R.id.name)
         private var checkButton: CheckBox = itemView.findViewById(R.id.check_button)
         private var showMoreButton: ImageButton = itemView.findViewById(R.id.show_more_button)
-        fun bind(category: Category, activity: AppCompatActivity, selectedItems: HashSet<Int>, selectedDays: HashSet<Int>, clickListener: (Category) -> Unit) {
+        fun bind(category: Category, activity: AppCompatActivity, filters: Filters, clickListener: (Category) -> Unit) {
             name.text = category.name
             itemView.setOnClickListener { clickListener(category) }
 
-            checkButton.isChecked = selectedItems.contains(category.id!!)
+            checkButton.isChecked = filters.categories.contains(category.id!!)
 
             checkButton.setOnClickListener {
-                if(selectedItems.contains(category.id!!)) {
-                    selectedItems.remove(category.id!!)
+                if(filters.categories.contains(category.id!!)) {
+                    filters.categories.remove(category.id!!)
                     checkButton.isChecked = false
 
                 } else {
-                    selectedItems.add(category.id!!)
+                    filters.categories.add(category.id!!)
                     checkButton.isChecked = true
                 }
-                setShowMoreButton(category, selectedItems, selectedDays,activity)
+                setShowMoreButton(category, filters,activity)
             }
-            setShowMoreButton(category, selectedItems, selectedDays, activity)
+            setShowMoreButton(category, filters, activity)
         }
 
-        private fun setShowMoreButton(category: Category, selectedItems: HashSet<Int>, selectedDays: HashSet<Int>, activity: AppCompatActivity) {
+        private fun setShowMoreButton(category: Category, filters: Filters, activity: AppCompatActivity) {
             if(category.childCategories!!.size == 0 ) {
                 showMoreButton.visibility = View.INVISIBLE
             } else {
@@ -71,9 +71,8 @@ class CategoryListAdapter(private val categories: ArrayList<Category>,
                     val bundle = Bundle()
                     bundle.putSerializable("CATEGORY_LIST", category.childCategories)
                     intent.putExtra("EXTRA_CATEGORY_BUNDLE", bundle)
-                    intent.putExtra("EXTRA_SELECTED_ITEMS", selectedItems)
-                    intent.putExtra("EXTRA_SELECTED_WEEK_DAYS", selectedDays)
                     intent.putExtra("EXTRA_CATEGORY_NAME", category.name)
+                    intent.putExtra("EXTRA_FILTERS", filters)
 
                     activity.startActivityForResult(intent, 1)
                 }
