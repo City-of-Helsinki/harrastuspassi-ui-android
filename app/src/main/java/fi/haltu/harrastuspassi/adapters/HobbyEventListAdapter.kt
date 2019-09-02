@@ -12,7 +12,7 @@ import fi.haltu.harrastuspassi.models.Hobby
 import fi.haltu.harrastuspassi.models.HobbyEvent
 
 
-class HobbyEventListAdapter(private val list: List<HobbyEvent>, private val clickListener: (HobbyEvent) -> Unit) :
+class HobbyEventListAdapter(private val list: List<HobbyEvent>, private val clickListener: (HobbyEvent, ImageView) -> Unit) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HobbyListViewHolder {
@@ -35,7 +35,7 @@ class HobbyEventListAdapter(private val list: List<HobbyEvent>, private val clic
         private var image: ImageView = itemView.findViewById(R.id.image)
         private var duration: TextView = itemView.findViewById(R.id.dateTime)
 
-        fun bind(hobbyEvent: HobbyEvent, clickListener: (HobbyEvent) -> Unit) {
+        fun bind(hobbyEvent: HobbyEvent, clickListener: (HobbyEvent, ImageView) -> Unit) {
             title.text = hobbyEvent.hobby.name
             place.text = hobbyEvent.hobby.location.name
             Picasso.with(itemView.context)
@@ -44,7 +44,7 @@ class HobbyEventListAdapter(private val list: List<HobbyEvent>, private val clic
                 .error(R.drawable.image_placeholder_icon)
                 .into(image)
             duration.text = "${hobbyEvent.startDate} - ${hobbyEvent.endDate}"
-            itemView.setOnClickListener { clickListener(hobbyEvent) }
+            itemView.setOnClickListener { clickListener(hobbyEvent, image) }
         }
     }
 }

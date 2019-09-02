@@ -111,7 +111,7 @@ class HobbyDetailActivity : AppCompatActivity(), OnMapReadyCallback{
 
         return when (item!!.itemId) {
             R.id.home -> {
-                NavUtils.navigateUpFromSameTask(this)
+                finish()
                 true
             }
             else -> {

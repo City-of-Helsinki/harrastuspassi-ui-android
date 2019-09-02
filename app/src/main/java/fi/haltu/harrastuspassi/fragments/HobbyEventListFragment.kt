@@ -1,6 +1,7 @@
 package fi.haltu.harrastuspassi.fragments
 
 import android.annotation.SuppressLint
+import android.app.ActivityOptions
 import android.content.Intent
 import android.os.AsyncTask
 import android.os.Bundle
@@ -11,6 +12,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
@@ -24,6 +26,7 @@ import fi.haltu.harrastuspassi.activities.HobbyDetailActivity
 import fi.haltu.harrastuspassi.models.Filters
 import fi.haltu.harrastuspassi.models.HobbyEvent
 import fi.haltu.harrastuspassi.utils.loadFilters
+import fi.haltu.harrastuspassi.utils.minutesToTime
 import fi.haltu.harrastuspassi.utils.verifyAvailableNetwork
 import org.json.JSONException
 
@@ -40,7 +43,7 @@ class HobbyEventListFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val view: View = inflater.inflate(R.layout.fragment_hobby_event_list, container, false)
-        val hobbyEventListAdapter = HobbyEventListAdapter(hobbyEventArrayList) { hobbyEvent: HobbyEvent -> hobbyItemClicked(hobbyEvent)}
+        val hobbyEventListAdapter = HobbyEventListAdapter(hobbyEventArrayList) { hobbyEvent: HobbyEvent, hobbyImage: ImageView -> hobbyItemClicked(hobbyEvent, hobbyImage)}
         progressBar = view.findViewById(R.id.progressbar)
         progressText = view.findViewById(R.id.progress_text)
 
@@ -49,22 +52,20 @@ class HobbyEventListFragment : Fragment() {
             layoutManager = LinearLayoutManager(activity)
             adapter = hobbyEventListAdapter
         }
-
-        return view
-    }
-
-    override fun onResume() {
-        super.onResume()
         filters = loadFilters(this.activity!!)
         getHobbyEvents().execute()
         Toast.makeText(this.context,filters.toString(), Toast.LENGTH_SHORT).show()
+        return view
     }
 
-    private fun hobbyItemClicked(hobbyEvent: HobbyEvent) {
+    private fun hobbyItemClicked(hobbyEvent: HobbyEvent, hobbyImage: ImageView) {
         val intent = Intent(context, HobbyDetailActivity::class.java)
 
         intent.putExtra("EXTRA_HOBBY", hobbyEvent)
-        startActivity(intent)
+        val sharedView: View = hobbyImage
+        val transition = getString(R.string.item_detail)
+        val transitionActivity = ActivityOptions.makeSceneTransitionAnimation(this.activity, sharedView, transition)
+        startActivity(intent, transitionActivity.toBundle())
     }
 
     companion object {
@@ -131,26 +132,6 @@ class HobbyEventListFragment : Fragment() {
         }
     }
 
-    fun createQueryUrl(categories: HashSet<Int>): String {
-        var query = "hobbyevents/?include=hobby_detail"
-        var arrayList = categories.toArray()
-
-        if(arrayList.isNotEmpty()) {
-            query += "&"
-            for (i in 0 until arrayList.size) {
-                val categoryId = arrayList[i]
-                query += if (i == arrayList.indexOfLast{true}) {
-                    "category=$categoryId"
-                } else {
-                    "category=$categoryId&"
-                }
-            }
-        }
-
-        Log.d("queryCheck", query)
-        return query
-    }
-
     fun createQueryUrl(filters: Filters): String {
         var query = "hobbyevents/?include=hobby_detail"
         var categoryArrayList = filters.categories.toArray()
@@ -177,7 +158,8 @@ class HobbyEventListFragment : Fragment() {
                 }
             }
         }
-        Log.d("myquery",query)
+        query += "&start_time_from=${minutesToTime(filters.startTimeFrom)}"
+        query += "&start_time_to=${minutesToTime(filters.startTimeTo)}"
 
         return query
     }

@@ -14,6 +14,7 @@
             android:contentDescription="@string/hobby_image"
             android:id="@+id/image" app:layout_constraintTop_toTopOf="parent"
             android:scaleType="centerCrop" app:layout_constraintStart_toStartOf="parent"
+            android:transitionName="@string/item_detail"
             app:layout_constraintBottom_toBottomOf="parent">
     </ImageView>
 

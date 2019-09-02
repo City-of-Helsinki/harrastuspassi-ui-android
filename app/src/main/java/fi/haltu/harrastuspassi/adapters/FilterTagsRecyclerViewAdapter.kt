@@ -5,10 +5,12 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageButton
 import android.widget.TextView
 import fi.haltu.harrastuspassi.R
+import fi.haltu.harrastuspassi.models.HobbyEvent
 
-class FilterTagsRecyclerViewAdapter(private val categoryTagsList: ArrayList<String>):
+class FilterTagsRecyclerViewAdapter(private val categoryTagsList: ArrayList<String>, private val clickListener: (categryName: String) -> Unit):
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
 
@@ -19,7 +21,7 @@ class FilterTagsRecyclerViewAdapter(private val categoryTagsList: ArrayList<Stri
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val filterTag : String = categoryTagsList[position]
-        (holder as TagViewHolder).bind(filterTag)
+        (holder as TagViewHolder).bind(filterTag, clickListener)
     }
 
     override fun getItemCount(): Int {
@@ -29,12 +31,12 @@ class FilterTagsRecyclerViewAdapter(private val categoryTagsList: ArrayList<Stri
     class TagViewHolder(itemView: View) :
         RecyclerView.ViewHolder(itemView) {
         private var tag: TextView = itemView.findViewById(R.id.textView)
-
-        fun bind(filterTag: String) {
+        private var deleteButton: ImageButton = itemView.findViewById(R.id.delete_tag)
+        fun bind(filterTag: String, clickListener: (String) -> Unit) {
             tag.text = filterTag
             Log.d("idToCategory", "filter tags")
 
-
+            deleteButton.setOnClickListener{clickListener(filterTag)}
         }
     }
 }

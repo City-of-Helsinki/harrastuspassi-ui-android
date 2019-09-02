@@ -16,20 +16,21 @@ import java.net.URL
 import android.content.Intent
 import android.view.Menu
 import android.view.MenuItem
+import fi.haltu.harrastuspassi.models.Filters
 
 
 class HobbyCategoriesActivity : AppCompatActivity() {
 
     private var categoryList = ArrayList<Category>()
     private lateinit var listView: RecyclerView
-    private var selectedCategories: HashSet<Int> = HashSet()
-    private var selectedWeekDays: HashSet<Int> = HashSet()
+
+    private var filters: Filters = Filters()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_hobby_categories)
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
-        selectedCategories = intent.extras!!.getSerializable("EXTRA_SELECTED_ITEMS") as HashSet<Int>
-        selectedWeekDays = intent.extras!!.getSerializable("EXTRA_SELECTED_WEEK_DAYS") as HashSet<Int>
+
+        filters = intent.extras!!.getSerializable("EXTRA_FILTERS") as Filters
 
         if (intent.hasExtra("EXTRA_CATEGORY_BUNDLE")) {
             val bundle = intent.getBundleExtra("EXTRA_CATEGORY_BUNDLE")
@@ -40,7 +41,7 @@ class HobbyCategoriesActivity : AppCompatActivity() {
             getCategories().execute()
         }
 
-        val categoryAdapter = CategoryListAdapter(categoryList, this, selectedCategories, selectedWeekDays) { category: Category -> categoryItemClicked(category)}
+        val categoryAdapter = CategoryListAdapter(categoryList, this, filters) { category: Category -> categoryItemClicked(category)}
         listView = this.findViewById(R.id.category_list_view)
         listView.apply {
             layoutManager = LinearLayoutManager(this.context)
@@ -51,10 +52,9 @@ class HobbyCategoriesActivity : AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == 1) {
-            selectedCategories = data!!.extras!!.getSerializable("EXTRA_SELECTED_ITEMS") as HashSet<Int>
-            selectedWeekDays = data!!.extras!!.getSerializable("EXTRA_SELECTED_WEEK_DAYS") as HashSet<Int>
 
-            val categoryAdapter = CategoryListAdapter(categoryList, this, selectedCategories, selectedWeekDays) { category: Category -> categoryItemClicked(category)}
+            filters = data!!.extras.getSerializable("EXTRA_FILTERS") as Filters
+            val categoryAdapter = CategoryListAdapter(categoryList, this, filters) { category: Category -> categoryItemClicked(category)}
             listView.apply {
                 layoutManager = LinearLayoutManager(this.context)
                 adapter = categoryAdapter
@@ -73,18 +73,13 @@ class HobbyCategoriesActivity : AppCompatActivity() {
         when (item.itemId) {
             android.R.id.home -> {
                 val intent = Intent()
-
-                intent.putExtra("EXTRA_SELECTED_ITEMS", selectedCategories)
-                intent.putExtra("EXTRA_SELECTED_WEEK_DAYS",  selectedWeekDays)
+                intent.putExtra("EXTRA_FILTERS", filters)
                 setResult(1, intent)
                 finish()
             }
             R.id.save -> {
                 val intent = Intent(this, FilterViewActivity::class.java)
-                intent.putExtra("EXTRA_SELECTED_ITEMS", selectedCategories)
-                intent.putExtra("EXTRA_SELECTED_WEEK_DAYS",  selectedWeekDays)
-
-
+                intent.putExtra("EXTRA_FILTERS", filters)
                 startActivity(intent)
                 finish()
             }
@@ -94,10 +89,7 @@ class HobbyCategoriesActivity : AppCompatActivity() {
 
     override fun onBackPressed() {
         val intent = Intent()
-        intent.putExtra("EXTRA_SELECTED_ITEMS", selectedCategories)
-        intent.putExtra("EXTRA_SELECTED_WEEK_DAYS",  selectedWeekDays)
-
-
+        intent.putExtra("EXTRA_FILTERS", filters)
         setResult(1, intent)
         finish()
         super.onBackPressed()
@@ -105,11 +97,11 @@ class HobbyCategoriesActivity : AppCompatActivity() {
     }
 
     private fun categoryItemClicked(category: Category) {
-        if(selectedCategories.contains(category.id!!)) {
-            selectedCategories.remove(category.id!!)
+        if(filters.categories.contains(category.id!!)) {
+            filters.categories.remove(category.id!!)
 
         } else {
-            selectedCategories.add(category.id!!)
+            filters.categories.add(category.id!!)
         }
 
         listView.adapter!!.notifyDataSetChanged()
