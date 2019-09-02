@@ -18,4 +18,14 @@
     <string name="timespan_filter_title">Alkamisaika</string>
     <string name="range_text_left">00:00</string>
     <string name="range_text_right">00:00</string>
+    <string name="hobby_detail_start_time">12:00</string>
+    <string name="hobby_detail_date">23.12.2019</string>
+    <string name="hobby_detail_day_of_week">Keskiviikko</string>
+    <string name="hobby_detail_address">Esimerkkikatu 25 c 19</string>
+    <string name="hobby_detail_hobby_description">\"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+        eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation
+        ullamco laboris nisi ut aliquip ex ea commodo consequat.
+    </string>
+    <string name="hobby_detail_description_title">Kuvaus</string>
+    <string name="hobby_detail_location">Tapahtuman sijaintipaikka tähän</string>
 </resources>
