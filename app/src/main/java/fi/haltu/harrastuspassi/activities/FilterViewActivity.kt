@@ -97,42 +97,28 @@ class FilterViewActivity : AppCompatActivity(), View.OnClickListener {
                 rightPinValue: String
             ) {
 
-                val min : Int  = leftPinIndex * 60
-                val max : Int = rightPinIndex * 60
-                Log.d("RangeMin", "$min")
-                Log.d("RangeMax", "$max")
+                val min : Int  = leftPinIndex
+                val max : Int = rightPinIndex
 
-                Log.d("leftIndex", "$leftPinIndex")
-                Log.d("leftIndex", "$rightPinIndex")
+                var minValue : Int = leftPinValue.toInt()
+                var maxValue : Int = rightPinValue.toInt()
 
+                filters.startTimeFrom = minValue
+                filters.startTimeTo = maxValue
 
-                val minTime = minutesToTime(min)
-                val maxTime = minutesToTime(max)
+                val minTime = minutesToTime(minValue)
+                val maxTime = minutesToTime(maxValue)
 
                 rangeTextLeft.text = "$minTime"
                 rangeTextRight.text = "$maxTime"
-
-                Log.d("RangeMinToTime", "$minTime")
-                Log.d("RangeMaxToTime", "$maxTime")
-
-                filters.startTimeFrom = min
-                filters.startTimeTo = max
-
             }
 
             override fun onTouchEnded(rangeBar: RangeBar) {
-                Log.d("RangeBar", "Touch ended")
-
             }
 
             override fun onTouchStarted(rangeBar: RangeBar) {
-                Log.d("RangeBar", "Touch started")
             }
         })
-
-
-
-
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -242,6 +228,7 @@ class FilterViewActivity : AppCompatActivity(), View.OnClickListener {
                     hobbyTestResult = idToCategoryName(filters.categories, categoryList)
                     tagsRecyclerView.layoutManager = StaggeredGridLayoutManager(2, VERTICAL)
                     tagsRecyclerView.adapter = FilterTagsRecyclerViewAdapter(hobbyTestResult) {categoryTag: String -> categoryClicked(categoryTag)}
+                    rangeBar.setRangePinsByValue(filters.startTimeFrom.toFloat(), filters.startTimeTo.toFloat())
                 }
             }
         }
