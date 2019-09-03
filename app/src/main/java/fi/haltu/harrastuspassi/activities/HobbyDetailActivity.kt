@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.os.AsyncTask
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import android.support.v4.app.NavUtils
 import android.support.v7.app.AlertDialog
 import android.util.Log
 import android.view.MenuItem
@@ -18,11 +17,7 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.squareup.picasso.Picasso
 import fi.haltu.harrastuspassi.R
-import fi.haltu.harrastuspassi.models.Hobby
 import fi.haltu.harrastuspassi.models.HobbyEvent
-import fi.haltu.harrastuspassi.models.Location
-import fi.haltu.harrastuspassi.utils.getOptionalDouble
-import fi.haltu.harrastuspassi.utils.getOptionalJSONObject
 import fi.haltu.harrastuspassi.utils.idToWeekDay
 import org.json.JSONObject
 import java.io.IOException
@@ -32,7 +27,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 
-class HobbyDetailActivity : AppCompatActivity(), OnMapReadyCallback{
+class HobbyDetailActivity : AppCompatActivity(), OnMapReadyCallback {
 
     private lateinit var coverImageView: ImageView
     private lateinit var titleTextView: TextView
@@ -56,7 +51,7 @@ class HobbyDetailActivity : AppCompatActivity(), OnMapReadyCallback{
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_hobby_detail)
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
-
+        supportActionBar!!.title = ""
         hobbyEvent = intent.extras!!.getSerializable("EXTRA_HOBBY") as HobbyEvent
         id = (hobbyEvent.id)
 
@@ -108,16 +103,8 @@ class HobbyDetailActivity : AppCompatActivity(), OnMapReadyCallback{
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-
-        return when (item!!.itemId) {
-            R.id.home -> {
-                finish()
-                true
-            }
-            else -> {
-                super.onOptionsItemSelected(item)
-            }
-        }
+        onBackPressed()
+        return true
     }
 
     companion object {
@@ -191,8 +178,6 @@ class HobbyDetailActivity : AppCompatActivity(), OnMapReadyCallback{
             }
         }
     }
-
-
 
 }
 
