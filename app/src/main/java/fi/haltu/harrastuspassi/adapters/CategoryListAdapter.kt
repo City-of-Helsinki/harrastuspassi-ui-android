@@ -10,7 +10,6 @@ import android.view.ViewGroup
 import android.widget.CheckBox
 import android.widget.ImageButton
 import android.widget.TextView
-import android.widget.Toast
 import fi.haltu.harrastuspassi.R
 import fi.haltu.harrastuspassi.activities.HobbyCategoriesActivity
 import fi.haltu.harrastuspassi.models.Category
@@ -66,7 +65,6 @@ class CategoryListAdapter(private val categories: ArrayList<Category>,
             } else {
                 showMoreButton.visibility = View.VISIBLE
                 showMoreButton.setOnClickListener{
-                    Toast.makeText(activity, "Show more!" + category.name, Toast.LENGTH_SHORT).show()
                     val intent = Intent(activity, HobbyCategoriesActivity::class.java)
                     val bundle = Bundle()
                     bundle.putSerializable("CATEGORY_LIST", category.childCategories)

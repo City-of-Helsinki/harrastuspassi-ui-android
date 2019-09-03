@@ -8,7 +8,6 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.squareup.picasso.Picasso
 import fi.haltu.harrastuspassi.R
-import fi.haltu.harrastuspassi.models.Hobby
 import fi.haltu.harrastuspassi.models.HobbyEvent
 
 

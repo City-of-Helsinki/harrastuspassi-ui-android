@@ -5,15 +5,13 @@
              android:layout_height="match_parent"
              tools:context="fi.haltu.harrastuspassi.fragments.HobbyEventListFragment">
 
-
     <android.support.v7.widget.RecyclerView
             android:id="@+id/list_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:dividerHeight="2dp"
             android:footerDividersEnabled="false"
-            android:background="@color/hobbyPurple"
-    />
+            android:background="@color/hobbyPurple"/>
 
     <ProgressBar
             android:id="@+id/progressbar"
@@ -31,6 +29,6 @@
             android:gravity="center"
             android:fontFamily="sans-serif"
             android:id="@+id/progress_text"
-            android:textColor="#fff"
-    />
+            android:textColor="#fff"/>
+
 </FrameLayout>

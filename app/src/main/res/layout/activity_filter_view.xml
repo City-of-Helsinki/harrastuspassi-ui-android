@@ -159,7 +159,7 @@
                         app:layout_constraintTop_toTopOf="parent" app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         android:layout_marginStart="16dp" app:layout_constraintHorizontal_bias="0.5"
-                android:gravity="center"/>
+                        android:gravity="center"/>
 
                 <com.appyvet.materialrangebar.RangeBar xmlns:app="http://schemas.android.com/apk/res-auto"
                                                        android:id="@+id/time_span_slider"
@@ -207,18 +207,12 @@
                         android:layout_marginEnd="16dp"
                         android:layout_marginStart="8dp"
                         android:gravity="center"/>
-
             </android.support.constraint.ConstraintLayout>
-
-
-
-
-
-
 
         </android.support.constraint.ConstraintLayout>
 
     </ScrollView>
+
     <Button android:id="@+id/filterButton"
             android:layout_width="0dp"
             android:text="@string/filter_button"
@@ -234,7 +228,5 @@
             android:textColor="@color/hobbyYellow"
             android:textAllCaps="false"
             android:textSize="16dp"/>
-
-
 
 </android.support.constraint.ConstraintLayout>

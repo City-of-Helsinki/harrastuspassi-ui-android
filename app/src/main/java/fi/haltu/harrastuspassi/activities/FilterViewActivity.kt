@@ -11,9 +11,7 @@ import android.support.v7.widget.StaggeredGridLayoutManager
 import android.support.v7.widget.StaggeredGridLayoutManager.GAP_HANDLING_MOVE_ITEMS_BETWEEN_SPANS
 import android.support.v7.widget.StaggeredGridLayoutManager.VERTICAL
 import android.util.Log
-import android.util.Range
 import android.view.View
-import android.widget.Toast
 import fi.haltu.harrastuspassi.R
 import fi.haltu.harrastuspassi.models.Category
 import fi.haltu.harrastuspassi.utils.jsonArrayToCategoryList
@@ -21,7 +19,7 @@ import org.json.JSONArray
 import java.io.IOException
 import java.net.URL
 import android.widget.Button
-import fi.haltu.harrastuspassi.adapters.FilterTagsRecyclerViewAdapter
+import fi.haltu.harrastuspassi.adapters.FilterTagsListAdapter
 import android.widget.ImageButton
 import android.widget.TextView
 import com.appyvet.materialrangebar.RangeBar
@@ -31,14 +29,12 @@ import fi.haltu.harrastuspassi.utils.loadFilters
 import fi.haltu.harrastuspassi.utils.minutesToTime
 import fi.haltu.harrastuspassi.utils.saveFilters
 
-import kotlinx.android.synthetic.main.activity_filter_view.*
-
 
 class FilterViewActivity : AppCompatActivity(), View.OnClickListener {
 
     private var hobbyTestResult:ArrayList<String> = ArrayList()
     private var categoryList: ArrayList<Category> = ArrayList()
-    private var categoryMap: MutableMap<String, Int> =  mutableMapOf<String, Int>()
+    private var categoryMap: MutableMap<String, Int> =  mutableMapOf()
     private var filters: Filters = Filters()
     private lateinit var weekRecyclerView: RecyclerView
     private lateinit var tagsRecyclerView: RecyclerView
@@ -58,7 +54,7 @@ class FilterViewActivity : AppCompatActivity(), View.OnClickListener {
         } catch (e: KotlinNullPointerException) {
             loadFilters(this)
         }
-        getCategories().execute()
+        GetCategories().execute()
 
         hobbyTestResult = idToCategoryName(filters.categories, categoryList)
         tagsRecyclerView = findViewById(R.id.tags_recyclerView)
@@ -68,7 +64,7 @@ class FilterViewActivity : AppCompatActivity(), View.OnClickListener {
         straggeredGrid.gapStrategy = GAP_HANDLING_MOVE_ITEMS_BETWEEN_SPANS
         straggeredGrid.canScrollHorizontally()
         tagsRecyclerView.layoutManager = straggeredGrid
-        tagsRecyclerView.adapter = FilterTagsRecyclerViewAdapter(hobbyTestResult) {categoryTag: String -> categoryClicked(categoryTag)}
+        tagsRecyclerView.adapter = FilterTagsListAdapter(hobbyTestResult) { categoryTag: String -> categoryClicked(categoryTag)}
 
         ///// WEEKDAY FILTER /////
         val dayOfWeekListAdapter = DayOfWeekListAdapter(filters.dayOfWeeks) { dayOfWeekId: Int -> weekClicked(dayOfWeekId)}
@@ -97,20 +93,17 @@ class FilterViewActivity : AppCompatActivity(), View.OnClickListener {
                 rightPinValue: String
             ) {
 
-                val min : Int  = leftPinIndex
-                val max : Int = rightPinIndex
+                val rangeStartValue : Int = leftPinValue.toInt()
+                val rangeEndValue : Int = rightPinValue.toInt()
 
-                var minValue : Int = leftPinValue.toInt()
-                var maxValue : Int = rightPinValue.toInt()
+                filters.startTimeFrom = rangeStartValue
+                filters.startTimeTo = rangeEndValue
 
-                filters.startTimeFrom = minValue
-                filters.startTimeTo = maxValue
+                val startTime = minutesToTime(rangeStartValue)
+                val endTime = minutesToTime(rangeEndValue)
 
-                val minTime = minutesToTime(minValue)
-                val maxTime = minutesToTime(maxValue)
-
-                rangeTextLeft.text = "$minTime"
-                rangeTextRight.text = "$maxTime"
+                rangeTextLeft.text = startTime
+                rangeTextRight.text = endTime
             }
 
             override fun onTouchEnded(rangeBar: RangeBar) {
@@ -128,7 +121,7 @@ class FilterViewActivity : AppCompatActivity(), View.OnClickListener {
             hobbyTestResult = idToCategoryName(filters.categories, categoryList)
             categoryMap = createMap(filters.categories, categoryList)
             tagsRecyclerView.layoutManager = StaggeredGridLayoutManager(2, VERTICAL)
-            tagsRecyclerView.adapter = FilterTagsRecyclerViewAdapter(hobbyTestResult) {categoryTag: String -> categoryClicked(categoryTag)}
+            tagsRecyclerView.adapter = FilterTagsListAdapter(hobbyTestResult) { categoryTag: String -> categoryClicked(categoryTag)}
             weekRecyclerView.apply {
                 layoutManager = GridLayoutManager(context, 3)
                 adapter = DayOfWeekListAdapter(filters.dayOfWeeks) { dayOfWeekId: Int -> weekClicked(dayOfWeekId)}
@@ -140,7 +133,6 @@ class FilterViewActivity : AppCompatActivity(), View.OnClickListener {
 
         when(v.id) {
             R.id.filterButton -> {
-                Toast.makeText(applicationContext, filters.categories.toString(), Toast.LENGTH_SHORT).show()
                 val intent = Intent(this, MainActivity::class.java)
                 saveFilters(filters, this)
                 startActivity(intent)
@@ -160,10 +152,7 @@ class FilterViewActivity : AppCompatActivity(), View.OnClickListener {
             filters.categories.remove(categoryMap[categoryTag])
             hobbyTestResult = idToCategoryName(filters.categories, categoryList)
             tagsRecyclerView.layoutManager = StaggeredGridLayoutManager(2, VERTICAL)
-            tagsRecyclerView.adapter = FilterTagsRecyclerViewAdapter(hobbyTestResult) {categoryTag: String -> categoryClicked(categoryTag)}
-
-            Toast.makeText(this, "$categoryTag deleted", Toast.LENGTH_SHORT).show()
-
+            tagsRecyclerView.adapter = FilterTagsListAdapter(hobbyTestResult) { categoryTag: String -> categoryClicked(categoryTag)}
         }
 
         tagsRecyclerView.adapter!!.notifyDataSetChanged()
@@ -181,7 +170,7 @@ class FilterViewActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     fun idToCategoryName(ids: HashSet<Int>, categoriesList: ArrayList<Category>): ArrayList<String> {
-        var categories = ArrayList<String>()
+        val categories = ArrayList<String>()
         for(category in categoriesList) {
             if(ids.contains(category.id)) {
                 categories.add(category.name!!)
@@ -191,16 +180,16 @@ class FilterViewActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     private fun createMap(ids: HashSet<Int>, categoriesList: ArrayList<Category>): MutableMap<String, Int>{
-        var categoryMap = mutableMapOf<String, Int>()
+        val categoryMap = mutableMapOf<String, Int>()
         for(category in categoriesList) {
             if(ids.contains(category.id)) {
-                categoryMap.put(category.name!!, category.id!!)
+                categoryMap[category.name!!] = category.id!!
             }
         }
         return categoryMap
     }
 
-    internal inner class getCategories: AsyncTask<Void, Void, String>() {
+    internal inner class GetCategories: AsyncTask<Void, Void, String>() {
 
         override fun onPreExecute() {
             super.onPreExecute()
@@ -227,7 +216,7 @@ class FilterViewActivity : AppCompatActivity(), View.OnClickListener {
                     categoryMap = createMap(filters.categories, categoryList)
                     hobbyTestResult = idToCategoryName(filters.categories, categoryList)
                     tagsRecyclerView.layoutManager = StaggeredGridLayoutManager(2, VERTICAL)
-                    tagsRecyclerView.adapter = FilterTagsRecyclerViewAdapter(hobbyTestResult) {categoryTag: String -> categoryClicked(categoryTag)}
+                    tagsRecyclerView.adapter = FilterTagsListAdapter(hobbyTestResult) { categoryTag: String -> categoryClicked(categoryTag)}
                     rangeBar.setRangePinsByValue(filters.startTimeFrom.toFloat(), filters.startTimeTo.toFloat())
                 }
             }

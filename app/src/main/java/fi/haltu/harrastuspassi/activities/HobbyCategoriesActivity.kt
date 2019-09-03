@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.util.Log
-import android.widget.Toast
 import fi.haltu.harrastuspassi.R
 import fi.haltu.harrastuspassi.adapters.CategoryListAdapter
 import fi.haltu.harrastuspassi.models.Category
@@ -38,7 +37,7 @@ class HobbyCategoriesActivity : AppCompatActivity() {
             supportActionBar!!.title = intent.getStringExtra("EXTRA_CATEGORY_NAME")
         } else {
             supportActionBar!!.title = "Valitse harrastus"
-            getCategories().execute()
+            GetCategories().execute()
         }
 
         val categoryAdapter = CategoryListAdapter(categoryList, this, filters) { category: Category -> categoryItemClicked(category)}
@@ -106,16 +105,13 @@ class HobbyCategoriesActivity : AppCompatActivity() {
 
         listView.adapter!!.notifyDataSetChanged()
         val text = category.name
-        val toast = Toast.makeText(applicationContext, text, Toast.LENGTH_SHORT)
-        toast.show()
     }
 
     companion object {
         const val ERROR = "error"
-        const val NO_INTERNET = "no_internet"
     }
 
-    internal inner class getCategories: AsyncTask<Void, Void, String>() {
+    internal inner class GetCategories: AsyncTask<Void, Void, String>() {
 
         override fun onPreExecute() {
             super.onPreExecute()

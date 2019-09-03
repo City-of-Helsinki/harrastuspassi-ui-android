@@ -25,5 +25,4 @@ class HobbyEvent(json: JSONObject) : Serializable {
             hobby = Hobby(hobbyObject)
         }
     }
-
 }

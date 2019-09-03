@@ -4,7 +4,6 @@ import android.app.Activity
 import android.content.Context
 import android.content.SharedPreferences
 import android.support.v4.app.FragmentActivity
-import android.util.Log
 import com.google.gson.Gson
 import fi.haltu.harrastuspassi.models.Filters
 import java.lang.IllegalStateException

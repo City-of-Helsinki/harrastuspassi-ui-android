@@ -26,18 +26,11 @@ fun getOptionalInt(json: JSONObject, key: String): Int? {
         json.getInt(key)
 }
 
-fun getOptionalString(json: JSONObject, key: String): String? {
-    return if (json.isNull(key))
-        null
-    else
-        json.getString(key)
-}
-
 fun jsonArrayToCategoryList(jsonArray: JSONArray): ArrayList<Category> {
-    var categoryList = ArrayList<Category>()
+    val categoryList = ArrayList<Category>()
 
     for(i in 0 until jsonArray.length()) {
-        var category = Category()
+        val category = Category()
 
         val stringObject = jsonArray.get(i).toString()
         val categoryJson = JSONObject(stringObject)
@@ -49,7 +42,7 @@ fun jsonArrayToCategoryList(jsonArray: JSONArray): ArrayList<Category> {
 
         try {
             val subCategoryJson = categoryJson.getJSONArray("child_categories")
-            var subCategories = jsonArrayToCategoryList(subCategoryJson)
+            val subCategories = jsonArrayToCategoryList(subCategoryJson)
             category.childCategories = subCategories
         } catch (e: JSONException) {
 

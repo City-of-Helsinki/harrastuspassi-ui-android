@@ -78,7 +78,6 @@ class HobbyDetailActivity : AppCompatActivity(), OnMapReadyCallback {
 
 
         if (hobbyEvent.hobby.location.lat != null) {
-            Log.d("Latitide:", hobbyEvent.hobby.location.lat.toString())
             latLan = LatLng(hobbyEvent.hobby.location.lat!!, hobbyEvent.hobby.location.lon!!)
         } else {
             locationReceived = false
@@ -86,7 +85,7 @@ class HobbyDetailActivity : AppCompatActivity(), OnMapReadyCallback {
 
         val mapFragment = supportFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
-        getHobbyEvent().execute()
+        GetHobbyEvent().execute()
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
@@ -111,7 +110,7 @@ class HobbyDetailActivity : AppCompatActivity(), OnMapReadyCallback {
         const val ERROR = "error"
     }
 
-    internal inner class getHobbyEvent : AsyncTask<Void, Void, String>() {
+    internal inner class GetHobbyEvent : AsyncTask<Void, Void, String>() {
 
         override fun doInBackground(vararg params: Void?): String {
             return try {

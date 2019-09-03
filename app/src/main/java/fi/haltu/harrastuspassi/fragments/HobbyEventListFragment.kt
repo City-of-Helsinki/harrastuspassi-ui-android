@@ -8,14 +8,12 @@ import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
-import android.widget.Toast
 import fi.haltu.harrastuspassi.R
 import fi.haltu.harrastuspassi.adapters.HobbyEventListAdapter
 import org.json.JSONArray
@@ -53,8 +51,7 @@ class HobbyEventListFragment : Fragment() {
             adapter = hobbyEventListAdapter
         }
         filters = loadFilters(this.activity!!)
-        getHobbyEvents().execute()
-        Toast.makeText(this.context,filters.toString(), Toast.LENGTH_SHORT).show()
+        GetHobbyEvents().execute()
         return view
     }
 
@@ -73,7 +70,7 @@ class HobbyEventListFragment : Fragment() {
         const val NO_INTERNET = "no_internet"
     }
 
-    internal inner class getHobbyEvents : AsyncTask<Void, Void, String>() {
+    internal inner class GetHobbyEvents : AsyncTask<Void, Void, String>() {
 
         override fun onPreExecute() {
             super.onPreExecute()
@@ -111,7 +108,7 @@ class HobbyEventListFragment : Fragment() {
                         for (i in 0 until mJsonArray.length()) {
                             val sObject = mJsonArray.get(i).toString()
                             val hobbyObject = JSONObject(sObject)
-                            var hobbyEvent = HobbyEvent(hobbyObject)
+                            val hobbyEvent = HobbyEvent(hobbyObject)
                             hobbyEventArrayList.add(hobbyEvent)
                         }
 
@@ -134,8 +131,8 @@ class HobbyEventListFragment : Fragment() {
 
     fun createQueryUrl(filters: Filters): String {
         var query = "hobbyevents/?include=hobby_detail"
-        var categoryArrayList = filters.categories.toArray()
-        var weekDayArrayList = filters.dayOfWeeks.toArray()
+        val categoryArrayList = filters.categories.toArray()
+        val weekDayArrayList = filters.dayOfWeeks.toArray()
         if(categoryArrayList.isNotEmpty()) {
             query += "&"
             for (i in 0 until categoryArrayList.size) {
