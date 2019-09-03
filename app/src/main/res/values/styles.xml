@@ -1,5 +1,4 @@
 <resources>
-
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <!-- Customize your theme here. -->
@@ -7,8 +6,19 @@
         <item name="colorPrimaryDark">@color/hobbyPurple</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:windowContentTransitions">true</item>
+        <item name="android:windowSharedElementEnterTransition">@transition/slide_and_changebounds</item>
+        <item name="android:windowSharedElementExitTransition">@transition/slide_and_changebounds</item>
+        <item name="multiSliderStyle">@style/Widget.MultiSlider</item>
     </style>
+
     <style name="SplashTheme" parent="Theme.AppCompat.NoActionBar">
         <item name="android:windowBackground">@drawable/background</item>
+    </style>
+
+    <style name="MyCheckBox" parent="Theme.AppCompat.Light">
+        <item name="colorControlNormal">@color/hobbyPurple</item>
+        <item name="colorControlActivated">@color/hobbyPurpleLight</item>
+    </style>
+    <style name="Widget.MultiSlider" parent="android:Widget">
     </style>
 </resources>

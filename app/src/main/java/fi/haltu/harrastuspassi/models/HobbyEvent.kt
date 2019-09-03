@@ -1,34 +1,28 @@
 package fi.haltu.harrastuspassi.models
 
+import fi.haltu.harrastuspassi.utils.getOptionalJSONObject
+import org.json.JSONObject
 import java.io.Serializable
 
-class HobbyEvent: Serializable {
+class HobbyEvent(json: JSONObject) : Serializable {
     var id: Int = 0
-    var title: String = "Ei otsikkoa"
-        set(value) {
-            field = if (value == "null") {
-                "Ei otsikkoa"
-            } else {
-                value
-            }
-        }
-    var place: Location = Location()
-    var dateTime: String = "Ei ajankohtaa"
-        set(value) {
-            field = if (value == "null") {
-                "Ei ajankohtaa"
-            } else {
-                value
-            }
-        }
-    var imageUrl: String? = null
-    var description: String = "Ei tietoja"
-        set(value) {
-            field = if (value == "null") {
-                "Ei tietoja"
-            } else {
-                value
-            }
-        }
+    var startDate: String = ""
+    var endDate: String = ""
+    var startTime: String = ""
+    var endTime: String = ""
+    var startWeekday: Int = 0
+    lateinit var hobby: Hobby
 
+    init {
+        id = json.getInt("id")
+        startDate = json.getString("start_date")
+        endDate = json.getString("end_date")
+        startTime = json.getString("start_time")
+        endTime = json.getString("end_time")
+        startWeekday = json.getInt("start_weekday")
+        val hobbyObject = getOptionalJSONObject(json, "hobby")
+        if (hobbyObject != null) {
+            hobby = Hobby(hobbyObject)
+        }
+    }
 }

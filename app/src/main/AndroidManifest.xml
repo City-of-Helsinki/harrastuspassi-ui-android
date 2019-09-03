@@ -3,7 +3,6 @@
           xmlns:dist="http://schemas.android.com/apk/distribution"
           xmlns:tools="http://schemas.android.com/tools"
           package="fi.haltu.harrastuspassi">
-
     <!--
          The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
          Google Maps Android API v2, but you must specify either coarse or fine
@@ -29,31 +28,47 @@
             android:theme="@style/AppTheme"
             android:usesCleartextTraffic="true"
             tools:ignore="GoogleAppIndexingWarning">
+        <activity
+                android:name=".activities.HobbyCategoriesActivity"
+                android:screenOrientation="portrait"
+                android:parentActivityName=".activities.FilterViewActivity">
+        </activity>
+        <activity
+                android:name=".activities.FilterViewActivity"
+                android:screenOrientation="portrait"
+                android:parentActivityName=".activities.MainActivity">
+
+        </activity>
 
         <meta-data
                 android:name="com.google.android.geo.API_KEY"
                 android:value="@string/GOOGLE_MAPS_API_KEY"/>
-
         <meta-data
                 android:name="com.google.android.version"
                 android:value="@integer/google_play_services_version"/>
-        <uses-library android:name="org.apache.http.legacy" android:required="false" />
-        <activity
-                android:name="fi.haltu.harrastuspassi.activities.HobbyDetailActivity">
+
+        <uses-library
+                android:name="org.apache.http.legacy"
+                android:required="false"/>
+
+        <activity android:name=".activities.HobbyDetailActivity"
+                  android:screenOrientation="portrait">
             <meta-data
                     android:name="android.support.PARENT_ACTIVITY"
-                    android:value="fi.haltu.harrastuspassi.activities.MainActivity" />
+                    android:value="fi.haltu.harrastuspassi.activities.MainActivity"/>
         </activity>
         <activity
-                android:name="fi.haltu.harrastuspassi.activities.SplashActivity"
+                android:name=".activities.SplashActivity"
                 android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
+
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
         <activity
-                android:name="fi.haltu.harrastuspassi.activities.MainActivity"
+                android:name=".activities.MainActivity"
+                android:screenOrientation="portrait"
                 android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>

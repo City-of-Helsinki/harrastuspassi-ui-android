@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             xmlns:app="http://schemas.android.com/apk/res-auto"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content">
+
+    <!-- TODO: Update blank fragment layout -->
+    <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/hobbyPurpleLight"
+            android:gravity="center_horizontal"
+            android:layout_marginHorizontal="8dp"
+            android:paddingRight="8dp"
+            android:paddingLeft="2dp"
+            android:layout_marginTop="2dp"
+            android:layout_marginBottom="2dp">
+
+        <TextView
+                android:text="@string/hobby_tag"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/textView"
+                android:layout_weight="1"
+                android:textColor="@color/white"
+                android:textSize="14sp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginHorizontal="8dp"
+                android:paddingBottom="4sp"
+                android:paddingTop="4sp"/>
+
+        <ImageButton android:id="@+id/delete_tag"
+                     android:layout_width="wrap_content"
+                     android:layout_height="wrap_content"
+                     android:background="@drawable/ic_cancel_24dp"
+                     android:backgroundTint="@color/white"
+                     app:layout_constraintEnd_toEndOf="parent"
+                     android:layout_marginVertical="4dp"
+        android:layout_gravity="center_vertical"/>
+
+    </LinearLayout>
+
+</FrameLayout>
