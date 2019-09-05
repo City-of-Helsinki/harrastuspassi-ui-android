@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Harrastuspassi</string>
+    <string name="delete_tag">Delete</string>
+    <string name="filter_button">Filter</string>
+    <string name="hobby_detail_day_of_week" translatable="false">Wednesday</string>
+    <string name="hobby_detail_description_title">Description</string>
+    <string name="hobby_detail_location">Hobby location here</string>
+    <string name="hobby_image" translatable="false">image</string>
+    <string name="hobby_tag">Hobby</string>
+    <string name="category_filter_component_title">Hobby</string>
+    <string name="openFilterCategories">Add hobbies</string>
+    <string name="timespan_filter_title">Start time</string>
+    <string name="title_home">Home</string>
+    <string name="title_notifications">Notifications</string>
+    <string name="weekday_filter_title">Day of the week</string>
+</resources>

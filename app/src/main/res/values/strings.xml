@@ -1,28 +1,28 @@
 <resources>
-    <string name="app_name">Harrastuspassi</string>
-    <string name="title_home">Home</string>
+    <string name="app_name" translatable="false">Harrastuspassi</string>
+    <string name="title_home">Aloitusnäyttö</string>
     <string name="title_dashboard">Dashboard</string>
-    <string name="title_notifications">Notifications</string>
+    <string name="title_notifications">Ilmoitukset</string>
     <string name="item_detail" translatable="false">item_detail</string>
-    <string name="hobby_image">IMAGE</string>
-    <string name="action_filter"></string>
+    <string name="hobby_image">kuva</string>
+    <string name="action_filter" translatable="false"></string>
     <string name="category_filter_component_title">Harrastus</string>
-    <string name="openFilterCategories">Add hobbies</string>
+    <string name="openFilterCategories">Lisää harrastuksia</string>
 
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
     <string name="hobby_tag">Harrastus</string>
-    <string name="delete_tag">delete</string>
+    <string name="delete_tag">Poista</string>
     <string name="filter_button">Suodata</string>
-    <string name="weekday_filter_title">Viikonpäivät</string>
+    <string name="weekday_filter_title">Viikonpäivä</string>
     <string name="timespan_filter_title">Alkamisaika</string>
-    <string name="range_text_left">00:00</string>
-    <string name="range_text_right">00:00</string>
-    <string name="hobby_detail_start_time">12:00</string>
-    <string name="hobby_detail_date">23.12.2019</string>
+    <string name="range_text_left" translatable="false">00:00</string>
+    <string name="range_text_right" translatable="false">00:00</string>
+    <string name="hobby_detail_start_time" translatable="false">12:00</string>
+    <string name="hobby_detail_date" translatable="false">23.12.2019</string>
     <string name="hobby_detail_day_of_week">Keskiviikko</string>
-    <string name="hobby_detail_address">Esimerkkikatu 25 c 19</string>
-    <string name="hobby_detail_hobby_description">\"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+    <string name="hobby_detail_address" translatable="false">Esimerkkikatu 25 c 19</string>
+    <string name="hobby_detail_hobby_description" translatable="false">\"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
         eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation
         ullamco laboris nisi ut aliquip ex ea commodo consequat.
     </string>

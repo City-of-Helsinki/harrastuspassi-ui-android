@@ -45,7 +45,7 @@ class FilterViewActivity : AppCompatActivity(), View.OnClickListener {
         setContentView(R.layout.activity_filter_view)
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
         supportActionBar!!.setHomeAsUpIndicator (R.drawable.ic_clear_black_24dp)
-        supportActionBar!!.title = "Suodata"
+        supportActionBar!!.title = resources.getString(R.string.filter_button)
         findViewById<Button>(R.id.filterButton).setOnClickListener(this)
         findViewById<ImageButton>(R.id.open_hobby_categories_btn).setOnClickListener(this)
 

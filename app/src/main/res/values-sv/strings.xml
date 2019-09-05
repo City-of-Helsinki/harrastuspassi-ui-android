@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Harrastuspassi</string>
+    <string name="delete_tag">Ta bort</string>
+    <string name="category_filter_component_title">Hobby</string>
+    <string name="filter_button">Filter</string>
+    <string name="hobby_detail_description_title">Beskrivning</string>
+    <string name="weekday_filter_title">Veckodag</string>
+    <string name="title_notifications">Aviseringar</string>
+    <string name="title_home">Hem</string>
+    <string name="hobby_detail_day_of_week">Onsdag</string>
+    <string name="hobby_image">bild</string>
+    <string name="timespan_filter_title">Starttid</string>
+    <string name="openFilterCategories">Lägg till hobbyer</string>
+    <string name="hobby_tag">Hobby</string>
+</resources>
