@@ -117,15 +117,20 @@ class FilterViewActivity : AppCompatActivity(), View.OnClickListener {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == 1) {
-            filters = data!!.extras!!.getSerializable("EXTRA_FILTERS") as Filters
-            hobbyTestResult = idToCategoryName(filters.categories, categoryList)
-            categoryMap = createMap(filters.categories, categoryList)
-            tagsRecyclerView.layoutManager = StaggeredGridLayoutManager(2, VERTICAL)
-            tagsRecyclerView.adapter = FilterTagsListAdapter(hobbyTestResult) { categoryTag: String -> categoryClicked(categoryTag)}
-            weekRecyclerView.apply {
-                layoutManager = GridLayoutManager(context, 3)
-                adapter = DayOfWeekListAdapter(filters.dayOfWeeks) { dayOfWeekId: Int -> weekClicked(dayOfWeekId)}
+            try {
+                filters = data!!.extras!!.getSerializable("EXTRA_FILTERS") as Filters
+                hobbyTestResult = idToCategoryName(filters.categories, categoryList)
+                categoryMap = createMap(filters.categories, categoryList)
+                tagsRecyclerView.layoutManager = StaggeredGridLayoutManager(2, VERTICAL)
+                tagsRecyclerView.adapter = FilterTagsListAdapter(hobbyTestResult) { categoryTag: String -> categoryClicked(categoryTag)}
+                weekRecyclerView.apply {
+                    layoutManager = GridLayoutManager(context, 3)
+                    adapter = DayOfWeekListAdapter(filters.dayOfWeeks) { dayOfWeekId: Int -> weekClicked(dayOfWeekId)}
+                }
+            } catch (e: KotlinNullPointerException) {
+
             }
+
         }
     }
 
