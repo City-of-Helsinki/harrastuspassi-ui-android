@@ -21,11 +21,11 @@
             android:id="@+id/use_location_button"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="Käytä tätä sijaintia"
+            android:text="@string/use_current_location"
             android:layout_marginStart="24dp"
             android:layout_marginEnd="24dp"
             android:layout_marginBottom="16dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"/>
 </android.support.constraint.ConstraintLayout>

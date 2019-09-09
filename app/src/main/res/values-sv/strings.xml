@@ -13,4 +13,12 @@
     <string name="timespan_filter_title">Starttid</string>
     <string name="openFilterCategories">Lägg till hobbyer</string>
     <string name="hobby_tag">Hobby</string>
+    <string name="choose_location_from_map">Välj plats från kartan</string>
+    <string name="use_current_location">Använd den aktuella platsen</string>
+    <string name="location_title">Plats</string>
+    <string name="recent_locations">Senaste platser</string>
+    <string name="save">Spara</string>
+    <string name="settings">Inställningar</string>
+    <string name="choose_hobby">Välj hobbyer</string>
+    <string name="hobby_detail_location">Hobbyplats här</string>
 </resources>

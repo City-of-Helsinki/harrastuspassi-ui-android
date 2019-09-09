@@ -28,4 +28,11 @@
     </string>
     <string name="hobby_detail_description_title">Kuvaus</string>
     <string name="hobby_detail_location">Tapahtuman sijaintipaikka tähän</string>
+    <string name="location_title">Sijainti</string>
+    <string name="use_current_location">Käytä nykyistä sijaintia</string>
+    <string name="choose_location_from_map">Valitse sijainti kartalta</string>
+    <string name="recent_locations">Viimeisimmät sijainnit</string>
+    <string name="save">Tallenna</string>
+    <string name="settings">Asetukset</string>
+    <string name="choose_hobby">Valitse hrrastus</string>
 </resources>

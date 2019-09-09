@@ -21,7 +21,7 @@ class SettingsActivity : AppCompatActivity(){
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_settings)
-        supportActionBar!!.title = "Settings"
+        supportActionBar!!.title = resources.getString(R.string.settings)
         var locationMapButton = findViewById<Button>(R.id.location_map_button)
         locationMapButton.setOnClickListener {
             val intent = Intent(this, LocationSelectActivity::class.java)
