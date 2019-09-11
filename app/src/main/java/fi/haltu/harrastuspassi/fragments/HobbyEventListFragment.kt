@@ -6,6 +6,7 @@ import android.content.Intent
 import android.os.AsyncTask
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
@@ -35,13 +36,23 @@ class HobbyEventListFragment : Fragment() {
     private lateinit var progressBar: ProgressBar
     private lateinit var progressText: TextView
     private var filters: Filters = Filters()
+    private lateinit var refreshLayout: SwipeRefreshLayout
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
         val view: View = inflater.inflate(R.layout.fragment_hobby_event_list, container, false)
         val hobbyEventListAdapter = HobbyEventListAdapter(hobbyEventArrayList) { hobbyEvent: HobbyEvent, hobbyImage: ImageView -> hobbyItemClicked(hobbyEvent, hobbyImage)}
+
+        refreshLayout = view.findViewById(R.id.swipe_refresh_list)
+
+        refreshLayout.setOnRefreshListener {
+            GetHobbyEvents().execute()
+        }
+
         progressBar = view.findViewById(R.id.progressbar)
         progressText = view.findViewById(R.id.progress_text)
 
@@ -70,6 +81,7 @@ class HobbyEventListFragment : Fragment() {
         const val NO_INTERNET = "no_internet"
     }
 
+
     internal inner class GetHobbyEvents : AsyncTask<Void, Void, String>() {
 
         override fun onPreExecute() {
@@ -91,6 +103,7 @@ class HobbyEventListFragment : Fragment() {
         @SuppressLint("SetTextI18n")
         override fun onPostExecute(result: String?) {
             super.onPostExecute(result)
+
 
             when (result) {
                 ERROR -> {
@@ -126,6 +139,7 @@ class HobbyEventListFragment : Fragment() {
                     }
                 }
             }
+            refreshLayout.isRefreshing = false
         }
     }
 
