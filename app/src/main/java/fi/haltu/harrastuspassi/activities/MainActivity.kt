@@ -7,6 +7,7 @@ import android.view.Menu
 import android.view.MenuItem
 import fi.haltu.harrastuspassi.R
 
+
 class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -32,7 +33,7 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        return super.onOptionsItemSelected(item)
+            return super.onOptionsItemSelected(item)
         }
     }
 
