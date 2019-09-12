@@ -29,8 +29,8 @@
             android:theme="@style/AppTheme"
             android:usesCleartextTraffic="true"
             tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".activities.LocationSelectActivity"></activity>
-        <activity android:name=".activities.SettingsActivity" />
+        <activity android:name=".activities.LocationSelectActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".activities.SettingsActivity" android:screenOrientation="portrait" />
         <activity
                 android:name=".activities.HobbyCategoriesActivity"
                 android:parentActivityName=".activities.FilterViewActivity"

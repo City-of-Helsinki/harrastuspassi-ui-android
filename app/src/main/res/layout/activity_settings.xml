@@ -62,7 +62,8 @@
             app:layout_constraintTop_toBottomOf="@+id/location_map_button" />
 
     <view
-            class="android.support.v7.app.AlertController$RecycleListView"
+            class="android.support.v7.widget.RecyclerView"
+            android:id="@+id/location_list"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginStart="8dp"

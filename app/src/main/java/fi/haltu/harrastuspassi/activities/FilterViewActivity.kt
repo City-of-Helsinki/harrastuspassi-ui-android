@@ -142,6 +142,7 @@ class FilterViewActivity : AppCompatActivity(), View.OnClickListener {
                 saveFilters(filters, this)
                 startActivity(intent)
                 overridePendingTransition(R.anim.slide_in_up, R.anim.slide_out_up)
+                finish()
             }
             R.id.open_hobby_categories_btn -> {
                 val intent = Intent(this, HobbyCategoriesActivity::class.java).apply {

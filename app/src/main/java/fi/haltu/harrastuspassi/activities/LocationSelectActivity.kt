@@ -15,8 +15,12 @@ import fi.haltu.harrastuspassi.R
 import fi.haltu.harrastuspassi.models.Filters
 
 class LocationSelectActivity : AppCompatActivity(), OnMapReadyCallback {
+    companion object {
+        const val CENTER_LAT = 64.9600 //Center point of Finland
+        const val CENTER_LON = 27.5900
+    }
 
-    private lateinit var mMap: GoogleMap
+    private lateinit var gMap: GoogleMap
     private var filters: Filters = Filters()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -32,42 +36,24 @@ class LocationSelectActivity : AppCompatActivity(), OnMapReadyCallback {
         }
     }
 
-    override fun onBackPressed() {
-        intent.putExtra("EXTRA_FILTERS", filters)
-        setResult(1, intent)
-        finish()
-        super.onBackPressed()
-    }
-
     override fun onMapReady(googleMap: GoogleMap) {
-        mMap = googleMap
-
+        gMap = googleMap
 
         if(filters.longitude != 0.0 && filters.latitude != 0.0) {
             val userLocation = LatLng(filters.latitude, filters.longitude)
             val cameraPoint = CameraUpdateFactory.newLatLngZoom(userLocation, 10f)
-            mMap.moveCamera(cameraPoint)
-            mMap.addMarker(MarkerOptions()
-                .position(userLocation)
-                .title("Sijaintisi")
-                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_VIOLET))
-            )
+            gMap.moveCamera(cameraPoint)
         } else {
-            //Tampere
-            val defaultPoint = CameraUpdateFactory.newLatLngZoom(LatLng(61.9241, 25.7482), 5f)
-            mMap.moveCamera( defaultPoint)
+            val defaultPoint = LatLng(CENTER_LAT, CENTER_LON)
+            val cameraPoint = CameraUpdateFactory.newLatLngZoom(defaultPoint, 5f)
+            gMap.moveCamera(cameraPoint)
         }
 
-        mMap.setOnMapClickListener {
-            filters.latitude = it.latitude
-            filters.longitude = it.longitude
-            mMap.clear()
-            mMap.addMarker(MarkerOptions()
-                .position(it)
-                .title("Sijaintisi")
-                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_VIOLET))
-            )
-            Toast.makeText(this, filters.toString(), Toast.LENGTH_SHORT).show()
+        gMap.setOnCameraIdleListener {
+            val cameraPosition = gMap.cameraPosition
+            var currentCenter = cameraPosition.target
+            filters.latitude = currentCenter.latitude
+            filters.longitude = currentCenter.longitude
         }
     }
 
