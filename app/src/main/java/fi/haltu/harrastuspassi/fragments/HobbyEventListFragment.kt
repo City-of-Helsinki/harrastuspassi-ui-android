@@ -159,7 +159,7 @@ class HobbyEventListFragment : Fragment() {
         query += "&start_time_from=${minutesToTime(filters.startTimeFrom)}"
         query += "&start_time_to=${minutesToTime(filters.startTimeTo)}"
 
-        /*if(filters.latitude != 0.0 && filters.longitude != 0.0) {
+       /* if(filters.latitude != 0.0 && filters.longitude != 0.0) {
             query += "&latitude=${filters.latitude}"
             query += "&longitude=${filters.longitude}"
 

@@ -14,6 +14,7 @@ import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.widget.Button
 import android.widget.Switch
+import android.widget.TextView
 import fi.haltu.harrastuspassi.R
 import fi.haltu.harrastuspassi.adapters.LocationListAdapter
 import fi.haltu.harrastuspassi.models.Filters
@@ -32,6 +33,7 @@ class SettingsActivity : AppCompatActivity(){
     private lateinit var locationMapButton: Button
     private lateinit var locationListView: RecyclerView
     private lateinit var saveButton: Button
+    private lateinit var latestLocationTitle: TextView
 
     private var filters: Filters = Filters()
     private var settings = Settings()
@@ -78,6 +80,7 @@ class SettingsActivity : AppCompatActivity(){
 
         // LOCATION LIST
         var locationListAdapter = LocationListAdapter(settings)
+        latestLocationTitle = findViewById(R.id.recent_location_text)
         locationListView = findViewById(R.id.location_list)
         locationListView.apply {
             layoutManager = LinearLayoutManager(context)
@@ -165,10 +168,18 @@ class SettingsActivity : AppCompatActivity(){
         if(isHide) {
             locationMapButton.isEnabled = false
             settings.useCurrentLocation = true
+            locationMapButton.alpha = (0.5).toFloat()
+            locationListView.alpha = (0.5).toFloat()
+            latestLocationTitle.alpha = (0.5).toFloat()
+
         } else {
             locationMapButton.isEnabled = true
             settings.useCurrentLocation = false
+            locationMapButton.alpha = (1.0).toFloat()
+            locationListView.alpha = (1.0).toFloat()
+            latestLocationTitle.alpha = (1.0).toFloat()
         }
+
         locationListView.adapter!!.notifyDataSetChanged()
     }
 
