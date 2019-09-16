@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Harrastuspassi</string>
+    <string name="category_filter_component_title">Harrastus</string>
+    <string name="choose_hobby">Valitse hrrastus</string>
+    <string name="choose_location_from_map">Valitse sijainti kartalta</string>
+    <string name="hobby_tag">Harrastus</string>
+    <string name="location_title">Sijainti</string>
+    <string name="openFilterCategories">Lisää harrastuksia</string>
+    <string name="recent_locations">Viimeisimmät sijainnit</string>
+    <string name="save">Tallenna</string>
+    <string name="settings">Asetukset</string>
+    <string name="timespan_filter_title">Alkamisaika</string>
+    <string name="title_home">Aloitusnäyttö</string>
+    <string name="title_notifications">Ilmoitukset</string>
+    <string name="use_current_location">Käytä nykyistä sijaintia</string>
+    <string name="weekday_filter_title">Viikonpäivä</string>
+    <string name="delete_tag">Poista</string>
+    <string name="filter_button">Suodata</string>
+    <string name="hobby_detail_description_title">Kuvaus</string>
+    <string name="hobby_detail_day_of_week" translatable="false">Keskiviikko</string>
+    <string name="hobby_detail_location" translatable="false">Sijainti tähän</string>
+    <string name="hobby_image" translatable="false">Kuva</string>
+    <string name="error_try_again_later">Jokin meni vikaan. Kokeile myöhemmin uudelleen.</string>
+    <string name="error_no_hobby_events">Ei harrastustapahtumia</string>
+    <string name="error_no_internet">Ei verkkoyhteyttä. Tarkista verkkoyhteys ja käynnistä sovellus uudelleen.</string>
+    <string name="not_specified">Ei ilmoitettu</string>
+    <string name="your_location">Sijaintisi</string>
+</resources>

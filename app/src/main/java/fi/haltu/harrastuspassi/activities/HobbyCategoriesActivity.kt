@@ -36,7 +36,7 @@ class HobbyCategoriesActivity : AppCompatActivity() {
             categoryList = bundle.getSerializable("CATEGORY_LIST") as ArrayList<Category>
             supportActionBar!!.title = intent.getStringExtra("EXTRA_CATEGORY_NAME")
         } else {
-            supportActionBar!!.title = "Valitse harrastus"
+            supportActionBar!!.title = resources.getString(R.string.choose_hobby)
             GetCategories().execute()
         }
 
@@ -69,6 +69,7 @@ class HobbyCategoriesActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
+
         when (item.itemId) {
             android.R.id.home -> {
                 val intent = Intent()
@@ -76,7 +77,9 @@ class HobbyCategoriesActivity : AppCompatActivity() {
                 setResult(1, intent)
                 finish()
             }
-            R.id.save -> {
+            R.id.save-> {
+                //supportActionBar!!.title = resources.getString(R.string.choose_hobby)
+                //save.text = resources.getString(R.string.save)
                 val intent = Intent(this, FilterViewActivity::class.java)
                 intent.putExtra("EXTRA_FILTERS", filters)
                 startActivity(intent)

@@ -4,28 +4,41 @@
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
     <string name="item_detail" translatable="false">item_detail</string>
-    <string name="hobby_image">IMAGE</string>
-    <string name="action_filter"></string>
-    <string name="category_filter_component_title">Harrastus</string>
+    <string name="hobby_image">Picture</string>
+    <string name="action_filter" translatable="false"></string>
+    <string name="category_filter_component_title">Hobby</string>
     <string name="openFilterCategories">Add hobbies</string>
 
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="hobby_tag">Harrastus</string>
-    <string name="delete_tag">delete</string>
-    <string name="filter_button">Suodata</string>
-    <string name="weekday_filter_title">Viikonpäivät</string>
-    <string name="timespan_filter_title">Alkamisaika</string>
-    <string name="range_text_left">00:00</string>
-    <string name="range_text_right">00:00</string>
-    <string name="hobby_detail_start_time">12:00</string>
-    <string name="hobby_detail_date">23.12.2019</string>
-    <string name="hobby_detail_day_of_week">Keskiviikko</string>
-    <string name="hobby_detail_address">Esimerkkikatu 25 c 19</string>
-    <string name="hobby_detail_hobby_description">\"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+    <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
+    <string name="hobby_tag">Hobby</string>
+    <string name="delete_tag">Delete</string>
+    <string name="filter_button">Filter</string>
+    <string name="weekday_filter_title">Day of the week</string>
+    <string name="timespan_filter_title">Start time</string>
+    <string name="range_text_left" translatable="false">00:00</string>
+    <string name="range_text_right" translatable="false">00:00</string>
+    <string name="hobby_detail_start_time" translatable="false">12:00</string>
+    <string name="hobby_detail_date" translatable="false">23.12.2019</string>
+    <string name="hobby_detail_day_of_week">Wednesday</string>
+    <string name="hobby_detail_address" translatable="false">Esimerkkikatu 25 c 19</string>
+    <string name="hobby_detail_hobby_description" translatable="false">\"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
         eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation
         ullamco laboris nisi ut aliquip ex ea commodo consequat.
     </string>
-    <string name="hobby_detail_description_title">Kuvaus</string>
-    <string name="hobby_detail_location">Tapahtuman sijaintipaikka tähän</string>
+    <string name="hobby_detail_description_title">Description</string>
+    <string name="hobby_detail_location" translatable="false">Tapahtuman sijaintipaikka tähän</string>
+    <string name="location_title">Location</string>
+    <string name="use_current_location">Use current location</string>
+    <string name="choose_location_from_map">Choose location from the map</string>
+    <string name="recent_locations">Latest locations</string>
+    <string name="save">Save</string>
+    <string name="settings">Settings</string>
+    <string name="choose_hobby">Choose a hobby</string>
+    <string name="error_try_again_later">Something went wrong, try again later</string>
+    <string name="error_no_hobby_events">No hobby events</string>
+    <string name="error_no_internet">No internet connection. Please check the connection and start the app again.</string>
+    <string name="not_specified">Not specified</string>
+    <string name="error">error</string>
+    <string name="your_location">location</string>
 </resources>

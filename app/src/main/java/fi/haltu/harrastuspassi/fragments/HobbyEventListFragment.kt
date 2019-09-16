@@ -9,6 +9,7 @@ import android.support.v4.app.Fragment
 import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -92,13 +93,17 @@ class HobbyEventListFragment : Fragment() {
         override fun doInBackground(vararg params: Void?): String {
             return try {
                 URL(getString(R.string.API_URL) + createQueryUrl(filters)).readText()
+
             } catch (e: IOException) {
                 return when (!verifyAvailableNetwork(activity!!)) {
                     true -> NO_INTERNET
                     else -> ERROR
                 }
             }
+
         }
+
+
 
         @SuppressLint("SetTextI18n")
         override fun onPostExecute(result: String?) {
@@ -108,11 +113,11 @@ class HobbyEventListFragment : Fragment() {
             when (result) {
                 ERROR -> {
                     progressBar.visibility = View.INVISIBLE
-                    this@HobbyEventListFragment.progressText.text = "Jokin meni vikaan. Kokeile myöhemmin uudelleen."
+                    this@HobbyEventListFragment.progressText.text = getString(R.string.error_try_again_later)
                 }
                 NO_INTERNET -> {
                     progressBar.visibility = View.INVISIBLE
-                    progressText.text = "Ei verkkoyhteyttä. Tarkista verkkoyhteys ja käynnistä sovellus uudelleen."
+                    progressText.text = getString(R.string.error_no_internet)
                 }
                 else -> {
                     try {
@@ -127,7 +132,7 @@ class HobbyEventListFragment : Fragment() {
 
                         if(hobbyEventArrayList.size == 0) {
                             progressBar.visibility = View.INVISIBLE
-                            progressText.text = "Ei harrastustapahtumia."
+                            progressText.text = getString(R.string.error_no_hobby_events)
                         } else {
                             progressText.visibility = View.INVISIBLE
                             progressBar.visibility = View.INVISIBLE
@@ -135,7 +140,7 @@ class HobbyEventListFragment : Fragment() {
                         }
                     } catch(e: JSONException) {
                             progressBar.visibility = View.INVISIBLE
-                            progressText.text = "Ei harrastustapahtumia."
+                            progressText.text = getString(R.string.error_no_hobby_events)
                     }
                 }
             }
