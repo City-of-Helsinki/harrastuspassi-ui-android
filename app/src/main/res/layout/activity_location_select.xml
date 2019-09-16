@@ -39,10 +39,17 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="Käytä tätä sijaintia"
-            android:layout_marginStart="24dp"
-            android:layout_marginEnd="24dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
             android:layout_marginBottom="16dp"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            android:backgroundTint="@color/hobbyPurple"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textColorHighlight="@color/hobbyYellow"
+            android:textColorLink="@color/hobbyYellow" android:textSize="16sp"/>
 </android.support.constraint.ConstraintLayout>

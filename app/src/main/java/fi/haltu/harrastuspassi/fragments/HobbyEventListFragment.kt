@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -157,11 +158,13 @@ class HobbyEventListFragment : Fragment() {
         }
         query += "&start_time_from=${minutesToTime(filters.startTimeFrom)}"
         query += "&start_time_to=${minutesToTime(filters.startTimeTo)}"
+
         /*if(filters.latitude != 0.0 && filters.longitude != 0.0) {
             query += "&latitude=${filters.latitude}"
             query += "&longitude=${filters.longitude}"
 
         }*/
+
         return query
     }
 }
