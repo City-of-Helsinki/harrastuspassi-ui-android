@@ -21,4 +21,10 @@
     <string name="recent_locations">Latest locations</string>
     <string name="save">Save</string>
     <string name="choose_hobby">Choose a hobby</string>
+    <string name="error_try_again_later">Something went wrong, try again later</string>
+    <string name="error_no_hobby_events">No hobby events</string>
+    <string name="error_no_internet">No internet connection. Please check the connection and start the app again.
+    </string>
+    <string name="not_specified">Not specified</string>
+    <string name="your_location">Your location</string>
 </resources>

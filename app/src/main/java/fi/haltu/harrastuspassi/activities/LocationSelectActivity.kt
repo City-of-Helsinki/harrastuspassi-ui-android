@@ -2,14 +2,9 @@ package fi.haltu.harrastuspassi.activities
 
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import android.os.Parcel
-import android.os.Parcelable
-import android.support.v4.app.FragmentActivity
-import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
-import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import fi.haltu.harrastuspassi.R
 
@@ -29,7 +24,7 @@ class LocationSelectActivity : AppCompatActivity(), OnMapReadyCallback {
 
         mMap.setOnMapClickListener {
             mMap.clear()
-            mMap.addMarker(MarkerOptions().position(it).title("Sijaintisi"))
+            mMap.addMarker(MarkerOptions().position(it).title(getString(R.string.your_location)))
         }
     }
 

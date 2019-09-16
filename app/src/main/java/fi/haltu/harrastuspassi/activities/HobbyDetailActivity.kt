@@ -128,7 +128,7 @@ class HobbyDetailActivity : AppCompatActivity(), OnMapReadyCallback {
                 ERROR -> {
                     Log.d("ERROR", result)
                     val builder = AlertDialog.Builder(this@HobbyDetailActivity)
-                    builder.setMessage("Jokin meni vikaan, yritä myöhemmin uudelleen.")
+                    builder.setMessage(getString(R.string.error_try_again_later))
                     builder.show()
                 }
 
@@ -138,7 +138,7 @@ class HobbyDetailActivity : AppCompatActivity(), OnMapReadyCallback {
 
                     val parser = SimpleDateFormat("yyyy-MM-dd", Locale.US)
                     val formatter = SimpleDateFormat("dd.MM.yyyy", Locale.US)
-                    var date = "Ei ilmoitettu"
+                    var date = getString(R.string.not_specified)
                     try {
                         date = formatter.format(parser.parse(hobbyEvent.startDate))
                     } catch (e: Exception) {
@@ -147,8 +147,8 @@ class HobbyDetailActivity : AppCompatActivity(), OnMapReadyCallback {
 
                     val timeParser = SimpleDateFormat("HH:mm:ss", Locale.US)
                     val timeFormatter = SimpleDateFormat("HH.mm", Locale.US)
-                    var startTime = "Ei ilmoiteuttu"
-                    var endTime = "Ei ilmoiteuttu"
+                    var startTime = getString(R.string.not_specified)
+                    var endTime = getString(R.string.not_specified)
 
                     try {
                         startTime = timeFormatter.format(timeParser.parse(hobbyEvent.startTime))
@@ -161,7 +161,7 @@ class HobbyDetailActivity : AppCompatActivity(), OnMapReadyCallback {
                     if (hobbyEvent.hobby.organizer != null) {
                         this@HobbyDetailActivity.organizerTextView.text = hobbyEvent.hobby.organizer!!.name
                     } else {
-                        this@HobbyDetailActivity.organizerTextView.text = "Ei ilmoitettu"
+                        this@HobbyDetailActivity.organizerTextView.text = getString(R.string.not_specified)
                     }
 
                     if (hobbyEvent.startWeekday != 0) {

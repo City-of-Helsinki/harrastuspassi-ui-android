@@ -3,7 +3,6 @@
     <string name="app_name">Harrastuspassi</string>
     <string name="delete_tag">Ta bort</string>
     <string name="category_filter_component_title">Hobby</string>
-    <string name="filter_button">Filter</string>
     <string name="hobby_detail_description_title">Beskrivning</string>
     <string name="weekday_filter_title">Veckodag</string>
     <string name="title_notifications">Aviseringar</string>
@@ -21,4 +20,11 @@
     <string name="settings">Inställningar</string>
     <string name="choose_hobby">Välj hobbyer</string>
     <string name="hobby_detail_location">Hobbyplats här</string>
+    <string name="error_try_again_later">Något gick fel. Försök igen senare.</string>
+    <string name="error_no_hobby_events">"inga hobbyhändelser "</string>
+    <string name="error_no_internet">Ingen nätverksanslutning. Kontrollera din nätverksanslutning och starta om
+        applikationen.
+    </string>
+    <string name="not_specified">inte rapporterat</string>
+    <string name="your_location">Din plats</string>
 </resources>
