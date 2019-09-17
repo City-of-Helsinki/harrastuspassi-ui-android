@@ -222,11 +222,13 @@
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginEnd="16dp"
             android:paddingVertical="16dp"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
             app:layout_constraintStart_toStartOf="parent"
             android:layout_marginStart="16dp"
             android:backgroundTint="@color/hobbyPurple"
             android:textColor="@color/hobbyYellow"
             android:textAllCaps="false"
-            android:textSize="16dp"/>
+            android:textSize="16sp"/>
 
 </android.support.constraint.ConstraintLayout>

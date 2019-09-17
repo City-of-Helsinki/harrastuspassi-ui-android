@@ -9,6 +9,7 @@ import android.support.v4.app.Fragment
 import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -61,8 +62,7 @@ class HobbyEventListFragment : Fragment() {
             layoutManager = LinearLayoutManager(activity)
             adapter = hobbyEventListAdapter
         }
-        filters = loadFilters(this.activity!!)
-        GetHobbyEvents().execute()
+
         return view
     }
 
@@ -74,6 +74,13 @@ class HobbyEventListFragment : Fragment() {
         val transition = getString(R.string.item_detail)
         val transitionActivity = ActivityOptions.makeSceneTransitionAnimation(this.activity, sharedView, transition)
         startActivity(intent, transitionActivity.toBundle())
+    }
+
+    override fun onResume() {
+        super.onResume()
+        filters = loadFilters(this.activity!!)
+        GetHobbyEvents().execute()
+
     }
 
     companion object {
@@ -175,6 +182,12 @@ class HobbyEventListFragment : Fragment() {
         }
         query += "&start_time_from=${minutesToTime(filters.startTimeFrom)}"
         query += "&start_time_to=${minutesToTime(filters.startTimeTo)}"
+
+       /* if(filters.latitude != 0.0 && filters.longitude != 0.0) {
+            query += "&latitude=${filters.latitude}"
+            query += "&longitude=${filters.longitude}"
+
+        }*/
 
         return query
     }

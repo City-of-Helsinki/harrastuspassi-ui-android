@@ -19,7 +19,6 @@ fun idToWeekDay(id: Int, activity: Activity): String? {
         5 to friday,
         6 to saturday,
         7 to sunday)
-    //TODO there should be translation later
     return weekDays[id]
 }
 
