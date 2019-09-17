@@ -165,7 +165,7 @@ class HobbyDetailActivity : AppCompatActivity(), OnMapReadyCallback {
                     }
 
                     if (hobbyEvent.startWeekday != 0) {
-                        this@HobbyDetailActivity.dayOfWeekTextView.text = idToWeekDay(hobbyEvent.startWeekday)
+                        this@HobbyDetailActivity.dayOfWeekTextView.text = idToWeekDay(hobbyEvent.startWeekday, this@HobbyDetailActivity)
                     } else {
                         this@HobbyDetailActivity.dayOfWeekTextView.text = "?"
                     }

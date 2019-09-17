@@ -1,5 +1,6 @@
 package fi.haltu.harrastuspassi.adapters
 
+import android.app.Activity
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
@@ -7,12 +8,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import fi.haltu.harrastuspassi.R
+import fi.haltu.harrastuspassi.activities.FilterViewActivity
 
 
-class DayOfWeekListAdapter(private val list: HashSet<Int>, private val clickListener: (Int) -> Unit) :
+class DayOfWeekListAdapter(private val list: HashSet<Int>, private val activity: FilterViewActivity, private val clickListener: (Int) -> Unit) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    private var dayOfWeekList: Map<Int, String> = createDayOfWeekList()
+    private var dayOfWeekList: Map<Int, String> = createDayOfWeekList(activity)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DayOfWeekViewHolder {
         val inflater = LayoutInflater.from(parent.context)
@@ -26,10 +28,14 @@ class DayOfWeekListAdapter(private val list: HashSet<Int>, private val clickList
 
     override fun getItemCount(): Int = dayOfWeekList.size
 
-    private fun createDayOfWeekList(): Map<Int, String> {
-        //TODO there should be translation later
-        return mapOf(1 to "Maanantai", 2 to "Tiistai", 3 to "Keskiviikko", 4 to "Torstai",
-            5 to "Perjantai", 6 to "Lauantai", 7 to "Sunnuntai")
+    private fun createDayOfWeekList(activity: FilterViewActivity): Map<Int, String> {
+        return mapOf(1 to activity.getString(R.string.monday),
+            2 to activity.getString(R.string.tuesday),
+            3 to activity.getString(R.string.wednesday),
+            4 to activity.getString(R.string.thursday),
+            5 to activity.getString(R.string.friday),
+            6 to activity.getString(R.string.saturday),
+            7 to activity.getString(R.string.sunday))
     }
 
     inner class DayOfWeekViewHolder(itemView: View) :
