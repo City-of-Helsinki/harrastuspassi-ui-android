@@ -67,7 +67,7 @@ class FilterViewActivity : AppCompatActivity(), View.OnClickListener {
         tagsRecyclerView.adapter = FilterTagsListAdapter(hobbyTestResult) { categoryTag: String -> categoryClicked(categoryTag)}
 
         ///// WEEKDAY FILTER /////
-        val dayOfWeekListAdapter = DayOfWeekListAdapter(filters.dayOfWeeks) { dayOfWeekId: Int -> weekClicked(dayOfWeekId)}
+        val dayOfWeekListAdapter = DayOfWeekListAdapter(filters.dayOfWeeks, this) { dayOfWeekId: Int -> weekClicked(dayOfWeekId)}
         weekRecyclerView = findViewById(R.id.day_of_week_list)
         weekRecyclerView.apply {
             layoutManager = GridLayoutManager(context, 3)
@@ -123,9 +123,10 @@ class FilterViewActivity : AppCompatActivity(), View.OnClickListener {
                 categoryMap = createMap(filters.categories, categoryList)
                 tagsRecyclerView.layoutManager = StaggeredGridLayoutManager(2, VERTICAL)
                 tagsRecyclerView.adapter = FilterTagsListAdapter(hobbyTestResult) { categoryTag: String -> categoryClicked(categoryTag)}
+                val dayWeekListAdapter = DayOfWeekListAdapter(filters.dayOfWeeks, this) { dayOfWeekId: Int -> weekClicked(dayOfWeekId)}
                 weekRecyclerView.apply {
                     layoutManager = GridLayoutManager(context, 3)
-                    adapter = DayOfWeekListAdapter(filters.dayOfWeeks) { dayOfWeekId: Int -> weekClicked(dayOfWeekId)}
+                    adapter = dayWeekListAdapter
                 }
             } catch (e: KotlinNullPointerException) {
 

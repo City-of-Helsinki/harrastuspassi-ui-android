@@ -1,9 +1,24 @@
 package fi.haltu.harrastuspassi.utils
 
+import android.app.Activity
+import fi.haltu.harrastuspassi.R
 
-fun idToWeekDay(id: Int): String? {
-    val weekDays: Map<Int, String> = mapOf(1 to "Maanantai", 2 to "Tiistai", 3 to "Keskiviikko", 4 to "Torstai",
-        5 to "Perjantai", 6 to "Lauantai", 7 to "Sunnuntai")
+
+fun idToWeekDay(id: Int, activity: Activity): String? {
+    val monday = activity.getString(R.string.monday)
+    val tuesday = activity.getString(R.string.tuesday)
+    val wednesday = activity.getString(R.string.wednesday)
+    val thursday = activity.getString(R.string.thursday)
+    val friday = activity.getString(R.string.friday)
+    val saturday = activity.getString(R.string.saturday)
+    val sunday = activity.getString(R.string.sunday)
+    val weekDays: Map<Int, String> = mapOf(1 to monday,
+        2 to tuesday,
+        3 to wednesday,
+        4 to thursday,
+        5 to friday,
+        6 to saturday,
+        7 to sunday)
     //TODO there should be translation later
     return weekDays[id]
 }
