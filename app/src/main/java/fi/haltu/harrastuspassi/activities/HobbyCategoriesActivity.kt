@@ -78,6 +78,7 @@ class HobbyCategoriesActivity : AppCompatActivity() {
             }
             R.id.save -> {
                 val intent = Intent(this, FilterViewActivity::class.java)
+                intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
                 intent.putExtra("EXTRA_FILTERS", filters)
                 startActivity(intent)
                 finish()
@@ -92,7 +93,11 @@ class HobbyCategoriesActivity : AppCompatActivity() {
         setResult(1, intent)
         finish()
         super.onBackPressed()
+    }
 
+    override fun finish() {
+        super.finish()
+        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_right)
     }
 
     private fun categoryItemClicked(category: Category) {

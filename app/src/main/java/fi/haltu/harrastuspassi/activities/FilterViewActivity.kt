@@ -11,6 +11,7 @@ import android.support.v7.widget.StaggeredGridLayoutManager
 import android.support.v7.widget.StaggeredGridLayoutManager.GAP_HANDLING_MOVE_ITEMS_BETWEEN_SPANS
 import android.support.v7.widget.StaggeredGridLayoutManager.VERTICAL
 import android.util.Log
+import android.view.MenuItem
 import android.view.View
 import fi.haltu.harrastuspassi.R
 import fi.haltu.harrastuspassi.models.Category
@@ -138,10 +139,7 @@ class FilterViewActivity : AppCompatActivity(), View.OnClickListener {
 
         when(v.id) {
             R.id.filterButton -> {
-                val intent = Intent(this, MainActivity::class.java)
                 saveFilters(filters, this)
-                startActivity(intent)
-                overridePendingTransition(R.anim.slide_in_up, R.anim.slide_out_up)
                 finish()
             }
             R.id.open_hobby_categories_btn -> {
@@ -149,8 +147,23 @@ class FilterViewActivity : AppCompatActivity(), View.OnClickListener {
                 }
                 intent.putExtra("EXTRA_FILTERS", filters)
                 startActivityForResult(intent, 1)
+                overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left)
             }
         }
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            android.R.id.home -> {
+                finish()
+            }
+        }
+        return true
+    }
+
+    override fun finish() {
+        super.finish()
+        this.overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_right)
     }
 
     private fun categoryClicked(categoryTag:String) {

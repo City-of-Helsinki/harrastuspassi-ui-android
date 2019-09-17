@@ -37,6 +37,7 @@ class SettingsActivity : AppCompatActivity(){
 
     private var filters: Filters = Filters()
     private var settings = Settings()
+    private var isLocationMapButtonClicked = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,9 +50,12 @@ class SettingsActivity : AppCompatActivity(){
         // CHOOSE LOCATION BUTTON
         locationMapButton = findViewById(R.id.location_map_button)
         locationMapButton.setOnClickListener {
-            val intent = Intent(this, LocationSelectActivity::class.java)
-            intent.putExtra("EXTRA_FILTERS", filters)
-            startActivityForResult(intent, 1)
+            if(!isLocationMapButtonClicked) {
+                isLocationMapButtonClicked = true
+                val intent = Intent(this, LocationSelectActivity::class.java)
+                intent.putExtra("EXTRA_FILTERS", filters)
+                startActivityForResult(intent, 1)
+            }
         }
 
         // USE USER LOCATION SWITCH
@@ -102,9 +106,6 @@ class SettingsActivity : AppCompatActivity(){
             }
             saveFilters(filters, this)
             saveSettings(settings, this)
-            val intent = Intent(this, MainActivity::class.java)
-            startActivity(intent)
-            overridePendingTransition(R.anim.slide_in_up, R.anim.slide_out_up)
             finish()
         }
     }
@@ -134,6 +135,7 @@ class SettingsActivity : AppCompatActivity(){
             settings.add(location)
             locationListView.adapter!!.notifyDataSetChanged()
         }
+        isLocationMapButtonClicked = false
     }
 
     companion object {
@@ -162,6 +164,11 @@ class SettingsActivity : AppCompatActivity(){
                 // Ignore all other requests.
             }
         }
+    }
+
+    override fun finish() {
+        super.finish()
+        this.overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_right)
     }
 
     private fun disableChoosableLocation(isHide: Boolean) {

@@ -73,6 +73,8 @@ class CategoryListAdapter(private val categories: ArrayList<Category>,
                     intent.putExtra("EXTRA_FILTERS", filters)
 
                     activity.startActivityForResult(intent, 1)
+                    activity.overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left)
+
                 }
             }
         }

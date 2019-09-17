@@ -51,8 +51,7 @@ class HobbyEventListFragment : Fragment() {
             layoutManager = LinearLayoutManager(activity)
             adapter = hobbyEventListAdapter
         }
-        filters = loadFilters(this.activity!!)
-        GetHobbyEvents().execute()
+
         return view
     }
 
@@ -64,6 +63,13 @@ class HobbyEventListFragment : Fragment() {
         val transition = getString(R.string.item_detail)
         val transitionActivity = ActivityOptions.makeSceneTransitionAnimation(this.activity, sharedView, transition)
         startActivity(intent, transitionActivity.toBundle())
+    }
+
+    override fun onResume() {
+        super.onResume()
+        filters = loadFilters(this.activity!!)
+        GetHobbyEvents().execute()
+
     }
 
     companion object {

@@ -50,11 +50,18 @@ class LocationSelectActivity : AppCompatActivity(), OnMapReadyCallback {
         }
 
         gMap.setOnCameraIdleListener {
-            val cameraPosition = gMap.cameraPosition
-            var currentCenter = cameraPosition.target
-            filters.latitude = currentCenter.latitude
-            filters.longitude = currentCenter.longitude
+            setLatLong()
         }
+        gMap.setOnCameraMoveListener {
+            setLatLong()
+        }
+    }
+
+    private fun setLatLong() {
+        val cameraPosition = gMap.cameraPosition
+        var currentCenter = cameraPosition.target
+        filters.latitude = currentCenter.latitude
+        filters.longitude = currentCenter.longitude
     }
 
 }
