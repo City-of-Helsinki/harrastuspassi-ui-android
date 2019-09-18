@@ -42,6 +42,13 @@ class MainActivity : AppCompatActivity() {
                 this.overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left)
                 return true
             }
+            R.id.map -> {
+                val intent = Intent(this,MapActivity::class.java)
+                intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT)
+                startActivity(intent)
+                this.overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left)
+                return true
+            }
         }
 
             return super.onOptionsItemSelected(item)
