@@ -22,7 +22,7 @@ class HobbyCategoriesActivity : AppCompatActivity() {
 
     private var categoryList = ArrayList<Category>()
     private lateinit var listView: RecyclerView
-
+    private var isSaveClicked: Boolean = false
     private var filters: Filters = Filters()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -69,7 +69,6 @@ class HobbyCategoriesActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-
         when (item.itemId) {
             android.R.id.home -> {
                 val intent = Intent()
@@ -78,13 +77,14 @@ class HobbyCategoriesActivity : AppCompatActivity() {
                 finish()
             }
             R.id.save-> {
-                //supportActionBar!!.title = resources.getString(R.string.choose_hobby)
-                //save.text = resources.getString(R.string.save)
-                val intent = Intent(this, FilterViewActivity::class.java)
-                intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
-                intent.putExtra("EXTRA_FILTERS", filters)
-                startActivity(intent)
-                finish()
+                if(!isSaveClicked) {
+                    isSaveClicked = true
+                    val intent = Intent(this, FilterViewActivity::class.java)
+                    intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
+                    intent.putExtra("EXTRA_FILTERS", filters)
+                    startActivity(intent)
+                    finish()
+                }
             }
         }
         return true

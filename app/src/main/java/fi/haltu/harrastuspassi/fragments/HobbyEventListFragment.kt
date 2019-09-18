@@ -70,6 +70,8 @@ class HobbyEventListFragment : Fragment() {
         val intent = Intent(context, HobbyDetailActivity::class.java)
 
         intent.putExtra("EXTRA_HOBBY", hobbyEvent)
+        intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT)
+
         val sharedView: View = hobbyImage
         val transition = getString(R.string.item_detail)
         val transitionActivity = ActivityOptions.makeSceneTransitionAnimation(this.activity, sharedView, transition)

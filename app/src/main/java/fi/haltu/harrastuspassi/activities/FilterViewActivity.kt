@@ -147,6 +147,7 @@ class FilterViewActivity : AppCompatActivity(), View.OnClickListener {
                 val intent = Intent(this, HobbyCategoriesActivity::class.java).apply {
                 }
                 intent.putExtra("EXTRA_FILTERS", filters)
+                intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT)
                 startActivityForResult(intent, 1)
                 overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left)
             }

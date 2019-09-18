@@ -37,7 +37,6 @@ class SettingsActivity : AppCompatActivity(){
 
     private var filters: Filters = Filters()
     private var settings = Settings()
-    private var isLocationMapButtonClicked = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,12 +49,12 @@ class SettingsActivity : AppCompatActivity(){
         // CHOOSE LOCATION BUTTON
         locationMapButton = findViewById(R.id.location_map_button)
         locationMapButton.setOnClickListener {
-            if(!isLocationMapButtonClicked) {
-                isLocationMapButtonClicked = true
-                val intent = Intent(this, LocationSelectActivity::class.java)
-                intent.putExtra("EXTRA_FILTERS", filters)
-                startActivityForResult(intent, 1)
-            }
+
+            val intent = Intent(this, LocationSelectActivity::class.java)
+            intent.putExtra("EXTRA_FILTERS", filters)
+            intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT)
+            startActivityForResult(intent, 1)
+
         }
 
         // USE USER LOCATION SWITCH
@@ -135,7 +134,6 @@ class SettingsActivity : AppCompatActivity(){
             settings.add(location)
             locationListView.adapter!!.notifyDataSetChanged()
         }
-        isLocationMapButtonClicked = false
     }
 
     companion object {

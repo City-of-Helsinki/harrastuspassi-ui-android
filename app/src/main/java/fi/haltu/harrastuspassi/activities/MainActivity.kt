@@ -30,12 +30,14 @@ class MainActivity : AppCompatActivity() {
         when (item.itemId) {
             R.id.action_filter -> {
                 val intent = Intent(this, FilterViewActivity::class.java)
+                intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT)
                 startActivity(intent)
                 this.overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left)
                 return true
             }
             R.id.settings -> {
                 val intent = Intent(this, SettingsActivity::class.java)
+                intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT)
                 startActivity(intent)
                 this.overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left)
                 return true
