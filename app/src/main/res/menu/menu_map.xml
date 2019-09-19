@@ -10,7 +10,7 @@
             app:showAsAction = "ifRoom"/>
 
     <item
-            android:id="@+id/map"
+            android:id="@+id/list"
             android:icon="@drawable/list_icon"
             android:title="map"
             app:showAsAction="ifRoom"/>

@@ -29,7 +29,10 @@
             android:theme="@style/AppTheme"
             android:usesCleartextTraffic="true"
             tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".activities.MapActivity"></activity>
+        <activity
+                android:name=".activities.MapActivity"
+
+                android:screenOrientation="portrait" />
         <activity
                 android:name=".activities.LocationSelectActivity"
                 android:screenOrientation="portrait" />

@@ -1,8 +1,10 @@
 package fi.haltu.harrastuspassi.activities
 
+import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
+import android.view.MenuItem
 import android.widget.Toast
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -27,6 +29,7 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        supportActionBar!!.setDisplayShowTitleEnabled(false)
         setContentView(R.layout.activity_map)
         filters = loadFilters(this)
         if (intent.hasExtra("EXTRA_HOBBY_BUNDLE")) {
@@ -36,6 +39,7 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
 
         val mapFragment = supportFragmentManager.findFragmentById(R.id.hobby_map) as SupportMapFragment
         mapFragment.getMapAsync(this)
+        Toast.makeText(this, "onCreate", Toast.LENGTH_SHORT).show()
 
     }
 
@@ -45,6 +49,47 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
         inflater.inflate(R.menu.menu_map, menu)
 
         return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onBackPressed() {
+        finish()
+        this.overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_right)
+        super.onBackPressed()
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        when (item!!.itemId) {
+            R.id.action_filter -> {
+                val intent = Intent(this, FilterViewActivity::class.java)
+                intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT)
+                startActivity(intent)
+                this.overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left)
+                return true
+            }
+
+            R.id.list -> {
+                val intent = Intent(this, MainActivity::class.java)
+                intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT)
+                startActivity(intent)
+                this.overridePendingTransition(R.anim.slide_in_down, R.anim.slide_out_down)
+
+                return true
+            }
+
+            R.id.settings -> {
+                val intent = Intent(this, SettingsActivity::class.java)
+                intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT)
+                startActivity(intent)
+                this.overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left)
+                return true
+            }
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
+    override fun onNewIntent(intent: Intent?) {
+        super.onNewIntent(intent)
+        this.overridePendingTransition(R.anim.slide_in_up, R.anim.slide_out_up)
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
@@ -64,7 +109,6 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
     }
 
     private fun addMarkers(googleMap: GoogleMap, eventList: ArrayList<HobbyEvent>) {
-        Toast.makeText(this, "${eventList.size}", Toast.LENGTH_SHORT).show()
         googleMap.clear()
         for(event in eventList) {
             val location = LatLng(event.hobby.location.lat!!, event.hobby.location.lon!!)

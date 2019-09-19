@@ -15,6 +15,7 @@ import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
 import fi.haltu.harrastuspassi.R
+import fi.haltu.harrastuspassi.activities.FilterViewActivity
 import fi.haltu.harrastuspassi.adapters.HobbyEventListAdapter
 import org.json.JSONArray
 import org.json.JSONObject
@@ -22,6 +23,7 @@ import java.io.IOException
 import java.net.URL
 import fi.haltu.harrastuspassi.activities.HobbyDetailActivity
 import fi.haltu.harrastuspassi.activities.MapActivity
+import fi.haltu.harrastuspassi.activities.SettingsActivity
 import fi.haltu.harrastuspassi.models.Filters
 import fi.haltu.harrastuspassi.models.HobbyEvent
 import fi.haltu.harrastuspassi.utils.loadFilters
@@ -81,11 +83,18 @@ class HobbyEventListFragment : Fragment() {
         super.onResume()
         filters = loadFilters(this.activity!!)
         GetHobbyEvents().execute()
-
     }
+
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         when (item!!.itemId) {
+            R.id.action_filter -> {
+                val intent = Intent(this.activity, FilterViewActivity::class.java)
+                intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT)
+                startActivity(intent)
+                this.activity!!.overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left)
+                return true
+            }
             R.id.map -> {
                 val intent = Intent(this.activity, MapActivity::class.java)
                 val bundle = Bundle()
@@ -93,9 +102,20 @@ class HobbyEventListFragment : Fragment() {
                 intent.putExtra("EXTRA_HOBBY_BUNDLE", bundle)
                 intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT)
                 startActivity(intent)
+                this.activity!!.overridePendingTransition(R.anim.slide_in_up, R.anim.slide_out_up)
+
+                return true
+            }
+            R.id.settings -> {
+                val intent = Intent(this.activity, SettingsActivity::class.java)
+                intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT)
+                startActivity(intent)
                 this.activity!!.overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left)
                 return true
             }
+
+
+
         }
         return super.onOptionsItemSelected(item)
     }
