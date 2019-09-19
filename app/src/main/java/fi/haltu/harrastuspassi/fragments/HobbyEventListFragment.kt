@@ -10,9 +10,7 @@ import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
@@ -23,6 +21,7 @@ import org.json.JSONObject
 import java.io.IOException
 import java.net.URL
 import fi.haltu.harrastuspassi.activities.HobbyDetailActivity
+import fi.haltu.harrastuspassi.activities.MapActivity
 import fi.haltu.harrastuspassi.models.Filters
 import fi.haltu.harrastuspassi.models.HobbyEvent
 import fi.haltu.harrastuspassi.utils.loadFilters
@@ -44,7 +43,7 @@ class HobbyEventListFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
+        setHasOptionsMenu(true)
         val view: View = inflater.inflate(R.layout.fragment_hobby_event_list, container, false)
         val hobbyEventListAdapter = HobbyEventListAdapter(hobbyEventArrayList) { hobbyEvent: HobbyEvent, hobbyImage: ImageView -> hobbyItemClicked(hobbyEvent, hobbyImage)}
 
@@ -83,6 +82,22 @@ class HobbyEventListFragment : Fragment() {
         filters = loadFilters(this.activity!!)
         GetHobbyEvents().execute()
 
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        when (item!!.itemId) {
+            R.id.map -> {
+                val intent = Intent(this.activity, MapActivity::class.java)
+                val bundle = Bundle()
+                bundle.putSerializable("EXTRA_HOBBY_EVENT_LIST", hobbyEventArrayList)
+                intent.putExtra("EXTRA_HOBBY_BUNDLE", bundle)
+                intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT)
+                startActivity(intent)
+                this.activity!!.overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left)
+                return true
+            }
+        }
+        return super.onOptionsItemSelected(item)
     }
 
     companion object {
