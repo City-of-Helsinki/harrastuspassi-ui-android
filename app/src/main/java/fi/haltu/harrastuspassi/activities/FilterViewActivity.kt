@@ -55,6 +55,7 @@ class FilterViewActivity : AppCompatActivity(), View.OnClickListener {
         } catch (e: KotlinNullPointerException) {
             loadFilters(this)
         }
+
         GetCategories().execute()
 
         hobbyTestResult = idToCategoryName(filters.categories, categoryList)
@@ -99,16 +100,15 @@ class FilterViewActivity : AppCompatActivity(), View.OnClickListener {
 
                 filters.startTimeFrom = rangeStartValue
 
-                if (rangeEndValue <= (rangeStartValue + 60) ) {
+                if (rangeEndValue == rangeStartValue) {
                     filters.startTimeTo = (rangeEndValue + 60)
                 } else {
                     filters.startTimeTo = rangeEndValue
                 }
 
                 val startTime = minutesToTime(rangeStartValue)
-                //val endTime = minutesToTime(rangeEndValue)
 
-                val endTime = if (rangeEndValue <= (rangeStartValue + 60)){
+                val endTime = if (rangeEndValue == rangeStartValue){
                     minutesToTime((rangeEndValue + 60))
                 } else {
                     minutesToTime(rangeEndValue)
@@ -116,11 +116,6 @@ class FilterViewActivity : AppCompatActivity(), View.OnClickListener {
 
                 rangeTextLeft.text = startTime
                 rangeTextRight.text = endTime
-
-                Log.d("Pins_start", rangeStartValue.toString())
-                Log.d("Pins_end", rangeEndValue.toString())
-                Log.d("Pins_", filters.startTimeTo.toString())
-
             }
 
             override fun onTouchEnded(rangeBar: RangeBar) {
