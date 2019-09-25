@@ -32,4 +32,5 @@ class HobbyInfoWindowAdapter(val context: Context): GoogleMap.InfoWindowAdapter 
 
         return mInfoView
     }
+
 }

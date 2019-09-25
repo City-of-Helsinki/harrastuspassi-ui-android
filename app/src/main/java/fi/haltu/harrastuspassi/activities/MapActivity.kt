@@ -27,6 +27,8 @@ import fi.haltu.harrastuspassi.utils.loadFilters
 import fi.haltu.harrastuspassi.utils.loadSettings
 import com.google.android.gms.maps.CameraUpdate
 import fi.haltu.harrastuspassi.adapters.HobbyInfoWindowAdapter
+import com.google.maps.android.clustering.ClusterManager
+import fi.haltu.harrastuspassi.adapters.MarkerClusterRenderer
 
 
 class MapActivity : AppCompatActivity(), OnMapReadyCallback {
@@ -173,11 +175,9 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
             }
 
         }
-
-        addMarkers(gMap, hobbyEventArrayList)
+        setUpClusterManager(gMap)
+        //addMarkers(gMap, hobbyEventArrayList)
     }
-
-
 
     private fun addMarkers(googleMap: GoogleMap, eventList: ArrayList<HobbyEvent>) {
         googleMap.clear()
@@ -195,6 +195,19 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
         }
     }
 
+    private fun setUpClusterManager(googleMap: GoogleMap) {
+        /*val clusterManager = ClusterManager(this, googleMap)  // 3
+        googleMap.setOnCameraIdleListener(clusterManager)
+        clusterManager.addItems(items)  // 4
+        clusterManager.cluster()  // 5
+        */
+        val clusterManager = ClusterManager<HobbyEvent>(this, googleMap)
+        clusterManager.renderer = MarkerClusterRenderer(this, googleMap, clusterManager)
+        for(event in hobbyEventArrayList) {
+            clusterManager.addItem(event)
+        }
+
+    }
 
 
 }
