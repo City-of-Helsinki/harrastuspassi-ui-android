@@ -1,14 +1,17 @@
 package fi.haltu.harrastuspassi.activities
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Location
 import android.location.LocationListener
 import android.location.LocationManager
+import android.os.AsyncTask
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v4.app.ActivityCompat
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
@@ -23,12 +26,16 @@ import fi.haltu.harrastuspassi.activities.SettingsActivity.Companion.LOCATION_PE
 import fi.haltu.harrastuspassi.models.Filters
 import fi.haltu.harrastuspassi.models.HobbyEvent
 import fi.haltu.harrastuspassi.models.Settings
-import fi.haltu.harrastuspassi.utils.loadFilters
-import fi.haltu.harrastuspassi.utils.loadSettings
-import com.google.android.gms.maps.CameraUpdate
 import fi.haltu.harrastuspassi.adapters.HobbyInfoWindowAdapter
 import com.google.maps.android.clustering.ClusterManager
+import fi.haltu.harrastuspassi.activities.HobbyCategoriesActivity.Companion.ERROR
 import fi.haltu.harrastuspassi.adapters.MarkerClusterRenderer
+import fi.haltu.harrastuspassi.utils.*
+import org.json.JSONArray
+import org.json.JSONException
+import org.json.JSONObject
+import java.io.IOException
+import java.net.URL
 
 
 class MapActivity : AppCompatActivity(), OnMapReadyCallback {
@@ -47,6 +54,9 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
         supportActionBar!!.setDisplayShowTitleEnabled(false)
         setContentView(R.layout.activity_map)
 
+        settings = loadSettings(this)
+        filters = loadFilters(this)
+
         if (intent.hasExtra("EXTRA_HOBBY_BUNDLE")) {
             val bundle = intent.getBundleExtra("EXTRA_HOBBY_BUNDLE")
             hobbyEventArrayList = bundle.getSerializable("EXTRA_HOBBY_EVENT_LIST") as ArrayList<HobbyEvent>
@@ -55,15 +65,6 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
         val mapFragment = supportFragmentManager.findFragmentById(R.id.hobby_map) as SupportMapFragment
         mapFragment.getMapAsync(this)
         Toast.makeText(this, "onCreate", Toast.LENGTH_SHORT).show()
-
-    }
-
-    override fun onResume() {
-        super.onResume()
-        settings = loadSettings(this)
-        filters = loadFilters(this)
-
-
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -80,12 +81,26 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
         super.onBackPressed()
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == 1) {
+            filters = data!!.extras.getSerializable("EXTRA_FILTERS") as Filters
+            if(filters.isModified) {
+                GetHobbyEvents().execute()
+                filters.isModified = false
+                saveFilters(filters, this)
+                setUpClusterManager(gMap)
+            }
+        }
+        Log.d("listUpdate", "onActivityResult")
+    }
+
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         when (item!!.itemId) {
             R.id.action_filter -> {
                 val intent = Intent(this, FilterViewActivity::class.java)
                 intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT)
-                startActivity(intent)
+                startActivityForResult(intent, 1)
                 this.overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left)
                 return true
             }
@@ -201,6 +216,7 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
         clusterManager.addItems(items)  // 4
         clusterManager.cluster()  // 5
         */
+        googleMap.clear()
         val clusterManager = ClusterManager<HobbyEvent>(this, googleMap)
         clusterManager.renderer = MarkerClusterRenderer(this, googleMap, clusterManager)
         for(event in hobbyEventArrayList) {
@@ -209,5 +225,38 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
 
     }
 
+    internal inner class GetHobbyEvents : AsyncTask<Void, Void, String>() {
 
+        override fun doInBackground(vararg params: Void?): String {
+            return try {
+                URL(getString(R.string.API_URL) + createQueryUrl(filters)).readText()
+            } catch (e: IOException) {
+                return ERROR
+            }
+        }
+
+        @SuppressLint("SetTextI18n")
+        override fun onPostExecute(result: String?) {
+            super.onPostExecute(result)
+            when (result) {
+                ERROR -> {
+                }
+                else -> {
+                    try {
+                        val mJsonArray = JSONArray(result)
+                        hobbyEventArrayList.clear()
+                        for (i in 0 until mJsonArray.length()) {
+                            val sObject = mJsonArray.get(i).toString()
+                            val hobbyObject = JSONObject(sObject)
+                            val hobbyEvent = HobbyEvent(hobbyObject)
+                            hobbyEventArrayList.add(hobbyEvent)
+                        }
+                    } catch(e: JSONException) {
+
+                    }
+                    Log.d("listUpdate", "Updated")
+                }
+            }
+        }
+    }
 }

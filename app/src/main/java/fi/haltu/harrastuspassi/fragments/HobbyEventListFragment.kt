@@ -26,10 +26,7 @@ import fi.haltu.harrastuspassi.activities.MapActivity
 import fi.haltu.harrastuspassi.activities.SettingsActivity
 import fi.haltu.harrastuspassi.models.Filters
 import fi.haltu.harrastuspassi.models.HobbyEvent
-import fi.haltu.harrastuspassi.utils.loadFilters
-import fi.haltu.harrastuspassi.utils.minutesToTime
-import fi.haltu.harrastuspassi.utils.saveFilters
-import fi.haltu.harrastuspassi.utils.verifyAvailableNetwork
+import fi.haltu.harrastuspassi.utils.*
 import org.json.JSONException
 
 
@@ -65,7 +62,8 @@ class HobbyEventListFragment : Fragment() {
             adapter = hobbyEventListAdapter
         }
 
-
+        filters = loadFilters(this.activity!!)
+        GetHobbyEvents().execute()
 
         return view
     }
@@ -82,36 +80,12 @@ class HobbyEventListFragment : Fragment() {
         startActivity(intent, transitionActivity.toBundle())
     }
 
-    override fun onStart() {
-        super.onStart()
-
-        filters = loadFilters(this.activity!!)
-
-        GetHobbyEvents().execute()
-
-
-    }
-
-    override fun onResume() {
-        super.onResume()
-        filters = loadFilters(this.activity!!)
-        if(filters.isModified) {
-            GetHobbyEvents().execute()
-            filters.isModified = false
-            saveFilters(filters, this.activity!!)
-        }
-        //Log.d("listUpdate", "onResume")
-
-    }
-
-
-
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         when (item!!.itemId) {
             R.id.action_filter -> {
                 val intent = Intent(this.activity, FilterViewActivity::class.java)
                 intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT)
-                startActivity(intent)
+                startActivityForResult(intent, 1)
                 this.activity!!.overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left)
                 return true
             }
@@ -133,18 +107,28 @@ class HobbyEventListFragment : Fragment() {
                 this.activity!!.overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left)
                 return true
             }
-
-
-
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == 1) {
+            filters = data!!.extras.getSerializable("EXTRA_FILTERS") as Filters
+            if(filters.isModified) {
+                GetHobbyEvents().execute()
+                filters.isModified = false
+                saveFilters(filters, this.activity!!)
+            }
+        }
+        Log.d("listUpdate", "onActivityResult")
+
     }
 
     companion object {
         const val ERROR = "error"
         const val NO_INTERNET = "no_internet"
     }
-
 
     internal inner class GetHobbyEvents : AsyncTask<Void, Void, String>() {
 
@@ -163,10 +147,7 @@ class HobbyEventListFragment : Fragment() {
                     else -> ERROR
                 }
             }
-
         }
-
-
 
         @SuppressLint("SetTextI18n")
         override fun onPostExecute(result: String?) {
@@ -210,43 +191,5 @@ class HobbyEventListFragment : Fragment() {
             }
             refreshLayout.isRefreshing = false
         }
-    }
-
-    fun createQueryUrl(filters: Filters): String {
-        var query = "hobbyevents/?include=hobby_detail"
-        val categoryArrayList = filters.categories.toArray()
-        val weekDayArrayList = filters.dayOfWeeks.toArray()
-        if(categoryArrayList.isNotEmpty()) {
-            query += "&"
-            for (i in 0 until categoryArrayList.size) {
-                val categoryId = categoryArrayList[i]
-                query += if (i == categoryArrayList.indexOfLast{ true }) {
-                    "category=$categoryId"
-                } else {
-                    "category=$categoryId&"
-                }
-            }
-        }
-        if(weekDayArrayList.isNotEmpty()) {
-            query += "&"
-            for(i in 0 until weekDayArrayList.size) {
-                val weekId = weekDayArrayList[i]
-                query += if(i == weekDayArrayList.indexOfLast { true }) {
-                    "start_weekday=$weekId"
-                } else {
-                    "start_weekday=$weekId&"
-                }
-            }
-        }
-        query += "&start_time_from=${minutesToTime(filters.startTimeFrom)}"
-        query += "&start_time_to=${minutesToTime(filters.startTimeTo)}"
-
-       /* if(filters.latitude != 0.0 && filters.longitude != 0.0) {
-            query += "&latitude=${filters.latitude}"
-            query += "&longitude=${filters.longitude}"
-
-        }*/
-
-        return query
     }
 }

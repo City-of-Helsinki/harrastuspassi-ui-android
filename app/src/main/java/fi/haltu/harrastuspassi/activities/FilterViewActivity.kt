@@ -151,6 +151,8 @@ class FilterViewActivity : AppCompatActivity(), View.OnClickListener {
                     Toast.makeText(this, "Modified", Toast.LENGTH_SHORT).show()
                     filters.isModified = true
                 }
+                intent.putExtra("EXTRA_FILTERS", filters)
+                setResult(1, intent)
                 saveFilters(filters, this)
                 finish()
             }
@@ -170,10 +172,19 @@ class FilterViewActivity : AppCompatActivity(), View.OnClickListener {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             android.R.id.home -> {
+                intent.putExtra("EXTRA_FILTERS", filtersOriginal)
+                setResult(1, intent)
                 finish()
             }
         }
         return true
+    }
+
+    override fun onBackPressed() {
+        intent.putExtra("EXTRA_FILTERS", filtersOriginal)
+        setResult(1, intent)
+        finish()
+        super.onBackPressed()
     }
 
     override fun finish() {
@@ -224,11 +235,7 @@ class FilterViewActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     internal inner class GetCategories: AsyncTask<Void, Void, String>() {
-
-        override fun onPreExecute() {
-            super.onPreExecute()
-        }
-
+        
         override fun doInBackground(vararg params: Void?): String {
             return try {
                 URL(getString(R.string.API_URL) + "hobbycategories/").readText()
