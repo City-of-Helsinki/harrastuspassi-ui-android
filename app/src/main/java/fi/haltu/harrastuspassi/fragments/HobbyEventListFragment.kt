@@ -28,6 +28,7 @@ import fi.haltu.harrastuspassi.models.Filters
 import fi.haltu.harrastuspassi.models.HobbyEvent
 import fi.haltu.harrastuspassi.utils.loadFilters
 import fi.haltu.harrastuspassi.utils.minutesToTime
+import fi.haltu.harrastuspassi.utils.saveFilters
 import fi.haltu.harrastuspassi.utils.verifyAvailableNetwork
 import org.json.JSONException
 
@@ -64,6 +65,8 @@ class HobbyEventListFragment : Fragment() {
             adapter = hobbyEventListAdapter
         }
 
+
+
         return view
     }
 
@@ -79,11 +82,28 @@ class HobbyEventListFragment : Fragment() {
         startActivity(intent, transitionActivity.toBundle())
     }
 
+    override fun onStart() {
+        super.onStart()
+
+        filters = loadFilters(this.activity!!)
+
+        GetHobbyEvents().execute()
+
+
+    }
+
     override fun onResume() {
         super.onResume()
         filters = loadFilters(this.activity!!)
-        GetHobbyEvents().execute()
+        if(filters.isModified) {
+            GetHobbyEvents().execute()
+            filters.isModified = false
+            saveFilters(filters, this.activity!!)
+        }
+        //Log.d("listUpdate", "onResume")
+
     }
+
 
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
@@ -185,6 +205,7 @@ class HobbyEventListFragment : Fragment() {
                             progressBar.visibility = View.INVISIBLE
                             progressText.text = getString(R.string.error_no_hobby_events)
                     }
+                    Log.d("listUpdate", "Updated")
                 }
             }
             refreshLayout.isRefreshing = false
