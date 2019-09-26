@@ -121,7 +121,7 @@ class HobbyEventListFragment : Fragment() {
                 saveFilters(filters, this.activity!!)
             }
         }
-        Log.d("listUpdate", "onActivityResult")
+        Log.d("listUpdateMain", "onActivityResult")
 
     }
 

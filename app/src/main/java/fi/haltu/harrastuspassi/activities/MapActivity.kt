@@ -48,6 +48,7 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
     private lateinit var filters: Filters
     private lateinit var settings: Settings
     private var hobbyEventArrayList = ArrayList<HobbyEvent>()
+    private lateinit var mapFragment: SupportMapFragment
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -62,8 +63,10 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
             hobbyEventArrayList = bundle.getSerializable("EXTRA_HOBBY_EVENT_LIST") as ArrayList<HobbyEvent>
         }
 
-        val mapFragment = supportFragmentManager.findFragmentById(R.id.hobby_map) as SupportMapFragment
-        mapFragment.getMapAsync(this)
+        mapFragment = supportFragmentManager.findFragmentById(R.id.hobby_map) as SupportMapFragment
+        mapFragment.getMapAsync{
+            setUpClusterManager(it)
+        }
         Toast.makeText(this, "onCreate", Toast.LENGTH_SHORT).show()
     }
 
@@ -190,7 +193,6 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
             }
 
         }
-        setUpClusterManager(gMap)
         //addMarkers(gMap, hobbyEventArrayList)
     }
 
@@ -211,18 +213,35 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
     }
 
     private fun setUpClusterManager(googleMap: GoogleMap) {
-        /*val clusterManager = ClusterManager(this, googleMap)  // 3
-        googleMap.setOnCameraIdleListener(clusterManager)
-        clusterManager.addItems(items)  // 4
-        clusterManager.cluster()  // 5
-        */
-        googleMap.clear()
-        val clusterManager = ClusterManager<HobbyEvent>(this, googleMap)
-        clusterManager.renderer = MarkerClusterRenderer(this, googleMap, clusterManager)
+
+        val clusterManager = ClusterManager<HobbyEvent>(this, googleMap) // 1
+        //adds items to cluster
+
+        val markerClusterRenderer = MarkerClusterRenderer(this, googleMap, clusterManager) // 2
+        clusterManager.renderer =  markerClusterRenderer
+        googleMap.setInfoWindowAdapter(clusterManager.markerManager)//3
+
+        clusterManager.markerCollection.setOnInfoWindowAdapter(HobbyInfoWindowAdapter(this))//4
+
+
         for(event in hobbyEventArrayList) {
             clusterManager.addItem(event)
         }
+        googleMap.setOnCameraIdleListener(clusterManager)
+        googleMap.setOnInfoWindowClickListener {
+            val hobbyEvent: HobbyEvent? = it.tag as HobbyEvent?
+            val intent = Intent(this, HobbyDetailActivity::class.java)
 
+            intent.putExtra("EXTRA_HOBBY", hobbyEvent)
+            intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT)
+            //val sharedView: View = hobbyImage
+            //val transition = getString(R.string.item_detail)
+            //val transitionActivity = ActivityOptions.makeSceneTransitionAnimation(this.activity, sharedView, transition)
+            //startActivity(intent, transitionActivity.toBundle())
+            startActivity(intent)
+
+            true
+        }
     }
 
     internal inner class GetHobbyEvents : AsyncTask<Void, Void, String>() {

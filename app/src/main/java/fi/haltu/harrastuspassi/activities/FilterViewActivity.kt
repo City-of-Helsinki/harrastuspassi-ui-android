@@ -38,7 +38,7 @@ class FilterViewActivity : AppCompatActivity(), View.OnClickListener {
     private var categoryList: ArrayList<Category> = ArrayList()
     private var categoryMap: MutableMap<String, Int> =  mutableMapOf()
 
-    private var filtersOriginal: Filters = Filters()
+    private var filtersOriginal: Filters = Filters() //
     private var filters: Filters = Filters()
     private lateinit var weekRecyclerView: RecyclerView
     private lateinit var tagsRecyclerView: RecyclerView
@@ -235,7 +235,7 @@ class FilterViewActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     internal inner class GetCategories: AsyncTask<Void, Void, String>() {
-        
+
         override fun doInBackground(vararg params: Void?): String {
             return try {
                 URL(getString(R.string.API_URL) + "hobbycategories/").readText()
