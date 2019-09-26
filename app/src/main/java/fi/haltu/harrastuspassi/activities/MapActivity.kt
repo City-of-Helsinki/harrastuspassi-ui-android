@@ -19,6 +19,7 @@ import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import fi.haltu.harrastuspassi.R
@@ -203,7 +204,6 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
             val markerOptions = MarkerOptions()
             markerOptions.position(LatLng(event.hobby.location.lat!!, event.hobby.location.lon!!))
                 .title(event.hobby.name)
-
 
             val customViewInfo = HobbyInfoWindowAdapter(this)
             googleMap.setInfoWindowAdapter(customViewInfo)
