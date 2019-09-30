@@ -174,6 +174,13 @@ class HobbyEventListFragment : Fragment() {
                             hobbyEventArrayList.add(hobbyEvent)
                         }
 
+                        val hobbyEventSet: Set<HobbyEvent> = hobbyEventArrayList.toSet()
+                        hobbyEventArrayList.clear()
+                        for (hobbyEvent in hobbyEventSet) {
+                            hobbyEventArrayList.add(hobbyEvent)
+                        }
+
+
                         if(hobbyEventArrayList.size == 0) {
                             progressBar.visibility = View.INVISIBLE
                             progressText.text = getString(R.string.error_no_hobby_events)

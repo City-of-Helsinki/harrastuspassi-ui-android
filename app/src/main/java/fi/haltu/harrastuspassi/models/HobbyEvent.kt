@@ -41,4 +41,13 @@ class HobbyEvent(json: JSONObject) : Serializable, ClusterItem {
     override fun getPosition(): LatLng {
         return LatLng(hobby.location.lat!!, hobby.location.lon!!)
     }
+
+    override fun equals(other: Any?): Boolean {
+        val hobbyEvent = other as HobbyEvent
+        return this.hobby.id == hobbyEvent.hobby.id
+    }
+
+    override fun hashCode(): Int {
+        return this.hobby.id.hashCode()
+    }
 }
