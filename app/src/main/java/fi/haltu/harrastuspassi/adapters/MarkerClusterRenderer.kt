@@ -3,6 +3,8 @@ package fi.haltu.harrastuspassi.adapters
 import com.google.maps.android.clustering.view.DefaultClusterRenderer
 import fi.haltu.harrastuspassi.models.HobbyEvent
 import android.content.Context
+import android.graphics.Color
+import android.util.Log
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.maps.android.clustering.ClusterManager
 import com.google.android.gms.maps.GoogleMap
@@ -17,13 +19,21 @@ class MarkerClusterRenderer(
     clusterManager: ClusterManager<HobbyEvent>
 ) : DefaultClusterRenderer<HobbyEvent>(context, map, clusterManager) {
     companion object {
-        const val MIN_CLUSTER_SIZE = 5
+        const val MIN_CLUSTER_SIZE = 2
+    }
+
+    override fun getColor(clusterSize: Int): Int {
+        return Color.parseColor("#FFEB32")
+    }
+
+    override fun getClusterText(bucket: Int): String {
+        val d = Log.d("cluster", bucket.toString())
+        return super.getClusterText(bucket)
     }
 
     override fun onBeforeClusterItemRendered(item: HobbyEvent, markerOptions: MarkerOptions) { // 5
         markerOptions.title(item.title)
         markerOptions.icon(bitmapDescriptorFromVector(context, R.drawable.ic_location_24dp))
-        //markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_VIOLET))
     }
 
     override fun onClusterItemRendered(clusterItem: HobbyEvent?, marker: Marker?) {
