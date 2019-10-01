@@ -21,6 +21,7 @@ import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import fi.haltu.harrastuspassi.R
@@ -81,8 +82,18 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
 
     override fun onBackPressed() {
         finish()
-        this.overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_right)
+        this.overridePendingTransition(R.anim.slide_in_down, R.anim.slide_out_down)
         super.onBackPressed()
+    }
+
+    override fun finish() {
+        val bundle = Bundle()
+        bundle.putSerializable("EXTRA_HOBBY_EVENT_LIST", hobbyEventArrayList)
+        intent.putExtra("EXTRA_HOBBY_BUNDLE", bundle)
+        intent.putExtra("EXTRA_SETTINGS", settings)
+        intent.putExtra("EXTRA_FILTERS", filters)
+        setResult(2, intent)
+        super.finish()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -95,13 +106,12 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
                 saveFilters(filters, this)
             }
         } else if(requestCode == 2) {
-            settings = data!!.extras.getSerializable("EXTRA_SETTINGS") as Settings
             filters = data!!.extras.getSerializable("EXTRA_FILTERS") as Filters
 
             GetHobbyEvents().execute()
             zoomToLocation(filters, settings)
         }
-        Log.d("listUpdate", "onActivityResult")
+        Log.d("testtest", "onActivityResult")
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
@@ -115,9 +125,7 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
             }
 
             R.id.list -> {
-                val intent = Intent(this, MainActivity::class.java)
-                intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT)
-                startActivity(intent)
+                finish()
                 this.overridePendingTransition(R.anim.slide_in_down, R.anim.slide_out_down)
 
                 return true
@@ -273,12 +281,17 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
                             val hobbyEvent = HobbyEvent(hobbyObject)
                             hobbyEventArrayList.add(hobbyEvent)
                         }
+                        val hobbyEventSet: Set<HobbyEvent> = hobbyEventArrayList.toSet()
+                        hobbyEventArrayList.clear()
 
+                        for(hobbyEvent in hobbyEventSet) {
+                            hobbyEventArrayList.add(hobbyEvent)
+                        }
                         setUpClusterManager(gMap)
                     } catch(e: JSONException) {
 
                     }
-                    Log.d("listUpdate", "Updated")
+                    Log.d("listUpdate", "Updated Map")
                 }
             }
         }
