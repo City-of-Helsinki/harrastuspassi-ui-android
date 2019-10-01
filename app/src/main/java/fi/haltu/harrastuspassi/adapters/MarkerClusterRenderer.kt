@@ -23,13 +23,15 @@ class MarkerClusterRenderer(
     }
 
     override fun getColor(clusterSize: Int): Int {
-        return Color.parseColor("#FFEB32")
+        return Color.parseColor("#77329B")
     }
 
     override fun getClusterText(bucket: Int): String {
         val d = Log.d("cluster", bucket.toString())
         return super.getClusterText(bucket)
     }
+
+
 
     override fun onBeforeClusterItemRendered(item: HobbyEvent, markerOptions: MarkerOptions) { // 5
         markerOptions.title(item.title)
