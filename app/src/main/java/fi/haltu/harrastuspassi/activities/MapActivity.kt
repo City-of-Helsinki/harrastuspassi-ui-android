@@ -2,8 +2,10 @@ package fi.haltu.harrastuspassi.activities
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.location.Criteria
 import android.location.Location
 import android.location.LocationListener
 import android.location.LocationManager
@@ -31,6 +33,7 @@ import com.google.maps.android.clustering.ClusterManager
 import fi.haltu.harrastuspassi.activities.HobbyCategoriesActivity.Companion.ERROR
 import fi.haltu.harrastuspassi.adapters.MarkerClusterRenderer
 import fi.haltu.harrastuspassi.utils.*
+import kotlinx.android.synthetic.main.activity_hobby_detail.*
 import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
@@ -64,9 +67,7 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
         }
 
         mapFragment = supportFragmentManager.findFragmentById(R.id.hobby_map) as SupportMapFragment
-        mapFragment.getMapAsync{
-            setUpClusterManager(it)
-        }
+        mapFragment.getMapAsync(this)
         Toast.makeText(this, "onCreate", Toast.LENGTH_SHORT).show()
     }
 
@@ -92,8 +93,13 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
                 GetHobbyEvents().execute()
                 filters.isModified = false
                 saveFilters(filters, this)
-                setUpClusterManager(gMap)
             }
+        } else if(requestCode == 2) {
+            settings = data!!.extras.getSerializable("EXTRA_SETTINGS") as Settings
+            filters = data!!.extras.getSerializable("EXTRA_FILTERS") as Filters
+
+            GetHobbyEvents().execute()
+            zoomToLocation(filters, settings)
         }
         Log.d("listUpdate", "onActivityResult")
     }
@@ -120,6 +126,7 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
             R.id.settings -> {
                 val intent = Intent(this, SettingsActivity::class.java)
                 intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT)
+                startActivityForResult(intent, 2)
                 startActivity(intent)
                 this.overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left)
                 return true
@@ -133,6 +140,77 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
         this.overridePendingTransition(R.anim.slide_in_up, R.anim.slide_out_up)
     }
 
+    override fun onMapReady(googleMap: GoogleMap) {
+        gMap = googleMap
+        locationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
+        setUpClusterManager(gMap)
+        zoomToLocation(filters, settings)
+    }
+
+    private fun zoomToLocation(filters: Filters, settings: Settings) {
+        if(settings.useCurrentLocation) {
+            try {
+                // Request location updates
+                locationManager?.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0L, 0f, locationListener)
+                if(!gMap.isMyLocationEnabled) {
+                    gMap.isMyLocationEnabled = true
+
+                    val myLocation = locationManager?.getLastKnownLocation(LocationManager.GPS_PROVIDER)
+                    if (myLocation != null) {
+                        val latLng = LatLng(myLocation.latitude, myLocation.longitude)
+                        val cameraPoint = CameraUpdateFactory.newLatLngZoom(latLng, 10f)
+                        gMap.moveCamera(cameraPoint)
+                    }
+                }
+            } catch(ex: SecurityException) {
+                ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), LOCATION_PERMISSION)
+            }
+        } else {
+            gMap.isMyLocationEnabled = false
+
+            if(filters.longitude != 0.0 && filters.latitude != 0.0) {
+                val userLocation = LatLng(filters.latitude, filters.longitude)
+                val cameraPoint = CameraUpdateFactory.newLatLngZoom(userLocation, 10f)
+                gMap.moveCamera(cameraPoint)
+            } else {
+                val defaultPoint = LatLng(CENTER_LAT, CENTER_LON)
+                val cameraPoint = CameraUpdateFactory.newLatLngZoom(defaultPoint, 5f)
+                gMap.moveCamera(cameraPoint)
+            }
+        }
+    }
+
+    private fun setUpClusterManager(googleMap: GoogleMap) {
+        googleMap.clear()
+        val clusterManager = ClusterManager<HobbyEvent>(this, googleMap) // 1
+        //adds items to cluster
+
+        val markerClusterRenderer = MarkerClusterRenderer(this, googleMap, clusterManager) // 2
+        clusterManager.renderer =  markerClusterRenderer
+        googleMap.setInfoWindowAdapter(clusterManager.markerManager)//3
+
+        clusterManager.markerCollection.setOnInfoWindowAdapter(HobbyInfoWindowAdapter(this))//4
+
+
+        for(event in hobbyEventArrayList) {
+            clusterManager.addItem(event)
+        }
+        googleMap.setOnCameraIdleListener(clusterManager)
+        googleMap.setOnInfoWindowClickListener {
+            val hobbyEvent: HobbyEvent? = it.tag as HobbyEvent?
+            val intent = Intent(this, HobbyDetailActivity::class.java)
+
+            intent.putExtra("EXTRA_HOBBY", hobbyEvent)
+            intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT)
+            //val sharedView: View = hobbyImage
+            //val transition = getString(R.string.item_detail)
+            //val transitionActivity = ActivityOptions.makeSceneTransitionAnimation(this.activity, sharedView, transition)
+            //startActivity(intent, transitionActivity.toBundle())
+            startActivity(intent)
+
+            true
+        }
+    }
     override fun onRequestPermissionsResult(requestCode: Int,
                                             permissions: Array<String>, grantResults: IntArray) {
         when (requestCode) {
@@ -169,81 +247,6 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
         override fun onProviderEnabled(provider: String) {}
         override fun onProviderDisabled(provider: String) {}
     }
-
-    override fun onMapReady(googleMap: GoogleMap) {
-        gMap = googleMap
-
-        if(filters.longitude != 0.0 && filters.latitude != 0.0) {
-            val userLocation = LatLng(filters.latitude, filters.longitude)
-            val cameraPoint = CameraUpdateFactory.newLatLngZoom(userLocation, 10f)
-            gMap.moveCamera(cameraPoint)
-        } else {
-            val defaultPoint = LatLng(CENTER_LAT, CENTER_LON)
-            val cameraPoint = CameraUpdateFactory.newLatLngZoom(defaultPoint, 5f)
-            gMap.moveCamera(cameraPoint)
-        }
-
-        if(settings.useCurrentLocation) {
-            try {
-                // Request location updates
-                locationManager?.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0L, 0f, locationListener)
-                gMap.isMyLocationEnabled = true
-            } catch(ex: SecurityException) {
-                ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), LOCATION_PERMISSION)
-            }
-
-        }
-        //addMarkers(gMap, hobbyEventArrayList)
-    }
-
-    private fun addMarkers(googleMap: GoogleMap, eventList: ArrayList<HobbyEvent>) {
-        googleMap.clear()
-        for(event in eventList) {
-
-            val markerOptions = MarkerOptions()
-            markerOptions.position(LatLng(event.hobby.location.lat!!, event.hobby.location.lon!!))
-                .title(event.hobby.name)
-
-
-            val customViewInfo = HobbyInfoWindowAdapter(this)
-            googleMap.setInfoWindowAdapter(customViewInfo)
-            val marker = googleMap.addMarker(markerOptions)
-            marker.tag = event
-        }
-    }
-
-    private fun setUpClusterManager(googleMap: GoogleMap) {
-
-        val clusterManager = ClusterManager<HobbyEvent>(this, googleMap) // 1
-        //adds items to cluster
-
-        val markerClusterRenderer = MarkerClusterRenderer(this, googleMap, clusterManager) // 2
-        clusterManager.renderer =  markerClusterRenderer
-        googleMap.setInfoWindowAdapter(clusterManager.markerManager)//3
-
-        clusterManager.markerCollection.setOnInfoWindowAdapter(HobbyInfoWindowAdapter(this))//4
-
-
-        for(event in hobbyEventArrayList) {
-            clusterManager.addItem(event)
-        }
-        googleMap.setOnCameraIdleListener(clusterManager)
-        googleMap.setOnInfoWindowClickListener {
-            val hobbyEvent: HobbyEvent? = it.tag as HobbyEvent?
-            val intent = Intent(this, HobbyDetailActivity::class.java)
-
-            intent.putExtra("EXTRA_HOBBY", hobbyEvent)
-            intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT)
-            //val sharedView: View = hobbyImage
-            //val transition = getString(R.string.item_detail)
-            //val transitionActivity = ActivityOptions.makeSceneTransitionAnimation(this.activity, sharedView, transition)
-            //startActivity(intent, transitionActivity.toBundle())
-            startActivity(intent)
-
-            true
-        }
-    }
-
     internal inner class GetHobbyEvents : AsyncTask<Void, Void, String>() {
 
         override fun doInBackground(vararg params: Void?): String {
@@ -270,6 +273,8 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
                             val hobbyEvent = HobbyEvent(hobbyObject)
                             hobbyEventArrayList.add(hobbyEvent)
                         }
+
+                        setUpClusterManager(gMap)
                     } catch(e: JSONException) {
 
                     }

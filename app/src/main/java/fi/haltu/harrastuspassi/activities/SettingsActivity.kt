@@ -36,7 +36,9 @@ class SettingsActivity : AppCompatActivity(){
     private lateinit var latestLocationTitle: TextView
 
     private var filters: Filters = Filters()
-    private var settings = Settings()
+    private var settings: Settings = Settings()
+    private lateinit var filtersOriginal: Filters
+    private lateinit var settingsOriginal: Settings
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,6 +48,9 @@ class SettingsActivity : AppCompatActivity(){
         geocoder = Geocoder(this, Locale.getDefault())
         filters = loadFilters(this)
         settings = loadSettings(this)
+        filtersOriginal = filters.clone()
+        settingsOriginal = settings.clone()
+
         // CHOOSE LOCATION BUTTON
         locationMapButton = findViewById(R.id.location_map_button)
         locationMapButton.setOnClickListener {
@@ -103,6 +108,9 @@ class SettingsActivity : AppCompatActivity(){
                 filters.latitude = chosenLocation.lat!!
                 filters.longitude = chosenLocation.lon!!
             }
+            intent.putExtra("EXTRA_SETTINGS", settings)
+            intent.putExtra("EXTRA_FILTERS", filters)
+            setResult(2, intent)
             saveFilters(filters, this)
             saveSettings(settings, this)
             finish()
@@ -162,6 +170,14 @@ class SettingsActivity : AppCompatActivity(){
                 // Ignore all other requests.
             }
         }
+    }
+
+    override fun onBackPressed() {
+        intent.putExtra("EXTRA_SETTINGS", settingsOriginal)
+        intent.putExtra("EXTRA_FILTERS", filtersOriginal)
+        setResult(2, intent)
+        finish()
+        super.onBackPressed()
     }
 
     override fun finish() {
