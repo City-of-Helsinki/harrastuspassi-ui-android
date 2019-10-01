@@ -1,5 +1,6 @@
 package fi.haltu.harrastuspassi.models
 
+import com.google.gson.Gson
 import java.io.Serializable
 
 class Settings: Serializable {
@@ -26,6 +27,11 @@ class Settings: Serializable {
             selectedIndex = 0
             add(location)
         }
+    }
+
+    fun clone(): Settings {
+        val stringFilters = Gson().toJson(this, Settings::class.java)
+        return Gson().fromJson<Settings>(stringFilters, Settings::class.java)
     }
 
     override fun toString(): String {

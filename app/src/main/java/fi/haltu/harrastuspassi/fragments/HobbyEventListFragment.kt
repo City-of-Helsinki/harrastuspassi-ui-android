@@ -95,7 +95,7 @@ class HobbyEventListFragment : Fragment() {
                 bundle.putSerializable("EXTRA_HOBBY_EVENT_LIST", hobbyEventArrayList)
                 intent.putExtra("EXTRA_HOBBY_BUNDLE", bundle)
                 intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT)
-                startActivity(intent)
+                startActivityForResult(intent, 2)
                 this.activity!!.overridePendingTransition(R.anim.slide_in_up, R.anim.slide_out_up)
 
                 return true
@@ -120,9 +120,23 @@ class HobbyEventListFragment : Fragment() {
                 filters.isModified = false
                 saveFilters(filters, this.activity!!)
             }
+        } else if(requestCode == 2) {
+            if (data!!.hasExtra("EXTRA_HOBBY_BUNDLE")) {
+                val bundle = data.getBundleExtra("EXTRA_HOBBY_BUNDLE")
+                filters = data!!.extras.getSerializable("EXTRA_FILTERS") as Filters
+                hobbyEventArrayList.clear()
+                hobbyEventArrayList = bundle.getSerializable("EXTRA_HOBBY_EVENT_LIST") as ArrayList<HobbyEvent>
+                if(hobbyEventArrayList.size == 0) {
+                    progressBar.visibility = View.INVISIBLE
+                    progressText.text = getString(R.string.error_no_hobby_events)
+                } else {
+                    progressText.visibility = View.INVISIBLE
+                    progressBar.visibility = View.INVISIBLE
+                }
+                val hobbyEventListAdapter = HobbyEventListAdapter(hobbyEventArrayList) { hobbyEvent: HobbyEvent, hobbyImage: ImageView -> hobbyItemClicked(hobbyEvent, hobbyImage)}
+                listView.adapter = hobbyEventListAdapter
+            }
         }
-        Log.d("listUpdateMain", "onActivityResult")
-
     }
 
     companion object {
@@ -193,7 +207,6 @@ class HobbyEventListFragment : Fragment() {
                             progressBar.visibility = View.INVISIBLE
                             progressText.text = getString(R.string.error_no_hobby_events)
                     }
-                    Log.d("listUpdate", "Updated")
                 }
             }
             refreshLayout.isRefreshing = false
