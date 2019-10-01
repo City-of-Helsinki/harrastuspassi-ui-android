@@ -12,6 +12,7 @@
     <item
             android:id="@+id/list"
             android:icon="@drawable/list_icon"
+            app:iconTint="@color/white"
             android:title="map"
             app:showAsAction="ifRoom"/>
 

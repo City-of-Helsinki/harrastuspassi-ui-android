@@ -3,17 +3,18 @@
                                              xmlns:app="http://schemas.android.com/apk/res-auto"
                                              xmlns:tools="http://schemas.android.com/tools"
                                              android:layout_width="wrap_content"
+                                             android:minWidth="165dp"
+                                             android:maxWidth="165dp"
                                              android:layout_height="wrap_content"
-                                             android:maxWidth="250dp"
                                              android:background="@color/white">
 
     <ImageView
             android:id="@+id/info_image"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:adjustViewBounds="true"
-            android:maxWidth="250dp"
-            android:scaleType="fitCenter"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:maxWidth="165dp"
+            android:scaleType="centerCrop"
             android:transitionName="@string/item_detail"
             android:layout_marginBottom="8dp"
             app:layout_constraintBottom_toTopOf="@+id/info_title"
@@ -51,6 +52,7 @@
             android:layout_gravity="center_vertical"
             android:textColor="@color/hobbyPurple"
             app:layout_constraintStart_toEndOf="@+id/calendar_icon"
-            android:text="test" app:layout_constraintTop_toTopOf="@+id/calendar_icon"
+            android:text="test"
+            app:layout_constraintTop_toTopOf="@+id/calendar_icon"
             app:layout_constraintBottom_toBottomOf="@+id/calendar_icon"/>
 </android.support.constraint.ConstraintLayout>
