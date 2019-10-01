@@ -1,10 +1,14 @@
 package fi.haltu.harrastuspassi.models
 
+import com.google.android.gms.maps.model.LatLng
+import com.google.maps.android.clustering.ClusterItem
 import fi.haltu.harrastuspassi.utils.getOptionalJSONObject
 import org.json.JSONObject
 import java.io.Serializable
 
-class HobbyEvent(json: JSONObject) : Serializable {
+class HobbyEvent(json: JSONObject) : Serializable, ClusterItem {
+
+
     var id: Int = 0
     var startDate: String = ""
     var endDate: String = ""
@@ -24,5 +28,26 @@ class HobbyEvent(json: JSONObject) : Serializable {
         if (hobbyObject != null) {
             hobby = Hobby(hobbyObject)
         }
+    }
+
+    override fun getSnippet(): String {
+        return ""
+    }
+
+    override fun getTitle(): String {
+        return this.hobby.name
+    }
+
+    override fun getPosition(): LatLng {
+        return LatLng(hobby.location.lat!!, hobby.location.lon!!)
+    }
+
+    override fun equals(other: Any?): Boolean {
+        val hobbyEvent = other as HobbyEvent
+        return this.hobby.id == hobbyEvent.hobby.id
+    }
+
+    override fun hashCode(): Int {
+        return this.hobby.id.hashCode()
     }
 }

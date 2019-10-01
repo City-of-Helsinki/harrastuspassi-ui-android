@@ -18,6 +18,15 @@ fun saveFilters(filters: Filters, activity: Activity) {
     editor.apply()
 }
 
+fun saveFilters(filters: Filters, activity: FragmentActivity) {
+    val preferences = activity.getSharedPreferences("FILTER_PREFERENCE", Context.MODE_PRIVATE)
+    val editor: SharedPreferences.Editor = preferences.edit()
+    val gson = Gson()
+    val filtersJson = gson.toJson(filters)
+    editor.putString("filters", filtersJson)
+    editor.apply()
+}
+
 fun loadFilters(activity: FragmentActivity):Filters{
     return try {
         val preferences = activity.getSharedPreferences("FILTER_PREFERENCE", Context.MODE_PRIVATE)

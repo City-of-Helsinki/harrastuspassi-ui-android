@@ -20,6 +20,11 @@ class Location(json: JSONObject? = null) : Serializable {
             city = json.getString("city")
             lat = getOptionalDouble(json, "lat")
             lon = getOptionalDouble(json, "lon")
+
+            if(lat == null||lon == null) {
+                lat = 0.0
+                lon = 0.0
+            }
         }
     }
 

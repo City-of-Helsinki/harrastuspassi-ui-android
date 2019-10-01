@@ -23,6 +23,7 @@ import android.widget.Button
 import fi.haltu.harrastuspassi.adapters.FilterTagsListAdapter
 import android.widget.ImageButton
 import android.widget.TextView
+import android.widget.Toast
 import com.appyvet.materialrangebar.RangeBar
 import fi.haltu.harrastuspassi.adapters.DayOfWeekListAdapter
 import fi.haltu.harrastuspassi.models.Filters
@@ -36,6 +37,8 @@ class FilterViewActivity : AppCompatActivity(), View.OnClickListener {
     private var hobbyTestResult:ArrayList<String> = ArrayList()
     private var categoryList: ArrayList<Category> = ArrayList()
     private var categoryMap: MutableMap<String, Int> =  mutableMapOf()
+
+    private var filtersOriginal: Filters = Filters() //
     private var filters: Filters = Filters()
     private lateinit var weekRecyclerView: RecyclerView
     private lateinit var tagsRecyclerView: RecyclerView
@@ -55,7 +58,7 @@ class FilterViewActivity : AppCompatActivity(), View.OnClickListener {
         } catch (e: KotlinNullPointerException) {
             loadFilters(this)
         }
-
+        filtersOriginal = filters.clone()
         GetCategories().execute()
 
         hobbyTestResult = idToCategoryName(filters.categories, categoryList)
@@ -151,6 +154,15 @@ class FilterViewActivity : AppCompatActivity(), View.OnClickListener {
 
         when(v.id) {
             R.id.filterButton -> {
+                if(filters.isSameValues(filtersOriginal)) {
+                    Toast.makeText(this, "No changes", Toast.LENGTH_SHORT).show()
+                    filters.isModified = false
+                } else {
+                    Toast.makeText(this, "Modified", Toast.LENGTH_SHORT).show()
+                    filters.isModified = true
+                }
+                intent.putExtra("EXTRA_FILTERS", filters)
+                setResult(1, intent)
                 saveFilters(filters, this)
                 finish()
             }
@@ -163,15 +175,26 @@ class FilterViewActivity : AppCompatActivity(), View.OnClickListener {
                 overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left)
             }
         }
+        Log.d("filters", filters.toString())
+        Log.d("filtersOriginal", filtersOriginal.toString())
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             android.R.id.home -> {
+                intent.putExtra("EXTRA_FILTERS", filtersOriginal)
+                setResult(1, intent)
                 finish()
             }
         }
         return true
+    }
+
+    override fun onBackPressed() {
+        intent.putExtra("EXTRA_FILTERS", filtersOriginal)
+        setResult(1, intent)
+        finish()
+        super.onBackPressed()
     }
 
     override fun finish() {
@@ -222,10 +245,6 @@ class FilterViewActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     internal inner class GetCategories: AsyncTask<Void, Void, String>() {
-
-        override fun onPreExecute() {
-            super.onPreExecute()
-        }
 
         override fun doInBackground(vararg params: Void?): String {
             return try {

@@ -13,11 +13,13 @@ import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.squareup.picasso.Picasso
 import fi.haltu.harrastuspassi.R
 import fi.haltu.harrastuspassi.models.HobbyEvent
+import fi.haltu.harrastuspassi.utils.bitmapDescriptorFromVector
 import fi.haltu.harrastuspassi.utils.idToWeekDay
 import org.json.JSONObject
 import java.io.IOException
@@ -96,7 +98,9 @@ class HobbyDetailActivity : AppCompatActivity(), OnMapReadyCallback {
 
         if (locationReceived) {
             val markerPos = latLan
-            map.addMarker(MarkerOptions().position(markerPos).title("Marker in Tampere"))
+            map.addMarker(MarkerOptions()
+                .position(markerPos).title("Marker in Tampere")
+                .icon(bitmapDescriptorFromVector(this, R.drawable.ic_location_24dp)))
             map.moveCamera(CameraUpdateFactory.newLatLng(markerPos))
         }
     }
