@@ -15,6 +15,7 @@ import android.support.v7.widget.RecyclerView
 import android.widget.Button
 import android.widget.Switch
 import android.widget.TextView
+import android.widget.Toast
 import fi.haltu.harrastuspassi.R
 import fi.haltu.harrastuspassi.adapters.LocationListAdapter
 import fi.haltu.harrastuspassi.models.Filters
@@ -36,8 +37,9 @@ class SettingsActivity : AppCompatActivity(){
     private lateinit var latestLocationTitle: TextView
 
     private var filters: Filters = Filters()
-    private var settings = Settings()
-    private var isLocationMapButtonClicked = false
+    private var settings: Settings = Settings()
+    private lateinit var filtersOriginal: Filters
+    private lateinit var settingsOriginal: Settings
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,15 +49,18 @@ class SettingsActivity : AppCompatActivity(){
         geocoder = Geocoder(this, Locale.getDefault())
         filters = loadFilters(this)
         settings = loadSettings(this)
+        filtersOriginal = filters.clone()
+        settingsOriginal = settings.clone()
+
         // CHOOSE LOCATION BUTTON
         locationMapButton = findViewById(R.id.location_map_button)
         locationMapButton.setOnClickListener {
-            if(!isLocationMapButtonClicked) {
-                isLocationMapButtonClicked = true
-                val intent = Intent(this, LocationSelectActivity::class.java)
-                intent.putExtra("EXTRA_FILTERS", filters)
-                startActivityForResult(intent, 1)
-            }
+
+            val intent = Intent(this, LocationSelectActivity::class.java)
+            intent.putExtra("EXTRA_FILTERS", filters)
+            intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT)
+            startActivityForResult(intent, 1)
+
         }
 
         // USE USER LOCATION SWITCH
@@ -104,10 +109,15 @@ class SettingsActivity : AppCompatActivity(){
                 filters.latitude = chosenLocation.lat!!
                 filters.longitude = chosenLocation.lon!!
             }
+            intent.putExtra("EXTRA_SETTINGS", settings)
+            intent.putExtra("EXTRA_FILTERS", filters)
+            setResult(2, intent)
             saveFilters(filters, this)
             saveSettings(settings, this)
             finish()
         }
+
+        Toast.makeText(this, "onCreate", Toast.LENGTH_SHORT).show()
     }
 
     private val locationListener: LocationListener = object : LocationListener {
@@ -135,7 +145,6 @@ class SettingsActivity : AppCompatActivity(){
             settings.add(location)
             locationListView.adapter!!.notifyDataSetChanged()
         }
-        isLocationMapButtonClicked = false
     }
 
     companion object {
@@ -164,6 +173,14 @@ class SettingsActivity : AppCompatActivity(){
                 // Ignore all other requests.
             }
         }
+    }
+
+    override fun onBackPressed() {
+        intent.putExtra("EXTRA_SETTINGS", settingsOriginal)
+        intent.putExtra("EXTRA_FILTERS", filtersOriginal)
+        setResult(2, intent)
+        finish()
+        super.onBackPressed()
     }
 
     override fun finish() {

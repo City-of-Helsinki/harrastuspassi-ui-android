@@ -39,6 +39,8 @@ class CategoryListAdapter(private val categories: ArrayList<Category>,
         private var name: TextView = itemView.findViewById(R.id.name)
         private var checkButton: CheckBox = itemView.findViewById(R.id.check_button)
         private var showMoreButton: ImageButton = itemView.findViewById(R.id.show_more_button)
+        private var isButtonPressed: Boolean = false
+
         fun bind(category: Category, activity: AppCompatActivity, filters: Filters, clickListener: (Category) -> Unit) {
             name.text = category.name
             itemView.setOnClickListener { clickListener(category) }
@@ -65,16 +67,18 @@ class CategoryListAdapter(private val categories: ArrayList<Category>,
             } else {
                 showMoreButton.visibility = View.VISIBLE
                 showMoreButton.setOnClickListener{
-                    val intent = Intent(activity, HobbyCategoriesActivity::class.java)
-                    val bundle = Bundle()
-                    bundle.putSerializable("CATEGORY_LIST", category.childCategories)
-                    intent.putExtra("EXTRA_CATEGORY_BUNDLE", bundle)
-                    intent.putExtra("EXTRA_CATEGORY_NAME", category.name)
-                    intent.putExtra("EXTRA_FILTERS", filters)
+                    if(!isButtonPressed) {
+                        isButtonPressed = true
+                        val intent = Intent(activity, HobbyCategoriesActivity::class.java)
+                        val bundle = Bundle()
+                        bundle.putSerializable("CATEGORY_LIST", category.childCategories)
+                        intent.putExtra("EXTRA_CATEGORY_BUNDLE", bundle)
+                        intent.putExtra("EXTRA_CATEGORY_NAME", category.name)
+                        intent.putExtra("EXTRA_FILTERS", filters)
 
-                    activity.startActivityForResult(intent, 1)
-                    activity.overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left)
-
+                        activity.startActivityForResult(intent, 1)
+                        activity.overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left)
+                    }
                 }
             }
         }

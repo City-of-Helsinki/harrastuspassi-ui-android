@@ -10,24 +10,23 @@ import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
 import fi.haltu.harrastuspassi.R
+import fi.haltu.harrastuspassi.activities.FilterViewActivity
 import fi.haltu.harrastuspassi.adapters.HobbyEventListAdapter
 import org.json.JSONArray
 import org.json.JSONObject
 import java.io.IOException
 import java.net.URL
 import fi.haltu.harrastuspassi.activities.HobbyDetailActivity
+import fi.haltu.harrastuspassi.activities.MapActivity
+import fi.haltu.harrastuspassi.activities.SettingsActivity
 import fi.haltu.harrastuspassi.models.Filters
 import fi.haltu.harrastuspassi.models.HobbyEvent
-import fi.haltu.harrastuspassi.utils.loadFilters
-import fi.haltu.harrastuspassi.utils.minutesToTime
-import fi.haltu.harrastuspassi.utils.verifyAvailableNetwork
+import fi.haltu.harrastuspassi.utils.*
 import org.json.JSONException
 
 
@@ -44,7 +43,7 @@ class HobbyEventListFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
+        setHasOptionsMenu(true)
         val view: View = inflater.inflate(R.layout.fragment_hobby_event_list, container, false)
         val hobbyEventListAdapter = HobbyEventListAdapter(hobbyEventArrayList) { hobbyEvent: HobbyEvent, hobbyImage: ImageView -> hobbyItemClicked(hobbyEvent, hobbyImage)}
 
@@ -63,6 +62,9 @@ class HobbyEventListFragment : Fragment() {
             adapter = hobbyEventListAdapter
         }
 
+        filters = loadFilters(this.activity!!)
+        GetHobbyEvents().execute()
+
         return view
     }
 
@@ -70,24 +72,77 @@ class HobbyEventListFragment : Fragment() {
         val intent = Intent(context, HobbyDetailActivity::class.java)
 
         intent.putExtra("EXTRA_HOBBY", hobbyEvent)
+        intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT)
+
         val sharedView: View = hobbyImage
         val transition = getString(R.string.item_detail)
         val transitionActivity = ActivityOptions.makeSceneTransitionAnimation(this.activity, sharedView, transition)
         startActivity(intent, transitionActivity.toBundle())
     }
 
-    override fun onResume() {
-        super.onResume()
-        filters = loadFilters(this.activity!!)
-        GetHobbyEvents().execute()
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        when (item!!.itemId) {
+            R.id.action_filter -> {
+                val intent = Intent(this.activity, FilterViewActivity::class.java)
+                intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT)
+                startActivityForResult(intent, 1)
+                this.activity!!.overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left)
+                return true
+            }
+            R.id.map -> {
+                val intent = Intent(this.activity, MapActivity::class.java)
+                val bundle = Bundle()
+                bundle.putSerializable("EXTRA_HOBBY_EVENT_LIST", hobbyEventArrayList)
+                intent.putExtra("EXTRA_HOBBY_BUNDLE", bundle)
+                intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT)
+                startActivityForResult(intent, 2)
+                this.activity!!.overridePendingTransition(R.anim.slide_in_up, R.anim.slide_out_up)
 
+                return true
+            }
+            R.id.settings -> {
+                val intent = Intent(this.activity, SettingsActivity::class.java)
+                intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT)
+                startActivity(intent)
+                this.activity!!.overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left)
+                return true
+            }
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == 1) {
+            filters = data!!.extras.getSerializable("EXTRA_FILTERS") as Filters
+            if(filters.isModified) {
+                GetHobbyEvents().execute()
+                filters.isModified = false
+                saveFilters(filters, this.activity!!)
+            }
+        } else if(requestCode == 2) {
+            if (data!!.hasExtra("EXTRA_HOBBY_BUNDLE")) {
+                val bundle = data.getBundleExtra("EXTRA_HOBBY_BUNDLE")
+                filters = data!!.extras.getSerializable("EXTRA_FILTERS") as Filters
+                hobbyEventArrayList.clear()
+                hobbyEventArrayList = bundle.getSerializable("EXTRA_HOBBY_EVENT_LIST") as ArrayList<HobbyEvent>
+                if(hobbyEventArrayList.size == 0) {
+                    progressBar.visibility = View.INVISIBLE
+                    progressText.text = getString(R.string.error_no_hobby_events)
+                } else {
+                    progressText.visibility = View.INVISIBLE
+                    progressBar.visibility = View.INVISIBLE
+                }
+                val hobbyEventListAdapter = HobbyEventListAdapter(hobbyEventArrayList) { hobbyEvent: HobbyEvent, hobbyImage: ImageView -> hobbyItemClicked(hobbyEvent, hobbyImage)}
+                listView.adapter = hobbyEventListAdapter
+            }
+        }
     }
 
     companion object {
         const val ERROR = "error"
         const val NO_INTERNET = "no_internet"
     }
-
 
     internal inner class GetHobbyEvents : AsyncTask<Void, Void, String>() {
 
@@ -106,10 +161,7 @@ class HobbyEventListFragment : Fragment() {
                     else -> ERROR
                 }
             }
-
         }
-
-
 
         @SuppressLint("SetTextI18n")
         override fun onPostExecute(result: String?) {
@@ -136,8 +188,18 @@ class HobbyEventListFragment : Fragment() {
                             hobbyEventArrayList.add(hobbyEvent)
                         }
 
+                        val hobbyEventSet: Set<HobbyEvent> = hobbyEventArrayList.toSet()
+                        hobbyEventArrayList.clear()
+                        for (hobbyEvent in hobbyEventSet) {
+                            hobbyEventArrayList.add(hobbyEvent)
+                        }
+                        val hobbyEventListAdapter = HobbyEventListAdapter(hobbyEventArrayList) { hobbyEvent: HobbyEvent, hobbyImage: ImageView -> hobbyItemClicked(hobbyEvent, hobbyImage)}
+                        listView.adapter = hobbyEventListAdapter
+                        Log.d("query", hobbyEventArrayList.toString())
+
                         if(hobbyEventArrayList.size == 0) {
                             progressBar.visibility = View.INVISIBLE
+                            progressText.visibility = View.VISIBLE
                             progressText.text = getString(R.string.error_no_hobby_events)
                         } else {
                             progressText.visibility = View.INVISIBLE
@@ -152,43 +214,5 @@ class HobbyEventListFragment : Fragment() {
             }
             refreshLayout.isRefreshing = false
         }
-    }
-
-    fun createQueryUrl(filters: Filters): String {
-        var query = "hobbyevents/?include=hobby_detail"
-        val categoryArrayList = filters.categories.toArray()
-        val weekDayArrayList = filters.dayOfWeeks.toArray()
-        if(categoryArrayList.isNotEmpty()) {
-            query += "&"
-            for (i in 0 until categoryArrayList.size) {
-                val categoryId = categoryArrayList[i]
-                query += if (i == categoryArrayList.indexOfLast{ true }) {
-                    "category=$categoryId"
-                } else {
-                    "category=$categoryId&"
-                }
-            }
-        }
-        if(weekDayArrayList.isNotEmpty()) {
-            query += "&"
-            for(i in 0 until weekDayArrayList.size) {
-                val weekId = weekDayArrayList[i]
-                query += if(i == weekDayArrayList.indexOfLast { true }) {
-                    "start_weekday=$weekId"
-                } else {
-                    "start_weekday=$weekId&"
-                }
-            }
-        }
-        query += "&start_time_from=${minutesToTime(filters.startTimeFrom)}"
-        query += "&start_time_to=${minutesToTime(filters.startTimeTo)}"
-
-       /* if(filters.latitude != 0.0 && filters.longitude != 0.0) {
-            query += "&latitude=${filters.latitude}"
-            query += "&longitude=${filters.longitude}"
-
-        }*/
-
-        return query
     }
 }

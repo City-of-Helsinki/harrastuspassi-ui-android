@@ -36,6 +36,8 @@ class FilterViewActivity : AppCompatActivity(), View.OnClickListener {
     private var hobbyTestResult:ArrayList<String> = ArrayList()
     private var categoryList: ArrayList<Category> = ArrayList()
     private var categoryMap: MutableMap<String, Int> =  mutableMapOf()
+
+    private var filtersOriginal: Filters = Filters() //
     private var filters: Filters = Filters()
     private lateinit var weekRecyclerView: RecyclerView
     private lateinit var tagsRecyclerView: RecyclerView
@@ -55,6 +57,7 @@ class FilterViewActivity : AppCompatActivity(), View.OnClickListener {
         } catch (e: KotlinNullPointerException) {
             loadFilters(this)
         }
+        filtersOriginal = filters.clone()
         GetCategories().execute()
 
         hobbyTestResult = idToCategoryName(filters.categories, categoryList)
@@ -98,10 +101,20 @@ class FilterViewActivity : AppCompatActivity(), View.OnClickListener {
                 val rangeEndValue : Int = rightPinValue.toInt()
 
                 filters.startTimeFrom = rangeStartValue
-                filters.startTimeTo = rangeEndValue
+
+                if (rangeEndValue == rangeStartValue) {
+                    filters.startTimeTo = (rangeEndValue + 60)
+                } else {
+                    filters.startTimeTo = rangeEndValue
+                }
 
                 val startTime = minutesToTime(rangeStartValue)
-                val endTime = minutesToTime(rangeEndValue)
+
+                val endTime = if (rangeEndValue == rangeStartValue){
+                    minutesToTime((rangeEndValue + 60))
+                } else {
+                    minutesToTime(rangeEndValue)
+                }
 
                 rangeTextLeft.text = startTime
                 rangeTextRight.text = endTime
@@ -140,6 +153,9 @@ class FilterViewActivity : AppCompatActivity(), View.OnClickListener {
 
         when(v.id) {
             R.id.filterButton -> {
+                filters.isModified = !filters.isSameValues(filtersOriginal)
+                intent.putExtra("EXTRA_FILTERS", filters)
+                setResult(1, intent)
                 saveFilters(filters, this)
                 finish()
             }
@@ -147,19 +163,31 @@ class FilterViewActivity : AppCompatActivity(), View.OnClickListener {
                 val intent = Intent(this, HobbyCategoriesActivity::class.java).apply {
                 }
                 intent.putExtra("EXTRA_FILTERS", filters)
+                intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT)
                 startActivityForResult(intent, 1)
                 overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left)
             }
         }
+        Log.d("filters", filters.toString())
+        Log.d("filtersOriginal", filtersOriginal.toString())
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             android.R.id.home -> {
+                intent.putExtra("EXTRA_FILTERS", filtersOriginal)
+                setResult(1, intent)
                 finish()
             }
         }
         return true
+    }
+
+    override fun onBackPressed() {
+        intent.putExtra("EXTRA_FILTERS", filtersOriginal)
+        setResult(1, intent)
+        finish()
+        super.onBackPressed()
     }
 
     override fun finish() {
@@ -210,10 +238,6 @@ class FilterViewActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     internal inner class GetCategories: AsyncTask<Void, Void, String>() {
-
-        override fun onPreExecute() {
-            super.onPreExecute()
-        }
 
         override fun doInBackground(vararg params: Void?): String {
             return try {
