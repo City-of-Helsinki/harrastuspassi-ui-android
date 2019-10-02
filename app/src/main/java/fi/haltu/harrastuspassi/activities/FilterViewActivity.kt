@@ -23,7 +23,6 @@ import android.widget.Button
 import fi.haltu.harrastuspassi.adapters.FilterTagsListAdapter
 import android.widget.ImageButton
 import android.widget.TextView
-import android.widget.Toast
 import com.appyvet.materialrangebar.RangeBar
 import fi.haltu.harrastuspassi.adapters.DayOfWeekListAdapter
 import fi.haltu.harrastuspassi.models.Filters
@@ -154,13 +153,7 @@ class FilterViewActivity : AppCompatActivity(), View.OnClickListener {
 
         when(v.id) {
             R.id.filterButton -> {
-                if(filters.isSameValues(filtersOriginal)) {
-                    Toast.makeText(this, "No changes", Toast.LENGTH_SHORT).show()
-                    filters.isModified = false
-                } else {
-                    Toast.makeText(this, "Modified", Toast.LENGTH_SHORT).show()
-                    filters.isModified = true
-                }
+                filters.isModified = !filters.isSameValues(filtersOriginal)
                 intent.putExtra("EXTRA_FILTERS", filters)
                 setResult(1, intent)
                 saveFilters(filters, this)

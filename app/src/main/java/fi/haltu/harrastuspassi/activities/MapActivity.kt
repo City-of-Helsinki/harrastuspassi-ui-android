@@ -5,7 +5,6 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.location.Criteria
 import android.location.Location
 import android.location.LocationListener
 import android.location.LocationManager
@@ -16,14 +15,11 @@ import android.support.v4.app.ActivityCompat
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.Toast
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
-import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.MarkerOptions
 import fi.haltu.harrastuspassi.R
 import fi.haltu.harrastuspassi.activities.SettingsActivity.Companion.LOCATION_PERMISSION
 import fi.haltu.harrastuspassi.models.Filters
@@ -34,7 +30,6 @@ import com.google.maps.android.clustering.ClusterManager
 import fi.haltu.harrastuspassi.activities.HobbyCategoriesActivity.Companion.ERROR
 import fi.haltu.harrastuspassi.adapters.MarkerClusterRenderer
 import fi.haltu.harrastuspassi.utils.*
-import kotlinx.android.synthetic.main.activity_hobby_detail.*
 import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
@@ -69,7 +64,6 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
 
         mapFragment = supportFragmentManager.findFragmentById(R.id.hobby_map) as SupportMapFragment
         mapFragment.getMapAsync(this)
-        Toast.makeText(this, "onCreate", Toast.LENGTH_SHORT).show()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -90,7 +84,6 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
         val bundle = Bundle()
         bundle.putSerializable("EXTRA_HOBBY_EVENT_LIST", hobbyEventArrayList)
         intent.putExtra("EXTRA_HOBBY_BUNDLE", bundle)
-        intent.putExtra("EXTRA_SETTINGS", settings)
         intent.putExtra("EXTRA_FILTERS", filters)
         setResult(2, intent)
         super.finish()
@@ -107,7 +100,7 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
             }
         } else if(requestCode == 2) {
             filters = data!!.extras.getSerializable("EXTRA_FILTERS") as Filters
-
+            settings = data!!.extras.getSerializable("EXTRA_SETTINGS") as Settings
             GetHobbyEvents().execute()
             zoomToLocation(filters, settings)
         }
@@ -150,15 +143,28 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
 
     override fun onMapReady(googleMap: GoogleMap) {
         gMap = googleMap
-        locationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
-        setUpClusterManager(gMap)
+        try {
+            // Request location updates
+            locationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
+            locationManager?.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0L, 0f, locationListener)
+            if(!gMap.isMyLocationEnabled) {
+                gMap.isMyLocationEnabled = true
+            }
+        } catch(ex: SecurityException) {
+            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), LOCATION_PERMISSION)
+        }
+
         zoomToLocation(filters, settings)
+        setUpClusterManager(gMap)
     }
 
     private fun zoomToLocation(filters: Filters, settings: Settings) {
+
+
         if(settings.useCurrentLocation) {
             try {
                 // Request location updates
+                locationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
                 locationManager?.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0L, 0f, locationListener)
                 if(!gMap.isMyLocationEnabled) {
                     gMap.isMyLocationEnabled = true
@@ -188,6 +194,8 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
         }
     }
 
+
+
     private fun setUpClusterManager(googleMap: GoogleMap) {
         googleMap.clear()
         val clusterManager = ClusterManager<HobbyEvent>(this, googleMap) // 1
@@ -199,21 +207,16 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
 
         clusterManager.markerCollection.setOnInfoWindowAdapter(HobbyInfoWindowAdapter(this))//4
 
-
         for(event in hobbyEventArrayList) {
             clusterManager.addItem(event)
         }
+
         googleMap.setOnCameraIdleListener(clusterManager)
         googleMap.setOnInfoWindowClickListener {
             val hobbyEvent: HobbyEvent? = it.tag as HobbyEvent?
             val intent = Intent(this, HobbyDetailActivity::class.java)
-
             intent.putExtra("EXTRA_HOBBY", hobbyEvent)
             intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT)
-            //val sharedView: View = hobbyImage
-            //val transition = getString(R.string.item_detail)
-            //val transitionActivity = ActivityOptions.makeSceneTransitionAnimation(this.activity, sharedView, transition)
-            //startActivity(intent, transitionActivity.toBundle())
             startActivity(intent)
 
             true
@@ -227,13 +230,24 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
                     try {
                         // Request location updates
                         locationManager?.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0L, 0f, locationListener)
-                        gMap.isMyLocationEnabled = true
+                        if(!gMap.isMyLocationEnabled) {
+                            gMap.isMyLocationEnabled = true
+
+                            val myLocation = locationManager?.getLastKnownLocation(LocationManager.GPS_PROVIDER)
+                            if (myLocation != null) {
+                                val latLng = LatLng(myLocation.latitude, myLocation.longitude)
+                                val cameraPoint = CameraUpdateFactory.newLatLngZoom(latLng, 10f)
+                                gMap.moveCamera(cameraPoint)
+                            }
+                        }
                     } catch(ex: SecurityException) {
                         gMap.isMyLocationEnabled = false
                     }
                 } else {
                     gMap.isMyLocationEnabled = false
                 }
+                settings.useCurrentLocation = gMap.isMyLocationEnabled
+                saveSettings(settings, this)
                 return
             }
 

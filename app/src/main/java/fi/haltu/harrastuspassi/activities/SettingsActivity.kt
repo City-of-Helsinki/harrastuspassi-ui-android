@@ -15,6 +15,7 @@ import android.support.v7.widget.RecyclerView
 import android.widget.Button
 import android.widget.Switch
 import android.widget.TextView
+import android.widget.Toast
 import fi.haltu.harrastuspassi.R
 import fi.haltu.harrastuspassi.adapters.LocationListAdapter
 import fi.haltu.harrastuspassi.models.Filters
@@ -115,6 +116,8 @@ class SettingsActivity : AppCompatActivity(){
             saveSettings(settings, this)
             finish()
         }
+
+        Toast.makeText(this, "onCreate", Toast.LENGTH_SHORT).show()
     }
 
     private val locationListener: LocationListener = object : LocationListener {

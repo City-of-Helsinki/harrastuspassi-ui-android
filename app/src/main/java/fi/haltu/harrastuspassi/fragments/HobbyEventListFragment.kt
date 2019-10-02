@@ -193,10 +193,13 @@ class HobbyEventListFragment : Fragment() {
                         for (hobbyEvent in hobbyEventSet) {
                             hobbyEventArrayList.add(hobbyEvent)
                         }
-
+                        val hobbyEventListAdapter = HobbyEventListAdapter(hobbyEventArrayList) { hobbyEvent: HobbyEvent, hobbyImage: ImageView -> hobbyItemClicked(hobbyEvent, hobbyImage)}
+                        listView.adapter = hobbyEventListAdapter
+                        Log.d("query", hobbyEventArrayList.toString())
 
                         if(hobbyEventArrayList.size == 0) {
                             progressBar.visibility = View.INVISIBLE
+                            progressText.visibility = View.VISIBLE
                             progressText.text = getString(R.string.error_no_hobby_events)
                         } else {
                             progressText.visibility = View.INVISIBLE
