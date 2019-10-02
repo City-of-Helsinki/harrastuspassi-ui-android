@@ -5,15 +5,18 @@
              android:layout_height="match_parent"
              tools:context="fi.haltu.harrastuspassi.fragments.HobbyEventListFragment">
 
+    <android.support.v4.widget.SwipeRefreshLayout android:layout_width="match_parent"
+                                                  android:layout_height="match_parent"
+                                                  android:id="@+id/swipe_refresh_list">
+        <android.support.v7.widget.RecyclerView
+                android:id="@+id/list_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:dividerHeight="2dp"
+                android:footerDividersEnabled="false"
+                android:background="@color/hobbyPurple"/>
 
-    <android.support.v7.widget.RecyclerView
-            android:id="@+id/list_view"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:dividerHeight="2dp"
-            android:footerDividersEnabled="false"
-            android:background="@color/hobbyPurple"
-    />
+    </android.support.v4.widget.SwipeRefreshLayout>
 
     <ProgressBar
             android:id="@+id/progressbar"
@@ -31,6 +34,6 @@
             android:gravity="center"
             android:fontFamily="sans-serif"
             android:id="@+id/progress_text"
-            android:textColor="#fff"
-    />
+            android:textColor="#fff"/>
+
 </FrameLayout>
