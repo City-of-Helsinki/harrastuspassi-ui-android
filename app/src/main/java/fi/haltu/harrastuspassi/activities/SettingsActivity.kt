@@ -7,15 +7,15 @@ import android.location.Geocoder
 import android.location.Location as AndroidLocation
 import android.location.LocationListener
 import android.location.LocationManager
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import android.support.v4.app.ActivityCompat
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
+import androidx.core.app.ActivityCompat
 import android.widget.Button
 import android.widget.Switch
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import fi.haltu.harrastuspassi.R
 import fi.haltu.harrastuspassi.adapters.LocationListAdapter
 import fi.haltu.harrastuspassi.models.Filters
