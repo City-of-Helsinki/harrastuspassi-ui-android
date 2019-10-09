@@ -28,7 +28,20 @@ class MainActivity : AppCompatActivity() {
                 var deepLink: Uri? = null
                 if (pendingDynamicLinkData != null) {
                     deepLink = pendingDynamicLinkData.link
-                    Log.d(TAG, "deeplink: ${deepLink.toString()}")
+                    val deepLinkStr = deepLink.toString()
+                    when {
+                        //works only if deep links form is: https://hpassi.page.link/share/?hobbyEvent={HOBBY_ID}
+                        deepLinkStr.contains("?hobbyEvent") -> {
+                            val hobbyID: Int = deepLinkStr.substringAfter("?hobbyEvent=").toInt()
+                            Log.d(TAG, "hobbyID: $hobbyID")
+                            val intent = Intent(this, HobbyDetailActivity::class.java)
+
+                            intent.putExtra("EXTRA_HOBBY_ID",hobbyID)
+                            intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT)
+
+                            startActivity(intent)
+                        }
+                    }
                 }
 
                 // Handle the deep link. For example, open the linked
