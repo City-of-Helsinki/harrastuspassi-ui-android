@@ -80,9 +80,11 @@ class HobbyCategoriesActivity : AppCompatActivity() {
                 if(!isSaveClicked) {
                     isSaveClicked = true
                     val intent = Intent(this, FilterViewActivity::class.java)
-                    intent.flags = Intent.FLAG_ACTIVITY_REORDER_TO_FRONT
+                    intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
                     intent.putExtra("EXTRA_FILTERS", filters)
                     setResult(1, intent)
+                    //startActivity(intent)
+
                     finish()
 
                 }
