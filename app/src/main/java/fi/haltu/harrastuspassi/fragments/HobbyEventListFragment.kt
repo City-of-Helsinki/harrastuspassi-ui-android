@@ -115,6 +115,8 @@ class HobbyEventListFragment : Fragment() {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == 1) {
             filters = data!!.extras.getSerializable("EXTRA_FILTERS") as Filters
+            Log.d("filters, Hobbyevent", filters.toString())
+
             if(filters.isModified) {
                 GetHobbyEvents().execute()
                 filters.isModified = false
