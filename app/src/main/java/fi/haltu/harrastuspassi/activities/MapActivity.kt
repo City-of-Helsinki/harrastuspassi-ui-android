@@ -143,16 +143,6 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
 
     override fun onMapReady(googleMap: GoogleMap) {
         gMap = googleMap
-        try {
-            // Request location updates
-            locationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
-            locationManager?.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0L, 0f, locationListener)
-            if(!gMap.isMyLocationEnabled) {
-                gMap.isMyLocationEnabled = true
-            }
-        } catch(ex: SecurityException) {
-            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), LOCATION_PERMISSION)
-        }
 
         zoomToLocation(filters, settings)
         setUpClusterManager(gMap)

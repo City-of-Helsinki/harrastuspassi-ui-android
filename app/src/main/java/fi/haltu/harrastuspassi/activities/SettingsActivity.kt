@@ -12,7 +12,6 @@ import androidx.core.app.ActivityCompat
 import android.widget.Button
 import android.widget.Switch
 import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -116,8 +115,6 @@ class SettingsActivity : AppCompatActivity(){
             saveSettings(settings, this)
             finish()
         }
-
-        Toast.makeText(this, "onCreate", Toast.LENGTH_SHORT).show()
     }
 
     private val locationListener: LocationListener = object : LocationListener {

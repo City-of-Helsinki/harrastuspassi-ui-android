@@ -169,20 +169,19 @@ class HobbyEventListFragment : Fragment() {
         override fun onPostExecute(result: String?) {
             super.onPostExecute(result)
 
+            hobbyEventArrayList.clear()
 
             when (result) {
                 ERROR -> {
-                    progressBar.visibility = View.INVISIBLE
+                    progressText.visibility = View.VISIBLE
                     this@HobbyEventListFragment.progressText.text = getString(R.string.error_try_again_later)
                 }
                 NO_INTERNET -> {
-                    progressBar.visibility = View.INVISIBLE
                     progressText.text = getString(R.string.error_no_internet)
                 }
                 else -> {
                     try {
                         val mJsonArray = JSONArray(result)
-                        hobbyEventArrayList.clear()
                         for (i in 0 until mJsonArray.length()) {
                             val sObject = mJsonArray.get(i).toString()
                             val hobbyObject = JSONObject(sObject)
@@ -195,26 +194,29 @@ class HobbyEventListFragment : Fragment() {
                         for (hobbyEvent in hobbyEventSet) {
                             hobbyEventArrayList.add(hobbyEvent)
                         }
-                        val hobbyEventListAdapter = HobbyEventListAdapter(hobbyEventArrayList) { hobbyEvent: HobbyEvent, hobbyImage: ImageView -> hobbyItemClicked(hobbyEvent, hobbyImage)}
-                        listView.adapter = hobbyEventListAdapter
-                        Log.d("query", hobbyEventArrayList.toString())
+
 
                         if(hobbyEventArrayList.size == 0) {
-                            progressBar.visibility = View.INVISIBLE
                             progressText.visibility = View.VISIBLE
                             progressText.text = getString(R.string.error_no_hobby_events)
                         } else {
                             progressText.visibility = View.INVISIBLE
-                            progressBar.visibility = View.INVISIBLE
                             listView.adapter!!.notifyDataSetChanged()
                         }
                     } catch(e: JSONException) {
-                            progressBar.visibility = View.INVISIBLE
                             progressText.text = getString(R.string.error_no_hobby_events)
                     }
                 }
             }
+            progressBar.visibility = View.INVISIBLE
             refreshLayout.isRefreshing = false
+            updateListView(listView, hobbyEventArrayList)
+
+        }
+
+        private fun updateListView(listView: RecyclerView, hobbyEventArrayList: ArrayList<HobbyEvent>) {
+            val hobbyEventListAdapter = HobbyEventListAdapter(hobbyEventArrayList) { hobbyEvent: HobbyEvent, hobbyImage: ImageView -> hobbyItemClicked(hobbyEvent, hobbyImage)}
+            listView.adapter = hobbyEventListAdapter
         }
     }
 }
