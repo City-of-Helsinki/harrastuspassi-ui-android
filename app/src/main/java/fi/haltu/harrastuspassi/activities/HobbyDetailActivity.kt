@@ -1,14 +1,19 @@
 package fi.haltu.harrastuspassi.activities
 
 import android.annotation.SuppressLint
+import android.content.Intent
+import android.net.Uri
 import android.os.AsyncTask
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import android.support.v7.app.AlertDialog
 import android.util.Log
+import android.view.Menu
 import android.view.MenuItem
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ShareCompat
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -16,6 +21,8 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
+import com.google.firebase.dynamiclinks.DynamicLink
+import com.google.firebase.dynamiclinks.FirebaseDynamicLinks
 import com.squareup.picasso.Picasso
 import fi.haltu.harrastuspassi.R
 import fi.haltu.harrastuspassi.models.HobbyEvent
@@ -54,8 +61,14 @@ class HobbyDetailActivity : AppCompatActivity(), OnMapReadyCallback {
         setContentView(R.layout.activity_hobby_detail)
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
         supportActionBar!!.title = ""
-        hobbyEvent = intent.extras!!.getSerializable("EXTRA_HOBBY") as HobbyEvent
-        id = (hobbyEvent.id)
+
+        if(intent.extras!!.getSerializable("EXTRA_HOBBY") != null) {
+            hobbyEvent = intent.extras!!.getSerializable("EXTRA_HOBBY") as HobbyEvent
+            id = hobbyEvent.id
+        } else if(intent.extras!!.getSerializable("EXTRA_HOBBY_ID") != null) {
+            id = intent.extras!!.getSerializable("EXTRA_HOBBY_ID") as Int
+        }
+        GetHobbyEvent().execute()
 
         coverImageView = findViewById(R.id.hobby_image)
         titleTextView = findViewById(R.id.hobby_title)
@@ -69,45 +82,129 @@ class HobbyDetailActivity : AppCompatActivity(), OnMapReadyCallback {
         locationAddress = findViewById(R.id.location_address)
         locationZipCode = findViewById(R.id.location_zipcode)
 
+        val mapFragment = supportFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
+        mapFragment.getMapAsync(this)
 
+    }
+
+    override fun onMapReady(googleMap: GoogleMap) {
+        map = googleMap
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        // Inflate the menu to use in the action bar
+        val inflater = menuInflater
+        inflater.inflate(R.menu.menu_hobby_detail, menu)
+
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        when (item!!.itemId) {
+            android.R.id.home -> {
+                onBackPressed()
+            }
+            R.id.action_share -> {
+
+            FirebaseDynamicLinks.getInstance().createDynamicLink()
+                .setLink(Uri.parse("https://hpassi.page.link/share/?hobbyEvent=$id"))
+                .setDomainUriPrefix("https://hpassi.page.link")
+                .setSocialMetaTagParameters(DynamicLink.SocialMetaTagParameters.Builder()
+                    .setTitle(hobbyEvent.hobby.name)
+                    .setImageUrl(Uri.parse(hobbyEvent.hobby.imageUrl))
+                    .build()
+                )
+                .setNavigationInfoParameters(DynamicLink.NavigationInfoParameters.Builder()
+                    .setForcedRedirectEnabled(true).build()
+                )
+                .setAndroidParameters(
+                    DynamicLink.AndroidParameters.Builder("fi.haltu.harrastuspassi")
+                        .setMinimumVersion(6)
+                        .build())
+                .setIosParameters(
+                    DynamicLink.IosParameters.Builder("fi.haltu.harrastuspassi")
+                        .setAppStoreId("1473780933")
+                        .setMinimumVersion("0.6.0")
+                        .build())
+                .buildShortDynamicLink()
+                .addOnSuccessListener { result ->
+                    ShareCompat.IntentBuilder.from(this)
+                        .setType("text/plain")
+                        .setChooserTitle("Share URL")
+                        .setText(result.shortLink.toString())
+                        .startChooser()
+                }
+            }
+        }
+
+
+        return true
+    }
+
+    private fun setHobbyDetailView(hobbyEvent: HobbyEvent) {
+        val parser = SimpleDateFormat("yyyy-MM-dd", Locale.US)
+        val formatter = SimpleDateFormat("dd.MM.yyyy", Locale.US)
+        var date = getString(R.string.not_specified)
+        try {
+            date = formatter.format(parser.parse(hobbyEvent.startDate))
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+
+        val timeParser = SimpleDateFormat("HH:mm:ss", Locale.US)
+        val timeFormatter = SimpleDateFormat("HH.mm", Locale.US)
+        var startTime = getString(R.string.not_specified)
+        var endTime = getString(R.string.not_specified)
+
+        try {
+            startTime = timeFormatter.format(timeParser.parse(hobbyEvent.startTime))
+            endTime =  timeFormatter.format(timeParser.parse(hobbyEvent.endTime))
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+        //TITLE
+        titleTextView.text = hobbyEvent.hobby.name
+        //ORGANIZER
+        if (hobbyEvent.hobby.organizer != null) {
+            organizerTextView.text = hobbyEvent.hobby.organizer!!.name
+        } else {
+            organizerTextView.text = getString(R.string.not_specified)
+        }
+        //WEEKDAY
+        if (hobbyEvent.startWeekday != 0) {
+            dayOfWeekTextView.text = idToWeekDay(hobbyEvent.startWeekday, this)
+        } else {
+            dayOfWeekTextView.text = "?"
+        }
+        //START TIME
+        startTimeTextView.text = "$startTime - $endTime"
+        //DATE
+        dateTextView.text = date
+        //DESCRIPTION
+        descriptionTextView.text = hobbyEvent.hobby.description
+        //COVER IMAGE
         Picasso.with(this)
             .load(hobbyEvent.hobby.imageUrl)
             .placeholder(R.drawable.image_placeholder_icon)
             .error(R.drawable.image_placeholder_icon)
             .into(coverImageView)
-
-        titleTextView.text = hobbyEvent.hobby.name
-
-
+        //LOCATION
+        locationNameTextView.text = hobbyEvent.hobby.location.name
+        locationAddress.text = hobbyEvent.hobby.location.address
+        locationZipCode.text = hobbyEvent.hobby.location.zipCode
+        //MAP
         if (hobbyEvent.hobby.location.lat != null) {
             latLan = LatLng(hobbyEvent.hobby.location.lat!!, hobbyEvent.hobby.location.lon!!)
         } else {
             locationReceived = false
         }
-
-        val mapFragment = supportFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
-        mapFragment.getMapAsync(this)
-        GetHobbyEvent().execute()
-    }
-
-    override fun onMapReady(googleMap: GoogleMap) {
-        locationNameTextView.text = hobbyEvent.hobby.location.name
-        locationAddress.text = hobbyEvent.hobby.location.address
-        locationZipCode.text = hobbyEvent.hobby.location.zipCode
-        map = googleMap
-
         if (locationReceived) {
             val markerPos = latLan
             map.addMarker(MarkerOptions()
-                .position(markerPos).title("Marker in Tampere")
+                .position(markerPos)
                 .icon(bitmapDescriptorFromVector(this, R.drawable.ic_location_24dp)))
             map.moveCamera(CameraUpdateFactory.newLatLng(markerPos))
         }
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        onBackPressed()
-        return true
     }
 
     companion object {
@@ -139,44 +236,7 @@ class HobbyDetailActivity : AppCompatActivity(), OnMapReadyCallback {
                 else -> {
                     val hobbyObject = JSONObject(result)
                     hobbyEvent = HobbyEvent(hobbyObject)
-
-                    val parser = SimpleDateFormat("yyyy-MM-dd", Locale.US)
-                    val formatter = SimpleDateFormat("dd.MM.yyyy", Locale.US)
-                    var date = getString(R.string.not_specified)
-                    try {
-                        date = formatter.format(parser.parse(hobbyEvent.startDate))
-                    } catch (e: Exception) {
-                        e.printStackTrace()
-                    }
-
-                    val timeParser = SimpleDateFormat("HH:mm:ss", Locale.US)
-                    val timeFormatter = SimpleDateFormat("HH.mm", Locale.US)
-                    var startTime = getString(R.string.not_specified)
-                    var endTime = getString(R.string.not_specified)
-
-                    try {
-                        startTime = timeFormatter.format(timeParser.parse(hobbyEvent.startTime))
-                        endTime =  timeFormatter.format(timeParser.parse(hobbyEvent.endTime))
-                    } catch (e: Exception) {
-                        e.printStackTrace()
-                    }
-
-                    this@HobbyDetailActivity.titleTextView.text = hobbyEvent.hobby.name
-                    if (hobbyEvent.hobby.organizer != null) {
-                        this@HobbyDetailActivity.organizerTextView.text = hobbyEvent.hobby.organizer!!.name
-                    } else {
-                        this@HobbyDetailActivity.organizerTextView.text = getString(R.string.not_specified)
-                    }
-
-                    if (hobbyEvent.startWeekday != 0) {
-                        this@HobbyDetailActivity.dayOfWeekTextView.text = idToWeekDay(hobbyEvent.startWeekday, this@HobbyDetailActivity)
-                    } else {
-                        this@HobbyDetailActivity.dayOfWeekTextView.text = "?"
-                    }
-
-                    this@HobbyDetailActivity.startTimeTextView.text = "$startTime - $endTime"
-                    this@HobbyDetailActivity.dateTextView.text = date
-                    this@HobbyDetailActivity.descriptionTextView.text = hobbyEvent.hobby.description
+                    setHobbyDetailView(hobbyEvent)
                 }
             }
         }

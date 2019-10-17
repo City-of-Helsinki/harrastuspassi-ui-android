@@ -1,10 +1,7 @@
 package fi.haltu.harrastuspassi.activities
 
 import android.os.AsyncTask
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
 import android.util.Log
 import fi.haltu.harrastuspassi.R
 import fi.haltu.harrastuspassi.adapters.CategoryListAdapter
@@ -15,6 +12,9 @@ import java.net.URL
 import android.content.Intent
 import android.view.Menu
 import android.view.MenuItem
+import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import fi.haltu.harrastuspassi.models.Filters
 
 
@@ -80,10 +80,13 @@ class HobbyCategoriesActivity : AppCompatActivity() {
                 if(!isSaveClicked) {
                     isSaveClicked = true
                     val intent = Intent(this, FilterViewActivity::class.java)
-                    intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
+                    intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
                     intent.putExtra("EXTRA_FILTERS", filters)
-                    startActivity(intent)
+                    setResult(1, intent)
+                    //startActivity(intent)
+
                     finish()
+
                 }
             }
         }

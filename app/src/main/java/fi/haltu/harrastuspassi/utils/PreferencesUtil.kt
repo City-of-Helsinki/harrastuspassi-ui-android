@@ -3,7 +3,7 @@ package fi.haltu.harrastuspassi.utils
 import android.app.Activity
 import android.content.Context
 import android.content.SharedPreferences
-import android.support.v4.app.FragmentActivity
+import androidx.fragment.app.FragmentActivity
 import com.google.gson.Gson
 import fi.haltu.harrastuspassi.models.Filters
 import fi.haltu.harrastuspassi.models.Settings

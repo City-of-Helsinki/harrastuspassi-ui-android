@@ -13,7 +13,7 @@
                 app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintVertical_bias="1.0" android:id="@+id/scrollView2">
 
-        <android.support.constraint.ConstraintLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
@@ -36,10 +36,10 @@
             <TextView
                     android:id="@+id/hobby_title"
                     android:layout_width="0dp"
-                    android:layout_height="30dp"
                     android:layout_marginStart="24dp"
                     android:layout_marginEnd="24dp"
                     android:fontFamily="sans-serif"
+                    android:layout_height="wrap_content"
                     android:textColor="@color/hobbyPurple"
                     android:textSize="24sp"
                     android:textStyle="bold"
@@ -55,7 +55,6 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:fontFamily="sans-serif"
-                    android:textColor="@color/cast_expanded_controller_background_color"
                     android:textSize="16sp"
                     android:textStyle="normal"
                     app:layout_constraintBottom_toTopOf="@+id/calendar_icon"
@@ -148,7 +147,6 @@
 
                     android:fontFamily="sans-serif"
                     android:gravity="start"
-                    android:textColor="@color/cast_expanded_controller_background_color"
                     android:textSize="14sp"
                     android:text="@string/hobby_detail_location"
                     app:layout_constraintEnd_toEndOf="@+id/start_time"
@@ -161,7 +159,6 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:text="@string/hobby_detail_address"
-                    android:textColor="@color/cast_expanded_controller_background_color"
                     android:textSize="14sp"
                     app:layout_constraintBottom_toTopOf="@+id/location_zipcode"
                     app:layout_constraintEnd_toEndOf="@+id/location"
@@ -219,7 +216,6 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
-                    android:textColor="@color/cast_expanded_controller_background_color"
                     app:layout_constraintBottom_toTopOf="@+id/description_label"
                     app:layout_constraintEnd_toEndOf="@+id/location_address"
                     app:layout_constraintStart_toStartOf="@+id/location_address"
@@ -239,7 +235,7 @@
                     android:layout_marginTop="8dp"
                     app:layout_constraintTop_toBottomOf="@+id/calendar_icon"/>
 
-        </android.support.constraint.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 </LinearLayout>
 

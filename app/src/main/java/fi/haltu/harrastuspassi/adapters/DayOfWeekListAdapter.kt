@@ -1,11 +1,11 @@
 package fi.haltu.harrastuspassi.adapters
 
-import android.support.v4.content.ContextCompat
-import android.support.v7.widget.RecyclerView
+import androidx.core.content.ContextCompat
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.recyclerview.widget.RecyclerView
 import fi.haltu.harrastuspassi.R
 import fi.haltu.harrastuspassi.activities.FilterViewActivity
 

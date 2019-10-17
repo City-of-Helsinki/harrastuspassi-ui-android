@@ -2,7 +2,7 @@ package fi.haltu.harrastuspassi.utils
 
 import android.content.Context
 import android.net.ConnectivityManager
-import android.support.v4.app.FragmentActivity
+import androidx.fragment.app.FragmentActivity
 import java.io.IOException
 
     fun verifyAvailableNetwork(activity: FragmentActivity): Boolean {

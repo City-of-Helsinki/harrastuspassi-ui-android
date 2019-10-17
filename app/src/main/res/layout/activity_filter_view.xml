@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
+<androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout"
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
@@ -19,7 +19,7 @@
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-        <android.support.constraint.ConstraintLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/scroll_content"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
@@ -60,7 +60,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/add_hobby_categories_title">
 
 
-                <android.support.v7.widget.RecyclerView
+                <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/tags_recyclerView"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -111,7 +111,7 @@
                     app:textAllCaps="true" app:layout_constraintBottom_toTopOf="@+id/day_of_week_list"
                     android:layout_marginBottom="16dp"/>
 
-            <android.support.v7.widget.RecyclerView
+            <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/day_of_week_list"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -139,7 +139,7 @@
                     android:layout_marginBottom="8dp"
                     app:layout_constraintBottom_toTopOf="@+id/timespan_container"/>
 
-            <android.support.constraint.ConstraintLayout android:layout_width="match_parent"
+            <androidx.constraintlayout.widget.ConstraintLayout android:layout_width="match_parent"
                                                          android:layout_height="wrap_content"
                                                          android:id="@+id/timespan_container"
                                                          app:layout_constraintEnd_toEndOf="parent"
@@ -207,9 +207,9 @@
                         android:layout_marginEnd="16dp"
                         android:layout_marginStart="8dp"
                         android:gravity="center"/>
-            </android.support.constraint.ConstraintLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
-        </android.support.constraint.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </ScrollView>
 
@@ -231,4 +231,4 @@
             android:textAllCaps="false"
             android:textSize="16sp"/>
 
-</android.support.constraint.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

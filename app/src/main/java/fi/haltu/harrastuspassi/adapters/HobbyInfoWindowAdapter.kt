@@ -2,7 +2,6 @@ package fi.haltu.harrastuspassi.adapters
 
 import android.app.Activity
 import android.content.Context
-import android.support.v7.app.AppCompatActivity
 import android.view.View
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.model.Marker
