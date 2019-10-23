@@ -103,7 +103,7 @@ class HobbyEventListFragment : Fragment() {
             R.id.settings -> {
                 val intent = Intent(this.activity, SettingsActivity::class.java)
                 intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT)
-                startActivity(intent)
+                startActivityForResult(intent, 1)
                 this.activity!!.overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left)
                 return true
             }
@@ -182,10 +182,12 @@ class HobbyEventListFragment : Fragment() {
                 else -> {
                     try {
                         val mJsonArray = JSONArray(result)
+
                         for (i in 0 until mJsonArray.length()) {
                             val sObject = mJsonArray.get(i).toString()
                             val hobbyObject = JSONObject(sObject)
                             val hobbyEvent = HobbyEvent(hobbyObject)
+
                             hobbyEventArrayList.add(hobbyEvent)
                         }
 

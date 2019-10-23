@@ -9,6 +9,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
 import fi.haltu.harrastuspassi.R
 import fi.haltu.harrastuspassi.models.HobbyEvent
+import java.text.SimpleDateFormat
+import java.util.*
 
 
 class HobbyEventListAdapter(private val list: List<HobbyEvent>, private val clickListener: (HobbyEvent, ImageView) -> Unit) :
@@ -42,7 +44,19 @@ class HobbyEventListAdapter(private val list: List<HobbyEvent>, private val clic
                 .placeholder(R.drawable.image_placeholder_icon)
                 .error(R.drawable.image_placeholder_icon)
                 .into(image)
-            duration.text = "${hobbyEvent.startDate} - ${hobbyEvent.endDate}"
+            val parser = SimpleDateFormat("yyyy-MM-dd", Locale.US)
+            val formatter = SimpleDateFormat("dd.MM.yyyy", Locale.US)
+            var startDate = ""
+            var endDate = ""
+            try {
+                startDate = formatter.format(parser.parse(hobbyEvent.startDate))
+                endDate = formatter.format(parser.parse(hobbyEvent.endDate))
+
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+
+            duration.text = "$startDate - $endDate"
             itemView.setOnClickListener { clickListener(hobbyEvent, image) }
         }
     }
