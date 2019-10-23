@@ -215,7 +215,7 @@ class HobbyDetailActivity : AppCompatActivity(), OnMapReadyCallback {
 
         override fun doInBackground(vararg params: Void?): String {
             return try {
-                URL(getString(R.string.API_URL) + "hobbyevents/" + id + "/?include=hobby_detail").readText()
+                URL(getString(R.string.API_URL) + "hobbyevents/" + id + "/?include=hobby_detail&include=organizer_detail&include=location_detail").readText()
             } catch (e: IOException) {
                 return ERROR
             }

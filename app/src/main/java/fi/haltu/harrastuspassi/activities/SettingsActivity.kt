@@ -8,6 +8,7 @@ import android.location.Location as AndroidLocation
 import android.location.LocationListener
 import android.location.LocationManager
 import android.os.Bundle
+import android.util.Log
 import androidx.core.app.ActivityCompat
 import android.widget.Button
 import android.widget.Switch
@@ -108,9 +109,10 @@ class SettingsActivity : AppCompatActivity(){
                 filters.latitude = chosenLocation.lat!!
                 filters.longitude = chosenLocation.lon!!
             }
+            filters.isModified = true
             intent.putExtra("EXTRA_SETTINGS", settings)
             intent.putExtra("EXTRA_FILTERS", filters)
-            setResult(2, intent)
+            setResult(1, intent)
             saveFilters(filters, this)
             saveSettings(settings, this)
             finish()
@@ -119,8 +121,12 @@ class SettingsActivity : AppCompatActivity(){
 
     private val locationListener: LocationListener = object : LocationListener {
         override fun onLocationChanged(location: AndroidLocation) {
-            filters.latitude = location.latitude
-            filters.longitude = location.longitude
+            if(settings.useCurrentLocation) {
+                filters.latitude = location.latitude
+                filters.longitude = location.longitude
+                filters.isModified = true
+            }
+
         }
         override fun onStatusChanged(provider: String, status: Int, extras: Bundle) {}
         override fun onProviderEnabled(provider: String) {}
@@ -174,8 +180,12 @@ class SettingsActivity : AppCompatActivity(){
 
     override fun onBackPressed() {
         intent.putExtra("EXTRA_SETTINGS", settingsOriginal)
-        intent.putExtra("EXTRA_FILTERS", filtersOriginal)
-        setResult(2, intent)
+        if(settings.useCurrentLocation) {
+            intent.putExtra("EXTRA_FILTERS", filters)
+        } else {
+            intent.putExtra("EXTRA_FILTERS", filtersOriginal)
+        }
+        setResult(1, intent)
         finish()
         super.onBackPressed()
     }
