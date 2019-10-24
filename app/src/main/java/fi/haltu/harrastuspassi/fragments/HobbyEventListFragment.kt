@@ -170,7 +170,7 @@ class HobbyEventListFragment : Fragment() {
             super.onPostExecute(result)
 
             hobbyEventArrayList.clear()
-
+            Log.d("query",result)
             when (result) {
                 ERROR -> {
                     progressText.visibility = View.VISIBLE
@@ -189,6 +189,7 @@ class HobbyEventListFragment : Fragment() {
                             val hobbyEvent = HobbyEvent(hobbyObject)
 
                             hobbyEventArrayList.add(hobbyEvent)
+
                         }
 
                         val hobbyEventSet: Set<HobbyEvent> = hobbyEventArrayList.toSet()
@@ -196,6 +197,7 @@ class HobbyEventListFragment : Fragment() {
                         for (hobbyEvent in hobbyEventSet) {
                             hobbyEventArrayList.add(hobbyEvent)
                         }
+
 
 
                         if(hobbyEventArrayList.size == 0) {
@@ -210,6 +212,7 @@ class HobbyEventListFragment : Fragment() {
                     }
                 }
             }
+
             progressBar.visibility = View.INVISIBLE
             refreshLayout.isRefreshing = false
             updateListView(listView, hobbyEventArrayList)
