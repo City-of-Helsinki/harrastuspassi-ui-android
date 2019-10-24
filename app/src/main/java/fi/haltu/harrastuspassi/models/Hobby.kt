@@ -9,7 +9,7 @@ class Hobby(json: JSONObject) : Serializable {
     var id: Int = 0
     var name: String = ""
     var imageUrl: String? = null
-    var category: Int = 0
+    //var category: Int = 0
     //var categories: List<Int> = listOf()
     var description: String = ""
     var organizer: Organizer? = null
@@ -21,7 +21,9 @@ class Hobby(json: JSONObject) : Serializable {
         imageUrl = json.getString("cover_image")
         //val categoriesString = json.getString("categories")
         //categories = categoriesString.removeSurrounding("[", "]").split(",").map { it.toInt() }
-        category = json.getInt("category")
+
+        //category = json.getInt("category")
+
         description = json.getString("description")
 
         val organizerObject = getOptionalJSONObject(json, "organizer")
