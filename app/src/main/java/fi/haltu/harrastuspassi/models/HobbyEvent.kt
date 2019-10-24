@@ -1,5 +1,6 @@
 package fi.haltu.harrastuspassi.models
 
+import android.util.Log
 import com.google.android.gms.maps.model.LatLng
 import com.google.maps.android.clustering.ClusterItem
 import fi.haltu.harrastuspassi.utils.getOptionalJSONObject
@@ -18,6 +19,7 @@ class HobbyEvent(json: JSONObject) : Serializable, ClusterItem {
     lateinit var hobby: Hobby
 
     init {
+
         id = json.getInt("id")
         startDate = json.getString("start_date")
         endDate = json.getString("end_date")
@@ -25,9 +27,12 @@ class HobbyEvent(json: JSONObject) : Serializable, ClusterItem {
         endTime = json.getString("end_time")
         startWeekday = json.getInt("start_weekday")
         val hobbyObject = getOptionalJSONObject(json, "hobby")
+
         if (hobbyObject != null) {
             hobby = Hobby(hobbyObject)
+
         }
+
     }
 
     override fun getSnippet(): String {
