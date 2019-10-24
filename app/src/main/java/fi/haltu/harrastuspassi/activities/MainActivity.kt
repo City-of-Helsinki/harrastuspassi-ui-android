@@ -8,21 +8,21 @@ import android.view.Menu
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.dynamiclinks.FirebaseDynamicLinks
 import fi.haltu.harrastuspassi.R
-import fi.haltu.harrastuspassi.fragments.FavoriteListFragment
-import fi.haltu.harrastuspassi.fragments.HobbyEventListFragment
-import fi.haltu.harrastuspassi.fragments.SettingsFragment
+import fi.haltu.harrastuspassi.fragments.*
 
 
 class MainActivity : AppCompatActivity() {
     lateinit var toolbar: ActionBar
-    lateinit var hobbyEventListFragment: Fragment
-    lateinit var favoriteListFragment: Fragment
-    lateinit var settingsFragment: Fragment
-
+    var hobbyEventListFragment: Fragment = HobbyEventListFragment2()
+    var favoriteListFragment: Fragment = FavoriteListFragment()
+    var settingsFragment: Fragment = SettingsFragment2()
+    var fragmentManager: FragmentManager = supportFragmentManager
+    lateinit var activeFragment: Fragment
     override fun onCreate(savedInstanceState: Bundle?) {
         val TAG = "onCreate"
         super.onCreate(savedInstanceState)
@@ -33,10 +33,11 @@ class MainActivity : AppCompatActivity() {
         toolbar = supportActionBar!!
         val bottomNavigation: BottomNavigationView = findViewById(R.id.navigationView)
         bottomNavigation.setOnNavigationItemSelectedListener (onNavigationItemSelectedListener)
-        hobbyEventListFragment = HobbyEventListFragment()
-        favoriteListFragment = FavoriteListFragment()
-        settingsFragment = SettingsFragment()
-        openFragment(hobbyEventListFragment)
+        fragmentManager.beginTransaction().add(R.id.bottom_navigation_container, hobbyEventListFragment).commit()
+        fragmentManager.beginTransaction().add(R.id.bottom_navigation_container, favoriteListFragment).hide(favoriteListFragment).commit()
+        fragmentManager.beginTransaction().add(R.id.bottom_navigation_container, settingsFragment).hide(settingsFragment).commit()
+        activeFragment = hobbyEventListFragment
+        //openFragment(hobbyEventListFragment)
 
         //FIREBASE_DYNAMIC_LINK
         FirebaseDynamicLinks.getInstance()
@@ -78,16 +79,18 @@ class MainActivity : AppCompatActivity() {
 
         when(item.itemId) {
             R.id.navigation_list -> {
-                openFragment(hobbyEventListFragment)
+                fragmentManager.beginTransaction().hide(activeFragment).show(hobbyEventListFragment).commit()
+                activeFragment = hobbyEventListFragment
                 return@OnNavigationItemSelectedListener true
-
             }
             R.id.navigation_favorites -> {
-                openFragment(favoriteListFragment)
+                fragmentManager.beginTransaction().hide(activeFragment).show(favoriteListFragment).commit()
+                activeFragment = favoriteListFragment
                 return@OnNavigationItemSelectedListener true
             }
             R.id.navigation_settings -> {
-                openFragment(settingsFragment)
+                fragmentManager.beginTransaction().hide(activeFragment).show(settingsFragment).commit()
+                activeFragment = settingsFragment
                 return@OnNavigationItemSelectedListener true
             }
         }
@@ -96,12 +99,7 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    private fun openFragment(fragment: Fragment) {
-        val transaction = supportFragmentManager.beginTransaction()
-        transaction.replace(R.id.bottom_navigation_container, fragment)
-        transaction.addToBackStack(null)
-        transaction.commit()
-    }
+
 
     override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)
