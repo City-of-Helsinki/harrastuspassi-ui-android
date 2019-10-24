@@ -48,10 +48,12 @@
                     app:layout_constraintStart_toStartOf="@+id/hobby_image"
                     app:layout_constraintTop_toBottomOf="@+id/hobby_image" />
 
-            <Button
+            <TextView
                     android:id="@+id/favorite_icon_button"
-                    android:layout_width="32dp"
-                    android:layout_height="wrap_content"
+                    android:layout_width="40dp"
+                    android:layout_height="0dp"
+                    android:background="@drawable/favorite_icon"
+                    android:backgroundTint="@color/common_google_signin_btn_text_light_disabled"
                     app:layout_constraintBottom_toBottomOf="@+id/hobby_title"
                     app:layout_constraintDimensionRatio="1:1"
                     app:layout_constraintEnd_toEndOf="parent"

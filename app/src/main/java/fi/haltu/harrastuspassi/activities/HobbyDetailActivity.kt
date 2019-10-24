@@ -1,24 +1,21 @@
 package fi.haltu.harrastuspassi.activities
 
 import android.annotation.SuppressLint
-import android.content.Intent
 import android.net.Uri
 import android.os.AsyncTask
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ShareCompat
+import androidx.core.content.ContextCompat
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
-import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.firebase.dynamiclinks.DynamicLink
@@ -28,12 +25,15 @@ import fi.haltu.harrastuspassi.R
 import fi.haltu.harrastuspassi.models.HobbyEvent
 import fi.haltu.harrastuspassi.utils.bitmapDescriptorFromVector
 import fi.haltu.harrastuspassi.utils.idToWeekDay
+import fi.haltu.harrastuspassi.utils.loadFavorites
+import fi.haltu.harrastuspassi.utils.saveFavorite
 import org.json.JSONObject
 import java.io.IOException
 import java.lang.Exception
 import java.net.URL
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.collections.HashSet
 
 
 class HobbyDetailActivity : AppCompatActivity(), OnMapReadyCallback {
@@ -53,8 +53,9 @@ class HobbyDetailActivity : AppCompatActivity(), OnMapReadyCallback {
 
     private lateinit var map: GoogleMap
     private lateinit var latLan: LatLng
-
+    private lateinit var favorites: HashSet<Int>
     private lateinit var hobbyEvent: HobbyEvent
+    private lateinit var favoriteView: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -72,6 +73,7 @@ class HobbyDetailActivity : AppCompatActivity(), OnMapReadyCallback {
 
         coverImageView = findViewById(R.id.hobby_image)
         titleTextView = findViewById(R.id.hobby_title)
+        favoriteView = findViewById(R.id.favorite_icon_button)
         organizerTextView = findViewById(R.id.hobby_organizer)
         dateTextView = findViewById(R.id.date)
         dayOfWeekTextView = findViewById(R.id.date_time)
@@ -81,6 +83,23 @@ class HobbyDetailActivity : AppCompatActivity(), OnMapReadyCallback {
         descriptionTextView = findViewById(R.id.description_text)
         locationAddress = findViewById(R.id.location_address)
         locationZipCode = findViewById(R.id.location_zipcode)
+
+        //Loads favorite id:s
+        favorites = loadFavorites(this)
+        if(favorites.contains(id)) {
+            favoriteView.background.setTint(ContextCompat.getColor(this, R.color.hobbyYellow))
+        }
+        favoriteView.setOnClickListener {
+            if(favorites.contains(id)) {
+                favoriteView.background.setTint(ContextCompat.getColor(this, R.color.common_google_signin_btn_text_light_disabled))
+                favorites.remove(id)
+            } else {
+                favoriteView.background.setTint(ContextCompat.getColor(this, R.color.hobbyYellow))
+                favorites.add(id)
+            }
+
+            saveFavorite(favorites, this)
+        }
 
         val mapFragment = supportFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
@@ -227,7 +246,6 @@ class HobbyDetailActivity : AppCompatActivity(), OnMapReadyCallback {
 
             when (result) {
                 ERROR -> {
-                    Log.d("ERROR", result)
                     val builder = AlertDialog.Builder(this@HobbyDetailActivity)
                     builder.setMessage(getString(R.string.error_try_again_later))
                     builder.show()
@@ -241,7 +259,6 @@ class HobbyDetailActivity : AppCompatActivity(), OnMapReadyCallback {
             }
         }
     }
-
 }
 
 

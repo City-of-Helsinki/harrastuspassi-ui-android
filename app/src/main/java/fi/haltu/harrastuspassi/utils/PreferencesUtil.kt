@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.SharedPreferences
 import androidx.fragment.app.FragmentActivity
 import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import fi.haltu.harrastuspassi.models.Filters
 import fi.haltu.harrastuspassi.models.Settings
 import java.lang.IllegalStateException
@@ -58,13 +59,7 @@ fun loadSettings(activity: Activity):Settings{
     }
 }
 
-fun saveFavorite(hobbyId: Int, activity: Activity) {
-    var favorites:HashSet<Int> = loadFavorites(activity)
-    if(favorites.contains(hobbyId)) {
-        favorites.remove(hobbyId)
-    } else {
-        favorites.add(hobbyId)
-    }
+fun saveFavorite(favorites:HashSet<Int>, activity: Activity) {
 
     val preferences = activity.getSharedPreferences("FAVORITE_PREFERENCE", Context.MODE_PRIVATE)
     val editor: SharedPreferences.Editor = preferences.edit()
@@ -79,7 +74,7 @@ fun loadFavorites(activity: FragmentActivity): HashSet<Int> {
         val preferences = activity.getSharedPreferences("FAVORITE_PREFERENCE", Context.MODE_PRIVATE)
         val gson = Gson()
         val json = preferences.getString("favorites", "")
-        gson.fromJson(json, HashSet<Int>()::class.java)
+        gson.fromJson(json, object : TypeToken<HashSet<Int>>() {}.type)
     } catch(e: IllegalStateException) {
         return HashSet()
     }
@@ -90,7 +85,7 @@ fun loadFavorites(activity: Activity): HashSet<Int> {
         val preferences = activity.getSharedPreferences("FAVORITE_PREFERENCE", Context.MODE_PRIVATE)
         val gson = Gson()
         val json = preferences.getString("favorites", "")
-        gson.fromJson(json, HashSet<Int>()::class.java)
+        gson.fromJson(json, object : TypeToken<HashSet<Int>>() {}.type)
     } catch(e: IllegalStateException) {
         return HashSet()
     }

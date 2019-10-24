@@ -1,6 +1,4 @@
 package fi.haltu.harrastuspassi.utils
-
-import android.util.Log
 import fi.haltu.harrastuspassi.models.Filters
 
 fun createQueryUrl(filters: Filters): String {
@@ -38,6 +36,15 @@ fun createQueryUrl(filters: Filters): String {
         query += "&near_latitude=${filters.latitude}"
         query += "&near_longitude=${filters.longitude}"
     }
-    Log.d("Query", query)
+    return query
+}
+
+fun createFavoriteQueryUrl(favorites: HashSet<Int>):String {
+    val query = "hobbyevents/?include=hobby_detail&include=location_detail&include=organizer_detail"
+    if(favorites.isNotEmpty()) {
+        for (i in 0 until favorites.size) {
+            //query += "&"
+        }
+    }
     return query
 }

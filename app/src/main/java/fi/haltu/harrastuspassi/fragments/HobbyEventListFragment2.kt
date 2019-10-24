@@ -10,7 +10,6 @@ import android.view.*
 import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -100,34 +99,13 @@ class HobbyEventListFragment2 : Fragment() {
 
                 return true
             }
-            R.id.settings -> {
-                val intent = Intent(this.activity, SettingsActivity::class.java)
-                intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT)
-                startActivityForResult(intent, 1)
-                this.activity!!.overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left)
-                return true
-            }
         }
         return super.onOptionsItemSelected(item)
-    }
-
-    override fun onResume() {
-        super.onResume()
-        /*Log.d("HobbyEvent", "OnResume")
-        filters = loadFilters(this.activity!!)
-        if(filters.isModified) {
-            GetHobbyEvents().execute()
-            filters.isModified = false
-            saveFilters(filters, this.activity!!)
-        }*/
-        Toast.makeText(this.context, "onResume", Toast.LENGTH_SHORT).show()
-
     }
 
     override fun onHiddenChanged(hidden: Boolean) {
         super.onHiddenChanged(hidden)
         if(!hidden) {
-            Toast.makeText(this.context, "onHiddenChanged: $hidden", Toast.LENGTH_SHORT).show()
             filters = loadFilters(this.activity!!)
             if(filters.isModified) {
                 GetHobbyEvents().execute()
