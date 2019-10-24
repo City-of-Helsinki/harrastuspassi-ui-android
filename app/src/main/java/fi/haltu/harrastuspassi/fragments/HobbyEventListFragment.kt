@@ -5,7 +5,6 @@ import android.app.ActivityOptions
 import android.content.Intent
 import android.os.AsyncTask
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import android.widget.ImageView
 import android.widget.ProgressBar
@@ -23,7 +22,6 @@ import java.io.IOException
 import java.net.URL
 import fi.haltu.harrastuspassi.activities.HobbyDetailActivity
 import fi.haltu.harrastuspassi.activities.MapActivity
-import fi.haltu.harrastuspassi.activities.SettingsActivity
 import fi.haltu.harrastuspassi.models.Filters
 import fi.haltu.harrastuspassi.models.HobbyEvent
 import fi.haltu.harrastuspassi.utils.*
@@ -64,7 +62,6 @@ class HobbyEventListFragment : Fragment() {
 
         filters = loadFilters(this.activity!!)
         GetHobbyEvents().execute()
-
         return view
     }
 
@@ -85,7 +82,8 @@ class HobbyEventListFragment : Fragment() {
             R.id.action_filter -> {
                 val intent = Intent(this.activity, FilterViewActivity::class.java)
                 intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT)
-                startActivityForResult(intent, 1)
+                //startActivityForResult(intent, 1)
+                startActivity(intent)
                 this.activity!!.overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left)
                 return true
             }
@@ -100,28 +98,45 @@ class HobbyEventListFragment : Fragment() {
 
                 return true
             }
-            R.id.settings -> {
-                val intent = Intent(this.activity, SettingsActivity::class.java)
-                intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT)
-                startActivityForResult(intent, 1)
-                this.activity!!.overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left)
-                return true
-            }
         }
         return super.onOptionsItemSelected(item)
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == 1) {
-            filters = data!!.extras.getSerializable("EXTRA_FILTERS") as Filters
-            Log.d("filters, Hobbyevent", filters.toString())
-
+    override fun onHiddenChanged(hidden: Boolean) {
+        super.onHiddenChanged(hidden)
+        if(!hidden) {
+            filters = loadFilters(this.activity!!)
             if(filters.isModified) {
                 GetHobbyEvents().execute()
                 filters.isModified = false
                 saveFilters(filters, this.activity!!)
             }
+        }
+        //if hidden = false, it's almost same than onResume
+    }
+
+    override fun onResume() {
+        super.onResume()
+        filters = loadFilters(this.activity!!)
+
+        if(filters.isModified) {
+            GetHobbyEvents().execute()
+            filters.isModified = false
+            saveFilters(filters, this.activity!!)
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == 1) {
+            /*//filters = data!!.extras.getSerializable("EXTRA_FILTERS") as Filters
+            filters = loadFilters(this.activity!!)
+
+            if(filters.isModified) {
+                GetHobbyEvents().execute()
+                filters.isModified = false
+                saveFilters(filters, this.activity!!)
+            }*/
         } else if(requestCode == 2) {
             if (data!!.hasExtra("EXTRA_HOBBY_BUNDLE")) {
                 val bundle = data.getBundleExtra("EXTRA_HOBBY_BUNDLE")
@@ -170,7 +185,7 @@ class HobbyEventListFragment : Fragment() {
             super.onPostExecute(result)
 
             hobbyEventArrayList.clear()
-            Log.d("query",result)
+
             when (result) {
                 ERROR -> {
                     progressText.visibility = View.VISIBLE
@@ -189,7 +204,6 @@ class HobbyEventListFragment : Fragment() {
                             val hobbyEvent = HobbyEvent(hobbyObject)
 
                             hobbyEventArrayList.add(hobbyEvent)
-
                         }
 
                         val hobbyEventSet: Set<HobbyEvent> = hobbyEventArrayList.toSet()
@@ -197,7 +211,6 @@ class HobbyEventListFragment : Fragment() {
                         for (hobbyEvent in hobbyEventSet) {
                             hobbyEventArrayList.add(hobbyEvent)
                         }
-
 
 
                         if(hobbyEventArrayList.size == 0) {
@@ -212,7 +225,6 @@ class HobbyEventListFragment : Fragment() {
                     }
                 }
             }
-
             progressBar.visibility = View.INVISIBLE
             refreshLayout.isRefreshing = false
             updateListView(listView, hobbyEventArrayList)

@@ -154,8 +154,8 @@ class FilterViewActivity : AppCompatActivity(), View.OnClickListener {
         when(v.id) {
             R.id.filterButton -> {
                 filters.isModified = !filters.isSameValues(filtersOriginal)
-                intent.putExtra("EXTRA_FILTERS", filters)
-                setResult(1, intent)
+                //intent.putExtra("EXTRA_FILTERS", filters)
+                //setResult(1, intent)
                 saveFilters(filters, this)
                 finish()
             }
@@ -168,8 +168,6 @@ class FilterViewActivity : AppCompatActivity(), View.OnClickListener {
                 overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left)
             }
         }
-        Log.d("filters", filters.toString())
-        Log.d("filtersOriginal", filtersOriginal.toString())
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -184,8 +182,8 @@ class FilterViewActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     override fun onBackPressed() {
-        intent.putExtra("EXTRA_FILTERS", filtersOriginal)
-        setResult(1, intent)
+        //intent.putExtra("EXTRA_FILTERS", filtersOriginal)
+        //setResult(1, intent)
         finish()
         super.onBackPressed()
     }

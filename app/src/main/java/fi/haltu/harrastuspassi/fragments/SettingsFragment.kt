@@ -69,7 +69,6 @@ class SettingsFragment : Fragment(){
             intent.putExtra("EXTRA_FILTERS", filters)
             intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT)
             startActivityForResult(intent, 1)
-
         }
 
         // USE USER LOCATION SWITCH
@@ -117,13 +116,11 @@ class SettingsFragment : Fragment(){
                 val chosenLocation = settings.locationList[settings.selectedIndex]
                 filters.latitude = chosenLocation.lat!!
                 filters.longitude = chosenLocation.lon!!
+                filters.isModified = true
             }
-            /*intent.putExtra("EXTRA_SETTINGS", settings)
-            intent.putExtra("EXTRA_FILTERS", filters)
-            setResult(2, intent)*/
+
             saveFilters(filters, this.activity!!)
             saveSettings(settings, this.activity!!)
-            //finish()
         }
         return view
     }
@@ -132,6 +129,8 @@ class SettingsFragment : Fragment(){
         override fun onLocationChanged(location: AndroidLocation) {
             filters.latitude = location.latitude
             filters.longitude = location.longitude
+            filters.isModified = true
+
         }
         override fun onStatusChanged(provider: String, status: Int, extras: Bundle) {}
         override fun onProviderEnabled(provider: String) {}
@@ -182,19 +181,6 @@ class SettingsFragment : Fragment(){
             }
         }
     }
-
-    /*override fun onBackPressed() {
-        intent.putExtra("EXTRA_SETTINGS", settingsOriginal)
-        intent.putExtra("EXTRA_FILTERS", filtersOriginal)
-        setResult(2, intent)
-        finish()
-        super.onBackPressed()
-    }*/
-
-    /*override fun finish() {
-        super.finish()
-        this.overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_right)
-    }*/
 
     private fun disableChoosableLocation(isHide: Boolean) {
         if(isHide) {

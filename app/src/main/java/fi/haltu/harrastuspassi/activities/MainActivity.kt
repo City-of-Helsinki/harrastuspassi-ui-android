@@ -9,7 +9,6 @@ import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.FragmentTransaction
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.dynamiclinks.FirebaseDynamicLinks
 import fi.haltu.harrastuspassi.R
@@ -18,9 +17,9 @@ import fi.haltu.harrastuspassi.fragments.*
 
 class MainActivity : AppCompatActivity() {
     lateinit var toolbar: ActionBar
-    var hobbyEventListFragment: Fragment = HobbyEventListFragment2()
+    var hobbyEventListFragment: Fragment = HobbyEventListFragment()
     var favoriteListFragment: Fragment = FavoriteListFragment()
-    var settingsFragment: Fragment = SettingsFragment2()
+    var settingsFragment: Fragment = SettingsFragment()
     var fragmentManager: FragmentManager = supportFragmentManager
     lateinit var activeFragment: Fragment
     override fun onCreate(savedInstanceState: Bundle?) {

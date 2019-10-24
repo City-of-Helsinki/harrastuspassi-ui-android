@@ -82,6 +82,12 @@ class FavoriteListFragment : Fragment() {
         //if hidden = false, it's almost same than onResume
     }
 
+    override fun onResume() {
+        super.onResume()
+        favorites = loadFavorites(this.activity!!)
+        updateListView(listView, filterFavorites(hobbyEventArrayList, favorites))
+    }
+
     companion object {
         const val ERROR = "error"
         const val NO_INTERNET = "no_internet"
