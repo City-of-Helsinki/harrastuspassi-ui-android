@@ -52,11 +52,8 @@ class FilterViewActivity : AppCompatActivity(), View.OnClickListener {
         findViewById<Button>(R.id.filterButton).setOnClickListener(this)
         findViewById<ImageButton>(R.id.open_hobby_categories_btn).setOnClickListener(this)
 
-        filters = try {
-            intent.extras!!.getSerializable("EXTRA_FILTERS") as Filters
-        } catch (e: KotlinNullPointerException) {
-            loadFilters(this)
-        }
+        filters = loadFilters(this)
+
         filtersOriginal = filters.clone()
         GetCategories().execute()
 
@@ -154,8 +151,6 @@ class FilterViewActivity : AppCompatActivity(), View.OnClickListener {
         when(v.id) {
             R.id.filterButton -> {
                 filters.isModified = !filters.isSameValues(filtersOriginal)
-                //intent.putExtra("EXTRA_FILTERS", filters)
-                //setResult(1, intent)
                 saveFilters(filters, this)
                 finish()
             }
@@ -173,8 +168,6 @@ class FilterViewActivity : AppCompatActivity(), View.OnClickListener {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             android.R.id.home -> {
-                intent.putExtra("EXTRA_FILTERS", filtersOriginal)
-                setResult(1, intent)
                 finish()
             }
         }
@@ -182,8 +175,6 @@ class FilterViewActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     override fun onBackPressed() {
-        //intent.putExtra("EXTRA_FILTERS", filtersOriginal)
-        //setResult(1, intent)
         finish()
         super.onBackPressed()
     }
