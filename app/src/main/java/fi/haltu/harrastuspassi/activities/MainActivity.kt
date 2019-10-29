@@ -5,6 +5,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
+import android.view.MenuItem
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
@@ -20,8 +21,10 @@ class MainActivity : AppCompatActivity() {
     var hobbyEventListFragment: Fragment = HobbyEventListFragment()
     var favoriteListFragment: Fragment = FavoriteListFragment()
     var settingsFragment: Fragment = SettingsFragment()
+    var mapFragment: Fragment = MapFragment()
     var fragmentManager: FragmentManager = supportFragmentManager
     lateinit var activeFragment: Fragment
+
     override fun onCreate(savedInstanceState: Bundle?) {
         val TAG = "onCreate"
         super.onCreate(savedInstanceState)
@@ -32,9 +35,11 @@ class MainActivity : AppCompatActivity() {
         toolbar = supportActionBar!!
         val bottomNavigation: BottomNavigationView = findViewById(R.id.navigationView)
         bottomNavigation.setOnNavigationItemSelectedListener (onNavigationItemSelectedListener)
-        fragmentManager.beginTransaction().add(R.id.bottom_navigation_container, hobbyEventListFragment).commit()
-        fragmentManager.beginTransaction().add(R.id.bottom_navigation_container, favoriteListFragment).hide(favoriteListFragment).commit()
-        fragmentManager.beginTransaction().add(R.id.bottom_navigation_container, settingsFragment).hide(settingsFragment).commit()
+        fragmentManager.beginTransaction().add(R.id.navigation_container, hobbyEventListFragment).commit()
+        fragmentManager.beginTransaction().add(R.id.navigation_container, favoriteListFragment).hide(favoriteListFragment).commit()
+        fragmentManager.beginTransaction().add(R.id.navigation_container, settingsFragment).hide(settingsFragment).commit()
+        fragmentManager.beginTransaction().add(R.id.navigation_container, mapFragment).hide(mapFragment).commit()
+
         activeFragment = hobbyEventListFragment
         //openFragment(hobbyEventListFragment)
 
@@ -63,15 +68,28 @@ class MainActivity : AppCompatActivity() {
                         }
                     }
                 }
-
-                // Handle the deep link. For example, open the linked
-                // content, or apply promotional credit to the user's
-                // account.
-                // ...
-
-                // ...
             }
             .addOnFailureListener(this) { e -> Log.w(TAG, "getDynamicLink:onFailure", e) }
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item!!.itemId) {
+            R.id.action_filter -> {
+                /*val intent = Intent(this, FilterViewActivity::class.java)
+                intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT)
+                //startActivityForResult(intent, 1)
+                startActivity(intent)
+                this.overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left)*/
+                return true
+            }
+            R.id.map -> {
+                fragmentManager.beginTransaction().hide(activeFragment).show(mapFragment).commit()
+                activeFragment = mapFragment
+
+                return true
+            }
+        }
+        return super.onOptionsItemSelected(item)
     }
 
     private val onNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->

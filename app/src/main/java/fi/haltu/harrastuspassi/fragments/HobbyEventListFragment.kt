@@ -77,7 +77,7 @@ class HobbyEventListFragment : Fragment() {
         startActivity(intent, transitionActivity.toBundle())
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+    /*override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item!!.itemId) {
             R.id.action_filter -> {
                 val intent = Intent(this.activity, FilterViewActivity::class.java)
@@ -100,7 +100,7 @@ class HobbyEventListFragment : Fragment() {
             }
         }
         return super.onOptionsItemSelected(item)
-    }
+    }*/
 
     override fun onHiddenChanged(hidden: Boolean) {
         super.onHiddenChanged(hidden)
