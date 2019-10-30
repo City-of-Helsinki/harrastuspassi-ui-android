@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent" android:layout_height="match_parent">
+    <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:context=".fragment.SettingsFragment">
+
+        <TextView
+                android:id="@+id/locationText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="24dp"
+                android:text="@string/location_title"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" android:textAllCaps="true"
+                android:textColor="@color/hobbyPurple" android:textColorHighlight="@color/hobbyPurple"
+                android:textColorHint="@color/hobbyPurple" android:textColorLink="@color/hobbyPurple"
+                android:textStyle="bold" android:textSize="13sp"/>
+
+        <TextView
+                android:id="@+id/current_location_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:text="@string/use_current_location"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/locationText" android:textSize="16sp"
+                android:textColor="@android:color/black"
+                android:textColorHighlight="@android:color/black"
+                android:textColorHint="@android:color/black" android:textColorLink="@android:color/black"/>
+
+        <Switch
+                android:id="@+id/user_location_switch"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                app:layout_constraintBottom_toBottomOf="@+id/current_location_text"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/current_location_text"
+                android:theme="@style/SwitchTheme"
+                />
+
+        <Button
+                android:id="@+id/location_map_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp"
+                android:text="@string/choose_location_from_map"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/current_location_text"
+                android:backgroundTint="@color/hobbyPurple" android:textColor="@color/white" android:textSize="16sp"
+                android:textAllCaps="false"/>
+
+        <TextView
+                android:id="@+id/recent_location_text"
+                android:layout_width="155dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:text="@string/recent_locations"
+                app:layout_constraintTop_toBottomOf="@+id/location_map_button" android:textAllCaps="true"
+                android:textColor="@color/hobbyPurple" android:textColorHighlight="@color/hobbyPurple"
+                android:textColorHint="@color/hobbyPurple" android:textColorLink="@color/hobbyPurple"
+                android:textSize="13sp" android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="@+id/location_map_button"/>
+
+        <view
+                android:id="@+id/location_list"
+                class="androidx.recyclerview.widget.RecyclerView"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="8dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/recent_location_text"
+                app:layout_constraintTop_toBottomOf="@+id/recent_location_text">
+
+        </view>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</FrameLayout>

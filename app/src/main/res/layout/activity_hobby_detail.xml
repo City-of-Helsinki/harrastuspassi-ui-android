@@ -36,18 +36,30 @@
             <TextView
                     android:id="@+id/hobby_title"
                     android:layout_width="0dp"
-                    android:layout_marginStart="24dp"
-                    android:layout_marginEnd="24dp"
-                    android:fontFamily="sans-serif"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginTop="24dp"
+                    android:fontFamily="sans-serif"
                     android:textColor="@color/hobbyPurple"
                     android:textSize="24sp"
                     android:textStyle="bold"
                     app:layout_constraintBottom_toTopOf="@+id/hobby_organizer"
-                    app:layout_constraintEnd_toEndOf="@+id/hobby_image"
-                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintEnd_toStartOf="@+id/favorite_icon_button"
                     app:layout_constraintStart_toStartOf="@+id/hobby_image"
-                    app:layout_constraintTop_toBottomOf="@+id/hobby_image" android:layout_marginTop="24dp"/>
+                    app:layout_constraintTop_toBottomOf="@+id/hobby_image" />
+
+            <TextView
+                    android:id="@+id/favorite_icon_button"
+                    android:layout_width="40dp"
+                    android:layout_height="0dp"
+                    android:layout_marginEnd="8dp"
+                    android:background="@drawable/favorite_icon"
+                    android:backgroundTint="@color/common_google_signin_btn_text_light_disabled"
+                    app:layout_constraintBottom_toBottomOf="@+id/hobby_title"
+                    app:layout_constraintDimensionRatio="1:1"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/hobby_title"
+                    app:layout_constraintTop_toTopOf="@+id/hobby_title" />
 
             <TextView
                     android:id="@+id/hobby_organizer"
@@ -58,10 +70,9 @@
                     android:textSize="16sp"
                     android:textStyle="normal"
                     app:layout_constraintBottom_toTopOf="@+id/calendar_icon"
-                    app:layout_constraintEnd_toEndOf="@+id/hobby_title"
-                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintEnd_toEndOf="@+id/favorite_icon_button"
                     app:layout_constraintStart_toStartOf="@+id/hobby_title"
-                    app:layout_constraintTop_toBottomOf="@+id/hobby_title"/>
+                    app:layout_constraintTop_toBottomOf="@+id/hobby_title" />
 
 
             <TextView

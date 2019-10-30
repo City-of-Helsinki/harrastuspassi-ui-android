@@ -5,7 +5,6 @@ import android.app.ActivityOptions
 import android.content.Intent
 import android.os.AsyncTask
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import android.widget.ImageView
 import android.widget.ProgressBar
@@ -15,15 +14,12 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import fi.haltu.harrastuspassi.R
-import fi.haltu.harrastuspassi.activities.FilterViewActivity
 import fi.haltu.harrastuspassi.adapters.HobbyEventListAdapter
 import org.json.JSONArray
 import org.json.JSONObject
 import java.io.IOException
 import java.net.URL
 import fi.haltu.harrastuspassi.activities.HobbyDetailActivity
-import fi.haltu.harrastuspassi.activities.MapActivity
-import fi.haltu.harrastuspassi.activities.SettingsActivity
 import fi.haltu.harrastuspassi.models.Filters
 import fi.haltu.harrastuspassi.models.HobbyEvent
 import fi.haltu.harrastuspassi.utils.*
@@ -64,7 +60,6 @@ class HobbyEventListFragment : Fragment() {
 
         filters = loadFilters(this.activity!!)
         GetHobbyEvents().execute()
-
         return view
     }
 
@@ -80,64 +75,25 @@ class HobbyEventListFragment : Fragment() {
         startActivity(intent, transitionActivity.toBundle())
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item!!.itemId) {
-            R.id.action_filter -> {
-                val intent = Intent(this.activity, FilterViewActivity::class.java)
-                intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT)
-                startActivityForResult(intent, 1)
-                this.activity!!.overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left)
-                return true
-            }
-            R.id.map -> {
-                val intent = Intent(this.activity, MapActivity::class.java)
-                val bundle = Bundle()
-                bundle.putSerializable("EXTRA_HOBBY_EVENT_LIST", hobbyEventArrayList)
-                intent.putExtra("EXTRA_HOBBY_BUNDLE", bundle)
-                intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT)
-                startActivityForResult(intent, 2)
-                this.activity!!.overridePendingTransition(R.anim.slide_in_up, R.anim.slide_out_up)
-
-                return true
-            }
-            R.id.settings -> {
-                val intent = Intent(this.activity, SettingsActivity::class.java)
-                intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT)
-                startActivityForResult(intent, 1)
-                this.activity!!.overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left)
-                return true
-            }
+    override fun onHiddenChanged(hidden: Boolean) {
+        super.onHiddenChanged(hidden)
+        if(!hidden) {
+            updateList()
         }
-        return super.onOptionsItemSelected(item)
+        //if hidden = false, it's almost same than onResume
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == 1) {
-            filters = data!!.extras.getSerializable("EXTRA_FILTERS") as Filters
-            Log.d("filters, Hobbyevent", filters.toString())
+    override fun onResume() {
+        super.onResume()
+        updateList()
+    }
 
-            if(filters.isModified) {
-                GetHobbyEvents().execute()
-                filters.isModified = false
-                saveFilters(filters, this.activity!!)
-            }
-        } else if(requestCode == 2) {
-            if (data!!.hasExtra("EXTRA_HOBBY_BUNDLE")) {
-                val bundle = data.getBundleExtra("EXTRA_HOBBY_BUNDLE")
-                filters = data!!.extras.getSerializable("EXTRA_FILTERS") as Filters
-                hobbyEventArrayList.clear()
-                hobbyEventArrayList = bundle.getSerializable("EXTRA_HOBBY_EVENT_LIST") as ArrayList<HobbyEvent>
-                if(hobbyEventArrayList.size == 0) {
-                    progressBar.visibility = View.INVISIBLE
-                    progressText.text = getString(R.string.error_no_hobby_events)
-                } else {
-                    progressText.visibility = View.INVISIBLE
-                    progressBar.visibility = View.INVISIBLE
-                }
-                val hobbyEventListAdapter = HobbyEventListAdapter(hobbyEventArrayList) { hobbyEvent: HobbyEvent, hobbyImage: ImageView -> hobbyItemClicked(hobbyEvent, hobbyImage)}
-                listView.adapter = hobbyEventListAdapter
-            }
+    private fun updateList() {
+        filters = loadFilters(this.activity!!)
+        if(!filters.isListUpdated) {
+            GetHobbyEvents().execute()
+            filters.isListUpdated = true
+            saveFilters(filters, this.activity!!)
         }
     }
 
@@ -170,7 +126,7 @@ class HobbyEventListFragment : Fragment() {
             super.onPostExecute(result)
 
             hobbyEventArrayList.clear()
-            Log.d("query",result)
+
             when (result) {
                 ERROR -> {
                     progressText.visibility = View.VISIBLE
@@ -189,7 +145,6 @@ class HobbyEventListFragment : Fragment() {
                             val hobbyEvent = HobbyEvent(hobbyObject)
 
                             hobbyEventArrayList.add(hobbyEvent)
-
                         }
 
                         val hobbyEventSet: Set<HobbyEvent> = hobbyEventArrayList.toSet()
@@ -197,7 +152,6 @@ class HobbyEventListFragment : Fragment() {
                         for (hobbyEvent in hobbyEventSet) {
                             hobbyEventArrayList.add(hobbyEvent)
                         }
-
 
 
                         if(hobbyEventArrayList.size == 0) {
@@ -212,7 +166,6 @@ class HobbyEventListFragment : Fragment() {
                     }
                 }
             }
-
             progressBar.visibility = View.INVISIBLE
             refreshLayout.isRefreshing = false
             updateListView(listView, hobbyEventArrayList)
