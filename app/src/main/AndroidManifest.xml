@@ -24,14 +24,7 @@
             android:usesCleartextTraffic="true"
             tools:ignore="GoogleAppIndexingWarning">
         <activity
-                android:name=".activities.MapActivity"
-
-                android:screenOrientation="portrait" />
-        <activity
                 android:name=".activities.LocationSelectActivity"
-                android:screenOrientation="portrait" />
-        <activity
-                android:name=".activities.SettingsActivity"
                 android:screenOrientation="portrait" />
         <activity
                 android:name=".activities.HobbyCategoriesActivity"

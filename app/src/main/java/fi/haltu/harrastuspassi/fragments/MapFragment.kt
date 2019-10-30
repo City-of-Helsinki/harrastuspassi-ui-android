@@ -10,7 +10,6 @@ import android.location.LocationListener
 import android.location.LocationManager
 import android.os.AsyncTask
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -22,7 +21,6 @@ import com.google.maps.android.clustering.ClusterManager
 import fi.haltu.harrastuspassi.R
 import fi.haltu.harrastuspassi.activities.HobbyCategoriesActivity
 import fi.haltu.harrastuspassi.activities.HobbyDetailActivity
-import fi.haltu.harrastuspassi.activities.SettingsActivity
 import fi.haltu.harrastuspassi.adapters.HobbyInfoWindowAdapter
 import fi.haltu.harrastuspassi.adapters.MarkerClusterRenderer
 import fi.haltu.harrastuspassi.models.Filters
@@ -40,7 +38,9 @@ class MapFragment : Fragment() {
     companion object {
         const val CENTER_LAT = 64.9600 //Center point of Finland
         const val CENTER_LON = 27.5900
+        const val LOCATION_PERMISSION = 1
     }
+
     private var locationManager: LocationManager? = null
     private lateinit var gMap: GoogleMap
     private lateinit var filters: Filters
@@ -58,6 +58,7 @@ class MapFragment : Fragment() {
         settings = loadSettings(this.activity!!)
         filters = loadFilters(this.activity!!)
 
+        //GOOGLE MAP
         mapView = view.findViewById(R.id.map_fragment) as MapView
         mapView.onCreate(savedInstanceState)
         mapView.onResume()
@@ -67,13 +68,12 @@ class MapFragment : Fragment() {
             e.printStackTrace()
         }
 
-        GetHobbyEvents().execute()
-
         mapView.getMapAsync { googleMap ->
             gMap = googleMap
             zoomToLocation(filters, settings)
             setUpClusterManager(gMap)
         }
+        GetHobbyEvents().execute()
 
         return view
     }
@@ -108,7 +108,6 @@ class MapFragment : Fragment() {
         if(!hidden) {
             updateMap()
         }
-        //if hidden = false, it's almost same than onResume
     }
 
     private fun updateMap() {
@@ -120,11 +119,9 @@ class MapFragment : Fragment() {
             saveFilters(filters, this.activity!!)
         }
         zoomToLocation(filters, settings)
-
     }
 
     private fun zoomToLocation(filters: Filters, settings: Settings) {
-
         if(settings.useCurrentLocation) {
             try {
                 // Request location updates
@@ -142,7 +139,7 @@ class MapFragment : Fragment() {
                 }
             } catch(ex: SecurityException) {
                 ActivityCompat.requestPermissions(this.activity!!, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
-                    SettingsActivity.LOCATION_PERMISSION
+                    LOCATION_PERMISSION
                 )
             }
         } else {
@@ -187,40 +184,39 @@ class MapFragment : Fragment() {
         }
     }
 
-
     override fun onRequestPermissionsResult(requestCode: Int,
                                         permissions: Array<String>, grantResults: IntArray) {
-    when (requestCode) {
-        SettingsActivity.LOCATION_PERMISSION -> {
-            if ((grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
-                try {
-                    // Request location updates
-                    locationManager?.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0L, 0f, locationListener)
-                    if(!gMap.isMyLocationEnabled) {
-                        gMap.isMyLocationEnabled = true
+        when (requestCode) {
+            LOCATION_PERMISSION -> {
+                if ((grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
+                    try {
+                        // Request location updates
+                        locationManager?.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0L, 0f, locationListener)
+                        if(!gMap.isMyLocationEnabled) {
+                            gMap.isMyLocationEnabled = true
 
-                        val myLocation = locationManager?.getLastKnownLocation(LocationManager.GPS_PROVIDER)
-                        if (myLocation != null) {
-                            val latLng = LatLng(myLocation.latitude, myLocation.longitude)
-                            val cameraPoint = CameraUpdateFactory.newLatLngZoom(latLng, 10f)
-                            gMap.moveCamera(cameraPoint)
+                            val myLocation = locationManager?.getLastKnownLocation(LocationManager.GPS_PROVIDER)
+                            if (myLocation != null) {
+                                val latLng = LatLng(myLocation.latitude, myLocation.longitude)
+                                val cameraPoint = CameraUpdateFactory.newLatLngZoom(latLng, 10f)
+                                gMap.moveCamera(cameraPoint)
+                            }
                         }
+                    } catch(ex: SecurityException) {
+                        gMap.isMyLocationEnabled = false
                     }
-                } catch(ex: SecurityException) {
+                } else {
                     gMap.isMyLocationEnabled = false
                 }
-            } else {
+                settings.useCurrentLocation = gMap.isMyLocationEnabled
+                saveSettings(settings, this.activity!!)
+                return
+            }
+
+            else -> {
                 gMap.isMyLocationEnabled = false
             }
-            settings.useCurrentLocation = gMap.isMyLocationEnabled
-            saveSettings(settings, this.activity!!)
-            return
         }
-
-        else -> {
-            gMap.isMyLocationEnabled = false
-        }
-    }
     }
 
     private val locationListener: LocationListener = object : LocationListener {
@@ -238,42 +234,42 @@ class MapFragment : Fragment() {
 
     internal inner class GetHobbyEvents : AsyncTask<Void, Void, String>() {
 
-    override fun doInBackground(vararg params: Void?): String {
-        return try {
-            URL(getString(R.string.API_URL) + createQueryUrl(filters)).readText()
-        } catch (e: IOException) {
-            return HobbyCategoriesActivity.ERROR
-        }
-    }
-
-    @SuppressLint("SetTextI18n")
-    override fun onPostExecute(result: String?) {
-        super.onPostExecute(result)
-        when (result) {
-            HobbyCategoriesActivity.ERROR -> {
+        override fun doInBackground(vararg params: Void?): String {
+            return try {
+                URL(getString(R.string.API_URL) + createQueryUrl(filters)).readText()
+            } catch (e: IOException) {
+                return HobbyCategoriesActivity.ERROR
             }
-            else -> {
-                try {
-                    val mJsonArray = JSONArray(result)
-                    hobbyEventArrayList.clear()
-                    for (i in 0 until mJsonArray.length()) {
-                        val sObject = mJsonArray.get(i).toString()
-                        val hobbyObject = JSONObject(sObject)
-                        val hobbyEvent = HobbyEvent(hobbyObject)
-                        hobbyEventArrayList.add(hobbyEvent)
-                    }
-                    val hobbyEventSet: Set<HobbyEvent> = hobbyEventArrayList.toSet()
-                    hobbyEventArrayList.clear()
+        }
 
-                    for(hobbyEvent in hobbyEventSet) {
-                        hobbyEventArrayList.add(hobbyEvent)
-                    }
-                    setUpClusterManager(gMap)
-                } catch(e: JSONException) {
+        @SuppressLint("SetTextI18n")
+        override fun onPostExecute(result: String?) {
+            super.onPostExecute(result)
+            when (result) {
+                HobbyCategoriesActivity.ERROR -> {
+                }
+                else -> {
+                    try {
+                        val mJsonArray = JSONArray(result)
+                        hobbyEventArrayList.clear()
+                        for (i in 0 until mJsonArray.length()) {
+                            val sObject = mJsonArray.get(i).toString()
+                            val hobbyObject = JSONObject(sObject)
+                            val hobbyEvent = HobbyEvent(hobbyObject)
+                            hobbyEventArrayList.add(hobbyEvent)
+                        }
+                        val hobbyEventSet: Set<HobbyEvent> = hobbyEventArrayList.toSet()
+                        hobbyEventArrayList.clear()
 
+                        for(hobbyEvent in hobbyEventSet) {
+                            hobbyEventArrayList.add(hobbyEvent)
+                        }
+                        setUpClusterManager(gMap)
+                    } catch(e: JSONException) {
+
+                    }
                 }
             }
         }
     }
-}
 }

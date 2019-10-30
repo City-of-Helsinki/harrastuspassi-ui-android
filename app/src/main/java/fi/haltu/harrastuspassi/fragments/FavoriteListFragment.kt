@@ -75,11 +75,11 @@ class FavoriteListFragment : Fragment() {
 
     override fun onHiddenChanged(hidden: Boolean) {
         super.onHiddenChanged(hidden)
+        //hidden == false is almost same than onResume
         if(!hidden) {
             favorites = loadFavorites(this.activity!!)
             updateListView(listView, filterFavorites(hobbyEventArrayList, favorites))
         }
-        //if hidden = false, it's almost same than onResume
     }
 
     override fun onResume() {
@@ -138,7 +138,6 @@ class FavoriteListFragment : Fragment() {
                             hobbyEventArrayList.add(hobbyEvent)
                         }
 
-
                         if(hobbyEventArrayList.size == 0) {
                             progressText.visibility = View.VISIBLE
                             progressText.text = getString(R.string.error_no_hobby_events)
@@ -154,7 +153,6 @@ class FavoriteListFragment : Fragment() {
             progressBar.visibility = View.INVISIBLE
             refreshLayout.isRefreshing = false
             updateListView(listView, filterFavorites(hobbyEventArrayList, favorites))
-
         }
     }
 

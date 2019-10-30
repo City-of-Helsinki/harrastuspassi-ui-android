@@ -17,7 +17,6 @@ import android.widget.Button
 import android.widget.Switch
 import android.widget.TextView
 import androidx.fragment.app.Fragment
-
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import fi.haltu.harrastuspassi.R
@@ -38,9 +37,7 @@ class SettingsFragment : Fragment(){
     private lateinit var currentLocationSwitch: Switch
     private lateinit var locationMapButton: Button
     private lateinit var locationListView: RecyclerView
-    //private lateinit var saveButton: Button
     private lateinit var latestLocationTitle: TextView
-
     private var filters: Filters = Filters()
     private var settings: Settings = Settings()
     private lateinit var filtersOriginal: Filters
