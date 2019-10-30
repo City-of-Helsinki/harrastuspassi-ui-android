@@ -77,82 +77,25 @@ class HobbyEventListFragment : Fragment() {
         startActivity(intent, transitionActivity.toBundle())
     }
 
-    /*override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item!!.itemId) {
-            R.id.action_filter -> {
-                val intent = Intent(this.activity, FilterViewActivity::class.java)
-                intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT)
-                //startActivityForResult(intent, 1)
-                startActivity(intent)
-                this.activity!!.overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left)
-                return true
-            }
-            R.id.map -> {
-                val intent = Intent(this.activity, MapActivity::class.java)
-                val bundle = Bundle()
-                bundle.putSerializable("EXTRA_HOBBY_EVENT_LIST", hobbyEventArrayList)
-                intent.putExtra("EXTRA_HOBBY_BUNDLE", bundle)
-                intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT)
-                startActivityForResult(intent, 2)
-                this.activity!!.overridePendingTransition(R.anim.slide_in_up, R.anim.slide_out_up)
-
-                return true
-            }
-        }
-        return super.onOptionsItemSelected(item)
-    }*/
-
     override fun onHiddenChanged(hidden: Boolean) {
         super.onHiddenChanged(hidden)
         if(!hidden) {
-            filters = loadFilters(this.activity!!)
-            if(filters.isModified) {
-                GetHobbyEvents().execute()
-                filters.isModified = false
-                saveFilters(filters, this.activity!!)
-            }
+            updateList()
         }
         //if hidden = false, it's almost same than onResume
     }
 
     override fun onResume() {
         super.onResume()
-        filters = loadFilters(this.activity!!)
-
-        if(filters.isModified) {
-            GetHobbyEvents().execute()
-            filters.isModified = false
-            saveFilters(filters, this.activity!!)
-        }
+        updateList()
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == 1) {
-            /*//filters = data!!.extras.getSerializable("EXTRA_FILTERS") as Filters
-            filters = loadFilters(this.activity!!)
-
-            if(filters.isModified) {
-                GetHobbyEvents().execute()
-                filters.isModified = false
-                saveFilters(filters, this.activity!!)
-            }*/
-        } else if(requestCode == 2) {
-            if (data!!.hasExtra("EXTRA_HOBBY_BUNDLE")) {
-                val bundle = data.getBundleExtra("EXTRA_HOBBY_BUNDLE")
-                filters = data!!.extras.getSerializable("EXTRA_FILTERS") as Filters
-                hobbyEventArrayList.clear()
-                hobbyEventArrayList = bundle.getSerializable("EXTRA_HOBBY_EVENT_LIST") as ArrayList<HobbyEvent>
-                if(hobbyEventArrayList.size == 0) {
-                    progressBar.visibility = View.INVISIBLE
-                    progressText.text = getString(R.string.error_no_hobby_events)
-                } else {
-                    progressText.visibility = View.INVISIBLE
-                    progressBar.visibility = View.INVISIBLE
-                }
-                val hobbyEventListAdapter = HobbyEventListAdapter(hobbyEventArrayList) { hobbyEvent: HobbyEvent, hobbyImage: ImageView -> hobbyItemClicked(hobbyEvent, hobbyImage)}
-                listView.adapter = hobbyEventListAdapter
-            }
+    private fun updateList() {
+        filters = loadFilters(this.activity!!)
+        if(!filters.isListUpdated) {
+            GetHobbyEvents().execute()
+            filters.isListUpdated = true
+            saveFilters(filters, this.activity!!)
         }
     }
 

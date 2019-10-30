@@ -28,10 +28,7 @@ import fi.haltu.harrastuspassi.adapters.MarkerClusterRenderer
 import fi.haltu.harrastuspassi.models.Filters
 import fi.haltu.harrastuspassi.models.HobbyEvent
 import fi.haltu.harrastuspassi.models.Settings
-import fi.haltu.harrastuspassi.utils.createQueryUrl
-import fi.haltu.harrastuspassi.utils.loadFilters
-import fi.haltu.harrastuspassi.utils.loadSettings
-import fi.haltu.harrastuspassi.utils.saveSettings
+import fi.haltu.harrastuspassi.utils.*
 import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
@@ -50,6 +47,7 @@ class MapFragment : Fragment() {
     private lateinit var settings: Settings
     private var hobbyEventArrayList = ArrayList<HobbyEvent>()
     private lateinit var mapView: MapView
+    private var isInit = true
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -73,7 +71,6 @@ class MapFragment : Fragment() {
 
         mapView.getMapAsync { googleMap ->
             gMap = googleMap
-
             zoomToLocation(filters, settings)
             setUpClusterManager(gMap)
         }
@@ -84,6 +81,11 @@ class MapFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         mapView.onResume()
+        if(!isInit) {
+            updateMap()
+        } else {
+            isInit = false
+        }
     }
 
     override fun onPause() {
@@ -101,6 +103,25 @@ class MapFragment : Fragment() {
         mapView.onLowMemory()
     }
 
+    override fun onHiddenChanged(hidden: Boolean) {
+        super.onHiddenChanged(hidden)
+        if(!hidden) {
+            updateMap()
+        }
+        //if hidden = false, it's almost same than onResume
+    }
+
+    private fun updateMap() {
+        filters = loadFilters(this.activity!!)
+        settings = loadSettings(this.activity!!)
+        if(!filters.isMapUpdated) {
+            GetHobbyEvents().execute()
+            filters.isMapUpdated = true
+            saveFilters(filters, this.activity!!)
+        }
+        zoomToLocation(filters, settings)
+
+    }
 
     private fun zoomToLocation(filters: Filters, settings: Settings) {
 
@@ -166,16 +187,6 @@ class MapFragment : Fragment() {
         }
     }
 
-    override fun onHiddenChanged(hidden: Boolean) {
-        super.onHiddenChanged(hidden)
-        if(!hidden) {
-            filters = loadFilters(this.activity!!)
-            settings = loadSettings(this.activity!!)
-            GetHobbyEvents().execute()
-            zoomToLocation(filters, settings)
-        }
-        //if hidden = false, it's almost same than onResume
-    }
 
     override fun onRequestPermissionsResult(requestCode: Int,
                                         permissions: Array<String>, grantResults: IntArray) {
@@ -261,7 +272,6 @@ class MapFragment : Fragment() {
                 } catch(e: JSONException) {
 
                 }
-                Log.d("listUpdate", "Updated Map")
             }
         }
     }

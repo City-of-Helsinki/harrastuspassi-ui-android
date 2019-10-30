@@ -14,6 +14,7 @@ import android.widget.Button
 import android.widget.Switch
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.SwitchCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import fi.haltu.harrastuspassi.R
@@ -30,7 +31,7 @@ import java.util.*
 class SettingsActivity : AppCompatActivity(){
     private var locationManager: LocationManager? = null
     private lateinit var geocoder: Geocoder
-    private lateinit var currentLocationSwitch: Switch
+    private lateinit var currentLocationSwitch: SwitchCompat
     private lateinit var locationMapButton: Button
     private lateinit var locationListView: RecyclerView
     private lateinit var saveButton: Button

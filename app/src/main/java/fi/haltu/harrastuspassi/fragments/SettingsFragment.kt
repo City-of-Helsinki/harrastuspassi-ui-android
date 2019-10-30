@@ -16,8 +16,6 @@ import androidx.core.app.ActivityCompat
 import android.widget.Button
 import android.widget.Switch
 import android.widget.TextView
-import androidx.core.app.ActivityCompat.startActivityForResult
-import androidx.core.content.ContextCompat.getSystemService
 import androidx.fragment.app.Fragment
 
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -40,7 +38,7 @@ class SettingsFragment : Fragment(){
     private lateinit var currentLocationSwitch: Switch
     private lateinit var locationMapButton: Button
     private lateinit var locationListView: RecyclerView
-    private lateinit var saveButton: Button
+    //private lateinit var saveButton: Button
     private lateinit var latestLocationTitle: TextView
 
     private var filters: Filters = Filters()
@@ -72,7 +70,7 @@ class SettingsFragment : Fragment(){
         }
 
         // USE USER LOCATION SWITCH
-        currentLocationSwitch = view.findViewById(R.id.current_location_switch)
+        currentLocationSwitch = view.findViewById(R.id.user_location_switch)
         try {
             // Request location updates
             locationManager = context?.getSystemService(LOCATION_SERVICE) as LocationManager?
@@ -108,20 +106,6 @@ class SettingsFragment : Fragment(){
             currentLocationSwitch.performClick()
         }
 
-        //SAVE BUTTON
-        saveButton = view.findViewById(R.id.save_button)
-        saveButton.setOnClickListener {
-            settings.moveChosenLocationToFirst()
-            if(!currentLocationSwitch.isChecked && settings.locationList.isNotEmpty()) {
-                val chosenLocation = settings.locationList[settings.selectedIndex]
-                filters.latitude = chosenLocation.lat!!
-                filters.longitude = chosenLocation.lon!!
-                filters.isModified = true
-            }
-
-            saveFilters(filters, this.activity!!)
-            saveSettings(settings, this.activity!!)
-        }
         return view
     }
 
@@ -135,6 +119,30 @@ class SettingsFragment : Fragment(){
         override fun onStatusChanged(provider: String, status: Int, extras: Bundle) {}
         override fun onProviderEnabled(provider: String) {}
         override fun onProviderDisabled(provider: String) {}
+    }
+
+    override fun onHiddenChanged(hidden: Boolean) {
+        super.onHiddenChanged(hidden)
+        if(hidden) {
+            settings.moveChosenLocationToFirst()
+            if(!currentLocationSwitch.isChecked && settings.locationList.isNotEmpty()) {
+                val chosenLocation = settings.locationList[settings.selectedIndex]
+                filters.latitude = chosenLocation.lat!!
+                filters.longitude = chosenLocation.lon!!
+                filters.isModified = true
+            }
+            saveFilters(filters, this.activity!!)
+            saveSettings(settings, this.activity!!)
+        } else {
+            filters = loadFilters(this.activity!!)
+            filtersOriginal = filters.clone()
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        filters = loadFilters(this.activity!!)
+        filtersOriginal = filters.clone()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

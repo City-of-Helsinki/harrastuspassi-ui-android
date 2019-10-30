@@ -14,6 +14,8 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.dynamiclinks.FirebaseDynamicLinks
 import fi.haltu.harrastuspassi.R
 import fi.haltu.harrastuspassi.fragments.*
+import fi.haltu.harrastuspassi.utils.loadFilters
+import fi.haltu.harrastuspassi.utils.saveFilters
 
 
 class MainActivity : AppCompatActivity() {
@@ -115,7 +117,12 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-
+    override fun onPause() {
+        super.onPause()
+        var filters = loadFilters(this)
+        filters.isModified = false
+        saveFilters( filters,this)
+    }
 
     override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)
