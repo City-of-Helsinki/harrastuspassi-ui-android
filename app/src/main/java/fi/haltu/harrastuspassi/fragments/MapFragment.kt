@@ -2,34 +2,41 @@ package fi.haltu.harrastuspassi.fragments
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.app.ActivityOptions
+import android.app.Dialog
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.location.Location
+import android.location.Location as AndroidLocation
 import android.location.LocationListener
 import android.location.LocationManager
+import android.media.Image
 import android.os.AsyncTask
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.util.Log
+import android.view.*
+import android.widget.ImageView
+import android.widget.TextView
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.google.android.gms.maps.*
 import com.google.android.gms.maps.model.LatLng
+import com.google.maps.android.clustering.ClusterItem
 import com.google.maps.android.clustering.ClusterManager
 import fi.haltu.harrastuspassi.R
 import fi.haltu.harrastuspassi.activities.HobbyCategoriesActivity
 import fi.haltu.harrastuspassi.activities.HobbyDetailActivity
+import fi.haltu.harrastuspassi.adapters.HobbyEventListAdapter
 import fi.haltu.harrastuspassi.adapters.HobbyInfoWindowAdapter
 import fi.haltu.harrastuspassi.adapters.MarkerClusterRenderer
-import fi.haltu.harrastuspassi.models.Filters
-import fi.haltu.harrastuspassi.models.HobbyEvent
-import fi.haltu.harrastuspassi.models.Settings
+import fi.haltu.harrastuspassi.models.*
 import fi.haltu.harrastuspassi.utils.*
 import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
+import org.w3c.dom.Text
 import java.io.IOException
 import java.lang.Exception
 import java.net.URL
@@ -46,6 +53,7 @@ class MapFragment : Fragment() {
     private lateinit var filters: Filters
     private lateinit var settings: Settings
     private var hobbyEventArrayList = ArrayList<HobbyEvent>()
+    private var hobbyArrayList = ArrayList<Hobby>()
     private lateinit var mapView: MapView
     private var isInit = true
     override fun onCreateView(
@@ -159,21 +167,57 @@ class MapFragment : Fragment() {
 
     private fun setUpClusterManager(googleMap: GoogleMap) {
         googleMap.clear()
-        val clusterManager = ClusterManager<HobbyEvent>(this.context, googleMap)
+        val clusterManager = ClusterManager<Hobby>(this.context, googleMap)
         //adds items to cluster
 
         val markerClusterRenderer = MarkerClusterRenderer(this.context!!, googleMap, clusterManager)
         clusterManager.renderer =  markerClusterRenderer
-        googleMap.setInfoWindowAdapter(clusterManager.markerManager)
+        //googleMap.setInfoWindowAdapter(clusterManager.markerManager)
 
-        clusterManager.markerCollection.setOnInfoWindowAdapter(HobbyInfoWindowAdapter(this.context!!))
+        //clusterManager.markerCollection.setOnInfoWindowAdapter(HobbyInfoWindowAdapter(this.context!!))
 
-        for(event in hobbyEventArrayList) {
+        for(event in hobbyArrayList) {
             clusterManager.addItem(event)
         }
 
         googleMap.setOnCameraIdleListener(clusterManager)
-        googleMap.setOnInfoWindowClickListener {
+        googleMap.setOnMarkerClickListener {
+            if(it.tag != null) {
+                val hobby: Hobby? = it.tag as Hobby?
+                val dialog = Dialog(this.context!!)
+                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+                dialog.setCancelable(true)
+                dialog.setContentView(R.layout.dialog_hobby_list)
+                //TITLE
+                val titleText = dialog.findViewById<TextView>(R.id.title)
+                titleText.text = hobby?.location?.name
+                //HOBBY_LIST
+                val recyclerView = dialog.findViewById<RecyclerView>(R.id.hobby_list)
+                var hobbyList = ArrayList<HobbyEvent>()
+                for(event in hobbyEventArrayList) {
+                    if(event.hobby.location.id == hobby!!.location.id) {
+                        hobbyList.add(event)
+                    }
+                }
+                val hobbyEventListAdapter = HobbyEventListAdapter(hobbyList) { hobbyEvent: HobbyEvent, hobbyImage: ImageView -> hobbyItemClicked(hobbyEvent, hobbyImage)}
+                recyclerView.apply {
+                    layoutManager = LinearLayoutManager(this.context)
+                    adapter = hobbyEventListAdapter
+                }
+
+                //CLOSE_ICON
+                val closeIcon = dialog.findViewById<ImageView>(R.id.close_icon)
+                closeIcon.setOnClickListener {
+                    dialog.dismiss()
+                }
+
+                dialog.window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT)
+                dialog.show()
+            }
+
+            true
+        }
+        /*googleMap.setOnInfoWindowClickListener {
             val hobbyEvent: HobbyEvent? = it.tag as HobbyEvent?
             val intent = Intent(this.context, HobbyDetailActivity::class.java)
             intent.putExtra("EXTRA_HOBBY", hobbyEvent)
@@ -181,7 +225,19 @@ class MapFragment : Fragment() {
             startActivity(intent)
 
             true
-        }
+        }*/
+    }
+
+    private fun hobbyItemClicked(hobbyEvent: HobbyEvent, hobbyImage: ImageView) {
+        val intent = Intent(context, HobbyDetailActivity::class.java)
+
+        intent.putExtra("EXTRA_HOBBY", hobbyEvent)
+        intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT)
+
+        val sharedView: View = hobbyImage
+        val transition = getString(R.string.item_detail)
+        val transitionActivity = ActivityOptions.makeSceneTransitionAnimation(this.activity, sharedView, transition)
+        startActivity(intent, transitionActivity.toBundle())
     }
 
     override fun onRequestPermissionsResult(requestCode: Int,
@@ -220,7 +276,7 @@ class MapFragment : Fragment() {
     }
 
     private val locationListener: LocationListener = object : LocationListener {
-    override fun onLocationChanged(location: Location) {
+    override fun onLocationChanged(location: AndroidLocation) {
         val currentLocation = LatLng(location.latitude, location.longitude)
         val cameraUpdate = CameraUpdateFactory.newLatLngZoom(currentLocation, 10f)
         gMap.animateCamera(cameraUpdate)
@@ -264,6 +320,7 @@ class MapFragment : Fragment() {
                         for(hobbyEvent in hobbyEventSet) {
                             hobbyEventArrayList.add(hobbyEvent)
                         }
+                        hobbyArrayList = uniqueByLocation(hobbyEventArrayList)
                         setUpClusterManager(gMap)
                     } catch(e: JSONException) {
 
@@ -271,5 +328,20 @@ class MapFragment : Fragment() {
                 }
             }
         }
+    }
+
+    fun uniqueByLocation(hobbyArrayList: ArrayList<HobbyEvent>): ArrayList<Hobby> {
+        val array = ArrayList<Hobby>()
+        for (hobbyEvent in hobbyArrayList) {
+            array.add(hobbyEvent.hobby)
+        }
+        val hobbySet: Set<Hobby> = array.toSet()
+
+        array.clear()
+        for(hobby in hobbySet) {
+            array.add(hobby)
+        }
+
+        return array
     }
 }

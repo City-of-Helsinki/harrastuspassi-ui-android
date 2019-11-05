@@ -2,16 +2,15 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
       xmlns:app="http://schemas.android.com/apk/res-auto">
     <!-- "Mark Favorite", should appear as action button if possible -->
-        <item
-            android:id="@+id/map"
-            android:icon="@drawable/map_icon"
-            android:title="map"
-            app:showAsAction="ifRoom"/>
-
-        <item
-                android:id="@+id/action_filter"
-                android:icon="@drawable/ic_tune_24dp"
-                android:title="@string/action_filter"
-                app:showAsAction = "ifRoom"/>
+    <item
+        android:id="@+id/map"
+        android:icon="@drawable/map_icon"
+        android:title="@string/map"
+        app:showAsAction="ifRoom"/>
+    <item
+        android:id="@+id/action_filter"
+        android:icon="@drawable/ic_tune_24dp"
+        android:title="@string/filter"
+        app:showAsAction = "ifRoom"/>
 
 </menu>
