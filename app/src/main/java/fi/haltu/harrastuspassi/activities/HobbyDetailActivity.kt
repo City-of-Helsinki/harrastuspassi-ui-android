@@ -156,7 +156,6 @@ class HobbyDetailActivity : AppCompatActivity(), OnMapReadyCallback {
             }
         }
 
-
         return true
     }
 
@@ -204,8 +203,8 @@ class HobbyDetailActivity : AppCompatActivity(), OnMapReadyCallback {
         //COVER IMAGE
         Picasso.with(this)
             .load(hobbyEvent.hobby.imageUrl)
-            .placeholder(R.drawable.image_placeholder_icon)
-            .error(R.drawable.image_placeholder_icon)
+            .placeholder(R.drawable.harrastuspassi_kel_lil_2)
+            .error(R.drawable.harrastuspassi_kel_lil_2)
             .into(coverImageView)
         //LOCATION
         locationNameTextView.text = hobbyEvent.hobby.location.name
