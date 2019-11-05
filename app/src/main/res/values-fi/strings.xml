@@ -36,4 +36,6 @@
     <string name="list">Lista</string>
     <string name="favorites">Suosikit</string>
     <string name="map">Kartta</string>
+    <string name="action_filter" translatable="false">Suodatin</string>
+    <string name="filter">Suodatin</string>
 </resources>

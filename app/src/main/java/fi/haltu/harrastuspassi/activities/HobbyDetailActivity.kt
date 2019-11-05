@@ -203,8 +203,8 @@ class HobbyDetailActivity : AppCompatActivity(), OnMapReadyCallback {
         //COVER IMAGE
         Picasso.with(this)
             .load(hobbyEvent.hobby.imageUrl)
-            .placeholder(R.drawable.harrastuspassi_kel_lil_2)
-            .error(R.drawable.harrastuspassi_kel_lil_2)
+            .placeholder(R.drawable.harrastuspassi_lil_kel)
+            .error(R.drawable.harrastuspassi_lil_kel)
             .into(coverImageView)
         //LOCATION
         locationNameTextView.text = hobbyEvent.hobby.location.name

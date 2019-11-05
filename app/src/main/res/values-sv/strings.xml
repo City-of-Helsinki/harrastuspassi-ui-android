@@ -37,4 +37,5 @@
     <string name="list">Lista</string>
     <string name="favorites">Favoriter</string>
     <string name="map">Karta</string>
+    <string name="filter">Filtrera</string>
 </resources>

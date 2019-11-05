@@ -9,9 +9,7 @@ import android.location.Location as AndroidLocation
 import android.location.LocationListener
 import android.location.LocationManager
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import androidx.core.app.ActivityCompat
 import android.widget.Button
 import android.widget.Switch
@@ -49,7 +47,7 @@ class SettingsFragment : Fragment(){
     ): View? {
         val view: View = inflater.inflate(R.layout.fragment_settings, container, false)
         super.onCreate(savedInstanceState)
-
+        setHasOptionsMenu(true)
         geocoder = Geocoder(context, Locale.getDefault())
         filters = loadFilters(this.activity!!)
         settings = loadSettings(this.activity!!)
@@ -116,6 +114,13 @@ class SettingsFragment : Fragment(){
         override fun onStatusChanged(provider: String, status: Int, extras: Bundle) {}
         override fun onProviderEnabled(provider: String) {}
         override fun onProviderDisabled(provider: String) {}
+    }
+
+    override fun onPrepareOptionsMenu(menu: Menu) {
+        menu.findItem(R.id.map).setVisible(false)
+        menu.findItem(R.id.action_filter).setVisible(false)
+
+            super.onPrepareOptionsMenu(menu)
     }
 
     override fun onHiddenChanged(hidden: Boolean) {

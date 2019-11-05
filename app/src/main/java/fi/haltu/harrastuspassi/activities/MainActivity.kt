@@ -8,6 +8,7 @@ import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -20,6 +21,7 @@ import fi.haltu.harrastuspassi.utils.saveFilters
 
 class MainActivity : AppCompatActivity() {
     lateinit var toolbar: ActionBar
+    lateinit var menu: Menu
     var hobbyEventListFragment: Fragment = HobbyEventListFragment()
     var favoriteListFragment: Fragment = FavoriteListFragment()
     var settingsFragment: Fragment = SettingsFragment()
@@ -75,7 +77,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item!!.itemId) {
+        when (item.itemId) {
             R.id.action_filter -> {
                 val intent = Intent(this, FilterViewActivity::class.java)
                 intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT)
@@ -86,12 +88,12 @@ class MainActivity : AppCompatActivity() {
             R.id.map -> {
                 fragmentManager.beginTransaction().hide(activeFragment).show(mapFragment).commit()
                 activeFragment = mapFragment
-
                 return true
             }
         }
         return super.onOptionsItemSelected(item)
     }
+
 
     private val onNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
 
@@ -129,11 +131,11 @@ class MainActivity : AppCompatActivity() {
         this.overridePendingTransition(R.anim.slide_in_down, R.anim.slide_out_down)
     }
 
-   override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+   override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // Inflate the menu to use in the action bar
         val inflater = menuInflater
         inflater.inflate(R.menu.menu, menu)
-
+        this.menu = menu
         return super.onCreateOptionsMenu(menu)
    }
 }

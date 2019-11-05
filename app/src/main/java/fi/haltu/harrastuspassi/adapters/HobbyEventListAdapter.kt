@@ -41,8 +41,8 @@ class HobbyEventListAdapter(private val list: List<HobbyEvent>, private val clic
             place.text = hobbyEvent.hobby.location.name
             Picasso.with(itemView.context)
                 .load(hobbyEvent.hobby.imageUrl)
-                .placeholder(R.drawable.harrastuspassi_kel_lil_2)
-                .error(R.drawable.harrastuspassi_kel_lil_2)
+                .placeholder(R.drawable.harrastuspassi_lil_kel)
+                .error(R.drawable.harrastuspassi_lil_kel)
                 .into(image)
             val parser = SimpleDateFormat("yyyy-MM-dd", Locale.US)
             val formatter = SimpleDateFormat("dd.MM.yyyy", Locale.US)

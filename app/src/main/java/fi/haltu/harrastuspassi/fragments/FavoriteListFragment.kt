@@ -40,6 +40,7 @@ class FavoriteListFragment : Fragment() {
         setHasOptionsMenu(true)
         val view: View = inflater.inflate(R.layout.fragment_hobby_event_list, container, false)
         val hobbyEventListAdapter = HobbyEventListAdapter(hobbyEventArrayList) { hobbyEvent: HobbyEvent, hobbyImage: ImageView -> hobbyItemClicked(hobbyEvent, hobbyImage)}
+        setHasOptionsMenu(true)
 
         refreshLayout = view.findViewById(R.id.swipe_refresh_list)
 
@@ -154,6 +155,13 @@ class FavoriteListFragment : Fragment() {
             refreshLayout.isRefreshing = false
             updateListView(listView, filterFavorites(hobbyEventArrayList, favorites))
         }
+    }
+
+    override fun onPrepareOptionsMenu(menu: Menu) {
+        menu.findItem(R.id.map).setVisible(false)
+        menu.findItem(R.id.action_filter).setVisible(false)
+        super.onPrepareOptionsMenu(menu)
+
     }
 
     private fun updateListView(listView: RecyclerView, hobbyEventArrayList: ArrayList<HobbyEvent>) {
