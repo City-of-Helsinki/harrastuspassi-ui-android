@@ -5,9 +5,8 @@
         <item
             android:id="@+id/map"
             android:icon="@drawable/map_icon"
-            android:title="map"
+            android:title="@string/map"
             app:showAsAction="ifRoom"/>
-
         <item
                 android:id="@+id/action_filter"
                 android:icon="@drawable/ic_tune_24dp"

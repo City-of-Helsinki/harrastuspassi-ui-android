@@ -34,4 +34,7 @@
     <string name="friday">Fredag</string>
     <string name="wednesday">Onsdag</string>
     <string name="tuesday">Tisdag</string>
+    <string name="list">Lista</string>
+    <string name="favorites">Favoriter</string>
+    <string name="map">Karta</string>
 </resources>

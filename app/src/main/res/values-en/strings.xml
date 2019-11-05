@@ -34,4 +34,7 @@
     <string name="friday">Friday</string>
     <string name="wednesday">Wednesday</string>
     <string name="tuesday">Tuesday</string>
+    <string name="list">List</string>
+    <string name="favorites">Favorites</string>
+    <string name="map">Map</string>
 </resources>

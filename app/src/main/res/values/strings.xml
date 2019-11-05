@@ -48,4 +48,7 @@
     <string name="friday">Friday</string>
     <string name="saturday">Saturday</string>
     <string name="sunday">Sunday</string>
+    <string name="list">List</string>
+    <string name="favorites">Favorites</string>
+    <string name="map">Map</string>
 </resources>
