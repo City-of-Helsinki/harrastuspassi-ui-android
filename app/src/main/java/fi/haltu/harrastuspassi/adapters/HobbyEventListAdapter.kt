@@ -47,16 +47,14 @@ class HobbyEventListAdapter(private val list: List<HobbyEvent>, private val clic
             val parser = SimpleDateFormat("yyyy-MM-dd", Locale.US)
             val formatter = SimpleDateFormat("dd.MM.yyyy", Locale.US)
             var startDate = ""
-            var endDate = ""
             try {
                 startDate = formatter.format(parser.parse(hobbyEvent.startDate))
-                endDate = formatter.format(parser.parse(hobbyEvent.endDate))
 
             } catch (e: Exception) {
                 e.printStackTrace()
             }
 
-            duration.text = "$startDate - $endDate"
+            duration.text = "$startDate"
             itemView.setOnClickListener { clickListener(hobbyEvent, image) }
         }
     }
