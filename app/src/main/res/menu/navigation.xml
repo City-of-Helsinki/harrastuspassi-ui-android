@@ -11,6 +11,11 @@
             android:icon="@drawable/favorite_icon"
             android:title="@string/favorites"/>
 
+    <item   android:id="@+id/navigation_promotions"
+            android:icon="@drawable/promotion_icon"
+            android:title="@string/promotions"
+            />
+
     <item
             android:id="@+id/navigation_settings"
             android:icon="@drawable/settings_icon"

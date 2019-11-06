@@ -38,4 +38,5 @@
     <string name="map">Kartta</string>
     <string name="action_filter" translatable="false">Suodatin</string>
     <string name="filter">Suodatin</string>
+    <string name="promotions">Etuudet</string>
 </resources>

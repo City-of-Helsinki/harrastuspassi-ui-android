@@ -26,6 +26,7 @@ class MainActivity : AppCompatActivity() {
     var favoriteListFragment: Fragment = FavoriteListFragment()
     var settingsFragment: Fragment = SettingsFragment()
     var mapFragment: Fragment = MapFragment()
+    var promotionFragment: Fragment = PromotionFragment()
     var fragmentManager: FragmentManager = supportFragmentManager
     lateinit var activeFragment: Fragment
 
@@ -42,6 +43,7 @@ class MainActivity : AppCompatActivity() {
         fragmentManager.beginTransaction().add(R.id.navigation_container, hobbyEventListFragment).commit()
         fragmentManager.beginTransaction().add(R.id.navigation_container, favoriteListFragment).hide(favoriteListFragment).commit()
         fragmentManager.beginTransaction().add(R.id.navigation_container, settingsFragment).hide(settingsFragment).commit()
+        fragmentManager.beginTransaction().add(R.id.navigation_container, promotionFragment).hide(promotionFragment).commit()
         fragmentManager.beginTransaction().add(R.id.navigation_container, mapFragment).hide(mapFragment).commit()
 
         activeFragment = hobbyEventListFragment
@@ -111,6 +113,11 @@ class MainActivity : AppCompatActivity() {
             R.id.navigation_settings -> {
                 fragmentManager.beginTransaction().hide(activeFragment).show(settingsFragment).commit()
                 activeFragment = settingsFragment
+                return@OnNavigationItemSelectedListener true
+            }
+            R.id.navigation_promotions -> {
+                fragmentManager.beginTransaction().hide(activeFragment).show(promotionFragment).commit()
+                activeFragment = promotionFragment
                 return@OnNavigationItemSelectedListener true
             }
         }

@@ -39,4 +39,5 @@
     <string name="map">Map</string>
     <string name="action_filter" translatable="false">Filter</string>
     <string name="filter">Filter</string>
+    <string name="promotions">Promotions</string>
 </resources>
