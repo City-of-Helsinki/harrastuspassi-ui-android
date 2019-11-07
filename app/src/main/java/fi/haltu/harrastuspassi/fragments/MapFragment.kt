@@ -10,10 +10,8 @@ import android.content.pm.PackageManager
 import android.location.Location as AndroidLocation
 import android.location.LocationListener
 import android.location.LocationManager
-import android.media.Image
 import android.os.AsyncTask
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import android.widget.ImageView
 import android.widget.TextView
@@ -23,20 +21,18 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.gms.maps.*
 import com.google.android.gms.maps.model.LatLng
-import com.google.maps.android.clustering.ClusterItem
+import com.google.android.gms.maps.model.MarkerOptions
 import com.google.maps.android.clustering.ClusterManager
 import fi.haltu.harrastuspassi.R
 import fi.haltu.harrastuspassi.activities.HobbyCategoriesActivity
 import fi.haltu.harrastuspassi.activities.HobbyDetailActivity
 import fi.haltu.harrastuspassi.adapters.HobbyEventListAdapter
-import fi.haltu.harrastuspassi.adapters.HobbyInfoWindowAdapter
 import fi.haltu.harrastuspassi.adapters.MarkerClusterRenderer
 import fi.haltu.harrastuspassi.models.*
 import fi.haltu.harrastuspassi.utils.*
 import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
-import org.w3c.dom.Text
 import java.io.IOException
 import java.lang.Exception
 import java.net.URL
@@ -156,13 +152,21 @@ class MapFragment : Fragment() {
             if(filters.longitude != 0.0 && filters.latitude != 0.0) {
                 val userLocation = LatLng(filters.latitude, filters.longitude)
                 val cameraPoint = CameraUpdateFactory.newLatLngZoom(userLocation, 10f)
+                addUserLocationMarker(gMap, userLocation)
                 gMap.moveCamera(cameraPoint)
             } else {
                 val defaultPoint = LatLng(CENTER_LAT, CENTER_LON)
+                addUserLocationMarker(gMap, defaultPoint)
                 val cameraPoint = CameraUpdateFactory.newLatLngZoom(defaultPoint, 5f)
                 gMap.moveCamera(cameraPoint)
             }
         }
+    }
+
+    private fun addUserLocationMarker(gMap: GoogleMap, latLng: LatLng) {
+        var markerOptions = MarkerOptions().position(latLng)
+        markerOptions.icon(bitmapDescriptorFromVector(this.context!!, R.drawable.ic_my_location_24dp))
+        gMap.addMarker(markerOptions)
     }
 
     private fun setUpClusterManager(googleMap: GoogleMap) {
@@ -217,15 +221,6 @@ class MapFragment : Fragment() {
 
             true
         }
-        /*googleMap.setOnInfoWindowClickListener {
-            val hobbyEvent: HobbyEvent? = it.tag as HobbyEvent?
-            val intent = Intent(this.context, HobbyDetailActivity::class.java)
-            intent.putExtra("EXTRA_HOBBY", hobbyEvent)
-            intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT)
-            startActivity(intent)
-
-            true
-        }*/
     }
 
     private fun hobbyItemClicked(hobbyEvent: HobbyEvent, hobbyImage: ImageView) {
@@ -322,6 +317,7 @@ class MapFragment : Fragment() {
                         }
                         hobbyArrayList = uniqueByLocation(hobbyEventArrayList)
                         setUpClusterManager(gMap)
+                        zoomToLocation(filters, settings)
                     } catch(e: JSONException) {
 
                     }

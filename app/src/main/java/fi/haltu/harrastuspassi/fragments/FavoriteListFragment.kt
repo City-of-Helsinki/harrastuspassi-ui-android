@@ -172,7 +172,7 @@ class FavoriteListFragment : Fragment() {
     private fun filterFavorites(hobbyEvents:ArrayList<HobbyEvent>, favorites: HashSet<Int>): ArrayList<HobbyEvent> {
         var filteredList = ArrayList<HobbyEvent>()
         for (event in hobbyEvents) {
-            if (favorites.contains(event.id)) {
+            if (favorites.contains(event.hobby.id)) {
                 filteredList.add(event)
             }
         }

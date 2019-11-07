@@ -269,36 +269,6 @@ class HobbyDetailActivity : AppCompatActivity(), OnMapReadyCallback {
         const val ERROR = "error"
     }
 
-    /*internal inner class GetHobbyEvent : AsyncTask<Void, Void, String>() {
-
-        override fun doInBackground(vararg params: Void?): String {
-            return try {
-                URL(getString(R.string.API_URL) + "hobbyevents/" + id + "/?include=hobby_detail&include=organizer_detail&include=location_detail").readText()
-            } catch (e: IOException) {
-                return ERROR
-            }
-        }
-
-        @SuppressLint("SetTextI18n")
-        override fun onPostExecute(result: String?) {
-            super.onPostExecute(result)
-
-            when (result) {
-                ERROR -> {
-                    val builder = AlertDialog.Builder(this@HobbyDetailActivity)
-                    builder.setMessage(getString(R.string.error_try_again_later))
-                    builder.show()
-                }
-
-                else -> {
-                    val hobbyObject = JSONObject(result)
-                    hobbyEvent = HobbyEvent(hobbyObject)
-                    setHobbyDetailView(hobbyEvent)
-                }
-            }
-        }
-    }*/
-
     internal inner class GetHobbyEvents : AsyncTask<Void, Void, String>() {
         override fun doInBackground(vararg params: Void?): String {
             return try {
@@ -333,6 +303,7 @@ class HobbyDetailActivity : AppCompatActivity(), OnMapReadyCallback {
             }
         }
     }
+
     private fun showErrorDialog() {
         val builder = AlertDialog.Builder(this@HobbyDetailActivity)
         builder.setMessage(getString(R.string.error_try_again_later))
