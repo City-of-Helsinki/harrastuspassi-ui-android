@@ -2,6 +2,8 @@ package fi.haltu.harrastuspassi.utils
 
 import android.app.Activity
 import fi.haltu.harrastuspassi.R
+import java.text.SimpleDateFormat
+import java.util.*
 
 
 fun idToWeekDay(id: Int, activity: Activity): String? {
@@ -26,4 +28,34 @@ fun minutesToTime(minutes:Int): String {
     val hour = minutes/60
     val minutes = minutes%60
     return "${hour.toString().padStart(2,'0')}:${minutes.toString().padStart(2,'0')}"
+}
+
+fun convertToDateRange(startDate: String, endDate: String): String {
+    val parser = SimpleDateFormat("yyyy-MM-dd", Locale.US)
+    val formatterDDMM = SimpleDateFormat("dd.MM", Locale.US)
+    val formatterDDMMYYYY = SimpleDateFormat("dd.MM.yyyy", Locale.US)
+    var startDateForm = ""
+    var endDateForm = ""
+    try {
+        startDateForm = formatterDDMM.format(parser.parse(startDate))
+        endDateForm = formatterDDMMYYYY.format(parser.parse(endDate))
+    } catch (e: Exception) {
+        e.printStackTrace()
+    }
+
+    return "$startDateForm. - $endDateForm"
+}
+
+fun convertToTimeRange(startTime:String, endTime: String): String {
+    val timeParser = SimpleDateFormat("HH:mm:ss", Locale.US)
+    val timeFormatter = SimpleDateFormat("HH.mm", Locale.US)
+    var startTimeForm = ""
+    var endTimeForm = ""
+    try {
+        startTimeForm = timeFormatter.format(timeParser.parse(startTime))
+        endTimeForm =  timeFormatter.format(timeParser.parse(endTime))
+    } catch (e: Exception) {
+        e.printStackTrace()
+    }
+    return "$startTimeForm - $endTimeForm"
 }

@@ -40,4 +40,6 @@
     <string name="action_filter" translatable="false">Filter</string>
     <string name="filter">Filter</string>
     <string name="promotions">Promotions</string>
+    <string name="use_promotion">Use a promotion</string>
+    <string name="available">Available</string>
 </resources>

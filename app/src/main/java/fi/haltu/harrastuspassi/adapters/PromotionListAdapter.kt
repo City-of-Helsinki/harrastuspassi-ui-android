@@ -9,6 +9,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
 import fi.haltu.harrastuspassi.R
+import fi.haltu.harrastuspassi.utils.convertToDateRange
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -44,20 +45,8 @@ class PromotionListAdapter(private val list: List<Promotion>, private val clickL
                 .placeholder(R.drawable.harrastuspassi_lil_kel)
                 .error(R.drawable.harrastuspassi_lil_kel)
                 .into(image)
-            val parser = SimpleDateFormat("yyyy-MM-dd", Locale.US)
-            val formatterDDMM = SimpleDateFormat("dd.mm.yyyy", Locale.US)
-            val formatterDDMMYYYY = SimpleDateFormat("dd.MM.yyyy", Locale.US)
-            var startDate = ""
-            var endDate = ""
-            try {
-                startDate = formatterDDMM.format(parser.parse(promotion.startDate))
-                endDate = formatterDDMMYYYY.format(parser.parse(promotion.endDate))
-                //TODO Add end date too :)
-            } catch (e: Exception) {
-                e.printStackTrace()
-            }
 
-            duration.text = "Voimassa $startDate - $endDate"
+            duration.text = "Voimassa ${convertToDateRange(promotion.startDate, promotion.endDate)}"
             itemView.setOnClickListener { clickListener(promotion, image) }
         }
     }

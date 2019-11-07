@@ -15,7 +15,7 @@ class Hobby(json: JSONObject) : Serializable, ClusterItem {
     //var categories: List<Int> = listOf()
     var description: String = ""
     var organizer: Organizer? = null
-    lateinit var location: Location
+    var location: Location = Location()
 
     init {
         id = json.getInt("id")

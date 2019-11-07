@@ -4,9 +4,12 @@ import android.annotation.SuppressLint
 import android.net.Uri
 import android.os.AsyncTask
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.ImageView
+import android.widget.TableLayout
+import android.widget.TableRow
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -23,16 +26,16 @@ import com.google.firebase.dynamiclinks.FirebaseDynamicLinks
 import com.squareup.picasso.Picasso
 import fi.haltu.harrastuspassi.R
 import fi.haltu.harrastuspassi.models.HobbyEvent
-import fi.haltu.harrastuspassi.utils.bitmapDescriptorFromVector
-import fi.haltu.harrastuspassi.utils.idToWeekDay
-import fi.haltu.harrastuspassi.utils.loadFavorites
-import fi.haltu.harrastuspassi.utils.saveFavorite
+import fi.haltu.harrastuspassi.utils.*
+import org.json.JSONArray
 import org.json.JSONObject
+import org.w3c.dom.Text
 import java.io.IOException
 import java.lang.Exception
 import java.net.URL
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.collections.ArrayList
 import kotlin.collections.HashSet
 
 
@@ -41,9 +44,7 @@ class HobbyDetailActivity : AppCompatActivity(), OnMapReadyCallback {
     private lateinit var coverImageView: ImageView
     private lateinit var titleTextView: TextView
     private lateinit var organizerTextView: TextView
-    private lateinit var dayOfWeekTextView: TextView
-    private lateinit var startTimeTextView: TextView
-    private lateinit var dateTextView: TextView
+    private lateinit var tableLayout: TableLayout
     private lateinit var locationNameTextView: TextView
     private lateinit var descriptionTextView: TextView
     private lateinit var locationAddress: TextView
@@ -56,6 +57,7 @@ class HobbyDetailActivity : AppCompatActivity(), OnMapReadyCallback {
     private lateinit var favorites: HashSet<Int>
     private lateinit var hobbyEvent: HobbyEvent
     private lateinit var favoriteView: TextView
+    private var eventList = ArrayList<HobbyEvent>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -65,19 +67,17 @@ class HobbyDetailActivity : AppCompatActivity(), OnMapReadyCallback {
 
         if(intent.extras!!.getSerializable("EXTRA_HOBBY") != null) {
             hobbyEvent = intent.extras!!.getSerializable("EXTRA_HOBBY") as HobbyEvent
-            id = hobbyEvent.id
+            id = hobbyEvent.hobby.id
         } else if(intent.extras!!.getSerializable("EXTRA_HOBBY_ID") != null) {
             id = intent.extras!!.getSerializable("EXTRA_HOBBY_ID") as Int
         }
-        GetHobbyEvent().execute()
+        GetHobbyEvents().execute()
 
         coverImageView = findViewById(R.id.hobby_image)
         titleTextView = findViewById(R.id.hobby_title)
         favoriteView = findViewById(R.id.favorite_icon_button)
         organizerTextView = findViewById(R.id.hobby_organizer)
-        dateTextView = findViewById(R.id.date)
-        dayOfWeekTextView = findViewById(R.id.date_time)
-        startTimeTextView = findViewById(R.id.start_time)
+        tableLayout = findViewById(R.id.tableLayout)
 
         locationNameTextView = findViewById(R.id.location)
         descriptionTextView = findViewById(R.id.description_text)
@@ -188,16 +188,7 @@ class HobbyDetailActivity : AppCompatActivity(), OnMapReadyCallback {
         } else {
             organizerTextView.text = getString(R.string.not_specified)
         }
-        //WEEKDAY
-        if (hobbyEvent.startWeekday != 0) {
-            dayOfWeekTextView.text = idToWeekDay(hobbyEvent.startWeekday, this)
-        } else {
-            dayOfWeekTextView.text = "?"
-        }
-        //START TIME
-        startTimeTextView.text = "$startTime - $endTime"
-        //DATE
-        dateTextView.text = date
+
         //DESCRIPTION
         descriptionTextView.text = hobbyEvent.hobby.description
         //COVER IMAGE
@@ -225,11 +216,60 @@ class HobbyDetailActivity : AppCompatActivity(), OnMapReadyCallback {
         }
     }
 
+    private fun setHobbyDetailView2(hobbyEvents: ArrayList<HobbyEvent>) {
+        //COVER IMAGE
+        Picasso.with(this)
+            .load(hobbyEvent.hobby.imageUrl)
+            .placeholder(R.drawable.harrastuspassi_lil_kel)
+            .error(R.drawable.harrastuspassi_lil_kel)
+            .into(coverImageView)
+
+        //TITLE
+        titleTextView.text = hobbyEvent.hobby.name
+        //ORGANIZER
+        if (hobbyEvent.hobby.organizer != null) {
+            organizerTextView.text = hobbyEvent.hobby.organizer!!.name
+        } else {
+            organizerTextView.text = getString(R.string.not_specified)
+        }
+
+        //LOCATION
+        locationNameTextView.text = hobbyEvent.hobby.location.name
+        locationAddress.text = hobbyEvent.hobby.location.address
+        locationZipCode.text = hobbyEvent.hobby.location.zipCode
+
+        //TABLE
+        for (hobbyEvent in hobbyEvents) {
+            var row: TableRow = LayoutInflater.from(this).inflate(R.layout.table_row, null) as TableRow
+            row.findViewById<TextView>(R.id.week_day).text = idToWeekDay(hobbyEvent.startWeekday, this)
+            row.findViewById<TextView>(R.id.start_date).text = hobbyEvent.startDate
+            row.findViewById<TextView>(R.id.time).text = convertToTimeRange(hobbyEvent.startTime, hobbyEvent.endTime)
+            tableLayout.addView(row)
+        }
+
+        //DESCRIPTION
+        descriptionTextView.text = hobbyEvent.hobby.description
+
+        //MAP
+        if (hobbyEvent.hobby.location.lat != null) {
+            latLan = LatLng(hobbyEvent.hobby.location.lat!!, hobbyEvent.hobby.location.lon!!)
+        } else {
+            locationReceived = false
+        }
+        if (locationReceived) {
+            val markerPos = latLan
+            map.addMarker(MarkerOptions()
+                .position(markerPos)
+                .icon(bitmapDescriptorFromVector(this, R.drawable.ic_location_24dp)))
+            map.moveCamera(CameraUpdateFactory.newLatLng(markerPos))
+        }
+    }
+
     companion object {
         const val ERROR = "error"
     }
 
-    internal inner class GetHobbyEvent : AsyncTask<Void, Void, String>() {
+    /*internal inner class GetHobbyEvent : AsyncTask<Void, Void, String>() {
 
         override fun doInBackground(vararg params: Void?): String {
             return try {
@@ -257,6 +297,46 @@ class HobbyDetailActivity : AppCompatActivity(), OnMapReadyCallback {
                 }
             }
         }
+    }*/
+
+    internal inner class GetHobbyEvents : AsyncTask<Void, Void, String>() {
+        override fun doInBackground(vararg params: Void?): String {
+            return try {
+                URL(getString(R.string.API_URL) + "hobbyevents/?hobby=$id&include=hobby_detail&include=location_detail&include=organizer_detail").readText()
+            } catch (e: IOException) {
+                return ERROR
+            }
+        }
+
+        @SuppressLint("SetTextI18n")
+        override fun onPostExecute(result: String?) {
+            super.onPostExecute(result)
+
+            when (result) {
+                ERROR -> {
+                    showErrorDialog()
+                }
+
+                else -> {
+                    val jsonArray = JSONArray(result)
+                    for (i in 0 until jsonArray.length()) {
+                        val sObject = jsonArray.get(i).toString()
+                        val eventObject = JSONObject(sObject)
+                        val hobbyEvent = HobbyEvent(eventObject)
+                        eventList.add(hobbyEvent)
+                    }
+                    if(eventList.isEmpty()) {
+                        showErrorDialog()
+                    }
+                    setHobbyDetailView2(eventList)
+                }
+            }
+        }
+    }
+    private fun showErrorDialog() {
+        val builder = AlertDialog.Builder(this@HobbyDetailActivity)
+        builder.setMessage(getString(R.string.error_try_again_later))
+        builder.show()
     }
 }
 
