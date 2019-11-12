@@ -165,7 +165,7 @@ class MapFragment : Fragment() {
 
     private fun addUserLocationMarker(gMap: GoogleMap, latLng: LatLng) {
         var markerOptions = MarkerOptions().position(latLng)
-        markerOptions.icon(bitmapDescriptorFromVector(this.context!!, R.drawable.ic_my_location_24dp))
+        markerOptions.icon(bitmapDescriptorFromVector(this.context!!, R.drawable.ic_accessibility_purple_24dp))
         gMap.addMarker(markerOptions)
     }
 

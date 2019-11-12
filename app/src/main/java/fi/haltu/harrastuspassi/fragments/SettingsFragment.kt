@@ -27,6 +27,7 @@ import fi.haltu.harrastuspassi.utils.loadFilters
 import fi.haltu.harrastuspassi.utils.loadSettings
 import fi.haltu.harrastuspassi.utils.saveFilters
 import fi.haltu.harrastuspassi.utils.saveSettings
+import java.lang.IndexOutOfBoundsException
 import java.util.*
 
 class SettingsFragment : Fragment(){
@@ -76,7 +77,7 @@ class SettingsFragment : Fragment(){
         currentLocationSwitch.setOnCheckedChangeListener { buttonView, isChecked ->
             if(isChecked) {
                 locationManager = context?.getSystemService(LOCATION_SERVICE) as LocationManager?
-                disableChoosableLocation(true)
+                disableChooseLocation(true)
                 try {
                     // Request location updates
                     locationManager?.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0L, 0f, locationListener)
@@ -84,7 +85,7 @@ class SettingsFragment : Fragment(){
                     ActivityCompat.requestPermissions(this.activity!!, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), LOCATION_PERMISSION)
                 }
             } else {
-                disableChoosableLocation(false)
+                disableChooseLocation(false)
             }
         }
 
@@ -109,7 +110,6 @@ class SettingsFragment : Fragment(){
             filters.latitude = location.latitude
             filters.longitude = location.longitude
             filters.isModified = true
-
         }
         override fun onStatusChanged(provider: String, status: Int, extras: Bundle) {}
         override fun onProviderEnabled(provider: String) {}
@@ -138,13 +138,8 @@ class SettingsFragment : Fragment(){
         } else {
             filters = loadFilters(this.activity!!)
             filtersOriginal = filters.clone()
+            this.locationListView.adapter!!.notifyDataSetChanged()
         }
-    }
-
-    override fun onResume() {
-        super.onResume()
-        filters = loadFilters(this.activity!!)
-        filtersOriginal = filters.clone()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -154,9 +149,16 @@ class SettingsFragment : Fragment(){
             filters = data.extras.getSerializable("EXTRA_FILTERS") as Filters
             val addresses = geocoder.getFromLocation(filters.latitude, filters.longitude, 1)
             val location = Location()
-            location.address = addresses[0].getAddressLine(0)
-            location.city = addresses[0].locality
-            location.zipCode = addresses[0].postalCode
+            try {
+                location.address = addresses[0].getAddressLine(0)
+                location.city = addresses[0].locality
+                location.zipCode = addresses[0].postalCode
+            } catch (e: IndexOutOfBoundsException) {
+                location.address = ""
+                location.city = ""
+                location.zipCode = ""
+            }
+
             location.lat = filters.latitude
             location.lon = filters.longitude
             settings.add(location)
@@ -192,7 +194,7 @@ class SettingsFragment : Fragment(){
         }
     }
 
-    private fun disableChoosableLocation(isHide: Boolean) {
+    private fun disableChooseLocation(isHide: Boolean) {
         if(isHide) {
             locationMapButton.isEnabled = false
             settings.useCurrentLocation = true
