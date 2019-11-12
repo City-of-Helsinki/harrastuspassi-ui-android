@@ -41,4 +41,6 @@
     <string name="promotions">Etuudet</string>
     <string name="use_promotion">Käytä etuus</string>
     <string name="available">Voimassa</string>
+    <string name="promotion_valid">Voimassa</string>
+    <string name="promotions_used">Etuus on käytetty</string>
 </resources>

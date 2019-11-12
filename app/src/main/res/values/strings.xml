@@ -55,4 +55,6 @@
     <string name="promotions">Promotions</string>
     <string name="use_promotion">Use a promotion</string>
     <string name="available">Available</string>
+    <string name="promotion_valid">Valid:</string>
+    <string name="promotions_used">Used</string>
 </resources>

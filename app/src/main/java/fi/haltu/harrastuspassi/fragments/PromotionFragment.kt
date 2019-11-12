@@ -2,12 +2,15 @@ package fi.haltu.harrastuspassi.fragments
 
 import android.app.Dialog
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.ncorti.slidetoact.SlideToActView
+import com.ncorti.slidetoact.SlideToActView.OnSlideCompleteListener
 import com.squareup.picasso.Picasso
 import fi.haltu.harrastuspassi.R
 import fi.haltu.harrastuspassi.adapters.PromotionListAdapter
@@ -33,7 +36,7 @@ class PromotionFragment : Fragment(){
         promotionList.add(Promotion())
         promotionList.add(Promotion())
         promotionListView = view.findViewById(R.id.promotion_list_view)
-        val promotionListAdapter = PromotionListAdapter(promotionList){ promotion: Promotion, promotionImage: ImageView -> hobbyItemClicked(promotion, promotionImage)}
+        val promotionListAdapter = PromotionListAdapter(context!!, promotionList){ promotion: Promotion, promotionImage: ImageView -> hobbyItemClicked(promotion, promotionImage)}
         promotionListView.apply {
             layoutManager = LinearLayoutManager(activity)
             adapter = promotionListAdapter
@@ -62,11 +65,21 @@ class PromotionFragment : Fragment(){
         //DATE
         val durationText = dialog.findViewById<TextView>(R.id.promotion_dialog_duration)
 
-        durationText.text = "${activity!!.getString(R.string.available)} ${convertToDateRange(promotion.startDate, promotion.endDate)}"
+
+        durationText.text = "${activity!!.getString(R.string.available)}: ${convertToDateRange(promotion.startDate, promotion.endDate)}"
         //CLOSE_ICON
         val closeIcon = dialog.findViewById<ImageView>(R.id.dialog_close_button)
         closeIcon.setOnClickListener {
             dialog.dismiss()
+        }
+        // USE PROMOTION SLIDE BUTTON
+        val slideButton = dialog.findViewById<SlideToActView>(R.id.promotion_dialog_slide_button)
+        slideButton.onSlideCompleteListener = object : SlideToActView.OnSlideCompleteListener{
+            override fun onSlideComplete(view: SlideToActView) {
+                promotion.isUsed = true
+
+                promotionListView.adapter!!.notifyDataSetChanged()
+            }
         }
 
         dialog.window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT)
