@@ -32,7 +32,7 @@ class MarkerClusterRenderer(
 
     override fun onBeforeClusterItemRendered(item: Hobby, markerOptions: MarkerOptions) { // 5
         //markerOptions.title(item.title)
-        markerOptions.icon(bitmapDescriptorFromVector(context, R.drawable.ic_location_24dp))
+        markerOptions.icon(bitmapDescriptorFromVector(context, R.drawable.ic_location_on_purple_light_24dp))
     }
 
     override fun onClusterItemRendered(clusterItem: Hobby?, marker: Marker?) {

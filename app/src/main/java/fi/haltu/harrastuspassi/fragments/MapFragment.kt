@@ -12,6 +12,7 @@ import android.location.LocationListener
 import android.location.LocationManager
 import android.os.AsyncTask
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import android.widget.ImageView
 import android.widget.TextView
@@ -217,6 +218,12 @@ class MapFragment : Fragment() {
 
                 dialog.window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT)
                 dialog.show()
+            } else {
+                val markerPosition = LatLng(it.position.latitude, it.position.longitude)
+                var zoomLevel = googleMap.cameraPosition.zoom
+                val cameraPoint = CameraUpdateFactory.newLatLngZoom(markerPosition, zoomLevel + 2f)
+
+                gMap.animateCamera(cameraPoint)
             }
 
             true

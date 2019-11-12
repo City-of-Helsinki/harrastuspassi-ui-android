@@ -1,12 +1,10 @@
 package fi.haltu.harrastuspassi.fragments
 
 import android.app.Dialog
-import android.media.Image
 import android.os.Bundle
 import android.view.*
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -15,8 +13,6 @@ import fi.haltu.harrastuspassi.R
 import fi.haltu.harrastuspassi.adapters.PromotionListAdapter
 import fi.haltu.harrastuspassi.models.Promotion
 import fi.haltu.harrastuspassi.utils.convertToDateRange
-import java.text.SimpleDateFormat
-import java.util.*
 import kotlin.collections.ArrayList
 
 class PromotionFragment : Fragment(){

@@ -87,14 +87,14 @@ class HobbyDetailActivity : AppCompatActivity(), OnMapReadyCallback {
         //Loads favorite id:s
         favorites = loadFavorites(this)
         if(favorites.contains(id)) {
-            favoriteView.background.setTint(ContextCompat.getColor(this, R.color.hobbyYellow))
+            favoriteView.background.setTint(ContextCompat.getColor(this, R.color.hobbyPurple))
         }
         favoriteView.setOnClickListener {
             if(favorites.contains(id)) {
                 favoriteView.background.setTint(ContextCompat.getColor(this, R.color.common_google_signin_btn_text_light_disabled))
                 favorites.remove(id)
             } else {
-                favoriteView.background.setTint(ContextCompat.getColor(this, R.color.hobbyYellow))
+                favoriteView.background.setTint(ContextCompat.getColor(this, R.color.hobbyPurple))
                 favorites.add(id)
             }
 
