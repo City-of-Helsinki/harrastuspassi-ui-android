@@ -165,9 +165,12 @@ class MapFragment : Fragment() {
     }
 
     private fun addUserLocationMarker(gMap: GoogleMap, latLng: LatLng) {
-        var markerOptions = MarkerOptions().position(latLng)
-        markerOptions.icon(bitmapDescriptorFromVector(this.context!!, R.drawable.ic_accessibility_purple_24dp))
-        gMap.addMarker(markerOptions)
+
+        gMap.addMarker(
+            MarkerOptions().position(latLng)
+            .title(activity!!.getString(R.string.your_location))
+            .icon(bitmapDescriptorFromVector(this.context!!, R.drawable.ic_accessibility_purple_24dp))
+        )
     }
 
     private fun setUpClusterManager(googleMap: GoogleMap) {
@@ -221,8 +224,8 @@ class MapFragment : Fragment() {
             } else {
                 val markerPosition = LatLng(it.position.latitude, it.position.longitude)
                 var zoomLevel = googleMap.cameraPosition.zoom
+                it.showInfoWindow()
                 val cameraPoint = CameraUpdateFactory.newLatLngZoom(markerPosition, zoomLevel + 2f)
-
                 gMap.animateCamera(cameraPoint)
             }
 
