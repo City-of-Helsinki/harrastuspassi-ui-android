@@ -22,6 +22,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.gms.maps.*
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.maps.android.clustering.ClusterManager
 import fi.haltu.harrastuspassi.R
@@ -53,6 +54,9 @@ class MapFragment : Fragment() {
     private var hobbyArrayList = ArrayList<Hobby>()
     private lateinit var mapView: MapView
     private var isInit = true
+    private lateinit var userMarker: Marker
+
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -141,6 +145,10 @@ class MapFragment : Fragment() {
                         val cameraPoint = CameraUpdateFactory.newLatLngZoom(latLng, 10f)
                         gMap.moveCamera(cameraPoint)
                     }
+
+                    if(::userMarker.isInitialized) {
+                        userMarker.remove()
+                    }
                 }
             } catch(ex: SecurityException) {
                 ActivityCompat.requestPermissions(this.activity!!, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
@@ -166,7 +174,7 @@ class MapFragment : Fragment() {
 
     private fun addUserLocationMarker(gMap: GoogleMap, latLng: LatLng) {
 
-        gMap.addMarker(
+        userMarker = gMap.addMarker(
             MarkerOptions().position(latLng)
             .title(activity!!.getString(R.string.your_location))
             .icon(bitmapDescriptorFromVector(this.context!!, R.drawable.ic_accessibility_purple_24dp))
@@ -189,9 +197,9 @@ class MapFragment : Fragment() {
         }
 
         googleMap.setOnCameraIdleListener(clusterManager)
-        googleMap.setOnMarkerClickListener {
-            if(it.tag != null) {
-                val hobby: Hobby? = it.tag as Hobby?
+        googleMap.setOnMarkerClickListener { marker ->
+            if(marker.tag != null) {
+                val hobby: Hobby? = marker.tag as Hobby?
                 val dialog = Dialog(this.context!!)
                 dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
                 dialog.setCancelable(true)
@@ -222,9 +230,9 @@ class MapFragment : Fragment() {
                 dialog.window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT)
                 dialog.show()
             } else {
-                val markerPosition = LatLng(it.position.latitude, it.position.longitude)
+                val markerPosition = LatLng(marker.position.latitude, marker.position.longitude)
                 var zoomLevel = googleMap.cameraPosition.zoom
-                it.showInfoWindow()
+                marker.showInfoWindow()
                 val cameraPoint = CameraUpdateFactory.newLatLngZoom(markerPosition, zoomLevel + 2f)
                 gMap.animateCamera(cameraPoint)
             }

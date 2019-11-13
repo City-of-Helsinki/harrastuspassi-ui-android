@@ -38,7 +38,7 @@ class FavoriteListFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         setHasOptionsMenu(true)
-        val view: View = inflater.inflate(R.layout.fragment_hobby_event_list, container, false)
+        val view: View = inflater.inflate(R.layout.fragment_favorite_list, container, false)
         val hobbyEventListAdapter = HobbyEventListAdapter(hobbyEventArrayList) { hobbyEvent: HobbyEvent, hobbyImage: ImageView -> hobbyItemClicked(hobbyEvent, hobbyImage)}
         setHasOptionsMenu(true)
 
@@ -158,8 +158,8 @@ class FavoriteListFragment : Fragment() {
     }
 
     override fun onPrepareOptionsMenu(menu: Menu) {
-        menu.findItem(R.id.map).setVisible(false)
-        menu.findItem(R.id.action_filter).setVisible(false)
+        menu.findItem(R.id.map).isVisible = false
+        menu.findItem(R.id.action_filter).isVisible = false
         super.onPrepareOptionsMenu(menu)
 
     }
