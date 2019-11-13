@@ -20,7 +20,7 @@ import kotlin.collections.ArrayList
 
 class PromotionFragment : Fragment(){
     private lateinit var promotionListView: RecyclerView
-
+    private lateinit var comingSoonTextView: TextView
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -40,6 +40,11 @@ class PromotionFragment : Fragment(){
         promotionListView.apply {
             layoutManager = LinearLayoutManager(activity)
             adapter = promotionListAdapter
+        }
+        comingSoonTextView = view.findViewById(R.id.promotion_coming_soon)
+        if(promotionList.isEmpty()) {
+            comingSoonTextView.text = activity!!.getString(R.string.coming_soon)
+            comingSoonTextView.visibility = View.VISIBLE
         }
 
         return view
@@ -74,15 +79,27 @@ class PromotionFragment : Fragment(){
         }
         // USE PROMOTION SLIDE BUTTON
         val slideButton = dialog.findViewById<SlideToActView>(R.id.promotion_dialog_slide_button)
-        slideButton.onSlideCompleteListener = object : SlideToActView.OnSlideCompleteListener{
+        val promotionUsedText = dialog.findViewById<TextView>(R.id.promotion_dialog_used)
+
+        slideButton.onSlideCompleteListener = object : OnSlideCompleteListener{
             override fun onSlideComplete(view: SlideToActView) {
                 promotion.isUsed = true
-
+                slideButton.visibility = View.INVISIBLE
+                promotionUsedText.text = activity!!.getString(R.string.promotions_used)
+                promotionUsedText.visibility = View.VISIBLE
+                promotionListView.adapter!!.notifyDataSetChanged()
                 promotionListView.adapter!!.notifyDataSetChanged()
             }
         }
 
-        dialog.window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT)
+        if (promotion.isUsed) {
+            slideButton.visibility = View.INVISIBLE
+            promotionUsedText.text = activity!!.getString(R.string.promotions_used)
+            promotionUsedText.visibility = View.VISIBLE
+            promotionListView.adapter!!.notifyDataSetChanged()
+        }
+
+        dialog.window?.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT)
         dialog.show()
 
     }

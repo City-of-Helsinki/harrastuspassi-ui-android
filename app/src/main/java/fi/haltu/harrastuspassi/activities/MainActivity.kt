@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.Toast
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -17,6 +18,7 @@ import fi.haltu.harrastuspassi.R
 import fi.haltu.harrastuspassi.fragments.*
 import fi.haltu.harrastuspassi.utils.loadFilters
 import fi.haltu.harrastuspassi.utils.saveFilters
+import kotlinx.android.synthetic.main.activity_main.*
 
 
 class MainActivity : AppCompatActivity() {
@@ -96,6 +98,11 @@ class MainActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
+    fun performListClick() {
+        fragmentManager.beginTransaction().hide(activeFragment).show(hobbyEventListFragment).commit()
+        activeFragment = hobbyEventListFragment
+        navigationView.selectedItemId = R.id.navigation_list
+    }
 
     private val onNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
 
