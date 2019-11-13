@@ -7,14 +7,28 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:id="@+id/swipe_refresh_list">
-        <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/promotion_list_view"
+        <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:dividerHeight="2dp"
-                android:footerDividersEnabled="false"
-                android:background="@color/hobbyPurple"/>
+                android:layout_height="match_parent">
+            <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/promotion_list_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:dividerHeight="2dp"
+                    android:footerDividersEnabled="false"
+                    android:background="@color/hobbyPurple"/>
 
+            <TextView
+                    android:id="@+id/promotion_coming_soon"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/white"
+                    android:textSize="16sp"
+                    android:gravity="center"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/promotion_list_view" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
-
 </FrameLayout>

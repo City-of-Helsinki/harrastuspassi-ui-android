@@ -4,6 +4,8 @@
     <color name="hobbyPurpleOpacity60">#6030146E</color>
     <color name="hobbyPurpleLight">#77329B</color>
     <color name="hobbyPurpleLightOpacity80">#8077329B</color>
+    <color name="hobbyPurpleLightOpacity20">#2077329B</color>
+
     <color name="hobbyYellow">#FFEB32</color>
     <color name="white">#FFFFFF</color>
     <color name="blackOpacity40">#40000000</color>

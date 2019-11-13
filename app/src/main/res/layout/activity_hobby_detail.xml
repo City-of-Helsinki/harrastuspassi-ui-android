@@ -39,6 +39,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="24dp"
                     android:layout_marginTop="24dp"
+                    android:layout_marginEnd="8dp"
                     android:fontFamily="sans-serif"
                     android:textColor="@color/hobbyPurple"
                     android:textSize="24sp"
@@ -52,7 +53,8 @@
                     android:id="@+id/favorite_icon_button"
                     android:layout_width="40dp"
                     android:layout_height="0dp"
-                    android:layout_marginEnd="8dp"
+                    android:layout_marginEnd="24dp"
+                    android:layout_marginBottom="16dp"
                     android:background="@drawable/favorite_icon"
                     android:backgroundTint="@color/common_google_signin_btn_text_light_disabled"
                     app:layout_constraintBottom_toBottomOf="@+id/hobby_title"
@@ -65,7 +67,6 @@
                     android:id="@+id/hobby_organizer"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
                     android:fontFamily="sans-serif"
                     android:textSize="16sp"
                     android:textStyle="normal"
@@ -77,6 +78,7 @@
                     android:id="@+id/location_icon"
                     android:layout_width="24dp"
                     android:layout_height="24dp"
+                    android:layout_marginTop="16dp"
                     android:background="@drawable/location_icon"
                     android:backgroundTint="@color/hobbyPurple"
                     app:layout_constraintDimensionRatio="1:1"
@@ -87,8 +89,6 @@
                     android:id="@+id/location_address"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:text="@string/hobby_detail_address"
 
                     android:textSize="14sp"
                     app:layout_constraintEnd_toEndOf="@+id/location"
@@ -100,7 +100,6 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
 
-                    android:layout_marginTop="8dp"
                     android:textSize="14sp"
                     app:layout_constraintEnd_toEndOf="@+id/location_address"
                     app:layout_constraintStart_toStartOf="@+id/location_address"
@@ -114,7 +113,6 @@
                     android:layout_marginStart="8dp"
                     android:fontFamily="sans-serif"
                     android:gravity="start"
-                    android:text="@string/hobby_detail_location"
                     android:textSize="14sp"
                     app:layout_constraintBottom_toBottomOf="@+id/location_icon"
                     app:layout_constraintEnd_toEndOf="@+id/hobby_organizer"
@@ -126,8 +124,10 @@
             <TableLayout
                     android:id="@+id/tableLayout"
                     android:layout_width="0dp"
+                    android:padding="16dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
+                    android:layout_marginTop="24dp"
+                    android:background="@drawable/rounded_corners_light_purple"
                     android:stretchColumns="*"
                     app:layout_constraintEnd_toEndOf="@+id/location"
                     app:layout_constraintStart_toStartOf="@+id/location_icon"
@@ -135,7 +135,10 @@
                 <!-- first row of the table layout-->
                 <TableRow
                         android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"   >
+                        android:layout_height="wrap_content"
+                        android:paddingBottom="8dp"
+                        >
+
                     <androidx.constraintlayout.widget.ConstraintLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content">
@@ -143,11 +146,11 @@
                         <TextView
                                 android:id="@+id/calendar_icon"
 
-                                android:layout_width="40dp"
-                                android:layout_height="40dp"
+                                android:layout_width="32dp"
+                                android:layout_height="32dp"
                                 android:background="@drawable/ic_date_range_24dp"
                                 android:backgroundTint="@color/hobbyPurple"
-                                android:gravity="center"
+                                android:gravity="start"
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintDimensionRatio="1:1"
                                 app:layout_constraintEnd_toEndOf="parent"
@@ -156,15 +159,15 @@
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
                     <androidx.constraintlayout.widget.ConstraintLayout
-                    android:background="@drawable/side_borders"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content">
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/side_borders">
 
                         <TextView
                                 android:id="@+id/date_icon"
 
-                                android:layout_width="40dp"
-                                android:layout_height="40dp"
+                                android:layout_width="32dp"
+                                android:layout_height="32dp"
                                 android:background="@drawable/today_ic"
                                 android:backgroundTint="@color/hobbyPurple"
                                 android:gravity="center"
@@ -183,8 +186,8 @@
                                 android:id="@+id/start_time_icon"
 
 
-                                android:layout_width="40dp"
-                                android:layout_height="40dp"
+                                android:layout_width="32dp"
+                                android:layout_height="32dp"
                                 android:background="@drawable/clock_ic"
                                 android:backgroundTint="@color/hobbyPurple"
                                 android:gravity="center"
@@ -202,7 +205,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
 
-                    android:layout_marginTop="16dp"
+                    android:layout_marginTop="24dp"
                     android:fontFamily="sans-serif"
                     android:text="@string/hobby_detail_description_title"
                     android:textColor="@color/hobbyPurple"
@@ -217,15 +220,13 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
 
-                    android:layout_marginTop="8dp"
                     android:fontFamily="sans-serif"
-                    android:text="@string/hobby_detail_hobby_description"
                     android:textSize="16sp"
                     app:layout_constraintBottom_toTopOf="@+id/map"
                     app:layout_constraintEnd_toEndOf="@+id/description_label"
                     app:layout_constraintHorizontal_bias="1.0"
                     app:layout_constraintStart_toStartOf="@+id/description_label"
-                    app:layout_constraintTop_toBottomOf="@+id/description_label"/>
+                    app:layout_constraintTop_toBottomOf="@+id/description_label" />
 
 
             <fragment xmlns:android="http://schemas.android.com/apk/res/android"
@@ -243,11 +244,6 @@
                       map:liteMode="true"
                       map:layout_constraintHorizontal_bias="0.0"
                       map:layout_constraintVertical_bias="1.0"/>
-
-
-
-
-
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 </LinearLayout>

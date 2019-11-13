@@ -20,10 +20,12 @@
             android:id="@+id/dialog_close_button"
             android:layout_width="20dp"
             android:layout_height="20dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
             android:background="@drawable/close_icon"
             android:backgroundTint="@color/hobbyPurple"
-            tools:layout_editor_absoluteX="375dp"
-            tools:layout_editor_absoluteY="26dp" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
             android:id="@+id/promotion_dialog_title"
@@ -96,4 +98,18 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             />
+
+    <TextView
+            android:id="@+id/promotion_dialog_used"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:gravity="center"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/promotion_dialog_duration" />
 </androidx.constraintlayout.widget.ConstraintLayout>
