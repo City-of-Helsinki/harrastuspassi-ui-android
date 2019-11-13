@@ -1,11 +1,13 @@
 package fi.haltu.harrastuspassi.adapters
 
+import android.content.Context
 import fi.haltu.harrastuspassi.models.Promotion
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
 import fi.haltu.harrastuspassi.R
@@ -14,7 +16,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 
-class PromotionListAdapter(private val list: List<Promotion>, private val clickListener: (Promotion, ImageView) -> Unit) :
+class PromotionListAdapter(private val context: Context, private val list: List<Promotion>, private val clickListener: (Promotion, ImageView) -> Unit) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HobbyListViewHolder {
@@ -25,7 +27,7 @@ class PromotionListAdapter(private val list: List<Promotion>, private val clickL
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val promotion: Promotion = list[position]
-        (holder as HobbyListViewHolder).bind(promotion, clickListener)
+        (holder as HobbyListViewHolder).bind(context, promotion, clickListener)
     }
 
     override fun getItemCount(): Int = list.size
@@ -36,18 +38,27 @@ class PromotionListAdapter(private val list: List<Promotion>, private val clickL
         private var image: ImageView = itemView.findViewById(R.id.promotion_image)
         private var description: TextView = itemView.findViewById(R.id.promotion_description)
         private var duration: TextView = itemView.findViewById(R.id.promotion_duration)
+        private val applicableText = itemView.findViewById<TextView>(R.id.promotion_applicable)
 
-        fun bind(promotion: Promotion, clickListener: (Promotion, ImageView) -> Unit) {
+        fun bind(context: Context, promotion: Promotion, clickListener: (Promotion, ImageView) -> Unit) {
             title.text = promotion.title
             description.text = promotion.description
+            applicableText.text = context.getString(R.string.available) + ":"
             Picasso.with(itemView.context)
                 .load(promotion.imageUrl)
                 .placeholder(R.drawable.harrastuspassi_lil_kel)
                 .error(R.drawable.harrastuspassi_lil_kel)
                 .into(image)
 
-            duration.text = "Voimassa ${convertToDateRange(promotion.startDate, promotion.endDate)}"
+
+            duration.text = "${convertToDateRange(promotion.startDate, promotion.endDate)}"
             itemView.setOnClickListener { clickListener(promotion, image) }
+
+            if (promotion.isUsed) {
+
+                duration.text = context.getString(R.string.promotions_used)
+                itemView.background = ContextCompat.getDrawable(context, R.drawable.promotion_card_op85)
+            }
         }
     }
 }

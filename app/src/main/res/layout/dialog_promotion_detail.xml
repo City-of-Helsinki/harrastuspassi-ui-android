@@ -5,7 +5,7 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/rounded_corners">
+        android:background="@drawable/rounded_corners_20dp">
 
     <ImageView
             android:id="@+id/promotion_dialog_image"
@@ -68,17 +68,17 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
-            android:layout_marginBottom="8dp"
+            android:layout_marginBottom="16dp"
             android:fontFamily="sans-serif"
             android:textColor="@color/hobbyPurple"
             android:textSize="14sp"
             android:textStyle="bold"
-            app:layout_constraintBottom_toTopOf="@+id/example"
+            app:layout_constraintBottom_toTopOf="@+id/promotion_dialog_slide_button"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 
     <com.ncorti.slidetoact.SlideToActView
-            android:id="@+id/example"
+            android:id="@+id/promotion_dialog_slide_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
