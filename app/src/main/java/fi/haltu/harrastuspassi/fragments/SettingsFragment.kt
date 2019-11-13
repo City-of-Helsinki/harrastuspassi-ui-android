@@ -9,11 +9,13 @@ import android.location.Location as AndroidLocation
 import android.location.LocationListener
 import android.location.LocationManager
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import androidx.core.app.ActivityCompat
 import android.widget.Button
 import android.widget.Switch
 import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -178,18 +180,25 @@ class SettingsFragment : Fragment(){
                     try {
                         // Request location updates
                         locationManager?.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0L, 0f, locationListener)
+                        Log.d("currentLocationSwitch", "false")
+
                     } catch(ex: SecurityException) {
                         currentLocationSwitch.isChecked = false
+                        Log.d("currentLocationSwitch", "false")
 
                     }
                 } else {
                     currentLocationSwitch.isChecked = false
+                    Log.d("currentLocationSwitch", "false")
+
                 }
                 return
             }
 
             else -> {
-                // Ignore all other requests.
+                currentLocationSwitch.isChecked = false
+                Log.d("currentLocationSwitch", "false")
+
             }
         }
     }

@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.net.Uri
 import android.os.AsyncTask
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuItem
@@ -29,12 +30,8 @@ import fi.haltu.harrastuspassi.models.HobbyEvent
 import fi.haltu.harrastuspassi.utils.*
 import org.json.JSONArray
 import org.json.JSONObject
-import org.w3c.dom.Text
 import java.io.IOException
-import java.lang.Exception
 import java.net.URL
-import java.text.SimpleDateFormat
-import java.util.*
 import kotlin.collections.ArrayList
 import kotlin.collections.HashSet
 
@@ -68,7 +65,8 @@ class HobbyDetailActivity : AppCompatActivity(), OnMapReadyCallback {
         if(intent.extras!!.getSerializable("EXTRA_HOBBY") != null) {
             hobbyEvent = intent.extras!!.getSerializable("EXTRA_HOBBY") as HobbyEvent
             id = hobbyEvent.hobby.id
-        } else if(intent.extras!!.getSerializable("EXTRA_HOBBY_ID") != null) {
+        }
+        if(intent.extras!!.getSerializable("EXTRA_HOBBY_ID") != null) {
             id = intent.extras!!.getSerializable("EXTRA_HOBBY_ID") as Int
         }
         GetHobbyEvents().execute()
@@ -159,84 +157,27 @@ class HobbyDetailActivity : AppCompatActivity(), OnMapReadyCallback {
         return true
     }
 
-    private fun setHobbyDetailView(hobbyEvent: HobbyEvent) {
-        val parser = SimpleDateFormat("yyyy-MM-dd", Locale.US)
-        val formatter = SimpleDateFormat("dd.MM.yyyy", Locale.US)
-        var date = getString(R.string.not_specified)
-        try {
-            date = formatter.format(parser.parse(hobbyEvent.startDate))
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
-
-        val timeParser = SimpleDateFormat("HH:mm:ss", Locale.US)
-        val timeFormatter = SimpleDateFormat("HH.mm", Locale.US)
-        var startTime = getString(R.string.not_specified)
-        var endTime = getString(R.string.not_specified)
-
-        try {
-            startTime = timeFormatter.format(timeParser.parse(hobbyEvent.startTime))
-            endTime =  timeFormatter.format(timeParser.parse(hobbyEvent.endTime))
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
-        //TITLE
-        titleTextView.text = hobbyEvent.hobby.name
-        //ORGANIZER
-        if (hobbyEvent.hobby.organizer != null) {
-            organizerTextView.text = hobbyEvent.hobby.organizer!!.name
-        } else {
-            organizerTextView.text = getString(R.string.not_specified)
-        }
-
-        //DESCRIPTION
-        descriptionTextView.text = hobbyEvent.hobby.description
+    private fun setHobbyDetailView(hobbyEvents: ArrayList<HobbyEvent>) {
         //COVER IMAGE
         Picasso.with(this)
-            .load(hobbyEvent.hobby.imageUrl)
-            .placeholder(R.drawable.harrastuspassi_lil_kel)
-            .error(R.drawable.harrastuspassi_lil_kel)
-            .into(coverImageView)
-        //LOCATION
-        locationNameTextView.text = hobbyEvent.hobby.location.name
-        locationAddress.text = hobbyEvent.hobby.location.address
-        locationZipCode.text = hobbyEvent.hobby.location.zipCode
-        //MAP
-        if (hobbyEvent.hobby.location.lat != null) {
-            latLan = LatLng(hobbyEvent.hobby.location.lat!!, hobbyEvent.hobby.location.lon!!)
-        } else {
-            locationReceived = false
-        }
-        if (locationReceived) {
-            val markerPos = latLan
-            map.addMarker(MarkerOptions()
-                .position(markerPos)
-                .icon(bitmapDescriptorFromVector(this, R.drawable.ic_location_24dp)))
-            map.moveCamera(CameraUpdateFactory.newLatLng(markerPos))
-        }
-    }
-
-    private fun setHobbyDetailView2(hobbyEvents: ArrayList<HobbyEvent>) {
-        //COVER IMAGE
-        Picasso.with(this)
-            .load(hobbyEvent.hobby.imageUrl)
+            .load(hobbyEvents[0].hobby.imageUrl)
             .placeholder(R.drawable.harrastuspassi_lil_kel)
             .error(R.drawable.harrastuspassi_lil_kel)
             .into(coverImageView)
 
         //TITLE
-        titleTextView.text = hobbyEvent.hobby.name
+        titleTextView.text = hobbyEvents[0].hobby.name
         //ORGANIZER
-        if (hobbyEvent.hobby.organizer != null) {
-            organizerTextView.text = hobbyEvent.hobby.organizer!!.name
+        if (hobbyEvents[0].hobby.organizer != null) {
+            organizerTextView.text = hobbyEvents[0].hobby.organizer!!.name
         } else {
             organizerTextView.text = getString(R.string.not_specified)
         }
 
         //LOCATION
-        locationNameTextView.text = hobbyEvent.hobby.location.name
-        locationAddress.text = hobbyEvent.hobby.location.address
-        locationZipCode.text = hobbyEvent.hobby.location.zipCode
+        locationNameTextView.text = hobbyEvents[0].hobby.location.name
+        locationAddress.text = hobbyEvents[0].hobby.location.address
+        locationZipCode.text = hobbyEvents[0].hobby.location.zipCode
 
         //TABLE
         for (hobbyEvent in hobbyEvents) {
@@ -248,11 +189,11 @@ class HobbyDetailActivity : AppCompatActivity(), OnMapReadyCallback {
         }
 
         //DESCRIPTION
-        descriptionTextView.text = hobbyEvent.hobby.description
+        descriptionTextView.text = hobbyEvents[0].hobby.description
 
         //MAP
-        if (hobbyEvent.hobby.location.lat != null) {
-            latLan = LatLng(hobbyEvent.hobby.location.lat!!, hobbyEvent.hobby.location.lon!!)
+        if (hobbyEvents[0].hobby.location.lat != null) {
+            latLan = LatLng(hobbyEvents[0].hobby.location.lat!!, hobbyEvents[0].hobby.location.lon!!)
         } else {
             locationReceived = false
         }
@@ -295,10 +236,12 @@ class HobbyDetailActivity : AppCompatActivity(), OnMapReadyCallback {
                         val hobbyEvent = HobbyEvent(eventObject)
                         eventList.add(hobbyEvent)
                     }
+                    Log.d("hobbydetail", "id: $id")
+                    Log.d("hobbydetail", "id: $eventList")
                     if(eventList.isEmpty()) {
                         showErrorDialog()
                     }
-                    setHobbyDetailView2(eventList)
+                    setHobbyDetailView(eventList)
                 }
             }
         }
