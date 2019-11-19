@@ -39,7 +39,9 @@ import java.io.IOException
 import java.lang.Exception
 import java.net.URL
 
-class MapFragment : Fragment() {
+class MapFragment : Fragment(), OnMapReadyCallback {
+
+
     companion object {
         const val CENTER_LAT = 64.9600 //Center point of Finland
         const val CENTER_LON = 27.5900
@@ -77,16 +79,17 @@ class MapFragment : Fragment() {
             e.printStackTrace()
         }
 
-        mapView.getMapAsync { googleMap ->
-            gMap = googleMap
-            zoomToLocation(filters, settings)
-            setUpClusterManager(gMap)
-        }
+        mapView.getMapAsync(this)
         GetHobbyEvents().execute()
 
         return view
     }
-
+    override fun onMapReady(googleMap: GoogleMap) {
+        gMap = googleMap
+        zoomToLocation(filters, settings)
+        setUpClusterManager(gMap)
+    }
+    
     override fun onResume() {
         super.onResume()
         mapView.onResume()
