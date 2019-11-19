@@ -151,7 +151,7 @@ class MapFragment : Fragment() {
                     }
                 }
             } catch(ex: SecurityException) {
-                ActivityCompat.requestPermissions(this.activity!!, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
+                requestPermissions(arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
                     LOCATION_PERMISSION
                 )
             }

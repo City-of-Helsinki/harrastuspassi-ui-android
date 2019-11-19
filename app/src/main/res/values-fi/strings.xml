@@ -45,4 +45,5 @@
     <string name="promotions_used">Etuus on käytetty</string>
     <string name="coming_soon">Tulossa pian</string>
     <string name="no_favorites">Sinulla ei ole lempiharrastuksia. Etsi lempiharrastuksesi täältä!</string>
+    <string name="accept_from_settings">Anna lupaa asetuksista</string>
 </resources>

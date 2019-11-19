@@ -8,14 +8,13 @@ import android.location.Geocoder
 import android.location.Location as AndroidLocation
 import android.location.LocationListener
 import android.location.LocationManager
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.*
-import androidx.core.app.ActivityCompat
 import android.widget.Button
 import android.widget.Switch
 import android.widget.TextView
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -39,11 +38,11 @@ class SettingsFragment : Fragment(){
     private lateinit var locationMapButton: Button
     private lateinit var locationListView: RecyclerView
     private lateinit var latestLocationTitle: TextView
+    private lateinit var acceptFromSettingsText: TextView
     private var filters: Filters = Filters()
     private var settings: Settings = Settings()
     private lateinit var filtersOriginal: Filters
     private lateinit var settingsOriginal: Settings
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -84,12 +83,25 @@ class SettingsFragment : Fragment(){
                     // Request location updates
                     locationManager?.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0L, 0f, locationListener)
                 } catch(ex: SecurityException) {
-                    ActivityCompat.requestPermissions(this.activity!!, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), LOCATION_PERMISSION)
+                    this.requestPermissions(arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), LOCATION_PERMISSION)
                 }
             } else {
                 disableChooseLocation(false)
             }
         }
+
+        //ACCEPT FROM SETTINGS TEXT
+        acceptFromSettingsText = view.findViewById(R.id.accept_from_settings)
+        acceptFromSettingsText.setOnClickListener {
+            val intent = Intent()
+            intent.action = android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS
+            val uri = Uri.fromParts("package", activity!!.packageName, null)
+            intent.data = uri
+            intent.addCategory(Intent.CATEGORY_DEFAULT)
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            startActivity(intent)
+        }
+        acceptFromSettingsText.visibility = View.INVISIBLE
 
         // LOCATION LIST
         var locationListAdapter = LocationListAdapter(settings)
@@ -177,30 +189,39 @@ class SettingsFragment : Fragment(){
         when (requestCode) {
             LOCATION_PERMISSION -> {
                 if ((grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
+                 //user accepted permission
                     try {
                         // Request location updates
                         locationManager?.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0L, 0f, locationListener)
-                        Log.d("currentLocationSwitch", "false")
+                        Log.d("permissionDialog", "accept")
 
                     } catch(ex: SecurityException) {
                         currentLocationSwitch.isChecked = false
-                        Log.d("currentLocationSwitch", "false")
+                        Log.d("permissionDialog", "deny1")
 
                     }
-                } else {
+                } else if(grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_DENIED) {
+                //user rejected the permission
                     currentLocationSwitch.isChecked = false
-                    Log.d("currentLocationSwitch", "false")
-
+                    //user also checked "never ask again"
+                    if(permissions.isNotEmpty() && !shouldShowRequestPermissionRationale(permissions[0])) {
+                        Log.d("permissionDialog", "deny&&never ask")
+                        acceptFromSettingsText.visibility = View.VISIBLE
+                    } else {
+                        Log.d("permissionDialog", "deny&&")
+                        acceptFromSettingsText.visibility = View.INVISIBLE
+                    }
                 }
+
                 return
             }
 
             else -> {
                 currentLocationSwitch.isChecked = false
-                Log.d("currentLocationSwitch", "false")
-
+                Log.d("permissionDialog", "else")
             }
         }
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
     }
 
     private fun disableChooseLocation(isHide: Boolean) {
