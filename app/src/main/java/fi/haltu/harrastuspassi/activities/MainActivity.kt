@@ -24,6 +24,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 class MainActivity : AppCompatActivity() {
     lateinit var toolbar: ActionBar
     lateinit var menu: Menu
+    var homeFragment: Fragment = HomeFragment()
     var hobbyEventListFragment: Fragment = HobbyEventListFragment()
     var favoriteListFragment: Fragment = FavoriteListFragment()
     var settingsFragment: Fragment = SettingsFragment()
@@ -42,7 +43,8 @@ class MainActivity : AppCompatActivity() {
         toolbar = supportActionBar!!
         val bottomNavigation: BottomNavigationView = findViewById(R.id.navigationView)
         bottomNavigation.setOnNavigationItemSelectedListener (onNavigationItemSelectedListener)
-        fragmentManager.beginTransaction().add(R.id.navigation_container, hobbyEventListFragment).commit()
+        fragmentManager.beginTransaction().add(R.id.navigation_container, homeFragment).commit()
+        fragmentManager.beginTransaction().add(R.id.navigation_container, hobbyEventListFragment).hide(hobbyEventListFragment).commit()
         fragmentManager.beginTransaction().add(R.id.navigation_container, favoriteListFragment).hide(favoriteListFragment).commit()
         fragmentManager.beginTransaction().add(R.id.navigation_container, settingsFragment).hide(settingsFragment).commit()
         fragmentManager.beginTransaction().add(R.id.navigation_container, promotionFragment).hide(promotionFragment).commit()
@@ -107,6 +109,11 @@ class MainActivity : AppCompatActivity() {
     private val onNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
 
         when(item.itemId) {
+            R.id.navigation_home -> {
+                fragmentManager.beginTransaction().hide(activeFragment).show(homeFragment).commit()
+                activeFragment = homeFragment
+                return@OnNavigationItemSelectedListener true
+            }
             R.id.navigation_list -> {
                 fragmentManager.beginTransaction().hide(activeFragment).show(hobbyEventListFragment).commit()
                 activeFragment = hobbyEventListFragment
