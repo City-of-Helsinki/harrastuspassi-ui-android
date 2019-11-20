@@ -1,0 +1,88 @@
+<androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <TextView
+            android:id="@+id/home_popular_promotions_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="start"
+            android:text="Suosituimmat etuudet"
+            android:textColor="@color/hobbyYellow"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+            android:id="@+id/home_see_all_popular_promotions"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="end"
+            android:text="KATSO KAIKKI"
+            android:textColor="@color/white"
+            android:textSize="10sp"
+            app:layout_constraintBottom_toBottomOf="@+id/home_popular_promotions_title"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/home_popular_promotions_title" />
+
+    <include
+            android:id="@+id/home_promoted_promotion"
+            layout="@layout/home_promoted"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            app:layout_constraintEnd_toEndOf="@+id/home_see_all_popular_promotions"
+            app:layout_constraintStart_toStartOf="@+id/home_popular_promotions_title"
+            app:layout_constraintTop_toBottomOf="@+id/home_popular_promotions_title" />
+
+    <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/home_popular_promotion_list"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/home_promoted_promotion" />
+
+    <TextView
+            android:id="@+id/user_promotion_text_label"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:text="Etuuksia sinulle"
+            android:gravity="start"
+            android:textColor="@color/hobbyYellow"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="@+id/home_promoted_promotion"
+            app:layout_constraintTop_toBottomOf="@+id/home_popular_promotion_list" />
+
+    <TextView
+            android:id="@+id/home_see_all_user_promotions"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="end"
+            android:text="KATSO KAIKKI"
+            android:textColor="@color/white"
+            android:textSize="10sp"
+            app:layout_constraintBottom_toBottomOf="@+id/user_promotion_text_label"
+            app:layout_constraintEnd_toEndOf="@+id/home_promoted_promotion"
+            app:layout_constraintStart_toEndOf="@+id/user_promotion_text_label" />
+
+    <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/home_user_promotion_list"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            app:layout_constraintEnd_toEndOf="@+id/home_popular_promotion_list"
+            app:layout_constraintStart_toStartOf="@+id/home_popular_promotion_list"
+            app:layout_constraintTop_toBottomOf="@+id/user_promotion_text_label" />
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
