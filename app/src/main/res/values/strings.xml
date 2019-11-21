@@ -60,4 +60,5 @@
     <string name="coming_soon">coming_soon</string>
     <string name="no_favorites">You don\'t have any favorite hobbies. Find your favovorite hobbies here.</string>
     <string name="accept_from_settings">Accept from settings</string>
+    <string name="hobbies">hobbies</string>
 </resources>

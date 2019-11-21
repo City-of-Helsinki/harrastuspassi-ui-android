@@ -1,4 +1,4 @@
-package fi.haltu.harrastuspassi.fragments
+package fi.haltu.harrastuspassi.fragments.home
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -11,30 +11,29 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
 import fi.haltu.harrastuspassi.R
-import fi.haltu.harrastuspassi.adapters.HobbyHorizontalListAdapter
-import fi.haltu.harrastuspassi.models.Hobby
-import fi.haltu.harrastuspassi.models.HobbyEvent
+import fi.haltu.harrastuspassi.adapters.PromotionHorizontalListAdapter
+import fi.haltu.harrastuspassi.models.Promotion
 
-class HomeHobbiesFragment : Fragment() {
-    lateinit var popularHobbyList: RecyclerView
-    lateinit var userHobbyList: RecyclerView
+class HomePromotionsFragment : Fragment() {
+    lateinit var popularPromotionsList: RecyclerView
+    lateinit var userPromotionsList: RecyclerView
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view: View = inflater.inflate(R.layout.fragment_home_hobbies, container, false)
+        val view: View = inflater.inflate(R.layout.fragment_home_promotions, container, false)
         setHasOptionsMenu(true)
 
         //PROMOTIONS LISTS
-        popularHobbyList = view.findViewById(R.id.home_popular_hobby_list)
-        userHobbyList = view.findViewById(R.id.home_user_hobby_list)
-        setHobby(view)
+        popularPromotionsList = view.findViewById(R.id.home_popular_promotion_list)
+        userPromotionsList = view.findViewById(R.id.home_user_promotion_list)
+        setPromotions(view)
 
         return view
     }
 
-    private fun setHobby(parentView: View) {
+    private fun setPromotions(parentView: View) {
         //IMAGE
         Picasso.with(this.context)
             .load("URL")
@@ -50,36 +49,24 @@ class HomeHobbiesFragment : Fragment() {
 
         //POPULAR PROMOTION LIST
 
-        var hobbyList = ArrayList<HobbyEvent>()
-        var hobbyEvent = HobbyEvent()
-        hobbyEvent.apply{
-            this.startWeekday = 1
-            this.hobby = Hobby().apply {
-                this.name = "Harrastuksen nimi tähän, voi olla kahdella rivillä"
-                this.description = "Harrastuksen lyhyehkö kuvaus tarvittaessa"
-            }
-        }
-
-        hobbyList.add(hobbyEvent)
-        hobbyList.add(hobbyEvent)
-        hobbyList.add(hobbyEvent)
-        hobbyList.add(hobbyEvent)
-        hobbyList.add(hobbyEvent)
-
-
-        popularHobbyList.apply {
+        var promotionList = ArrayList<Promotion>()
+        promotionList.add(Promotion())
+        promotionList.add(Promotion())
+        promotionList.add(Promotion())
+        promotionList.add(Promotion())
+        popularPromotionsList.apply {
             this.layoutManager = LinearLayoutManager(this.context, LinearLayoutManager.HORIZONTAL, false)
-            this.adapter = HobbyHorizontalListAdapter(hobbyList){ hobbyEvent: HobbyEvent, image: ImageView -> hobbyItemClicked(hobbyEvent, image)}
+            this.adapter = PromotionHorizontalListAdapter(promotionList){ promotion: Promotion, image: ImageView -> promotionsItemClicked(promotion, image)}
         }
 
         //USER PROMOTION LIST
-        userHobbyList.apply {
+        userPromotionsList.apply {
             this.layoutManager = LinearLayoutManager(this.context, LinearLayoutManager.HORIZONTAL, false)
-            this.adapter = HobbyHorizontalListAdapter(hobbyList){ hobbyEvent: HobbyEvent, image: ImageView -> hobbyItemClicked(hobbyEvent, image)}
+            this.adapter = PromotionHorizontalListAdapter(promotionList){ promotion: Promotion, image: ImageView -> promotionsItemClicked(promotion, image)}
         }
     }
 
-    private fun hobbyItemClicked(hobbyEvent: HobbyEvent, imageView: ImageView) {
+    private fun promotionsItemClicked(promotion: Promotion, imageView: ImageView) {
 
     }
 }
