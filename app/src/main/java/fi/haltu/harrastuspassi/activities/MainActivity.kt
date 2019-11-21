@@ -6,8 +6,10 @@ import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.Toast
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -16,14 +18,17 @@ import fi.haltu.harrastuspassi.R
 import fi.haltu.harrastuspassi.fragments.*
 import fi.haltu.harrastuspassi.utils.loadFilters
 import fi.haltu.harrastuspassi.utils.saveFilters
+import kotlinx.android.synthetic.main.activity_main.*
 
 
 class MainActivity : AppCompatActivity() {
     lateinit var toolbar: ActionBar
+    lateinit var menu: Menu
     var hobbyEventListFragment: Fragment = HobbyEventListFragment()
     var favoriteListFragment: Fragment = FavoriteListFragment()
     var settingsFragment: Fragment = SettingsFragment()
     var mapFragment: Fragment = MapFragment()
+    var promotionFragment: Fragment = PromotionFragment()
     var fragmentManager: FragmentManager = supportFragmentManager
     lateinit var activeFragment: Fragment
 
@@ -40,6 +45,7 @@ class MainActivity : AppCompatActivity() {
         fragmentManager.beginTransaction().add(R.id.navigation_container, hobbyEventListFragment).commit()
         fragmentManager.beginTransaction().add(R.id.navigation_container, favoriteListFragment).hide(favoriteListFragment).commit()
         fragmentManager.beginTransaction().add(R.id.navigation_container, settingsFragment).hide(settingsFragment).commit()
+        fragmentManager.beginTransaction().add(R.id.navigation_container, promotionFragment).hide(promotionFragment).commit()
         fragmentManager.beginTransaction().add(R.id.navigation_container, mapFragment).hide(mapFragment).commit()
 
         activeFragment = hobbyEventListFragment
@@ -75,7 +81,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item!!.itemId) {
+        when (item.itemId) {
             R.id.action_filter -> {
                 val intent = Intent(this, FilterViewActivity::class.java)
                 intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT)
@@ -86,11 +92,16 @@ class MainActivity : AppCompatActivity() {
             R.id.map -> {
                 fragmentManager.beginTransaction().hide(activeFragment).show(mapFragment).commit()
                 activeFragment = mapFragment
-
                 return true
             }
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    fun performListClick() {
+        fragmentManager.beginTransaction().hide(activeFragment).show(hobbyEventListFragment).commit()
+        activeFragment = hobbyEventListFragment
+        navigationView.selectedItemId = R.id.navigation_list
     }
 
     private val onNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
@@ -111,6 +122,11 @@ class MainActivity : AppCompatActivity() {
                 activeFragment = settingsFragment
                 return@OnNavigationItemSelectedListener true
             }
+            R.id.navigation_promotions -> {
+                fragmentManager.beginTransaction().hide(activeFragment).show(promotionFragment).commit()
+                activeFragment = promotionFragment
+                return@OnNavigationItemSelectedListener true
+            }
         }
 
         false
@@ -129,11 +145,11 @@ class MainActivity : AppCompatActivity() {
         this.overridePendingTransition(R.anim.slide_in_down, R.anim.slide_out_down)
     }
 
-   override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+   override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // Inflate the menu to use in the action bar
         val inflater = menuInflater
         inflater.inflate(R.menu.menu, menu)
-
+        this.menu = menu
         return super.onCreateOptionsMenu(menu)
    }
 }

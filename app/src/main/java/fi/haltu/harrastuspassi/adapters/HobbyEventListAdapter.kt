@@ -41,22 +41,20 @@ class HobbyEventListAdapter(private val list: List<HobbyEvent>, private val clic
             place.text = hobbyEvent.hobby.location.name
             Picasso.with(itemView.context)
                 .load(hobbyEvent.hobby.imageUrl)
-                .placeholder(R.drawable.image_placeholder_icon)
-                .error(R.drawable.image_placeholder_icon)
+                .placeholder(R.drawable.harrastuspassi_lil_kel)
+                .error(R.drawable.harrastuspassi_lil_kel)
                 .into(image)
             val parser = SimpleDateFormat("yyyy-MM-dd", Locale.US)
             val formatter = SimpleDateFormat("dd.MM.yyyy", Locale.US)
             var startDate = ""
-            var endDate = ""
             try {
                 startDate = formatter.format(parser.parse(hobbyEvent.startDate))
-                endDate = formatter.format(parser.parse(hobbyEvent.endDate))
 
             } catch (e: Exception) {
                 e.printStackTrace()
             }
 
-            duration.text = "$startDate - $endDate"
+            duration.text = "$startDate"
             itemView.setOnClickListener { clickListener(hobbyEvent, image) }
         }
     }

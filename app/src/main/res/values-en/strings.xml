@@ -34,4 +34,17 @@
     <string name="friday">Friday</string>
     <string name="wednesday">Wednesday</string>
     <string name="tuesday">Tuesday</string>
+    <string name="list">List</string>
+    <string name="favorites">Favorites</string>
+    <string name="map">Map</string>
+    <string name="action_filter" translatable="false">Filter</string>
+    <string name="filter">Filter</string>
+    <string name="promotions">Promotions</string>
+    <string name="use_promotion">Use a promotion</string>
+    <string name="available">Available</string>
+    <string name="promotion_valid">Valid:</string>
+    <string name="promotions_used">Used</string>
+    <string name="coming_soon">Coming soon</string>
+    <string name="no_favorites">You don\'t have any favorite hobbies. Find your favovorite hobbies here!</string>
+    <string name="accept_from_settings">Give the permission from settings</string>
 </resources>

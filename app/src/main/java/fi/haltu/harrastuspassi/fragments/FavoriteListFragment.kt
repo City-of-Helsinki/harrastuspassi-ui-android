@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import fi.haltu.harrastuspassi.R
 import fi.haltu.harrastuspassi.activities.HobbyDetailActivity
+import fi.haltu.harrastuspassi.activities.MainActivity
 import fi.haltu.harrastuspassi.adapters.HobbyEventListAdapter
 import fi.haltu.harrastuspassi.models.HobbyEvent
 import fi.haltu.harrastuspassi.utils.loadFavorites
@@ -38,8 +39,9 @@ class FavoriteListFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         setHasOptionsMenu(true)
-        val view: View = inflater.inflate(R.layout.fragment_hobby_event_list, container, false)
+        val view: View = inflater.inflate(R.layout.fragment_favorite_list, container, false)
         val hobbyEventListAdapter = HobbyEventListAdapter(hobbyEventArrayList) { hobbyEvent: HobbyEvent, hobbyImage: ImageView -> hobbyItemClicked(hobbyEvent, hobbyImage)}
+        setHasOptionsMenu(true)
 
         refreshLayout = view.findViewById(R.id.swipe_refresh_list)
 
@@ -50,7 +52,10 @@ class FavoriteListFragment : Fragment() {
 
         progressBar = view.findViewById(R.id.progressbar)
         progressText = view.findViewById(R.id.progress_text)
-
+        progressText.setOnClickListener {
+            var mainActivity = context as MainActivity
+            mainActivity.performListClick()
+        }
         listView = view.findViewById(R.id.list_view)
         listView.apply {
             layoutManager = LinearLayoutManager(activity)
@@ -60,6 +65,7 @@ class FavoriteListFragment : Fragment() {
         GetHobbyEvents().execute()
         return view
     }
+
 
     private fun hobbyItemClicked(hobbyEvent: HobbyEvent, hobbyImage: ImageView) {
         val intent = Intent(context, HobbyDetailActivity::class.java)
@@ -156,15 +162,30 @@ class FavoriteListFragment : Fragment() {
         }
     }
 
+    override fun onPrepareOptionsMenu(menu: Menu) {
+        menu.findItem(R.id.map).isVisible = false
+        menu.findItem(R.id.action_filter).isVisible = false
+        super.onPrepareOptionsMenu(menu)
+
+    }
+
     private fun updateListView(listView: RecyclerView, hobbyEventArrayList: ArrayList<HobbyEvent>) {
+        if(hobbyEventArrayList.isEmpty()) {
+            progressText.visibility = View.VISIBLE
+            progressText.text = getString(R.string.no_favorites)
+        } else {
+            progressText.visibility = View.INVISIBLE
+        }
         val hobbyEventListAdapter = HobbyEventListAdapter(hobbyEventArrayList) { hobbyEvent: HobbyEvent, hobbyImage: ImageView -> hobbyItemClicked(hobbyEvent, hobbyImage)}
         listView.adapter = hobbyEventListAdapter
     }
 
     private fun filterFavorites(hobbyEvents:ArrayList<HobbyEvent>, favorites: HashSet<Int>): ArrayList<HobbyEvent> {
         var filteredList = ArrayList<HobbyEvent>()
-        for (event in hobbyEvents) {
-            if (favorites.contains(event.id)) {
+        val hobbyEventSet: Set<HobbyEvent> = hobbyEvents.toSet()
+
+        for (event in hobbyEventSet) {
+            if (favorites.contains(event.hobby.id)) {
                 filteredList.add(event)
             }
         }

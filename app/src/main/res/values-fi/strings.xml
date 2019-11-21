@@ -33,4 +33,17 @@
     <string name="friday">Perjantai</string>
     <string name="wednesday">Keskiviikko</string>
     <string name="tuesday">Tiistai</string>
+    <string name="list">Lista</string>
+    <string name="favorites">Suosikit</string>
+    <string name="map">Kartta</string>
+    <string name="action_filter" translatable="false">Suodatin</string>
+    <string name="filter">Suodatin</string>
+    <string name="promotions">Etuudet</string>
+    <string name="use_promotion">Käytä etuus</string>
+    <string name="available">Voimassa</string>
+    <string name="promotion_valid">Voimassa</string>
+    <string name="promotions_used">Etuus on käytetty</string>
+    <string name="coming_soon">Tulossa pian</string>
+    <string name="no_favorites">Sinulla ei ole lempiharrastuksia. Etsi lempiharrastuksesi täältä!</string>
+    <string name="accept_from_settings">Anna lupaa asetuksista</string>
 </resources>

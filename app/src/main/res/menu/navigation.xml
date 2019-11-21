@@ -4,16 +4,21 @@
     <item
             android:id="@+id/navigation_list"
             android:icon="@drawable/list_icon"
-            android:title="List"/>
+            android:title="@string/list"/>
 
     <item
             android:id="@+id/navigation_favorites"
             android:icon="@drawable/favorite_icon"
-            android:title="Favorites"/>
+            android:title="@string/favorites"/>
+
+    <item   android:id="@+id/navigation_promotions"
+            android:icon="@drawable/promotion_icon"
+            android:title="@string/promotions"
+            />
 
     <item
             android:id="@+id/navigation_settings"
             android:icon="@drawable/settings_icon"
-            android:title="Settings"/>
+            android:title="@string/settings"/>
 
 </menu>
