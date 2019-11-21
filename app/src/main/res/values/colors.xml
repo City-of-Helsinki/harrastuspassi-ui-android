@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="hobbyPurple">#30146E</color>
+    <color name="hobbyPurpleDark">#170A36</color>
     <color name="hobbyPurpleOpacity60">#6030146E</color>
     <color name="hobbyPurpleLight">#77329B</color>
     <color name="hobbyPurpleLightOpacity80">#8077329B</color>
@@ -8,6 +9,7 @@
 
     <color name="hobbyYellow">#FFEB32</color>
     <color name="white">#FFFFFF</color>
+    <color name="white60">#60FFFFFF</color>
     <color name="blackOpacity40">#40000000</color>
     <color name="blackOpacity0">#00000000</color>
     <color name="colorPrimary">#008577</color>

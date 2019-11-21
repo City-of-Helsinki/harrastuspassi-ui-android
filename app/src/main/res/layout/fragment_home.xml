@@ -10,7 +10,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/hobbyPurple">
+        android:background="@drawable/home_background">
 
     <TextView
             android:id="@+id/home_title"
@@ -33,7 +33,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:background="@color/hobbyPurpleLightOpacity80"
+            android:background="@color/white60"
             app:layout_constraintEnd_toEndOf="@+id/home_title"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="@+id/home_title"
@@ -70,49 +70,22 @@
             android:name="fi.haltu.harrastuspassi.fragments.HomePromotionsFragment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="32dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/constraintLayout4" />
 
-    <TextView
-            android:id="@+id/home_popular_hobbies_title"
-            android:layout_width="0dp"
+    <fragment
+            android:id="@+id/home_hobbies_fragment"
+            android:name="fi.haltu.harrastuspassi.fragments.HomeHobbiesFragment"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:gravity="start"
-            android:maxLines="2"
-            android:minLines="1"
-            android:text="Suosituimmat harrastukset"
-            android:textColor="@color/hobbyYellow"
-            android:textSize="22sp"
-            android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="@+id/constraintLayout4"
+            android:layout_marginTop="32dp"
+            android:layout_marginBottom="16dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/home_promotions_fragment" />
-
-    <TextView
-            android:id="@+id/home_see_all_popular_hobbies"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:gravity="end"
-            android:maxLines="1"
-            android:minLines="1"
-            android:text="KATSO KAIKKI"
-            android:textColor="@color/white"
-            android:textSize="10sp"
-            app:layout_constraintBottom_toBottomOf="@+id/home_popular_hobbies_title"
-            app:layout_constraintEnd_toEndOf="@+id/constraintLayout4"
-            app:layout_constraintStart_toEndOf="@+id/home_popular_hobbies_title" />
-
-    <include
-            android:id="@+id/home_promoted_hobby"
-            layout="@layout/home_promoted"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            app:layout_constraintEnd_toEndOf="@+id/home_see_all_popular_hobbies"
-            app:layout_constraintStart_toStartOf="@+id/home_popular_hobbies_title"
-            app:layout_constraintTop_toBottomOf="@+id/home_popular_hobbies_title" />
 </androidx.constraintlayout.widget.ConstraintLayout>
 
 

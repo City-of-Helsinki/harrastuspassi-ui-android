@@ -38,7 +38,7 @@
             android:id="@+id/home_promoted_description"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="8dp"
             android:ellipsize="end"
             android:fontFamily="sans-serif"
             android:maxLines="4"

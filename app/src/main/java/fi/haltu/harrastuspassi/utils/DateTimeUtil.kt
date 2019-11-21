@@ -1,6 +1,7 @@
 package fi.haltu.harrastuspassi.utils
 
 import android.app.Activity
+import android.content.Context
 import fi.haltu.harrastuspassi.R
 import java.text.SimpleDateFormat
 import java.util.*
@@ -14,6 +15,25 @@ fun idToWeekDay(id: Int, activity: Activity): String? {
     val friday = activity.getString(R.string.friday)
     val saturday = activity.getString(R.string.saturday)
     val sunday = activity.getString(R.string.sunday)
+    val weekDays: Map<Int, String> = mapOf(1 to monday,
+        2 to tuesday,
+        3 to wednesday,
+        4 to thursday,
+        5 to friday,
+        6 to saturday,
+        7 to sunday)
+    return weekDays[id]
+}
+
+
+fun idToWeekDay(id: Int, context: Context): String? {
+    val monday = context.getString(R.string.monday)
+    val tuesday = context.getString(R.string.tuesday)
+    val wednesday = context.getString(R.string.wednesday)
+    val thursday = context.getString(R.string.thursday)
+    val friday = context.getString(R.string.friday)
+    val saturday = context.getString(R.string.saturday)
+    val sunday = context.getString(R.string.sunday)
     val weekDays: Map<Int, String> = mapOf(1 to monday,
         2 to tuesday,
         3 to wednesday,
