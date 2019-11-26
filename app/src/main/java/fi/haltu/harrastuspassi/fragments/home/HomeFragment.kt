@@ -37,6 +37,7 @@ class HomeFragment : Fragment() {
             if ((event.action == KeyEvent.ACTION_DOWN) &&
                 (keyCode == KeyEvent.KEYCODE_ENTER)) {
                 search(searchEditText.text.toString())
+                view.clearFocus()
                 return@setOnKeyListener true
             }
             return@setOnKeyListener false
