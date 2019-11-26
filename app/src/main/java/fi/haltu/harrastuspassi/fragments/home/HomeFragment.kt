@@ -14,15 +14,15 @@ import fi.haltu.harrastuspassi.R
 
 
 class HomeFragment : Fragment() {
-    lateinit var searchEditText: EditText
+    /*lateinit var searchEditText: EditText
     lateinit var searchContainer: ConstraintLayout
-    lateinit var searchIcon: TextView
+    lateinit var searchIcon: TextView*/
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         val view: View = inflater.inflate(R.layout.fragment_home, container, false)
-        //SEARCH
+        /*SEARCH
         searchEditText = view.findViewById(R.id.home_search)
         searchContainer = view.findViewById(R.id.search_container)
         searchEditText.setOnFocusChangeListener { v, hasFocus ->
@@ -46,28 +46,14 @@ class HomeFragment : Fragment() {
         searchIcon.setOnClickListener {
             search(searchEditText.text.toString())
         }
-        setHobbies(view)
+
+         */
         return view
     }
 
-    private fun setHobbies(parentView: View) {
-        var promotedPromotionView: View = parentView.findViewById(R.id.home_promoted_hobby)
-        //IMAGE
-        Picasso.with(this.context)
-            .load("URL")
-            .placeholder(R.drawable.harrastuspassi_lil_kel)
-            .error(R.drawable.harrastuspassi_lil_kel)
-            .into(promotedPromotionView.findViewById<ImageView>(R.id.home_promoted_image))
-        //TITLE
-        promotedPromotionView.findViewById<TextView>(R.id.home_promoted_title).text = "TitleText"
-        //DESCRIPTION
-        promotedPromotionView.findViewById<TextView>(R.id.home_promoted_description).text = "Nullam volutpat tempor metus vel rhoncus. Fusce sodales diam risus, nec hendrerit augue fermentum eu. Donec vitae erat ut libero molestie congue in vitae ligula."
-        //DURATION
-        promotedPromotionView.findViewById<TextView>(R.id.home_promoted_duration).text = "Voimassa: 10.11 - 15.11.2019"
-    }
-
+    /*
     private fun search(searchStr: String) {
         //TODO search logic
         Toast.makeText(this.context, searchStr, Toast.LENGTH_SHORT).show()
-    }
+    }*/
 }

@@ -29,11 +29,11 @@ class PromotionFragment : Fragment(){
 
         //Promotion List
         var promotionList = ArrayList<Promotion>()
+        /*promotionList.add(Promotion())
         promotionList.add(Promotion())
         promotionList.add(Promotion())
         promotionList.add(Promotion())
-        promotionList.add(Promotion())
-        promotionList.add(Promotion())
+        promotionList.add(Promotion())*/
         promotionListView = view.findViewById(R.id.promotion_list_view)
         val promotionListAdapter = PromotionListAdapter(context!!, promotionList){ promotion: Promotion, promotionImage: ImageView -> hobbyItemClicked(promotion, promotionImage)}
         promotionListView.apply {
