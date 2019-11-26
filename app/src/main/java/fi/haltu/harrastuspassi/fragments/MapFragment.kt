@@ -150,19 +150,15 @@ class MapFragment : Fragment(), OnMapReadyCallback {
 
     override fun onPrepareOptionsMenu(menu: Menu) {
         menu.findItem(R.id.map).icon =  ContextCompat.getDrawable(this.context!!, R.drawable.list_icon)
-
         super.onPrepareOptionsMenu(menu)
     }
 
 
     private fun updateMap() {
+        gMap.clear()
         filters = loadFilters(this.activity!!)
         settings = loadSettings(this.activity!!)
-        if(!filters.isMapUpdated) {
-            GetHobbyEvents().execute()
-            filters.isMapUpdated = true
-            saveFilters(filters, this.activity!!)
-        }
+        GetHobbyEvents().execute()
         zoomToLocation(filters, settings)
     }
 
@@ -218,7 +214,6 @@ class MapFragment : Fragment(), OnMapReadyCallback {
     }
 
     private fun setUpClusterManager(googleMap: GoogleMap) {
-        googleMap.clear()
         val clusterManager = ClusterManager<Hobby>(this.context, googleMap)
         //adds items to cluster
 
