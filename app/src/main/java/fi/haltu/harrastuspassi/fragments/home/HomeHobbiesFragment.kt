@@ -29,6 +29,7 @@ import java.net.URL
 class HomeHobbiesFragment : Fragment() {
     lateinit var rootView: View
     lateinit var popularHobbyList: RecyclerView
+    lateinit var title: TextView
     //lateinit var userHobbyList: RecyclerView
     var hobbyEventArrayList = ArrayList<HobbyEvent>()
     override fun onCreateView(
@@ -37,7 +38,7 @@ class HomeHobbiesFragment : Fragment() {
     ): View? {
         rootView = inflater.inflate(R.layout.fragment_home_hobbies, container, false)
         setHasOptionsMenu(true)
-
+        title = rootView.findViewById<TextView>(R.id.home_promoted_title)
         //PROMOTIONS LISTS
         popularHobbyList = rootView.findViewById(R.id.home_popular_hobby_list)
         //userHobbyList = view.findViewById(R.id.home_user_hobby_list)
@@ -57,7 +58,7 @@ class HomeHobbiesFragment : Fragment() {
                 .error(R.drawable.harrastuspassi_lil_kel)
                 .into(imageView)
             //TITLE
-            parentView.findViewById<TextView>(R.id.home_promoted_title).text = promotedHobby.hobby.name
+            title.text = promotedHobby.hobby.name
             //DESCRIPTION
             parentView.findViewById<TextView>(R.id.home_promoted_description).text = promotedHobby.hobby.description
             //DURATION
@@ -148,6 +149,7 @@ class HomeHobbiesFragment : Fragment() {
                     //this@HobbyEventListFragment.progressText.text = getString(R.string.error_try_again_later)
                 }
                 NO_INTERNET -> {
+                    title.text = activity!!.getString(R.string.error_no_internet)
                     //progressText.text = getString(R.string.error_no_internet)
                 }
                 else -> {
