@@ -14,12 +14,14 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import fi.haltu.harrastuspassi.R
+import fi.haltu.harrastuspassi.activities.FilterViewActivity
 import fi.haltu.harrastuspassi.adapters.HobbyEventListAdapter
 import org.json.JSONArray
 import org.json.JSONObject
 import java.io.IOException
 import java.net.URL
 import fi.haltu.harrastuspassi.activities.HobbyDetailActivity
+import fi.haltu.harrastuspassi.activities.MainActivity
 import fi.haltu.harrastuspassi.models.Filters
 import fi.haltu.harrastuspassi.models.HobbyEvent
 import fi.haltu.harrastuspassi.utils.*
@@ -39,9 +41,10 @@ class HobbyEventListFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        setHasOptionsMenu(true)
         val view: View = inflater.inflate(R.layout.fragment_hobby_event_list, container, false)
         val hobbyEventListAdapter = HobbyEventListAdapter(hobbyEventArrayList) { hobbyEvent: HobbyEvent, hobbyImage: ImageView -> hobbyItemClicked(hobbyEvent, hobbyImage)}
+
+        setHasOptionsMenu(true)
 
         refreshLayout = view.findViewById(R.id.swipe_refresh_list)
 
@@ -95,6 +98,31 @@ class HobbyEventListFragment : Fragment() {
             filters.isListUpdated = true
             saveFilters(filters, this.activity!!)
         }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.menu, menu)
+        super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.map -> {
+                val mainActivity = this.context as MainActivity
+                mainActivity.switchBetweenMapAndListFragment()
+                return true
+            }
+
+            R.id.action_filter -> {
+                val intent = Intent(this.context, FilterViewActivity::class.java)
+                intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT)
+                startActivity(intent)
+                this.activity?.overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left)
+                return true
+            }
+        }
+
+        return super.onOptionsItemSelected(item)
     }
 
     companion object {

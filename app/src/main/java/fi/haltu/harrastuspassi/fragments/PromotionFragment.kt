@@ -26,15 +26,14 @@ class PromotionFragment : Fragment(){
         savedInstanceState: Bundle?
     ): View? {
         val view: View = inflater.inflate(R.layout.fragment_promotion, container, false)
-        setHasOptionsMenu(true)
 
         //Promotion List
         var promotionList = ArrayList<Promotion>()
+        /*promotionList.add(Promotion())
         promotionList.add(Promotion())
         promotionList.add(Promotion())
         promotionList.add(Promotion())
-        promotionList.add(Promotion())
-        promotionList.add(Promotion())
+        promotionList.add(Promotion())*/
         promotionListView = view.findViewById(R.id.promotion_list_view)
         val promotionListAdapter = PromotionListAdapter(context!!, promotionList){ promotion: Promotion, promotionImage: ImageView -> hobbyItemClicked(promotion, promotionImage)}
         promotionListView.apply {
@@ -102,11 +101,5 @@ class PromotionFragment : Fragment(){
         dialog.window?.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT)
         dialog.show()
 
-    }
-    override fun onPrepareOptionsMenu(menu: Menu) {
-        menu.findItem(R.id.map).isVisible = false
-        menu.findItem(R.id.action_filter).isVisible = false
-
-        super.onPrepareOptionsMenu(menu)
     }
 }

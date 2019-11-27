@@ -47,4 +47,6 @@
     <string name="coming_soon">Coming soon</string>
     <string name="no_favorites">You don\'t have any favorite hobbies. Find your favovorite hobbies here!</string>
     <string name="accept_from_settings">Give the permission from settings</string>
+    <string name="hobbies">Hobbies</string>
+    <string name="home_title">Find hobbies near you</string>
 </resources>

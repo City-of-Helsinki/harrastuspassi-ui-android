@@ -7,7 +7,7 @@ import fi.haltu.harrastuspassi.utils.getOptionalJSONObject
 import org.json.JSONObject
 import java.io.Serializable
 
-class Hobby(json: JSONObject) : Serializable, ClusterItem {
+class Hobby(json: JSONObject? = null) : Serializable, ClusterItem {
     var id: Int = 0
     var name: String = ""
     var imageUrl: String? = null
@@ -18,24 +18,26 @@ class Hobby(json: JSONObject) : Serializable, ClusterItem {
     var location: Location = Location()
 
     init {
-        id = json.getInt("id")
-        name = json.getString("name")
-        imageUrl = json.getString("cover_image")
-        //val categoriesString = json.getString("categories")
-        //categories = categoriesString.removeSurrounding("[", "]").split(",").map { it.toInt() }
+        if(json != null) {
+            id = json.getInt("id")
+            name = json.getString("name")
+            imageUrl = json.getString("cover_image")
+            //val categoriesString = json.getString("categories")
+            //categories = categoriesString.removeSurrounding("[", "]").split(",").map { it.toInt() }
 
-        //category = json.getInt("category")
+            //category = json.getInt("category")
 
-        description = json.getString("description")
+            description = json.getString("description")
 
-        val organizerObject = getOptionalJSONObject(json, "organizer")
+            val organizerObject = getOptionalJSONObject(json, "organizer")
 
-        if(organizerObject != null) {
-            organizer = Organizer(organizerObject)
-        }
-        val locationObject = getOptionalJSONObject(json, "location")
-        if (locationObject != null) {
-            location = Location(locationObject)
+            if(organizerObject != null) {
+                organizer = Organizer(organizerObject)
+            }
+            val locationObject = getOptionalJSONObject(json, "location")
+            if (locationObject != null) {
+                location = Location(locationObject)
+            }
         }
     }
     override fun getSnippet(): String {

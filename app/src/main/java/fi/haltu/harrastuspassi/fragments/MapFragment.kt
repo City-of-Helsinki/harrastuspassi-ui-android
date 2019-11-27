@@ -12,11 +12,10 @@ import android.location.LocationListener
 import android.location.LocationManager
 import android.os.AsyncTask
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -26,8 +25,10 @@ import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.maps.android.clustering.ClusterManager
 import fi.haltu.harrastuspassi.R
+import fi.haltu.harrastuspassi.activities.FilterViewActivity
 import fi.haltu.harrastuspassi.activities.HobbyCategoriesActivity
 import fi.haltu.harrastuspassi.activities.HobbyDetailActivity
+import fi.haltu.harrastuspassi.activities.MainActivity
 import fi.haltu.harrastuspassi.adapters.HobbyEventListAdapter
 import fi.haltu.harrastuspassi.adapters.MarkerClusterRenderer
 import fi.haltu.harrastuspassi.models.*
@@ -122,14 +123,42 @@ class MapFragment : Fragment(), OnMapReadyCallback {
         }
     }
 
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.menu, menu)
+        super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.map -> {
+                val mainActivity = this.context as MainActivity
+                mainActivity.switchBetweenMapAndListFragment()
+                return true
+            }
+
+            R.id.action_filter -> {
+                val intent = Intent(this.context, FilterViewActivity::class.java)
+                intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT)
+                startActivity(intent)
+                this.activity?.overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left)
+                return true
+            }
+        }
+
+        return super.onOptionsItemSelected(item)
+    }
+
+    override fun onPrepareOptionsMenu(menu: Menu) {
+        menu.findItem(R.id.map).icon =  ContextCompat.getDrawable(this.context!!, R.drawable.list_icon)
+        super.onPrepareOptionsMenu(menu)
+    }
+
+
     private fun updateMap() {
+        gMap.clear()
         filters = loadFilters(this.activity!!)
         settings = loadSettings(this.activity!!)
-        if(!filters.isMapUpdated) {
-            GetHobbyEvents().execute()
-            filters.isMapUpdated = true
-            saveFilters(filters, this.activity!!)
-        }
+        GetHobbyEvents().execute()
         zoomToLocation(filters, settings)
     }
 
@@ -185,7 +214,6 @@ class MapFragment : Fragment(), OnMapReadyCallback {
     }
 
     private fun setUpClusterManager(googleMap: GoogleMap) {
-        googleMap.clear()
         val clusterManager = ClusterManager<Hobby>(this.context, googleMap)
         //adds items to cluster
 
