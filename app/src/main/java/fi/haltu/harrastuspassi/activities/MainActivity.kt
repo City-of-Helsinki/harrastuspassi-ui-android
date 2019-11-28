@@ -5,44 +5,54 @@ import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
-import android.view.MenuItem
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.dynamiclinks.FirebaseDynamicLinks
 import fi.haltu.harrastuspassi.R
 import fi.haltu.harrastuspassi.fragments.*
+import fi.haltu.harrastuspassi.fragments.home.HomeFragment
 import fi.haltu.harrastuspassi.utils.loadFilters
 import fi.haltu.harrastuspassi.utils.saveFilters
+import kotlinx.android.synthetic.main.activity_main.*
 
 
 class MainActivity : AppCompatActivity() {
     lateinit var toolbar: ActionBar
+    lateinit var bottomNavigationView: BottomNavigationView
+    var homeFragment: Fragment = HomeFragment()
     var hobbyEventListFragment: Fragment = HobbyEventListFragment()
     var favoriteListFragment: Fragment = FavoriteListFragment()
     var settingsFragment: Fragment = SettingsFragment()
     var mapFragment: Fragment = MapFragment()
+    var promotionFragment: Fragment = PromotionFragment()
     var fragmentManager: FragmentManager = supportFragmentManager
     lateinit var activeFragment: Fragment
+    var isMapFragment = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         val TAG = "onCreate"
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        supportActionBar!!.setDisplayShowTitleEnabled(false)
+        title = "Harrastuspassi"
+
+        supportActionBar!!.setDisplayShowTitleEnabled(true)
         supportActionBar!!.setDisplayShowCustomEnabled(true)
         //BOTTOM NAVIGATION BAR
         toolbar = supportActionBar!!
-        val bottomNavigation: BottomNavigationView = findViewById(R.id.navigationView)
-        bottomNavigation.setOnNavigationItemSelectedListener (onNavigationItemSelectedListener)
-        fragmentManager.beginTransaction().add(R.id.navigation_container, hobbyEventListFragment).commit()
+        bottomNavigationView = findViewById(R.id.navigationView)
+        bottomNavigationView.setOnNavigationItemSelectedListener (onNavigationItemSelectedListener)
+        fragmentManager.beginTransaction().add(R.id.navigation_container, homeFragment).commit()
+        activeFragment = homeFragment
+        fragmentManager.beginTransaction().add(R.id.navigation_container, hobbyEventListFragment).hide(hobbyEventListFragment).commit()
         fragmentManager.beginTransaction().add(R.id.navigation_container, favoriteListFragment).hide(favoriteListFragment).commit()
         fragmentManager.beginTransaction().add(R.id.navigation_container, settingsFragment).hide(settingsFragment).commit()
+        fragmentManager.beginTransaction().add(R.id.navigation_container, promotionFragment).hide(promotionFragment).commit()
         fragmentManager.beginTransaction().add(R.id.navigation_container, mapFragment).hide(mapFragment).commit()
 
-        activeFragment = hobbyEventListFragment
         //openFragment(hobbyEventListFragment)
 
         //FIREBASE_DYNAMIC_LINK
@@ -74,41 +84,48 @@ class MainActivity : AppCompatActivity() {
             .addOnFailureListener(this) { e -> Log.w(TAG, "getDynamicLink:onFailure", e) }
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item!!.itemId) {
-            R.id.action_filter -> {
-                val intent = Intent(this, FilterViewActivity::class.java)
-                intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT)
-                startActivity(intent)
-                this.overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left)
-                return true
-            }
-            R.id.map -> {
-                fragmentManager.beginTransaction().hide(activeFragment).show(mapFragment).commit()
-                activeFragment = mapFragment
+    fun performListClick() {
+        switchFragment(hobbyEventListFragment, getString(R.string.hobbies))
+        navigationView.selectedItemId = R.id.navigation_list
+    }
 
-                return true
-            }
+    fun switchBetweenMapAndListFragment() {
+        if(isMapFragment) {
+            switchFragment(hobbyEventListFragment, getString(R.string.hobbies))
+            bottomNavigationView.menu.findItem(R.id.navigation_list).setIcon(ContextCompat.getDrawable(this, R.drawable.list_icon))
+            isMapFragment = false
+        } else {
+            switchFragment(mapFragment, "")
+            bottomNavigationView.menu.findItem(R.id.navigation_list).setIcon(ContextCompat.getDrawable(this, R.drawable.map_icon))
+            isMapFragment = true
         }
-        return super.onOptionsItemSelected(item)
     }
 
     private val onNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
 
         when(item.itemId) {
+            R.id.navigation_home -> {
+                switchFragment(homeFragment, "Harrastuspassi")
+                return@OnNavigationItemSelectedListener true
+            }
             R.id.navigation_list -> {
-                fragmentManager.beginTransaction().hide(activeFragment).show(hobbyEventListFragment).commit()
-                activeFragment = hobbyEventListFragment
+                if(isMapFragment) {
+                    switchFragment(mapFragment, "")
+                } else {
+                    switchFragment(hobbyEventListFragment, getString(R.string.hobbies))
+                }
                 return@OnNavigationItemSelectedListener true
             }
             R.id.navigation_favorites -> {
-                fragmentManager.beginTransaction().hide(activeFragment).show(favoriteListFragment).commit()
-                activeFragment = favoriteListFragment
+                switchFragment(favoriteListFragment, getString(R.string.favorites))
+                return@OnNavigationItemSelectedListener true
+            }
+            R.id.navigation_promotions -> {
+                switchFragment(promotionFragment, getString(R.string.promotions))
                 return@OnNavigationItemSelectedListener true
             }
             R.id.navigation_settings -> {
-                fragmentManager.beginTransaction().hide(activeFragment).show(settingsFragment).commit()
-                activeFragment = settingsFragment
+                switchFragment(settingsFragment, getString(R.string.settings))
                 return@OnNavigationItemSelectedListener true
             }
         }
@@ -129,13 +146,11 @@ class MainActivity : AppCompatActivity() {
         this.overridePendingTransition(R.anim.slide_in_down, R.anim.slide_out_down)
     }
 
-   override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        // Inflate the menu to use in the action bar
-        val inflater = menuInflater
-        inflater.inflate(R.menu.menu, menu)
-
-        return super.onCreateOptionsMenu(menu)
-   }
+    private fun switchFragment(fragment: Fragment, fragmentTitle: String) {
+        fragmentManager.beginTransaction().hide(activeFragment).show(fragment).commit()
+        activeFragment = fragment
+        title = fragmentTitle
+    }
 }
 
 

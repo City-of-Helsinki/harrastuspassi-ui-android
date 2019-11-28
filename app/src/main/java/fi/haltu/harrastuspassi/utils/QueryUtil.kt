@@ -1,4 +1,5 @@
 package fi.haltu.harrastuspassi.utils
+import android.util.Log
 import fi.haltu.harrastuspassi.models.Filters
 
 fun createQueryUrl(filters: Filters): String {
@@ -36,6 +37,7 @@ fun createQueryUrl(filters: Filters): String {
         query += "&near_latitude=${filters.latitude}"
         query += "&near_longitude=${filters.longitude}"
     }
+    Log.d("uery", query)
     return query
 }
 

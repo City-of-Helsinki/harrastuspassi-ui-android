@@ -7,7 +7,7 @@ import fi.haltu.harrastuspassi.utils.getOptionalJSONObject
 import org.json.JSONObject
 import java.io.Serializable
 
-class HobbyEvent(json: JSONObject) : Serializable, ClusterItem {
+class HobbyEvent(json: JSONObject? = null) : Serializable, ClusterItem {
 
 
     var id: Int = 0
@@ -19,20 +19,19 @@ class HobbyEvent(json: JSONObject) : Serializable, ClusterItem {
     lateinit var hobby: Hobby
 
     init {
+        if(json != null) {
+            id = json.getInt("id")
+            startDate = json.getString("start_date")
+            endDate = json.getString("end_date")
+            startTime = json.getString("start_time")
+            endTime = json.getString("end_time")
+            startWeekday = json.getInt("start_weekday")
+            val hobbyObject = getOptionalJSONObject(json, "hobby")
 
-        id = json.getInt("id")
-        startDate = json.getString("start_date")
-        endDate = json.getString("end_date")
-        startTime = json.getString("start_time")
-        endTime = json.getString("end_time")
-        startWeekday = json.getInt("start_weekday")
-        val hobbyObject = getOptionalJSONObject(json, "hobby")
-
-        if (hobbyObject != null) {
-            hobby = Hobby(hobbyObject)
-
+            if (hobbyObject != null) {
+                hobby = Hobby(hobbyObject)
+            }
         }
-
     }
 
     override fun getSnippet(): String {

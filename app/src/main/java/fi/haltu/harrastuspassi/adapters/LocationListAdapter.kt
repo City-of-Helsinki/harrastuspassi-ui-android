@@ -32,7 +32,7 @@ class LocationListAdapter(private var locationList: Settings) :
         var addressTextView: TextView = itemView.findViewById(R.id.address)
 
         fun bind(location: Location, position: Int) {
-            cityTextView.text = location.city!!.toUpperCase()
+            cityTextView.text = location.city?.toUpperCase()
             addressTextView.text = location.address
 
             radioButton.setOnClickListener {

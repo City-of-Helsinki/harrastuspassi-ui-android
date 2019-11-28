@@ -4,7 +4,7 @@
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/hobbyPurple</item>
         <item name="colorPrimaryDark">@color/hobbyPurple</item>
-        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorAccent">@color/hobbyPurple</item>
         <item name="android:windowContentTransitions">true</item>
         <item name="android:windowSharedElementEnterTransition">@transition/slide_and_changebounds</item>
         <item name="android:windowSharedElementExitTransition">@transition/slide_and_changebounds</item>

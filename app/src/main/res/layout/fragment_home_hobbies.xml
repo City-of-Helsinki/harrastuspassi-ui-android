@@ -1,0 +1,96 @@
+<androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto">
+<!--
+    <TextView
+            android:id="@+id/home_popular_hobbies_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:gravity="start"
+            android:text="Suosituimmat harrastukset"
+            android:maxLines="2"
+            android:minLines="2"
+            android:textColor="@color/hobbyYellow"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+            android:id="@+id/home_see_all_popular_hobbies"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:gravity="end"
+            android:text="KATSO KAIKKI"
+            android:textColor="@color/white"
+            android:textSize="10sp"
+            app:layout_constraintBottom_toBottomOf="@+id/home_popular_hobbies_title"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/home_popular_hobbies_title" />
+-->
+
+    <include
+            android:id="@+id/home_promoted_hobby"
+            layout="@layout/home_promoted"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/home_popular_hobby_list"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="24dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/home_promoted_hobby" />
+<!--
+    <TextView
+            android:id="@+id/user_hobby_text_label"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:gravity="start"
+            android:text="Harrastuksia sinulle"
+            android:textColor="@color/hobbyYellow"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="@+id/home_promoted_hobby"
+            app:layout_constraintTop_toBottomOf="@+id/home_popular_hobby_list" />
+
+    <TextView
+            android:id="@+id/home_see_all_user_hobbies"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="end"
+            android:text="KATSO KAIKKI"
+            android:textColor="@color/white"
+            android:textSize="10sp"
+            app:layout_constraintBottom_toBottomOf="@+id/user_hobby_text_label"
+            app:layout_constraintEnd_toEndOf="@+id/home_promoted_hobby"
+            app:layout_constraintStart_toEndOf="@+id/user_hobby_text_label" />
+
+    <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/home_user_hobby_list"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            app:layout_constraintEnd_toEndOf="@+id/home_popular_hobby_list"
+            app:layout_constraintStart_toStartOf="@+id/home_popular_hobby_list"
+            app:layout_constraintTop_toBottomOf="@+id/user_hobby_text_label" />
+
+-->
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
