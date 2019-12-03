@@ -55,7 +55,7 @@ class PromotionListAdapter(private val context: Context, private val list: List<
             itemView.setOnClickListener { clickListener(promotion, image) }
 
             if (promotion.isUsed) {
-
+                applicableText.visibility = View.INVISIBLE
                 duration.text = context.getString(R.string.promotions_used)
                 itemView.background = ContextCompat.getDrawable(context, R.drawable.promotion_card_op85)
             }

@@ -90,3 +90,25 @@ fun loadFavorites(activity: Activity): HashSet<Int> {
         return HashSet()
     }
 }
+
+
+fun saveUsedPromotions(usedPromotions:HashSet<Int>, activity: Activity) {
+
+    val preferences = activity.getSharedPreferences("USED_PROMOTIONS_PREFERENCE", Context.MODE_PRIVATE)
+    val editor: SharedPreferences.Editor = preferences.edit()
+    val gson = Gson()
+    val usedPromotionsJson = gson.toJson(usedPromotions)
+    editor.putString("used_promotions", usedPromotionsJson)
+    editor.apply()
+}
+
+fun loadUsedPromotions(activity: FragmentActivity): HashSet<Int> {
+    return try {
+        val preferences = activity.getSharedPreferences("USED_PROMOTIONS_PREFERENCE", Context.MODE_PRIVATE)
+        val gson = Gson()
+        val json = preferences.getString("used_promotions", "")
+        gson.fromJson(json, object : TypeToken<HashSet<Int>>() {}.type)
+    } catch(e: IllegalStateException) {
+        return HashSet()
+    }
+}
