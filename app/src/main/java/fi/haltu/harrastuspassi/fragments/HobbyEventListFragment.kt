@@ -93,11 +93,9 @@ class HobbyEventListFragment : Fragment() {
 
     private fun updateList() {
         filters = loadFilters(this.activity!!)
-        if(!filters.isListUpdated) {
-            GetHobbyEvents().execute()
-            filters.isListUpdated = true
-            saveFilters(filters, this.activity!!)
-        }
+        GetHobbyEvents().execute()
+        filters.isListUpdated = true
+        saveFilters(filters, this.activity!!)
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {

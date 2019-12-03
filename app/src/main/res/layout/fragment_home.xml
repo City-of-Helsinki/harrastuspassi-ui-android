@@ -29,7 +29,6 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
-        <!--
 
         <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/search_container"
@@ -42,11 +41,11 @@
                 app:layout_constraintStart_toStartOf="@+id/home_title"
                 app:layout_constraintTop_toBottomOf="@+id/home_title">
 
-            <EditText
+            <AutoCompleteTextView
                     android:id="@+id/home_search"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:hint="Etsi harrastuksia"
+                    android:hint="@string/find_hobbies"
                     android:layout_marginStart="16dp"
                     android:backgroundTint="@color/hobbyPurple"
                     android:textCursorDrawable="@drawable/purple_cursor"
@@ -69,7 +68,7 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
-    -->
+
 
         <!--
 
@@ -93,7 +92,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/home_title" />
+                app:layout_constraintTop_toBottomOf="@+id/search_container" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 
