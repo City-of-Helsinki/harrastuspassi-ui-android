@@ -1,14 +1,15 @@
 package fi.haltu.harrastuspassi.fragments
 
 import android.app.Dialog
+import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.firebase.analytics.FirebaseAnalytics
 import com.ncorti.slidetoact.SlideToActView
 import com.ncorti.slidetoact.SlideToActView.OnSlideCompleteListener
 import com.squareup.picasso.Picasso
@@ -21,19 +22,23 @@ import kotlin.collections.ArrayList
 class PromotionFragment : Fragment(){
     private lateinit var promotionListView: RecyclerView
     private lateinit var comingSoonTextView: TextView
+    private lateinit var firebaseAnalytics: FirebaseAnalytics
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         val view: View = inflater.inflate(R.layout.fragment_promotion, container, false)
 
+        firebaseAnalytics = FirebaseAnalytics.getInstance(this.context as Context)
+
         //Promotion List
         var promotionList = ArrayList<Promotion>()
-        /*promotionList.add(Promotion())
         promotionList.add(Promotion())
         promotionList.add(Promotion())
         promotionList.add(Promotion())
-        promotionList.add(Promotion())*/
+        promotionList.add(Promotion())
+        promotionList.add(Promotion())
+        //////////
         promotionListView = view.findViewById(R.id.promotion_list_view)
         val promotionListAdapter = PromotionListAdapter(context!!, promotionList){ promotion: Promotion, promotionImage: ImageView -> hobbyItemClicked(promotion, promotionImage)}
         promotionListView.apply {
@@ -49,6 +54,14 @@ class PromotionFragment : Fragment(){
         return view
     }
     private fun hobbyItemClicked(promotion: Promotion, hobbyImage: ImageView) {
+        // FIREBASE ANALYTICS
+        val bundle = Bundle()
+        bundle.putString("promotionName", promotion.title)
+        //bundle.putString("organizerName", promotion.organizer)
+        //bundle.putString("municipality", promotion.municipality)
+
+        firebaseAnalytics.logEvent("viewPromotion", bundle)
+
         val dialog = Dialog(this.context!!)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.setCancelable(true)
@@ -82,12 +95,20 @@ class PromotionFragment : Fragment(){
 
         slideButton.onSlideCompleteListener = object : OnSlideCompleteListener{
             override fun onSlideComplete(view: SlideToActView) {
+                // FIREBASE ANALYTICS
+                val bundle = Bundle()
+                bundle.putString("promotionName", promotion.title)
+                //bundle.putString("organizerName", promotion.organizer)
+                //bundle.putString("municipality", promotion.municipality)
+
                 promotion.isUsed = true
                 slideButton.visibility = View.INVISIBLE
                 promotionUsedText.text = activity!!.getString(R.string.promotions_used)
                 promotionUsedText.visibility = View.VISIBLE
                 promotionListView.adapter!!.notifyDataSetChanged()
                 promotionListView.adapter!!.notifyDataSetChanged()
+
+                firebaseAnalytics.logEvent("usePromotion", bundle)
             }
         }
 

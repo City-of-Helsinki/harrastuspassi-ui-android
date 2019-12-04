@@ -24,6 +24,7 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import androidx.recyclerview.widget.StaggeredGridLayoutManager.GAP_HANDLING_MOVE_ITEMS_BETWEEN_SPANS
 import androidx.recyclerview.widget.StaggeredGridLayoutManager.VERTICAL
 import com.appyvet.materialrangebar.RangeBar
+import com.google.firebase.analytics.FirebaseAnalytics
 import fi.haltu.harrastuspassi.adapters.DayOfWeekListAdapter
 import fi.haltu.harrastuspassi.models.Filters
 import fi.haltu.harrastuspassi.utils.loadFilters
@@ -43,6 +44,8 @@ class FilterViewActivity : AppCompatActivity(), View.OnClickListener {
     private lateinit var tagsRecyclerView: RecyclerView
     private lateinit var rangeBar : RangeBar
 
+    private lateinit var firebaseAnalytics: FirebaseAnalytics
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_filter_view)
@@ -60,6 +63,8 @@ class FilterViewActivity : AppCompatActivity(), View.OnClickListener {
         hobbyTestResult = idToCategoryName(filters.categories, categoryList)
         tagsRecyclerView = findViewById(R.id.tags_recyclerView)
 
+        firebaseAnalytics = FirebaseAnalytics.getInstance(this)
+
         ///// TAG FILTER /////
         val straggeredGrid = StaggeredGridLayoutManager(2, LinearLayoutManager.VERTICAL)
         straggeredGrid.gapStrategy = GAP_HANDLING_MOVE_ITEMS_BETWEEN_SPANS
@@ -76,7 +81,6 @@ class FilterViewActivity : AppCompatActivity(), View.OnClickListener {
 
         }
         weekRecyclerView.setHasFixedSize(true)
-
 
         ///// TIME SPAN FILTER //////
 
@@ -127,6 +131,7 @@ class FilterViewActivity : AppCompatActivity(), View.OnClickListener {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
+
         if (requestCode == 1) {
             try {
                 filters = data!!.extras!!.getSerializable("EXTRA_FILTERS") as Filters
@@ -142,14 +147,21 @@ class FilterViewActivity : AppCompatActivity(), View.OnClickListener {
             } catch (e: KotlinNullPointerException) {
 
             }
-
         }
     }
 
     override fun onClick(v: View) {
+        val bundle = Bundle()
+        bundle.putInt("startTime", filters.startTimeFrom) // Should this be an IntArray?
+        bundle.putIntArray("categories", filters.categories.toIntArray())
+        bundle.putIntArray("weekday", filters.dayOfWeeks.toIntArray())
+        //bundle.putBoolean("isFree", )
+        //bundle.putString("municipality",)
 
         when(v.id) {
+
             R.id.filterButton -> {
+                firebaseAnalytics.logEvent("hobbyFilter", bundle)
                 filters.isModified = !filters.isSameValues(filtersOriginal)
                 saveFilters(filters, this)
                 finish()

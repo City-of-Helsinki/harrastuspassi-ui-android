@@ -1,6 +1,7 @@
 package fi.haltu.harrastuspassi.fragments.home
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.os.AsyncTask
 import android.os.Bundle
 import android.util.Log
@@ -9,6 +10,7 @@ import android.widget.*
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import com.google.firebase.analytics.FirebaseAnalytics
 import fi.haltu.harrastuspassi.R
 import fi.haltu.harrastuspassi.activities.MainActivity
 import fi.haltu.harrastuspassi.adapters.CategorySearchAdapter
@@ -26,11 +28,13 @@ class HomeFragment : Fragment() {
     lateinit var searchContainer: ConstraintLayout
     lateinit var searchIcon: TextView
     var categoryList = ArrayList<Category>()
+    //private lateinit var firebaseAnalytics: FirebaseAnalytics
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         val view: View = inflater.inflate(R.layout.fragment_home, container, false)
+        //firebaseAnalytics = FirebaseAnalytics.getInstance(this.context as Context)
         //SEARCH
         searchEditText = view.findViewById(R.id.home_search)
         searchContainer = view.findViewById(R.id.search_container)
@@ -55,7 +59,6 @@ class HomeFragment : Fragment() {
         searchIcon.setOnClickListener {
             search(searchEditText.text.toString())
         }
-
         GetCategories().execute()
         return view
     }
