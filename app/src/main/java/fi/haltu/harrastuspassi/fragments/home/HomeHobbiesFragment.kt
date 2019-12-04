@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.cardview.widget.CardView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -64,7 +65,7 @@ class HomeHobbiesFragment : Fragment() {
             //DURATION
             parentView.findViewById<TextView>(R.id.home_promoted_duration).text = "${idToWeekDay(promotedHobby.startWeekday, this.activity!!)}"
 
-            parentView.findViewById<ConstraintLayout>(R.id.home_promoted_hobby).setOnClickListener {
+            parentView.findViewById<CardView>(R.id.home_promoted_hobby).setOnClickListener {
                 hobbyItemClicked(promotedHobby, imageView)
             }
             if (hobbyEventList.size > 7) {
