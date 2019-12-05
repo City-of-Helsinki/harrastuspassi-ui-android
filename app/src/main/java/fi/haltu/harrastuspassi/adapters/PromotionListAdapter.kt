@@ -50,7 +50,6 @@ class PromotionListAdapter(private val context: Context, private val list: List<
                 .error(R.drawable.harrastuspassi_lil_kel)
                 .into(image)
 
-
             duration.text = "${convertToDateRange(promotion.startDate, promotion.endDate)}"
             itemView.setOnClickListener { clickListener(promotion, image) }
 

@@ -151,19 +151,12 @@ class FilterViewActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     override fun onClick(v: View) {
-        val bundle = Bundle()
-        bundle.putInt("startTime", filters.startTimeFrom) // Should this be an IntArray?
-        bundle.putIntArray("categories", filters.categories.toIntArray())
-        bundle.putIntArray("weekday", filters.dayOfWeeks.toIntArray())
-        //bundle.putBoolean("isFree", )
-        //bundle.putString("municipality",)
-
         when(v.id) {
 
             R.id.filterButton -> {
-                firebaseAnalytics.logEvent("hobbyFilter", bundle)
                 filters.isModified = !filters.isSameValues(filtersOriginal)
                 saveFilters(filters, this)
+                setResult(2, intent)
                 finish()
             }
             R.id.open_hobby_categories_btn -> {

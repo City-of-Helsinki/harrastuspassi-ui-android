@@ -10,4 +10,6 @@ class Promotion: Serializable {
     var startDate: String = "2019-12-02"
     var endDate: String = "2019-12-07"
     var isUsed: Boolean = false
+    var organizer: Int = 5
+    var municipality: String = "Kunnan nimi"
 }

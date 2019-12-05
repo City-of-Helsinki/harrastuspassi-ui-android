@@ -90,11 +90,15 @@ class HobbyDetailActivity : AppCompatActivity(), OnMapReadyCallback {
         locationAddress = findViewById(R.id.location_address)
         locationZipCode = findViewById(R.id.location_zipcode)
 
-
+        // FIREBASE ANALYTICS
         val bundle = Bundle()
         bundle.putInt("hobbyId", hobbyEvent.hobby.id)
         bundle.putString("hobbyName", hobbyEvent.hobby.name)
-        bundle.putString("organizerName", hobbyEvent.hobby.organizer.toString())
+        if (hobbyEvent.hobby.organizer != null) {
+            bundle.putString("organizerName", hobbyEvent.hobby.organizer.toString())
+        } else {
+            bundle.putString("organizerName", "no organization")
+        }
         //bundle.putString("municipality", hobbyEvent.hobby.municipality)
 
         //Loads favorite id:s
@@ -134,14 +138,6 @@ class HobbyDetailActivity : AppCompatActivity(), OnMapReadyCallback {
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        val bundle = Bundle()
-        bundle.putInt("hobbyId", hobbyEvent.hobby.id)
-        bundle.putString("hobbyName", hobbyEvent.hobby.name)
-        bundle.putString("provider", hobbyEvent.hobby.organizer.toString())
-        // municipality missing
-
-        firebaseAnalytics.logEvent("shareHobby", bundle)
-
 
         when (item!!.itemId) {
             android.R.id.home -> {
@@ -177,6 +173,16 @@ class HobbyDetailActivity : AppCompatActivity(), OnMapReadyCallback {
                         .setText(result.shortLink.toString())
                         .startChooser()
                 }
+
+                // FIREBASE ANALYTICS
+                val bundle = Bundle()
+                bundle.putInt("hobbyId", hobbyEvent.hobby.id)
+                bundle.putString("hobbyName", hobbyEvent.hobby.name)
+                bundle.putString("provider", hobbyEvent.hobby.organizer.toString())
+                // //bundle.putString("municipality", hobbyEvent.hobby.municipality)
+
+                //FIREBASE ANALYTICS
+                firebaseAnalytics.logEvent("shareHobby", bundle)
             }
         }
 
@@ -185,14 +191,23 @@ class HobbyDetailActivity : AppCompatActivity(), OnMapReadyCallback {
 
     private fun setHobbyDetailView(hobbyEvents: ArrayList<HobbyEvent>) {
         val filters = loadFilters(this)
+
+        // FIREBASE ANALYTICS
         val bundle = Bundle()
         bundle.putInt("hobbyId", hobbyEvent.hobby.id)
         bundle.putString("hobbyName", hobbyEvent.hobby.name)
-        bundle.putString("organizerName", hobbyEvent.hobby.organizer.toString())
+        if (hobbyEvent.hobby.organizer != null) {
+            bundle.putString("organizerName", hobbyEvent.hobby.organizer.toString())
+        } else {
+            bundle.putString("organizerName", "no organization")
+        }
+        for(index in 0 until filters.categories.size) {
+            bundle.putInt("filterCategory$index", filters.categories.toIntArray()[index])
+        }
+        bundle.putString("coordinates", "${hobbyEvent.hobby.location.lat}, ${hobbyEvent.hobby.location.lon}")
+        //bundle.putString("free", ) missing?
         bundle.putString("postalCode", hobbyEvent.hobby.location.zipCode)
-        //bundle.putIntArray("categories", filters.categories.toIntArray())
         //bundle.putString("_municipality",) missing?
-        //bundle.putString("_coordinates", hobbyEvent.hobby.location.lat.toString(), hobbyEvent.hobby.location.lon.toString())
 
         firebaseAnalytics.logEvent("viewHobby", bundle)
 

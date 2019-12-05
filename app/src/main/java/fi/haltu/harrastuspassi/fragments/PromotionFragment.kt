@@ -57,8 +57,12 @@ class PromotionFragment : Fragment(){
         // FIREBASE ANALYTICS
         val bundle = Bundle()
         bundle.putString("promotionName", promotion.title)
-        //bundle.putString("organizerName", promotion.organizer)
-        //bundle.putString("municipality", promotion.municipality)
+        if (promotion.organizer != null) {
+            bundle.putInt("organizerName", promotion.organizer)
+        } else {
+            bundle.putString("organizerName", "no organization")
+        }
+        bundle.putString("municipality", promotion.municipality)
 
         firebaseAnalytics.logEvent("viewPromotion", bundle)
 
@@ -98,8 +102,12 @@ class PromotionFragment : Fragment(){
                 // FIREBASE ANALYTICS
                 val bundle = Bundle()
                 bundle.putString("promotionName", promotion.title)
-                //bundle.putString("organizerName", promotion.organizer)
-                //bundle.putString("municipality", promotion.municipality)
+                if (promotion.organizer != null) {
+                    bundle.putInt("organizerName", promotion.organizer)
+                } else {
+                    bundle.putString("organizerName", "no organization")
+                }
+                bundle.putString("municipality", promotion.municipality)
 
                 promotion.isUsed = true
                 slideButton.visibility = View.INVISIBLE
