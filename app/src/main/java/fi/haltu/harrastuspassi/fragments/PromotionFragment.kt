@@ -51,6 +51,7 @@ class PromotionFragment : Fragment(){
         GetPromotions().execute()
         return view
     }
+
     private fun hobbyItemClicked(promotion: Promotion, hobbyImage: ImageView) {
         val dialog = Dialog(this.context!!)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
@@ -72,7 +73,6 @@ class PromotionFragment : Fragment(){
         //DATE
         val durationText = dialog.findViewById<TextView>(R.id.promotion_dialog_duration)
 
-
         durationText.text = "${activity!!.getString(R.string.available)}: ${convertToDateRange(promotion.startDate, promotion.endDate)}"
         //CLOSE_ICON
         val closeIcon = dialog.findViewById<ImageView>(R.id.dialog_close_button)
@@ -92,7 +92,7 @@ class PromotionFragment : Fragment(){
                 promotionUsedText.text = activity!!.getString(R.string.promotions_used)
                 promotionUsedText.visibility = View.VISIBLE
                 promotionListView.adapter!!.notifyDataSetChanged()
-                promotionListView.adapter!!.notifyDataSetChanged()
+                
             }
         }
 
