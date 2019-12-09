@@ -4,13 +4,13 @@ import android.annotation.SuppressLint
 import android.app.Dialog
 import android.os.AsyncTask
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.firebase.analytics.FirebaseAnalytics
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.ncorti.slidetoact.SlideToActView
 import com.ncorti.slidetoact.SlideToActView.OnSlideCompleteListener
@@ -35,6 +35,7 @@ import okhttp3.OkHttpClient
 class PromotionFragment : Fragment(){
     private lateinit var promotionListView: RecyclerView
     private lateinit var comingSoonTextView: TextView
+    private lateinit var firebaseAnalytics: FirebaseAnalytics
     private var promotionList = ArrayList<Promotion>()
     private lateinit var refreshLayout: SwipeRefreshLayout
     private var usedPromotions: HashSet<Int> = HashSet()
@@ -57,6 +58,18 @@ class PromotionFragment : Fragment(){
     }
 
     private fun hobbyItemClicked(promotion: Promotion, hobbyImage: ImageView) {
+        // FIREBASE ANALYTICS
+        val bundle = Bundle()
+        bundle.putString("promotionName", promotion.title)
+        if (promotion.organizer != null) {
+            bundle.putInt("organizerName", promotion.organizer)
+        } else {
+            bundle.putString("organizerName", "no organization")
+        }
+        bundle.putString("municipality", promotion.municipality)
+
+        firebaseAnalytics.logEvent("viewPromotion", bundle)
+
         val dialog = Dialog(this.context!!)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.setCancelable(true)
@@ -89,6 +102,16 @@ class PromotionFragment : Fragment(){
 
         slideButton.onSlideCompleteListener = object : OnSlideCompleteListener{
             override fun onSlideComplete(view: SlideToActView) {
+                // FIREBASE ANALYTICS
+                val bundle = Bundle()
+                bundle.putString("promotionName", promotion.title)
+                if (promotion.organizer != null) {
+                    bundle.putInt("organizerName", promotion.organizer)
+                } else {
+                    bundle.putString("organizerName", "no organization")
+                }
+                bundle.putString("municipality", promotion.municipality)
+
                 promotion.isUsed = true
                 usedPromotions.add(promotion.id)
                 saveUsedPromotions(usedPromotions, activity!!)
@@ -96,6 +119,9 @@ class PromotionFragment : Fragment(){
                 promotionUsedText.text = activity!!.getString(R.string.promotions_used)
                 promotionUsedText.visibility = View.VISIBLE
                 promotionListView.adapter!!.notifyDataSetChanged()
+                promotionListView.adapter!!.notifyDataSetChanged()
+
+                firebaseAnalytics.logEvent("usePromotion", bundle)
                 PostPromotion(promotion.id).execute()
             }
         }

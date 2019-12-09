@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.dynamiclinks.FirebaseDynamicLinks
+import com.google.firebase.analytics.FirebaseAnalytics
 import fi.haltu.harrastuspassi.R
 import fi.haltu.harrastuspassi.fragments.*
 import fi.haltu.harrastuspassi.fragments.home.HomeFragment
@@ -32,6 +33,7 @@ class MainActivity : AppCompatActivity() {
     var fragmentManager: FragmentManager = supportFragmentManager
     lateinit var activeFragment: Fragment
     var isMapFragment = false
+    lateinit var firebaseAnalytics: FirebaseAnalytics
 
     override fun onCreate(savedInstanceState: Bundle?) {
         val TAG = "onCreate"
@@ -54,6 +56,9 @@ class MainActivity : AppCompatActivity() {
         fragmentManager.beginTransaction().add(R.id.navigation_container, mapFragment).hide(mapFragment).commit()
 
         //openFragment(hobbyEventListFragment)
+
+        // OBTAIN THE FirebaseAnalytics INSTANCE
+        firebaseAnalytics = FirebaseAnalytics.getInstance(this)
 
         //FIREBASE_DYNAMIC_LINK
         FirebaseDynamicLinks.getInstance()

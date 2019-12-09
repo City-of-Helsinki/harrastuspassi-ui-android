@@ -1,10 +1,12 @@
 package fi.haltu.harrastuspassi.activities
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.net.Uri
 import android.os.AsyncTask
 import android.os.Bundle
 import android.util.Log
+import android.util.Log.VERBOSE
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuItem
@@ -22,12 +24,16 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
+import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.dynamiclinks.DynamicLink
 import com.google.firebase.dynamiclinks.FirebaseDynamicLinks
+import com.google.gson.Gson
 import com.squareup.picasso.Picasso
 import fi.haltu.harrastuspassi.R
+import fi.haltu.harrastuspassi.models.Filters
 import fi.haltu.harrastuspassi.models.HobbyEvent
 import fi.haltu.harrastuspassi.utils.*
+import kotlinx.android.synthetic.main.activity_hobby_detail.view.*
 import org.json.JSONArray
 import org.json.JSONObject
 import java.io.IOException
@@ -55,12 +61,14 @@ class HobbyDetailActivity : AppCompatActivity(), OnMapReadyCallback {
     private lateinit var hobbyEvent: HobbyEvent
     private lateinit var favoriteView: TextView
     private var eventList = ArrayList<HobbyEvent>()
+    private lateinit var firebaseAnalytics: FirebaseAnalytics
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_hobby_detail)
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
         supportActionBar!!.title = ""
+        firebaseAnalytics = FirebaseAnalytics.getInstance(this)
 
         if(intent.extras!!.getSerializable("EXTRA_HOBBY") != null) {
             hobbyEvent = intent.extras!!.getSerializable("EXTRA_HOBBY") as HobbyEvent
@@ -82,6 +90,17 @@ class HobbyDetailActivity : AppCompatActivity(), OnMapReadyCallback {
         locationAddress = findViewById(R.id.location_address)
         locationZipCode = findViewById(R.id.location_zipcode)
 
+        // FIREBASE ANALYTICS
+        val bundle = Bundle()
+        bundle.putInt("hobbyId", hobbyEvent.hobby.id)
+        bundle.putString("hobbyName", hobbyEvent.hobby.name)
+        if (hobbyEvent.hobby.organizer != null) {
+            bundle.putString("organizerName", hobbyEvent.hobby.organizer!!.name)
+        } else {
+            bundle.putString("organizerName", "no organization")
+        }
+        //bundle.putString("municipality", hobbyEvent.hobby.municipality)
+
         //Loads favorite id:s
         favorites = loadFavorites(this)
         if(favorites.contains(id)) {
@@ -94,6 +113,8 @@ class HobbyDetailActivity : AppCompatActivity(), OnMapReadyCallback {
             } else {
                 favoriteView.background.setTint(ContextCompat.getColor(this, R.color.hobbyPurple))
                 favorites.add(id)
+
+                firebaseAnalytics.logEvent("addFavourite", bundle)
             }
 
             saveFavorite(favorites, this)
@@ -101,8 +122,8 @@ class HobbyDetailActivity : AppCompatActivity(), OnMapReadyCallback {
 
         val mapFragment = supportFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
-
     }
+
 
     override fun onMapReady(googleMap: GoogleMap) {
         map = googleMap
@@ -117,6 +138,7 @@ class HobbyDetailActivity : AppCompatActivity(), OnMapReadyCallback {
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+
         when (item!!.itemId) {
             android.R.id.home -> {
                 onBackPressed()
@@ -151,6 +173,19 @@ class HobbyDetailActivity : AppCompatActivity(), OnMapReadyCallback {
                         .setText(result.shortLink.toString())
                         .startChooser()
                 }
+
+                // FIREBASE ANALYTICS
+                val bundle = Bundle()
+                bundle.putInt("hobbyId", hobbyEvent.hobby.id)
+                bundle.putString("hobbyName", hobbyEvent.hobby.name)
+                if (hobbyEvent.hobby.organizer != null) {
+                    bundle.putString("organizerName", hobbyEvent.hobby.organizer!!.name)
+                } else {
+                    bundle.putString("organizerName", "no organization")
+                }
+                // //bundle.putString("municipality", hobbyEvent.hobby.municipality)
+
+                firebaseAnalytics.logEvent("shareHobby", bundle)
             }
         }
 
@@ -158,6 +193,27 @@ class HobbyDetailActivity : AppCompatActivity(), OnMapReadyCallback {
     }
 
     private fun setHobbyDetailView(hobbyEvents: ArrayList<HobbyEvent>) {
+        val filters = loadFilters(this)
+
+        // FIREBASE ANALYTICS
+        val bundle = Bundle()
+        bundle.putInt("hobbyId", hobbyEvent.hobby.id)
+        bundle.putString("hobbyName", hobbyEvent.hobby.name)
+        if (hobbyEvent.hobby.organizer != null) {
+            bundle.putString("organizerName", hobbyEvent.hobby.organizer!!.name)
+        } else {
+            bundle.putString("organizerName", "no organization")
+        }
+        for(index in 0 until filters.categories.size) {
+            bundle.putInt("filterCategory$index", filters.categories.toIntArray()[index])
+        }
+        bundle.putString("coordinates", "${hobbyEvent.hobby.location.lat}, ${hobbyEvent.hobby.location.lon}")
+        //bundle.putString("free", ) missing?
+        bundle.putString("postalCode", hobbyEvent.hobby.location.zipCode)
+        //bundle.putString("_municipality",) missing?
+
+        firebaseAnalytics.logEvent("viewHobby", bundle)
+
         //COVER IMAGE
         Picasso.with(this)
             .load(hobbyEvents[0].hobby.imageUrl)

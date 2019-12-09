@@ -11,6 +11,8 @@ class Promotion(json: JSONObject? = null): Serializable {
     var startDate: String = ""
     var endDate: String = ""
     var isUsed: Boolean = false
+    var organizer: Int = 5
+    var municipality: String = "Kunnan nimi"
 
     init {
         if(json != null) {
