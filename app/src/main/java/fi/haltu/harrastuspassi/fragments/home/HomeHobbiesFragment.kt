@@ -124,10 +124,6 @@ class HomeHobbiesFragment : Fragment() {
 
     internal inner class GetHobbyEvents : AsyncTask<Void, Void, String>() {
 
-        override fun onPreExecute() {
-            super.onPreExecute()
-        }
-
         override fun doInBackground(vararg params: Void?): String {
             return try {
                 URL(getString(R.string.API_URL) + "hobbyevents/?include=hobby_detail&include=location_detail&include=organizer_detail").readText()
@@ -146,8 +142,7 @@ class HomeHobbiesFragment : Fragment() {
 
             when (result) {
                 ERROR -> {
-                    //progressText.visibility = View.VISIBLE
-                    //this@HobbyEventListFragment.progressText.text = getString(R.string.error_try_again_later)
+                    title.text = getString(R.string.error_try_again_later)
                 }
                 NO_INTERNET -> {
                     title.text = activity!!.getString(R.string.error_no_internet)
@@ -173,11 +168,7 @@ class HomeHobbiesFragment : Fragment() {
 
                         setHobbyEvents(rootView, hobbyEventArrayList)
 
-                        if (hobbyEventArrayList.size == 0) {
-                            //progressText.visibility = View.VISIBLE
-                            //progressText.text = getString(R.string.error_no_hobby_events)
-                        } else {
-                            //progressText.visibility = View.INVISIBLE
+                        if (hobbyEventArrayList.size != 0) {
                             popularHobbyList.adapter!!.notifyDataSetChanged()
                         }
                     } catch (e: JSONException) {
@@ -185,10 +176,6 @@ class HomeHobbiesFragment : Fragment() {
                     }
                 }
             }
-            //progressBar.visibility = View.INVISIBLE
-            //refreshLayout.isRefreshing = false
-            //updateListView(listView, hobbyEventArrayList)
-
         }
     }
 }

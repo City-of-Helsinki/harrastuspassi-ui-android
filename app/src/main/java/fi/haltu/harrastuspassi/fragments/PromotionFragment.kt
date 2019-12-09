@@ -21,12 +21,16 @@ import fi.haltu.harrastuspassi.models.Promotion
 import fi.haltu.harrastuspassi.utils.convertToDateRange
 import fi.haltu.harrastuspassi.utils.loadUsedPromotions
 import fi.haltu.harrastuspassi.utils.saveUsedPromotions
+import okhttp3.MultipartBody
+import okhttp3.Request
 import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
 import java.io.IOException
 import java.net.URL
 import kotlin.collections.ArrayList
+import okhttp3.OkHttpClient
+
 
 class PromotionFragment : Fragment(){
     private lateinit var promotionListView: RecyclerView
@@ -92,7 +96,7 @@ class PromotionFragment : Fragment(){
                 promotionUsedText.text = activity!!.getString(R.string.promotions_used)
                 promotionUsedText.visibility = View.VISIBLE
                 promotionListView.adapter!!.notifyDataSetChanged()
-                
+                PostPromotion(promotion.id).execute()
             }
         }
 
@@ -124,6 +128,23 @@ class PromotionFragment : Fragment(){
 
     companion object {
         const val ERROR = "error"
+    }
+
+    internal inner class PostPromotion(private val promotionId: Int) : AsyncTask<Void, Void, String>() {
+        override fun doInBackground(vararg params: Void?): String {
+            val client = OkHttpClient()
+            val requestBody = MultipartBody.Builder()
+                .setType(MultipartBody.FORM)
+                .addFormDataPart("promotion", promotionId.toString())
+                .build()
+            val request = Request.Builder()
+                .url(getString(R.string.API_URL) + "benefits/")
+                .header("Authorization", getString(R.string.PROMOTION_TOKEN))
+                .post(requestBody)
+                .build()
+            client.newCall(request).execute()
+                .use { response ->  return response.body.toString() }
+        }
     }
 
     internal inner class GetPromotions : AsyncTask<Void, Void, String>() {
