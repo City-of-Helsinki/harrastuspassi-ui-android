@@ -95,7 +95,7 @@ class HobbyDetailActivity : AppCompatActivity(), OnMapReadyCallback {
         bundle.putInt("hobbyId", hobbyEvent.hobby.id)
         bundle.putString("hobbyName", hobbyEvent.hobby.name)
         if (hobbyEvent.hobby.organizer != null) {
-            bundle.putString("organizerName", hobbyEvent.hobby.organizer.toString())
+            bundle.putString("organizerName", hobbyEvent.hobby.organizer!!.name)
         } else {
             bundle.putString("organizerName", "no organization")
         }
@@ -178,10 +178,13 @@ class HobbyDetailActivity : AppCompatActivity(), OnMapReadyCallback {
                 val bundle = Bundle()
                 bundle.putInt("hobbyId", hobbyEvent.hobby.id)
                 bundle.putString("hobbyName", hobbyEvent.hobby.name)
-                bundle.putString("provider", hobbyEvent.hobby.organizer.toString())
+                if (hobbyEvent.hobby.organizer != null) {
+                    bundle.putString("organizerName", hobbyEvent.hobby.organizer!!.name)
+                } else {
+                    bundle.putString("organizerName", "no organization")
+                }
                 // //bundle.putString("municipality", hobbyEvent.hobby.municipality)
 
-                //FIREBASE ANALYTICS
                 firebaseAnalytics.logEvent("shareHobby", bundle)
             }
         }
@@ -197,7 +200,7 @@ class HobbyDetailActivity : AppCompatActivity(), OnMapReadyCallback {
         bundle.putInt("hobbyId", hobbyEvent.hobby.id)
         bundle.putString("hobbyName", hobbyEvent.hobby.name)
         if (hobbyEvent.hobby.organizer != null) {
-            bundle.putString("organizerName", hobbyEvent.hobby.organizer.toString())
+            bundle.putString("organizerName", hobbyEvent.hobby.organizer!!.name)
         } else {
             bundle.putString("organizerName", "no organization")
         }

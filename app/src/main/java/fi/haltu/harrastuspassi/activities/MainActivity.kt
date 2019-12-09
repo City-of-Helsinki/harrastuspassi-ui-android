@@ -33,7 +33,7 @@ class MainActivity : AppCompatActivity() {
     var fragmentManager: FragmentManager = supportFragmentManager
     lateinit var activeFragment: Fragment
     var isMapFragment = false
-    private lateinit var firebaseAnalytics: FirebaseAnalytics
+    lateinit var firebaseAnalytics: FirebaseAnalytics
 
     override fun onCreate(savedInstanceState: Bundle?) {
         val TAG = "onCreate"

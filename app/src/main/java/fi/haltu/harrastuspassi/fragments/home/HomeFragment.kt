@@ -28,13 +28,15 @@ class HomeFragment : Fragment() {
     lateinit var searchContainer: ConstraintLayout
     lateinit var searchIcon: TextView
     var categoryList = ArrayList<Category>()
-    //private lateinit var firebaseAnalytics: FirebaseAnalytics
+    private lateinit var firebaseAnalytics: FirebaseAnalytics
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         val view: View = inflater.inflate(R.layout.fragment_home, container, false)
-        //firebaseAnalytics = FirebaseAnalytics.getInstance(this.context as Context)
+        val parentActivity = this.activity as MainActivity
+        firebaseAnalytics = parentActivity.firebaseAnalytics
+
         //SEARCH
         searchEditText = view.findViewById(R.id.home_search)
         searchContainer = view.findViewById(R.id.search_container)
@@ -59,7 +61,9 @@ class HomeFragment : Fragment() {
         searchIcon.setOnClickListener {
             search(searchEditText.text.toString())
         }
+
         GetCategories().execute()
+
         return view
     }
 
@@ -71,7 +75,14 @@ class HomeFragment : Fragment() {
         if(simplifiedStr != "") {
             for(category in categoryList) {
                 if(category.name.toLowerCase().contains(simplifiedStr)) {
+
+                    // FIREBASE ANALYTICS
+                    val bundle = Bundle()
+                    bundle.putString("categoryName", category.name)
+                    firebaseAnalytics.logEvent("frontPageSearch", bundle)
+
                     var filters = loadFilters(activity!!)
+
                     filters.categories.clear()
                     filters.categories.add(category.id!!)
                     saveFilters(filters, activity!!)
@@ -85,8 +96,6 @@ class HomeFragment : Fragment() {
                 Toast.makeText(this.context, "Ei tuloksia", Toast.LENGTH_SHORT).show()
             }
         }
-
-
     }
 
     companion object {
@@ -115,6 +124,7 @@ class HomeFragment : Fragment() {
                 }
                 else -> {
                     val jsonArray = JSONArray(result)
+
                     categoryList.clear()
                     categoryList = jsonArrayToSingleCategoryList(jsonArray)
                     searchEditText.setAdapter(CategorySearchAdapter(context!!, android.R.layout.simple_dropdown_item_1line, categoryList))
