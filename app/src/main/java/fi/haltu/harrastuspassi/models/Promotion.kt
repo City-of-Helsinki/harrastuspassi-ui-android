@@ -22,6 +22,8 @@ class Promotion(json: JSONObject? = null): Serializable {
             imageUrl = json.getString("cover_image")
             startDate = json.getString("start_date")
             endDate = json.getString("end_date")
+            organizer = json.getInt("organizer")
+            municipality = json.getString("municipality")
         }
     }
 }
