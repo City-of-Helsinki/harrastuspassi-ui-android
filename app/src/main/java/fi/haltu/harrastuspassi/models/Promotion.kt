@@ -24,6 +24,9 @@ class Promotion(json: JSONObject? = null): Serializable {
             endDate = json.getString("end_date")
             organizer = json.getInt("organizer")
             municipality = json.getString("municipality")
+            if(municipality == "null") {
+                municipality = "Kunnan nimeä ei ilmoitettu"
+            }
         }
     }
 }

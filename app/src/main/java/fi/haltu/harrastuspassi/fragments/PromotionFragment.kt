@@ -54,6 +54,8 @@ class PromotionFragment : Fragment(){
         promotionListView = view.findViewById(R.id.promotion_list_view)
         comingSoonTextView = view.findViewById(R.id.promotion_coming_soon)
         GetPromotions().execute()
+
+        firebaseAnalytics = FirebaseAnalytics.getInstance(this.context!!)
         return view
     }
 
