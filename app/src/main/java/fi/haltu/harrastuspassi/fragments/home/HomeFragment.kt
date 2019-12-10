@@ -44,7 +44,7 @@ class HomeFragment : Fragment() {
             if(hasFocus) {
                 searchContainer.setBackgroundColor(ContextCompat.getColor(this.context!!, R.color.white))
             } else {
-                searchContainer.setBackgroundColor(ContextCompat.getColor(this.context!!, R.color.white60))
+                searchContainer.setBackgroundColor(ContextCompat.getColor(this.context!!, R.color.white80))
             }
         }
         searchEditText.setOnKeyListener { _, keyCode, event ->
