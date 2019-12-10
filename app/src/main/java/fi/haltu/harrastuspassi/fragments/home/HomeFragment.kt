@@ -127,7 +127,7 @@ class HomeFragment : Fragment() {
 
                     categoryList.clear()
                     categoryList = jsonArrayToSingleCategoryList(jsonArray)
-                    searchEditText.setAdapter(CategorySearchAdapter(context!!, android.R.layout.simple_dropdown_item_1line, categoryList))
+                    searchEditText.setAdapter(CategorySearchAdapter(context!!, android.R.layout.simple_list_item_1, categoryList))
                     searchEditText.threshold = 2
                     searchEditText.setOnItemClickListener { _, _, _, id ->
                         var filters = loadFilters(activity!!)
