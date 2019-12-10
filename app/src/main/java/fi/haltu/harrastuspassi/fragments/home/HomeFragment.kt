@@ -85,6 +85,7 @@ class HomeFragment : Fragment() {
 
                     filters.categories.clear()
                     filters.categories.add(category.id!!)
+                    filters.isListUpdated = false
                     saveFilters(filters, activity!!)
                     var mainActivity = context as MainActivity
                     mainActivity.performListClick()

@@ -5,10 +5,12 @@ import android.app.ActivityOptions
 import android.content.Intent
 import android.os.AsyncTask
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -86,19 +88,20 @@ class HobbyEventListFragment : Fragment() {
     override fun onHiddenChanged(hidden: Boolean) {
         super.onHiddenChanged(hidden)
         if(!hidden) {
-            updateList()
+            filters = loadFilters(this.activity!!)
+            GetHobbyEvents().execute()
+            filters.isListUpdated = true
+            saveFilters(filters, this.activity!!)
         }
-        //if hidden = false, it's almost same than onResume
+
     }
 
     override fun onResume() {
         super.onResume()
-        updateList()
-    }
-
-    private fun updateList() {
         filters = loadFilters(this.activity!!)
+
         if(!filters.isListUpdated) {
+            Log.d("updateList", "inIf")
             GetHobbyEvents().execute()
             filters.isListUpdated = true
             saveFilters(filters, this.activity!!)
