@@ -12,6 +12,7 @@
     <color name="white60">#60FFFFFF</color>
     <color name="white80">#80FFFFFF</color>
     <color name="blackOpacity40">#40000000</color>
+    <color name="blackOpacity60">#60000000</color>
     <color name="blackOpacity0">#00000000</color>
     <color name="colorPrimary">#008577</color>
     <color name="colorPrimaryDark">#00574B</color>

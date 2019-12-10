@@ -11,7 +11,7 @@
     <string name="save">Tallenna</string>
     <string name="settings">Asetukset</string>
     <string name="timespan_filter_title">Alkamisaika</string>
-    <string name="title_home">Aloitusnäyttö</string>
+    <string name="title_home">Etusivu</string>
     <string name="title_notifications">Ilmoitukset</string>
     <string name="use_current_location">Käytä nykyistä sijaintia</string>
     <string name="weekday_filter_title">Viikonpäivä</string>

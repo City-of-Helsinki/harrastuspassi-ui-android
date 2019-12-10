@@ -30,4 +30,15 @@
     </style>
     <style name="Widget.MultiSlider" parent="android:Widget">
     </style>
+
+    <style name="NavigationView" parent="Widget.MaterialComponents.BottomNavigationView">
+        <item name="itemTextAppearanceActive">@style/ActiveText</item>
+        <item name="itemTextAppearanceInactive">@style/InactiveText</item>
+    </style>
+    <style name="ActiveText">
+        <item name="android:textColor">@color/hobbyPurple</item>
+    </style>
+    <style name="InactiveText">
+        <item name="android:textColor">@color/blackOpacity60</item>
+    </style>
 </resources>
