@@ -53,11 +53,12 @@ class PromotionFragment : Fragment(){
         usedPromotions = loadUsedPromotions(this.activity!!)
         promotionListView = view.findViewById(R.id.promotion_list_view)
         comingSoonTextView = view.findViewById(R.id.promotion_coming_soon)
+        firebaseAnalytics = FirebaseAnalytics.getInstance(this.context!!)
         GetPromotions().execute()
         return view
     }
 
-    private fun hobbyItemClicked(promotion: Promotion, hobbyImage: ImageView) {
+    private fun promotionItemClicked(promotion: Promotion, hobbyImage: ImageView) {
         // FIREBASE ANALYTICS
         val bundle = Bundle()
         bundle.putString("promotionName", promotion.title)
@@ -143,6 +144,7 @@ class PromotionFragment : Fragment(){
         //hidden == false is almost same than onResume
         if(!hidden) {
             usedPromotions = loadUsedPromotions(this.activity!!)
+            GetPromotions().execute()
         }
     }
 
@@ -202,7 +204,7 @@ class PromotionFragment : Fragment(){
                             }
                             promotionList.add(promotion)
                         }
-                        val promotionListAdapter = PromotionListAdapter(context!!, promotionList){ promotion: Promotion, promotionImage: ImageView -> hobbyItemClicked(promotion, promotionImage)}
+                        val promotionListAdapter = PromotionListAdapter(context!!, promotionList){ promotion: Promotion, promotionImage: ImageView -> promotionItemClicked(promotion, promotionImage)}
                         promotionListView.apply {
                             layoutManager = LinearLayoutManager(activity)
                             adapter = promotionListAdapter

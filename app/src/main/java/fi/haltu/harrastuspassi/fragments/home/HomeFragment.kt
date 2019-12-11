@@ -1,7 +1,6 @@
 package fi.haltu.harrastuspassi.fragments.home
 
 import android.annotation.SuppressLint
-import android.content.Context
 import android.os.AsyncTask
 import android.os.Bundle
 import android.util.Log
@@ -104,10 +103,6 @@ class HomeFragment : Fragment() {
     }
 
     internal inner class GetCategories: AsyncTask<Void, Void, String>() {
-
-        override fun onPreExecute() {
-            super.onPreExecute()
-        }
 
         override fun doInBackground(vararg params: Void?): String {
             return try {
