@@ -36,6 +36,7 @@ class Filters : Serializable {
             }
             field = value
         }
+    var isFree: Boolean = true
     override fun toString(): String {
         return "categories: $categories\ndayOfWeeks:$dayOfWeeks\n" +
                "startTimeFrom:${minutesToTime(startTimeFrom)}\n" +

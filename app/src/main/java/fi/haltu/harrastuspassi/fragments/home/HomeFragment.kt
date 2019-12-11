@@ -1,7 +1,6 @@
 package fi.haltu.harrastuspassi.fragments.home
 
 import android.annotation.SuppressLint
-import android.content.Context
 import android.os.AsyncTask
 import android.os.Bundle
 import android.util.Log
@@ -79,6 +78,7 @@ class HomeFragment : Fragment() {
                     // FIREBASE ANALYTICS
                     val bundle = Bundle()
                     bundle.putString("categoryName", category.name)
+                    //bundle.putString("municipality", )
                     firebaseAnalytics.logEvent("frontPageSearch", bundle)
 
                     var filters = loadFilters(activity!!)

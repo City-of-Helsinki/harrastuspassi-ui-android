@@ -99,7 +99,11 @@ class HobbyDetailActivity : AppCompatActivity(), OnMapReadyCallback {
         } else {
             bundle.putString("organizerName", "no organization")
         }
-        //bundle.putString("municipality", hobbyEvent.hobby.municipality)
+        if (hobbyEvent.hobby.municipality != null) {
+            bundle.putString("municipality", hobbyEvent.hobby.municipality)
+        } else {
+            bundle.putString("municipality", "Haltu")
+        }
 
         //Loads favorite id:s
         favorites = loadFavorites(this)
@@ -179,11 +183,15 @@ class HobbyDetailActivity : AppCompatActivity(), OnMapReadyCallback {
                 bundle.putInt("hobbyId", hobbyEvent.hobby.id)
                 bundle.putString("hobbyName", hobbyEvent.hobby.name)
                 if (hobbyEvent.hobby.organizer != null) {
-                    bundle.putString("organizerName", hobbyEvent.hobby.organizer!!.name)
+                    bundle.putString("provider", hobbyEvent.hobby.organizer!!.name)
                 } else {
-                    bundle.putString("organizerName", "no organization")
+                    bundle.putString("provider", "no provider")
                 }
-                // //bundle.putString("municipality", hobbyEvent.hobby.municipality)
+                if (hobbyEvent.hobby.municipality != null) {
+                    bundle.putString("municipality", hobbyEvent.hobby.municipality)
+                } else {
+                    bundle.putString("municipality", "Haltu")
+                }
 
                 firebaseAnalytics.logEvent("shareHobby", bundle)
             }
@@ -208,9 +216,13 @@ class HobbyDetailActivity : AppCompatActivity(), OnMapReadyCallback {
             bundle.putInt("filterCategory$index", filters.categories.toIntArray()[index])
         }
         bundle.putString("coordinates", "${hobbyEvent.hobby.location.lat}, ${hobbyEvent.hobby.location.lon}")
-        //bundle.putString("free", ) missing?
+        bundle.putBoolean("free", hobbyEvent.hobby.isFree)
         bundle.putString("postalCode", hobbyEvent.hobby.location.zipCode)
-        //bundle.putString("_municipality",) missing?
+        if (hobbyEvent.hobby.municipality != null) {
+            bundle.putString("municipality", hobbyEvent.hobby.municipality)
+        } else {
+            bundle.putString("municipality", "Haltu")
+        }
 
         firebaseAnalytics.logEvent("viewHobby", bundle)
 
