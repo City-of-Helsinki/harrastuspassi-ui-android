@@ -1,15 +1,32 @@
 package fi.haltu.harrastuspassi.models
 
+import org.json.JSONObject
 import java.io.Serializable
 
-class Promotion: Serializable {
+class Promotion(json: JSONObject? = null): Serializable {
     var id: Int = 0
-    var title: String = "Promotion otsikko kahdella rivillä"
+    var title: String = ""
+    var description: String = ""
     var imageUrl: String? = null
-    var description: String = "Nullam volutpat tempor metus vel rhoncus. Fusce sodales diam risus, nec hendrerit augue fermentum eu. Donec vitae erat ut libero molestie congue in vitae ligula. Mauris consequat, nibh et consequat vestibulum, dui arcu volutpat purus, ut ultricies diam nunc in ante. Donec quis massa nec erat bibendum semper in nec tortor. Aenean tincidunt elit at blandit laoreet. Mauris tellus nisl, finibus non finibus et, mollis vitae ipsum. Ut odio velit, pulvinar a faucibus in, cursus at purus. Aliquam quis justo quis risus euismod cursus sit amet ac sapien. Cras tristique turpis vel risus ullamcorper, vel pellentesque ipsum malesuada. Praesent sit amet enim non felis ultricies vulputate vitae ullamcorper felis. Vivamus ultricies varius pulvinar. Morbi a felis diam."
-    var startDate: String = "2019-12-02"
-    var endDate: String = "2019-12-07"
+    var startDate: String = ""
+    var endDate: String = ""
     var isUsed: Boolean = false
     var organizer: Int = 5
     var municipality: String = "Kunnan nimi"
+
+    init {
+        if(json != null) {
+            id = json.getInt("id")
+            title = json.getString("name")
+            description = json.getString("description")
+            imageUrl = json.getString("cover_image")
+            startDate = json.getString("start_date")
+            endDate = json.getString("end_date")
+            organizer = json.getInt("organizer")
+            municipality = json.getString("municipality")
+            if(municipality == "null") {
+                municipality = "Kunnan nimeä ei ilmoitettu"
+            }
+        }
+    }
 }

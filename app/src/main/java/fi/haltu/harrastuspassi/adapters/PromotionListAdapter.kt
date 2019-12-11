@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
@@ -54,9 +55,11 @@ class PromotionListAdapter(private val context: Context, private val list: List<
             itemView.setOnClickListener { clickListener(promotion, image) }
 
             if (promotion.isUsed) {
-
+                applicableText.visibility = View.INVISIBLE
                 duration.text = context.getString(R.string.promotions_used)
-                itemView.background = ContextCompat.getDrawable(context, R.drawable.promotion_card_op85)
+                itemView.findViewById<ConstraintLayout>(R.id.constraintLayout).background = ContextCompat.getDrawable(context, R.color.blackOpacity40)
+                //itemView.background = ContextCompat.getDrawable(context, R.drawable.promotion_card_op85)
+
             }
         }
     }
