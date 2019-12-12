@@ -22,12 +22,19 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="0dp"
             android:layout_marginStart="0dp"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
+            android:backgroundTint="@color/white"
             android:background="?android:attr/windowBackground"
+            app:labelVisibilityMode="labeled"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:itemBackground="@color/white"
-            app:itemIconTint="@color/hobbyPurpleLight"
-            app:itemTextColor="@color/hobbyPurpleLight"
-            app:menu="@menu/navigation"/>
+            app:itemIconTint="@drawable/bottom_navigation_selector"
+            app:itemTextAppearance="@style/TextAppearance.AppCompat.Caption"
+            app:itemTextAppearanceActive="@style/TextAppearance.AppCompat.Caption"
+            app:itemTextAppearanceInactive="@style/TextAppearance.AppCompat.Caption"
+            app:menu="@menu/navigation"
+            style="@style/NavigationView"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

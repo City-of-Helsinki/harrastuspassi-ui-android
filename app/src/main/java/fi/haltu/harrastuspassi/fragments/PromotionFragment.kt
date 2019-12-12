@@ -44,6 +44,7 @@ class PromotionFragment : Fragment(){
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        firebaseAnalytics = FirebaseAnalytics.getInstance(this.context!!)
         val view: View = inflater.inflate(R.layout.fragment_promotion, container, false)
         refreshLayout = view.findViewById(R.id.swipe_refresh_list)
 

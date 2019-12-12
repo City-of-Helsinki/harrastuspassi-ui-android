@@ -43,7 +43,7 @@ class HomeFragment : Fragment() {
             if(hasFocus) {
                 searchContainer.setBackgroundColor(ContextCompat.getColor(this.context!!, R.color.white))
             } else {
-                searchContainer.setBackgroundColor(ContextCompat.getColor(this.context!!, R.color.white60))
+                searchContainer.setBackgroundColor(ContextCompat.getColor(this.context!!, R.color.white80))
             }
         }
         searchEditText.setOnKeyListener { _, keyCode, event ->
@@ -123,7 +123,7 @@ class HomeFragment : Fragment() {
 
                     categoryList.clear()
                     categoryList = jsonArrayToSingleCategoryList(jsonArray)
-                    searchEditText.setAdapter(CategorySearchAdapter(context!!, android.R.layout.simple_dropdown_item_1line, categoryList))
+                    searchEditText.setAdapter(CategorySearchAdapter(context!!, android.R.layout.simple_list_item_1, categoryList))
                     searchEditText.threshold = 2
                     searchEditText.setOnItemClickListener { _, _, _, id ->
                         var filters = loadFilters(activity!!)
