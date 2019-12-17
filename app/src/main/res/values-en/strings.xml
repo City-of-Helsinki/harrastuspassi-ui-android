@@ -50,4 +50,8 @@
     <string name="hobbies">Hobbies</string>
     <string name="home_title">Find hobbies near you</string>
     <string name="find_hobbies">Find hobbies by category</string>
+    <string name="popular_promotions">Popular promotions</string>
+    <string name="promotions_for_you">Promotions for you</string>
+    <string name="popular_hobbies">Popular hobbies</string>
+    <string name="hobbies_for_you">Hobbies for you</string>
 </resources>

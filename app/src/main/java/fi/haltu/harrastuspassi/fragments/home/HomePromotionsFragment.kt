@@ -21,8 +21,10 @@ import fi.haltu.harrastuspassi.R
 import fi.haltu.harrastuspassi.adapters.PromotionHorizontalListAdapter
 import fi.haltu.harrastuspassi.adapters.PromotionListAdapter
 import fi.haltu.harrastuspassi.fragments.PromotionFragment
+import fi.haltu.harrastuspassi.models.Filters
 import fi.haltu.harrastuspassi.models.Promotion
 import fi.haltu.harrastuspassi.utils.convertToDateRange
+import fi.haltu.harrastuspassi.utils.loadFilters
 import fi.haltu.harrastuspassi.utils.loadUsedPromotions
 import fi.haltu.harrastuspassi.utils.saveUsedPromotions
 import okhttp3.MultipartBody
@@ -37,10 +39,11 @@ import java.net.URL
 class HomePromotionsFragment : Fragment() {
     lateinit var rootView: View
     lateinit var popularPromotionsListView: RecyclerView
-    //lateinit var userPromotionsListView: RecyclerView
+    lateinit var userPromotionsListView: RecyclerView
     private lateinit var firebaseAnalytics: FirebaseAnalytics
     private var usedPromotions: HashSet<Int> = HashSet()
     private var popularPromotionList = ArrayList<Promotion>()
+    private var filters = Filters()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -48,10 +51,13 @@ class HomePromotionsFragment : Fragment() {
     ): View? {
         rootView = inflater.inflate(R.layout.fragment_home_promotions, container, false)
         setHasOptionsMenu(true)
+
+        //Loads filters
+        filters = loadFilters(this.activity!!)
+
         //PROMOTIONS LISTS
         popularPromotionsListView = rootView.findViewById(R.id.home_popular_promotion_list)
-        //userPromotionsListView = rootView.findViewById(R.id.home_user_promotion_list)
-        //userPromotionsListView.visibility = View.INVISIBLE
+        userPromotionsListView = rootView.findViewById(R.id.home_user_promotion_list)
         usedPromotions = loadUsedPromotions(this.activity!!)
         firebaseAnalytics = FirebaseAnalytics.getInstance(this.context!!)
         GetPromotions().execute()
@@ -60,7 +66,11 @@ class HomePromotionsFragment : Fragment() {
 
     private fun setPromotions(parentView: View, promotionList: ArrayList<Promotion>) {
         if(promotionList.isNotEmpty()) {
-            var promotedPromotion = promotionList[0]
+            //POPULAR PROMOTION LIST
+            var popularPromotions = ArrayList<Promotion>()
+            popularPromotions.addAll(promotionList.shuffled())
+
+            val promotedPromotion = popularPromotions[0]
             //IMAGE
             Picasso.with(this.context)
                 .load(promotedPromotion.imageUrl)
@@ -79,33 +89,40 @@ class HomePromotionsFragment : Fragment() {
                 parentView.findViewById<ConstraintLayout>(R.id.constraintLayout).background = ContextCompat.getDrawable(this.context!!, R.color.blackOpacity40)
                 parentView.findViewById<TextView>(R.id.home_promoted_duration).text = activity!!.getString(R.string.promotions_used)
             }
-            //POPULAR PROMOTION LIST
 
-            if (promotionList.size > 7) {
-                promotionList.removeAt(0)
-                val promotionListAdapter = PromotionHorizontalListAdapter(context!!, popularPromotionList.subList(1,6)){ promotion: Promotion -> promotionsItemClicked(promotion)}
+            if (popularPromotions.size > 7) {
+                popularPromotions.removeAt(0)
+                val popularPromotionsAdapter = PromotionHorizontalListAdapter(context!!, popularPromotions.subList(1,6)){ promotion: Promotion -> promotionsItemClicked(promotion)}
                 popularPromotionsListView.apply {
+                    layoutManager = LinearLayoutManager(this.context, LinearLayoutManager.HORIZONTAL, false)
+                    adapter = popularPromotionsAdapter
+                }
+            } else if(popularPromotions.size > 2) {
+                popularPromotions.removeAt(0)
+                val popularPromotionsAdapter = PromotionHorizontalListAdapter(context!!, popularPromotions){ promotion: Promotion -> promotionsItemClicked(promotion)}
+                popularPromotionsListView.apply {
+                    layoutManager = LinearLayoutManager(this.context, LinearLayoutManager.HORIZONTAL, false)
+                    adapter = popularPromotionsAdapter
+                }
+            }
+            //USER PROMOTION LIST
+            if (promotionList.size > 7) {
+                val promotionListAdapter = PromotionHorizontalListAdapter(context!!, promotionList.subList(1,6)){ promotion: Promotion -> promotionsItemClicked(promotion)}
+                userPromotionsListView.apply {
                     layoutManager = LinearLayoutManager(this.context, LinearLayoutManager.HORIZONTAL, false)
                     adapter = promotionListAdapter
                 }
             } else if(promotionList.size > 2) {
                 promotionList.removeAt(0)
-                val promotionListAdapter = PromotionHorizontalListAdapter(context!!, popularPromotionList){ promotion: Promotion -> promotionsItemClicked(promotion)}
-                popularPromotionsListView.apply {
+                val promotionListAdapter = PromotionHorizontalListAdapter(context!!, promotionList){ promotion: Promotion -> promotionsItemClicked(promotion)}
+                userPromotionsListView.apply {
                     layoutManager = LinearLayoutManager(this.context, LinearLayoutManager.HORIZONTAL, false)
                     adapter = promotionListAdapter
                 }
             }
-
         }
 
-        /*USER PROMOTION LIST
-        userPromotionsListView.apply {
-            this.layoutManager = LinearLayoutManager(this.context, LinearLayoutManager.HORIZONTAL, false)
-            this.adapter = PromotionHorizontalListAdapter(promotionList){ promotion: Promotion, image: ImageView -> promotionsItemClicked(promotion, image)}
-        }*/
     }
-
 
     override fun onHiddenChanged(hidden: Boolean) {
         super.onHiddenChanged(hidden)
@@ -247,7 +264,9 @@ class HomePromotionsFragment : Fragment() {
                             if(usedPromotions.contains(promotion.id)) {
                                 promotion.isUsed = true
                             }
-                            popularPromotionList.add(promotion)
+                            if(promotion.usedCount < promotion.availableCount) {
+                                popularPromotionList.add(promotion)
+                            }
                         }
 
                         setPromotions(rootView, popularPromotionList)

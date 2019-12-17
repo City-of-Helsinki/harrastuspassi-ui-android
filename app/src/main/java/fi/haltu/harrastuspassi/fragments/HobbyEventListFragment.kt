@@ -10,7 +10,6 @@ import android.view.*
 import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -165,7 +164,7 @@ class HobbyEventListFragment : Fragment() {
 
         override fun doInBackground(vararg params: Void?): String {
             return try {
-                URL(getString(R.string.API_URL) + createQueryUrl(filters)).readText()
+                URL(getString(R.string.API_URL) + createHobbyEventQueryUrl(filters)).readText()
 
             } catch (e: IOException) {
                 return when (!verifyAvailableNetwork(activity!!)) {

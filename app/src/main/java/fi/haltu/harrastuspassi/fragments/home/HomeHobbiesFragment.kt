@@ -18,8 +18,11 @@ import com.squareup.picasso.Picasso
 import fi.haltu.harrastuspassi.R
 import fi.haltu.harrastuspassi.activities.HobbyDetailActivity
 import fi.haltu.harrastuspassi.adapters.HobbyHorizontalListAdapter
+import fi.haltu.harrastuspassi.models.Filters
 import fi.haltu.harrastuspassi.models.HobbyEvent
+import fi.haltu.harrastuspassi.utils.createHobbyEventQueryUrl
 import fi.haltu.harrastuspassi.utils.idToWeekDay
+import fi.haltu.harrastuspassi.utils.loadFilters
 import fi.haltu.harrastuspassi.utils.verifyAvailableNetwork
 import org.json.JSONArray
 import org.json.JSONException
@@ -31,7 +34,8 @@ class HomeHobbiesFragment : Fragment() {
     lateinit var rootView: View
     lateinit var popularHobbyList: RecyclerView
     lateinit var title: TextView
-    //lateinit var userHobbyList: RecyclerView
+    lateinit var userHobbyList: RecyclerView
+    private var filters = Filters()
     var hobbyEventArrayList = ArrayList<HobbyEvent>()
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -39,17 +43,24 @@ class HomeHobbiesFragment : Fragment() {
     ): View? {
         rootView = inflater.inflate(R.layout.fragment_home_hobbies, container, false)
         setHasOptionsMenu(true)
+        //Loads filters to fetch hobbies filtered by locations
+        filters = loadFilters(this.activity!!)
+
         title = rootView.findViewById<TextView>(R.id.home_promoted_title)
         //PROMOTIONS LISTS
         popularHobbyList = rootView.findViewById(R.id.home_popular_hobby_list)
-        //userHobbyList = view.findViewById(R.id.home_user_hobby_list)
+
+        userHobbyList = rootView.findViewById(R.id.home_user_hobby_list)
         GetHobbyEvents().execute()
         return rootView
     }
 
     private fun setHobbyEvents(parentView: View, hobbyEventList: ArrayList<HobbyEvent>) {
         if(hobbyEventList.isNotEmpty()) {
-            var promotedHobby = hobbyEventList[0]
+            //POPULAR PROMOTION LIST
+            var popularHobbies = ArrayList<HobbyEvent>()
+            popularHobbies.addAll(hobbyEventList.shuffled())
+            var promotedHobby = popularHobbies[0]
 
             //IMAGE
             var imageView = parentView.findViewById<ImageView>(R.id.home_promoted_image)
@@ -68,40 +79,21 @@ class HomeHobbiesFragment : Fragment() {
             parentView.findViewById<CardView>(R.id.home_promoted_hobby).setOnClickListener {
                 hobbyItemClicked(promotedHobby, imageView)
             }
-            if (hobbyEventList.size > 7) {
-                hobbyEventList.removeAt(0)
+            if (popularHobbies.size > 7) {
+                popularHobbies.removeAt(0)
                 popularHobbyList.apply {
                     this.layoutManager = LinearLayoutManager(this.context, LinearLayoutManager.HORIZONTAL, false)
-                    this.adapter = HobbyHorizontalListAdapter(hobbyEventList.subList(1,6)){ hobbyEvent: HobbyEvent, image: ImageView -> hobbyItemClicked(hobbyEvent, image)}
+                    this.adapter = HobbyHorizontalListAdapter(popularHobbies.subList(1,6)){ hobbyEvent: HobbyEvent, image: ImageView -> hobbyItemClicked(hobbyEvent, image)}
                 }
             } else {
                 popularHobbyList.visibility = View.INVISIBLE
             }
         }
 
-        //POPULAR PROMOTION LIST
-
-        /*var hobbyList = ArrayList<HobbyEvent>()
-        var hobbyEvent = HobbyEvent()
-        hobbyEvent.apply{
-            this.startWeekday = 1
-            this.hobby = Hobby().apply {
-                this.name = "Harrastuksen nimi tähän, voi olla kahdella rivillä"
-                this.description = "Harrastuksen lyhyehkö kuvaus tarvittaessa"
-            }
-        }
-
-        hobbyList.add(hobbyEvent)
-        hobbyList.add(hobbyEvent)
-        hobbyList.add(hobbyEvent)
-        hobbyList.add(hobbyEvent)
-        hobbyList.add(hobbyEvent)*/
-
-        /*USER PROMOTION LIST
         userHobbyList.apply {
             this.layoutManager = LinearLayoutManager(this.context, LinearLayoutManager.HORIZONTAL, false)
-            this.adapter = HobbyHorizontalListAdapter(hobbyList){ hobbyEvent: HobbyEvent, image: ImageView -> hobbyItemClicked(hobbyEvent, image)}
-        }*/
+            this.adapter = HobbyHorizontalListAdapter(hobbyEventList){ hobbyEvent: HobbyEvent, image: ImageView -> hobbyItemClicked(hobbyEvent, image)}
+        }
     }
 
     private fun hobbyItemClicked(hobbyEvent: HobbyEvent, imageView: ImageView) {
@@ -125,8 +117,12 @@ class HomeHobbiesFragment : Fragment() {
     internal inner class GetHobbyEvents : AsyncTask<Void, Void, String>() {
 
         override fun doInBackground(vararg params: Void?): String {
+            //creates new Filters object to use createHobbyEventQueryUrl -function without having other filters
+            var locationFilter = Filters()
+            locationFilter.longitude = filters.longitude
+            locationFilter.latitude = filters.latitude
             return try {
-                URL(getString(R.string.API_URL) + "hobbyevents/?include=hobby_detail&include=location_detail&include=organizer_detail").readText()
+                URL(getString(R.string.API_URL) + createHobbyEventQueryUrl(locationFilter)).readText()
 
             } catch (e: IOException) {
                 return when (!verifyAvailableNetwork(activity!!)) {

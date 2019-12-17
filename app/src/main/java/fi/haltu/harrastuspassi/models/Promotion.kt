@@ -12,6 +12,8 @@ class Promotion(json: JSONObject? = null): Serializable {
     var endDate: String = ""
     var isUsed: Boolean = false
     var organizer: Int = 5
+    var availableCount: Int = 0
+    var usedCount: Int = 0
     var municipality: String = "Kunnan nimi"
 
     init {
@@ -23,6 +25,8 @@ class Promotion(json: JSONObject? = null): Serializable {
             startDate = json.getString("start_date")
             endDate = json.getString("end_date")
             organizer = json.getInt("organizer")
+            availableCount = json.getInt("available_count")
+            usedCount = json.getInt("used_count")
             municipality = json.getString("municipality")
         }
     }

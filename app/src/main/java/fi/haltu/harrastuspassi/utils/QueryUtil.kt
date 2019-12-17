@@ -2,7 +2,7 @@ package fi.haltu.harrastuspassi.utils
 import android.util.Log
 import fi.haltu.harrastuspassi.models.Filters
 
-fun createQueryUrl(filters: Filters): String {
+fun createHobbyEventQueryUrl(filters: Filters): String {
     var query = "hobbyevents/?include=hobby_detail&include=location_detail&include=organizer_detail"
     val categoryArrayList = filters.categories.toArray()
     val weekDayArrayList = filters.dayOfWeeks.toArray()

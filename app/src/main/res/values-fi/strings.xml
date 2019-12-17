@@ -49,4 +49,8 @@
     <string name="hobbies">Harrastukset</string>
     <string name="home_title">Löydä harrastuksia läheltäsi</string>
     <string name="find_hobbies">Etsi Harrastuksia kategorialla</string>
+    <string name="popular_promotions">Suosituimmat etuudet</string>
+    <string name="promotions_for_you">Etuuksia sinulle</string>
+    <string name="popular_hobbies">Suosituimmat harrastukset</string>
+    <string name="hobbies_for_you">Harrastuksia sinulle</string>
 </resources>

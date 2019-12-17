@@ -336,7 +336,7 @@ class MapFragment : Fragment(), OnMapReadyCallback {
 
         override fun doInBackground(vararg params: Void?): String {
             return try {
-                URL(getString(R.string.API_URL) + createQueryUrl(filters)).readText()
+                URL(getString(R.string.API_URL) + createHobbyEventQueryUrl(filters)).readText()
             } catch (e: IOException) {
                 return HobbyCategoriesActivity.ERROR
             }

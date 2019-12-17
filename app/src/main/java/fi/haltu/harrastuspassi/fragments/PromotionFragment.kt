@@ -203,7 +203,9 @@ class PromotionFragment : Fragment(){
                             if(usedPromotions.contains(promotion.id)) {
                                 promotion.isUsed = true
                             }
-                            promotionList.add(promotion)
+                            if(promotion.usedCount < promotion.availableCount) {
+                                promotionList.add(promotion)
+                            }
                         }
                         val promotionListAdapter = PromotionListAdapter(context!!, promotionList){ promotion: Promotion, promotionImage: ImageView -> promotionItemClicked(promotion, promotionImage)}
                         promotionListView.apply {

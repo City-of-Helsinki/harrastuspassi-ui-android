@@ -10,7 +10,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
             android:gravity="start"
-            android:text="Suosituimmat etuudet"
+            android:text="@string/popular_promotions"
             android:textColor="@color/hobbyYellow"
             android:textSize="22sp"
             android:textStyle="bold"
@@ -38,7 +38,7 @@
             layout="@layout/home_promoted"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="16dp"
             app:layout_constraintEnd_toEndOf="@+id/home_popular_promotions_title"
             app:layout_constraintStart_toStartOf="@+id/home_popular_promotions_title"
             app:layout_constraintTop_toBottomOf="@+id/home_popular_promotions_title" />
@@ -48,12 +48,10 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="24dp"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginTop="16dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/home_promoted_promotion" />
-    <!--
 
     <TextView
             android:id="@+id/user_promotion_text_label"
@@ -61,24 +59,14 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
             android:gravity="start"
-            android:text="Etuuksia sinulle"
+            android:text="@string/promotions_for_you"
             android:textColor="@color/hobbyYellow"
             android:textSize="16sp"
             android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="@+id/home_promoted_promotion"
             app:layout_constraintStart_toStartOf="@+id/home_promoted_promotion"
             app:layout_constraintTop_toBottomOf="@+id/home_popular_promotion_list" />
 
-    <TextView
-            android:id="@+id/home_see_all_user_promotions"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:gravity="end"
-            android:text="KATSO KAIKKI"
-            android:textColor="@color/white"
-            android:textSize="10sp"
-            app:layout_constraintBottom_toBottomOf="@+id/user_promotion_text_label"
-            app:layout_constraintEnd_toEndOf="@+id/home_promoted_promotion"
-            app:layout_constraintStart_toEndOf="@+id/user_promotion_text_label" />
 
     <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/home_user_promotion_list"
@@ -89,6 +77,6 @@
             app:layout_constraintStart_toStartOf="@+id/home_popular_promotion_list"
             app:layout_constraintTop_toBottomOf="@+id/user_promotion_text_label" />
 
-    -->
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
