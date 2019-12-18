@@ -94,7 +94,6 @@ class HomeFragment : Fragment() {
                     // FIREBASE ANALYTICS
                     val bundle = Bundle()
                     bundle.putString("categoryName", category.name)
-                    //bundle.putString("municipality", )
                     firebaseAnalytics.logEvent("frontPageSearch", bundle)
 
                     var filters = loadFilters(activity!!)

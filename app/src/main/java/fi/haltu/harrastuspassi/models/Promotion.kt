@@ -29,7 +29,7 @@ class Promotion(json: JSONObject? = null) : Serializable {
             usedCount = json.getInt("used_count")
             municipality = json.getString("municipality")
             if (municipality == "null") {
-                municipality = "Kunnan nimeä ei ilmoitettu"
+                municipality = "Haltu"
             }
         }
     }
