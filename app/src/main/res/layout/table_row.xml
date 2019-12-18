@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <TableRow xmlns:android="http://schemas.android.com/apk/res/android">
+
     <TextView
             android:id="@+id/week_day"
-            android:gravity="center"/>
+            android:gravity="center" />
+
     <TextView
             android:id="@+id/start_date"
-            android:gravity="center"/>
+            android:gravity="center" />
+
     <TextView
             android:id="@+id/time"
-            android:gravity="center"/>
+            android:gravity="center" />
 </TableRow>

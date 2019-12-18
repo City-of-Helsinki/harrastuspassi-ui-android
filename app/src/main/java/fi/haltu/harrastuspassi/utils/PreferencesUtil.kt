@@ -8,7 +8,6 @@ import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import fi.haltu.harrastuspassi.models.Filters
 import fi.haltu.harrastuspassi.models.Settings
-import java.lang.IllegalStateException
 
 fun saveFilters(filters: Filters, activity: Activity) {
     val preferences = activity.getSharedPreferences("FILTER_PREFERENCE", Context.MODE_PRIVATE)
@@ -28,7 +27,7 @@ fun saveFilters(filters: Filters, activity: FragmentActivity) {
     editor.apply()
 }
 
-fun loadFilters(activity: FragmentActivity):Filters{
+fun loadFilters(activity: FragmentActivity): Filters {
     return try {
         val preferences = activity.getSharedPreferences("FILTER_PREFERENCE", Context.MODE_PRIVATE)
         val gson = Gson()
@@ -48,7 +47,7 @@ fun saveSettings(locations: Settings, activity: Activity) {
     editor.apply()
 }
 
-fun loadSettings(activity: Activity):Settings{
+fun loadSettings(activity: Activity): Settings {
     return try {
         val preferences = activity.getSharedPreferences("LOCATION_PREFERENCE", Context.MODE_PRIVATE)
         val gson = Gson()
@@ -59,7 +58,7 @@ fun loadSettings(activity: Activity):Settings{
     }
 }
 
-fun saveFavorite(favorites:HashSet<Int>, activity: Activity) {
+fun saveFavorite(favorites: HashSet<Int>, activity: Activity) {
 
     val preferences = activity.getSharedPreferences("FAVORITE_PREFERENCE", Context.MODE_PRIVATE)
     val editor: SharedPreferences.Editor = preferences.edit()
@@ -75,7 +74,7 @@ fun loadFavorites(activity: FragmentActivity): HashSet<Int> {
         val gson = Gson()
         val json = preferences.getString("favorites", "")
         gson.fromJson(json, object : TypeToken<HashSet<Int>>() {}.type)
-    } catch(e: IllegalStateException) {
+    } catch (e: IllegalStateException) {
         return HashSet()
     }
 }
@@ -86,15 +85,16 @@ fun loadFavorites(activity: Activity): HashSet<Int> {
         val gson = Gson()
         val json = preferences.getString("favorites", "")
         gson.fromJson(json, object : TypeToken<HashSet<Int>>() {}.type)
-    } catch(e: IllegalStateException) {
+    } catch (e: IllegalStateException) {
         return HashSet()
     }
 }
 
 
-fun saveUsedPromotions(usedPromotions:HashSet<Int>, activity: Activity) {
+fun saveUsedPromotions(usedPromotions: HashSet<Int>, activity: Activity) {
 
-    val preferences = activity.getSharedPreferences("USED_PROMOTIONS_PREFERENCE", Context.MODE_PRIVATE)
+    val preferences =
+        activity.getSharedPreferences("USED_PROMOTIONS_PREFERENCE", Context.MODE_PRIVATE)
     val editor: SharedPreferences.Editor = preferences.edit()
     val gson = Gson()
     val usedPromotionsJson = gson.toJson(usedPromotions)
@@ -104,11 +104,12 @@ fun saveUsedPromotions(usedPromotions:HashSet<Int>, activity: Activity) {
 
 fun loadUsedPromotions(activity: FragmentActivity): HashSet<Int> {
     return try {
-        val preferences = activity.getSharedPreferences("USED_PROMOTIONS_PREFERENCE", Context.MODE_PRIVATE)
+        val preferences =
+            activity.getSharedPreferences("USED_PROMOTIONS_PREFERENCE", Context.MODE_PRIVATE)
         val gson = Gson()
         val json = preferences.getString("used_promotions", "")
         gson.fromJson(json, object : TypeToken<HashSet<Int>>() {}.type)
-    } catch(e: IllegalStateException) {
+    } catch (e: IllegalStateException) {
         return HashSet()
     }
 }

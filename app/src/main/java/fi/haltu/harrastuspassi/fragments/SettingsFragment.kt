@@ -5,13 +5,14 @@ import android.content.Context.LOCATION_SERVICE
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Geocoder
-import android.location.Location as AndroidLocation
 import android.location.LocationListener
 import android.location.LocationManager
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
-import android.view.*
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.widget.Button
 import android.widget.Switch
 import android.widget.TextView
@@ -28,10 +29,10 @@ import fi.haltu.harrastuspassi.utils.loadFilters
 import fi.haltu.harrastuspassi.utils.loadSettings
 import fi.haltu.harrastuspassi.utils.saveFilters
 import fi.haltu.harrastuspassi.utils.saveSettings
-import java.lang.IndexOutOfBoundsException
 import java.util.*
+import android.location.Location as AndroidLocation
 
-class SettingsFragment : Fragment(){
+class SettingsFragment : Fragment() {
     private var locationManager: LocationManager? = null
     private lateinit var geocoder: Geocoder
     private lateinit var currentLocationSwitch: Switch
@@ -70,19 +71,32 @@ class SettingsFragment : Fragment(){
         try {
             // Request location updates
             locationManager = context?.getSystemService(LOCATION_SERVICE) as LocationManager?
-            locationManager?.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0L, 0f, locationListener)
-        } catch(ex: SecurityException) {
+            locationManager?.requestLocationUpdates(
+                LocationManager.NETWORK_PROVIDER,
+                0L,
+                0f,
+                locationListener
+            )
+        } catch (ex: SecurityException) {
 
         }
         currentLocationSwitch.setOnCheckedChangeListener { buttonView, isChecked ->
-            if(isChecked) {
+            if (isChecked) {
                 locationManager = context?.getSystemService(LOCATION_SERVICE) as LocationManager?
                 disableChooseLocation(true)
                 try {
                     // Request location updates
-                    locationManager?.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0L, 0f, locationListener)
-                } catch(ex: SecurityException) {
-                    this.requestPermissions(arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), LOCATION_PERMISSION)
+                    locationManager?.requestLocationUpdates(
+                        LocationManager.NETWORK_PROVIDER,
+                        0L,
+                        0f,
+                        locationListener
+                    )
+                } catch (ex: SecurityException) {
+                    this.requestPermissions(
+                        arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
+                        LOCATION_PERMISSION
+                    )
                 }
             } else {
                 disableChooseLocation(false)
@@ -111,7 +125,7 @@ class SettingsFragment : Fragment(){
             adapter = locationListAdapter
         }
         //PUTS USE USER LOCATION ON
-        if(settings.useCurrentLocation) {
+        if (settings.useCurrentLocation) {
             currentLocationSwitch.performClick()
         }
 
@@ -124,6 +138,7 @@ class SettingsFragment : Fragment(){
             filters.longitude = location.longitude
             filters.isModified = true
         }
+
         override fun onStatusChanged(provider: String, status: Int, extras: Bundle) {}
         override fun onProviderEnabled(provider: String) {}
         override fun onProviderDisabled(provider: String) {}
@@ -131,9 +146,9 @@ class SettingsFragment : Fragment(){
 
     override fun onHiddenChanged(hidden: Boolean) {
         super.onHiddenChanged(hidden)
-        if(hidden) {
+        if (hidden) {
             settings.moveChosenLocationToFirst()
-            if(!currentLocationSwitch.isChecked && settings.locationList.isNotEmpty()) {
+            if (!currentLocationSwitch.isChecked && settings.locationList.isNotEmpty()) {
                 val chosenLocation = settings.locationList[settings.selectedIndex]
                 filters.latitude = chosenLocation.lat!!
                 filters.longitude = chosenLocation.lon!!
@@ -151,7 +166,7 @@ class SettingsFragment : Fragment(){
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-        if(requestCode == 1 && data != null) {
+        if (requestCode == 1 && data != null) {
             filters = data.extras.getSerializable("EXTRA_FILTERS") as Filters
             val addresses = geocoder.getFromLocation(filters.latitude, filters.longitude, 1)
             val location = Location()
@@ -176,27 +191,37 @@ class SettingsFragment : Fragment(){
         const val LOCATION_PERMISSION = 1
     }
 
-    override fun onRequestPermissionsResult(requestCode: Int,
-                                            permissions: Array<String>, grantResults: IntArray) {
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<String>, grantResults: IntArray
+    ) {
         when (requestCode) {
             LOCATION_PERMISSION -> {
                 if ((grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
-                 //user accepted permission
+                    //user accepted permission
                     try {
                         // Request location updates
-                        locationManager?.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0L, 0f, locationListener)
+                        locationManager?.requestLocationUpdates(
+                            LocationManager.NETWORK_PROVIDER,
+                            0L,
+                            0f,
+                            locationListener
+                        )
                         Log.d("permissionDialog", "accept")
 
-                    } catch(ex: SecurityException) {
+                    } catch (ex: SecurityException) {
                         currentLocationSwitch.isChecked = false
                         Log.d("permissionDialog", "deny1")
 
                     }
-                } else if(grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_DENIED) {
-                //user rejected the permission
+                } else if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_DENIED) {
+                    //user rejected the permission
                     currentLocationSwitch.isChecked = false
                     //user also checked "never ask again"
-                    if(permissions.isNotEmpty() && !shouldShowRequestPermissionRationale(permissions[0])) {
+                    if (permissions.isNotEmpty() && !shouldShowRequestPermissionRationale(
+                            permissions[0]
+                        )
+                    ) {
                         Log.d("permissionDialog", "deny&&never ask")
                         acceptFromSettingsText.visibility = View.VISIBLE
                     } else {
@@ -217,7 +242,7 @@ class SettingsFragment : Fragment(){
     }
 
     private fun disableChooseLocation(isHide: Boolean) {
-        if(isHide) {
+        if (isHide) {
             locationMapButton.isEnabled = false
             settings.useCurrentLocation = true
             locationMapButton.alpha = (0.5).toFloat()

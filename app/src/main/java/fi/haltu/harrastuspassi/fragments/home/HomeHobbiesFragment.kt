@@ -10,7 +10,6 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.cardview.widget.CardView
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -64,7 +63,7 @@ class HomeHobbiesFragment : Fragment() {
     }
 
     private fun setHobbyEvents(parentView: View, hobbyEventList: ArrayList<HobbyEvent>) {
-        if(hobbyEventList.isNotEmpty()) {
+        if (hobbyEventList.isNotEmpty()) {
             var popularHobbies = ArrayList<HobbyEvent>()
             popularHobbies.addAll(hobbyEventList.shuffled())
 
@@ -81,9 +80,11 @@ class HomeHobbiesFragment : Fragment() {
             //TITLE
             title.text = promotedHobby.hobby.name
             //DESCRIPTION
-            parentView.findViewById<TextView>(R.id.home_promoted_description).text = promotedHobby.hobby.description
+            parentView.findViewById<TextView>(R.id.home_promoted_description).text =
+                promotedHobby.hobby.description
             //DURATION
-            parentView.findViewById<TextView>(R.id.home_promoted_duration).text = "${idToWeekDay(promotedHobby.startWeekday, this.activity!!)}"
+            parentView.findViewById<TextView>(R.id.home_promoted_duration).text =
+                "${idToWeekDay(promotedHobby.startWeekday, this.activity!!)}"
 
             parentView.findViewById<CardView>(R.id.home_promoted_hobby).setOnClickListener {
                 hobbyItemClicked(promotedHobby, imageView)
@@ -92,28 +93,55 @@ class HomeHobbiesFragment : Fragment() {
             when {
                 popularHobbies.size > MAX_ITEM_AMOUNT -> {
                     popularHobbyList.apply {
-                        this.layoutManager = LinearLayoutManager(this.context, LinearLayoutManager.HORIZONTAL, false)
-                        this.adapter = HobbyHorizontalListAdapter(popularHobbies.subList(0, MAX_ITEM_AMOUNT))
-                        { hobbyEvent: HobbyEvent, image: ImageView -> hobbyItemClicked(hobbyEvent, image)}
+                        this.layoutManager =
+                            LinearLayoutManager(this.context, LinearLayoutManager.HORIZONTAL, false)
+                        this.adapter =
+                            HobbyHorizontalListAdapter(popularHobbies.subList(0, MAX_ITEM_AMOUNT))
+                            { hobbyEvent: HobbyEvent, image: ImageView ->
+                                hobbyItemClicked(
+                                    hobbyEvent,
+                                    image
+                                )
+                            }
                     }
                 }
                 popularHobbies.size > MIN_ITEM_AMOUNT -> popularHobbyList.apply {
-                    this.layoutManager = LinearLayoutManager(this.context, LinearLayoutManager.HORIZONTAL, false)
+                    this.layoutManager =
+                        LinearLayoutManager(this.context, LinearLayoutManager.HORIZONTAL, false)
                     this.adapter = HobbyHorizontalListAdapter(popularHobbies)
-                    { hobbyEvent: HobbyEvent, image: ImageView -> hobbyItemClicked(hobbyEvent, image)}
+                    { hobbyEvent: HobbyEvent, image: ImageView ->
+                        hobbyItemClicked(
+                            hobbyEvent,
+                            image
+                        )
+                    }
                 }
                 else -> popularHobbyList.visibility = View.INVISIBLE
             }
             //USER HOBBIES LIST
             when {
                 hobbyEventList.size > MAX_ITEM_AMOUNT -> userHobbyList.apply {
-                    this.layoutManager = LinearLayoutManager(this.context, LinearLayoutManager.HORIZONTAL, false)
-                    this.adapter = HobbyHorizontalListAdapter(hobbyEventList.subList(0, MAX_ITEM_AMOUNT ))
-                    { hobbyEvent: HobbyEvent, image: ImageView -> hobbyItemClicked(hobbyEvent, image)}
+                    this.layoutManager =
+                        LinearLayoutManager(this.context, LinearLayoutManager.HORIZONTAL, false)
+                    this.adapter =
+                        HobbyHorizontalListAdapter(hobbyEventList.subList(0, MAX_ITEM_AMOUNT))
+                        { hobbyEvent: HobbyEvent, image: ImageView ->
+                            hobbyItemClicked(
+                                hobbyEvent,
+                                image
+                            )
+                        }
                 }
                 hobbyEventList.size >= MIN_ITEM_AMOUNT -> userHobbyList.apply {
-                    this.layoutManager = LinearLayoutManager(this.context, LinearLayoutManager.HORIZONTAL, false)
-                    this.adapter = HobbyHorizontalListAdapter(hobbyEventList){ hobbyEvent: HobbyEvent, image: ImageView -> hobbyItemClicked(hobbyEvent, image)}
+                    this.layoutManager =
+                        LinearLayoutManager(this.context, LinearLayoutManager.HORIZONTAL, false)
+                    this.adapter =
+                        HobbyHorizontalListAdapter(hobbyEventList) { hobbyEvent: HobbyEvent, image: ImageView ->
+                            hobbyItemClicked(
+                                hobbyEvent,
+                                image
+                            )
+                        }
                 }
                 else -> userHobbyList.visibility = View.INVISIBLE
             }
@@ -128,11 +156,10 @@ class HomeHobbiesFragment : Fragment() {
 
         val sharedView: View = imageView
         val transition = getString(R.string.item_detail)
-        val transitionActivity = ActivityOptions.makeSceneTransitionAnimation(this.activity, sharedView, transition)
+        val transitionActivity =
+            ActivityOptions.makeSceneTransitionAnimation(this.activity, sharedView, transition)
         startActivity(intent, transitionActivity.toBundle())
     }
-
-
 
 
     internal inner class GetHobbyEvents : AsyncTask<Void, Void, String>() {
@@ -155,7 +182,6 @@ class HomeHobbiesFragment : Fragment() {
 
         override fun onPostExecute(result: String?) {
             super.onPostExecute(result)
-
 
             when (result) {
                 ERROR -> {

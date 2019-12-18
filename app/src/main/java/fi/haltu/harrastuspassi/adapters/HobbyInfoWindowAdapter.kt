@@ -8,17 +8,17 @@ import com.google.android.gms.maps.model.Marker
 import com.squareup.picasso.Picasso
 import fi.haltu.harrastuspassi.R
 import fi.haltu.harrastuspassi.models.Hobby
-import fi.haltu.harrastuspassi.models.HobbyEvent
 import kotlinx.android.synthetic.main.adapter_custom_info_window.view.*
 
-class HobbyInfoWindowAdapter(val context: Context): GoogleMap.InfoWindowAdapter {
+class HobbyInfoWindowAdapter(val context: Context) : GoogleMap.InfoWindowAdapter {
 
     override fun getInfoContents(p0: Marker?): View? {
         return null
     }
 
     override fun getInfoWindow(p0: Marker?): View? {
-        val mInfoView = (context as Activity).layoutInflater.inflate(R.layout.adapter_custom_info_window, null)
+        val mInfoView =
+            (context as Activity).layoutInflater.inflate(R.layout.adapter_custom_info_window, null)
         val hobby: Hobby? = p0?.tag as Hobby? ?: return mInfoView
 
         Picasso.with(context)

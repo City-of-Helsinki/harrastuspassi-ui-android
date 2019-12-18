@@ -8,16 +8,20 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import fi.haltu.harrastuspassi.R
 
-class FilterTagsListAdapter(private val categoryTagsList: ArrayList<String>, private val clickListener: (categryName: String) -> Unit):
+class FilterTagsListAdapter(
+    private val categoryTagsList: ArrayList<String>,
+    private val clickListener: (categryName: String) -> Unit
+) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TagViewHolder {
-        val view: View = LayoutInflater.from(parent.context).inflate(R.layout.filter_tags_item, parent, false)
+        val view: View =
+            LayoutInflater.from(parent.context).inflate(R.layout.filter_tags_item, parent, false)
         return TagViewHolder(view)
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        val filterTag : String = categoryTagsList[position]
+        val filterTag: String = categoryTagsList[position]
         (holder as TagViewHolder).bind(filterTag, clickListener)
     }
 
@@ -32,7 +36,7 @@ class FilterTagsListAdapter(private val categoryTagsList: ArrayList<String>, pri
         fun bind(filterTag: String, clickListener: (String) -> Unit) {
             tag.text = filterTag
 
-            deleteButton.setOnClickListener{clickListener(filterTag)}
+            deleteButton.setOnClickListener { clickListener(filterTag) }
         }
     }
 }

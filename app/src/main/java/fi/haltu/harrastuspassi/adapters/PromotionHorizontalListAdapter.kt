@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.cardview.widget.CardView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
@@ -15,7 +14,11 @@ import fi.haltu.harrastuspassi.R
 import fi.haltu.harrastuspassi.models.Promotion
 import fi.haltu.harrastuspassi.utils.convertToDateRange
 
-class PromotionHorizontalListAdapter(private val context: Context, private val list: List<Promotion>, private val clickListener: (Promotion) -> Unit) :
+class PromotionHorizontalListAdapter(
+    private val context: Context,
+    private val list: List<Promotion>,
+    private val clickListener: (Promotion) -> Unit
+) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HobbyListViewHolder {
@@ -34,9 +37,13 @@ class PromotionHorizontalListAdapter(private val context: Context, private val l
     class HobbyListViewHolder(itemView: View) :
         RecyclerView.ViewHolder(itemView) {
         private var image: ImageView = itemView.findViewById(R.id.horizontal_promotion_list_image)
-        private var title: TextView = itemView.findViewById(R.id.horizontal_promotion_list_title_text)
-        private var availableLabel: TextView = itemView.findViewById(R.id.horizontal_promotion_list_available_label)
-        private var duration: TextView = itemView.findViewById(R.id.horizontal_promotion_list_available_text)
+        private var title: TextView =
+            itemView.findViewById(R.id.horizontal_promotion_list_title_text)
+        private var availableLabel: TextView =
+            itemView.findViewById(R.id.horizontal_promotion_list_available_label)
+        private var duration: TextView =
+            itemView.findViewById(R.id.horizontal_promotion_list_available_text)
+
         fun bind(context: Context, promotion: Promotion, clickListener: (Promotion) -> Unit) {
             title.text = promotion.title
 
@@ -53,7 +60,8 @@ class PromotionHorizontalListAdapter(private val context: Context, private val l
             if (promotion.isUsed) {
                 availableLabel.visibility = View.INVISIBLE
                 duration.text = itemView.context.getString(R.string.promotions_used)
-                itemView.findViewById<ConstraintLayout>(R.id.horizontal_constraint).background = ContextCompat.getDrawable(context, R.color.blackOpacity40)
+                itemView.findViewById<ConstraintLayout>(R.id.horizontal_constraint).background =
+                    ContextCompat.getDrawable(context, R.color.blackOpacity40)
             }
         }
     }

@@ -29,7 +29,7 @@ fun getOptionalInt(json: JSONObject, key: String): Int? {
 fun jsonArrayToCategoryList(jsonArray: JSONArray): ArrayList<Category> {
     val categoryList = ArrayList<Category>()
 
-    for(i in 0 until jsonArray.length()) {
+    for (i in 0 until jsonArray.length()) {
         val category = Category()
 
         val stringObject = jsonArray.get(i).toString()
@@ -38,7 +38,7 @@ fun jsonArrayToCategoryList(jsonArray: JSONArray): ArrayList<Category> {
         val name = categoryJson.getString("name")
         val treeId = getOptionalInt(categoryJson, "tree_id")
         val level = getOptionalInt(categoryJson, "level")
-        val parent= getOptionalInt(categoryJson, "parent")
+        val parent = getOptionalInt(categoryJson, "parent")
 
         try {
             val subCategoryJson = categoryJson.getJSONArray("child_categories")
@@ -62,7 +62,7 @@ fun jsonArrayToCategoryList(jsonArray: JSONArray): ArrayList<Category> {
 
 fun jsonArrayToSingleCategoryList(jsonArray: JSONArray): ArrayList<Category> {
     var categoryList = ArrayList<Category>()
-    for(i in 0 until jsonArray.length()) {
+    for (i in 0 until jsonArray.length()) {
         val category = Category()
 
         val stringObject = jsonArray.get(i).toString()
@@ -71,7 +71,7 @@ fun jsonArrayToSingleCategoryList(jsonArray: JSONArray): ArrayList<Category> {
         val name = categoryJson.getString("name")
         val treeId = getOptionalInt(categoryJson, "tree_id")
         val level = getOptionalInt(categoryJson, "level")
-        val parent= getOptionalInt(categoryJson, "parent")
+        val parent = getOptionalInt(categoryJson, "parent")
 
         category.apply {
             this.id = id

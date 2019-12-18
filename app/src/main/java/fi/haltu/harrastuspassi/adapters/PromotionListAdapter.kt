@@ -1,7 +1,6 @@
 package fi.haltu.harrastuspassi.adapters
 
 import android.content.Context
-import fi.haltu.harrastuspassi.models.Promotion
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,12 +11,15 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
 import fi.haltu.harrastuspassi.R
+import fi.haltu.harrastuspassi.models.Promotion
 import fi.haltu.harrastuspassi.utils.convertToDateRange
-import java.text.SimpleDateFormat
-import java.util.*
 
 
-class PromotionListAdapter(private val context: Context, private val list: List<Promotion>, private val clickListener: (Promotion, ImageView) -> Unit) :
+class PromotionListAdapter(
+    private val context: Context,
+    private val list: List<Promotion>,
+    private val clickListener: (Promotion, ImageView) -> Unit
+) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HobbyListViewHolder {
@@ -41,7 +43,11 @@ class PromotionListAdapter(private val context: Context, private val list: List<
         private var duration: TextView = itemView.findViewById(R.id.promotion_duration)
         private val applicableText = itemView.findViewById<TextView>(R.id.promotion_applicable)
 
-        fun bind(context: Context, promotion: Promotion, clickListener: (Promotion, ImageView) -> Unit) {
+        fun bind(
+            context: Context,
+            promotion: Promotion,
+            clickListener: (Promotion, ImageView) -> Unit
+        ) {
             title.text = promotion.title
             description.text = promotion.description
             applicableText.text = context.getString(R.string.available) + ":"
@@ -57,7 +63,8 @@ class PromotionListAdapter(private val context: Context, private val list: List<
             if (promotion.isUsed) {
                 applicableText.visibility = View.INVISIBLE
                 duration.text = context.getString(R.string.promotions_used)
-                itemView.findViewById<ConstraintLayout>(R.id.constraintLayout).background = ContextCompat.getDrawable(context, R.color.blackOpacity40)
+                itemView.findViewById<ConstraintLayout>(R.id.constraintLayout).background =
+                    ContextCompat.getDrawable(context, R.color.blackOpacity40)
                 //itemView.background = ContextCompat.getDrawable(context, R.drawable.promotion_card_op85)
 
             }

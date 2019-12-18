@@ -5,16 +5,16 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
 import fi.haltu.harrastuspassi.R
 import fi.haltu.harrastuspassi.models.HobbyEvent
-import fi.haltu.harrastuspassi.models.Promotion
-import fi.haltu.harrastuspassi.utils.convertToDateRange
 import fi.haltu.harrastuspassi.utils.idToWeekDay
 
-class HobbyHorizontalListAdapter(private val list: List<HobbyEvent>, private val clickListener: (HobbyEvent, ImageView) -> Unit) :
+class HobbyHorizontalListAdapter(
+    private val list: List<HobbyEvent>,
+    private val clickListener: (HobbyEvent, ImageView) -> Unit
+) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HobbyListViewHolder {
@@ -34,7 +34,8 @@ class HobbyHorizontalListAdapter(private val list: List<HobbyEvent>, private val
         RecyclerView.ViewHolder(itemView) {
         private var image: ImageView = itemView.findViewById(R.id.horizontal_hobby_list_image)
         private var title: TextView = itemView.findViewById(R.id.horizontal_hobby_list_title_text)
-        private var description: TextView = itemView.findViewById(R.id.horizontal_hobby_list_description)
+        private var description: TextView =
+            itemView.findViewById(R.id.horizontal_hobby_list_description)
         private var weekDay: TextView = itemView.findViewById(R.id.horizontal_hobby_list_week_day)
 
         fun bind(hobbyEvent: HobbyEvent, clickListener: (HobbyEvent, ImageView) -> Unit) {

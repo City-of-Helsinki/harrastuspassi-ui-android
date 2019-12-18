@@ -144,7 +144,7 @@ class HobbyEventListFragment : Fragment() {
                 bundle.putInt("weekDay$index", filters.dayOfWeeks.toIntArray()[index])
             }
             bundle.putString("startTime", "${minutesToTime(filters.startTimeFrom)}, ${minutesToTime(filters.startTimeTo)}")
-            //bundle.putString("isFree", )
+            bundle.putBoolean("free", filters.isFree)
             //bundle.putString("municipality",)
             firebaseAnalytics.logEvent("hobbyFilter", bundle)
         }

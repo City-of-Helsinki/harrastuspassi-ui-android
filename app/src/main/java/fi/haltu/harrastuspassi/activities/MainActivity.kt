@@ -4,15 +4,14 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
-import android.view.Menu
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.google.firebase.dynamiclinks.FirebaseDynamicLinks
 import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.firebase.dynamiclinks.FirebaseDynamicLinks
 import fi.haltu.harrastuspassi.R
 import fi.haltu.harrastuspassi.fragments.*
 import fi.haltu.harrastuspassi.fragments.home.HomeFragment
@@ -46,14 +45,19 @@ class MainActivity : AppCompatActivity() {
         //BOTTOM NAVIGATION BAR
         toolbar = supportActionBar!!
         bottomNavigationView = findViewById(R.id.navigationView)
-        bottomNavigationView.setOnNavigationItemSelectedListener (onNavigationItemSelectedListener)
+        bottomNavigationView.setOnNavigationItemSelectedListener(onNavigationItemSelectedListener)
         fragmentManager.beginTransaction().add(R.id.navigation_container, homeFragment).commit()
         activeFragment = homeFragment
-        fragmentManager.beginTransaction().add(R.id.navigation_container, hobbyEventListFragment).hide(hobbyEventListFragment).commit()
-        fragmentManager.beginTransaction().add(R.id.navigation_container, favoriteListFragment).hide(favoriteListFragment).commit()
-        fragmentManager.beginTransaction().add(R.id.navigation_container, settingsFragment).hide(settingsFragment).commit()
-        fragmentManager.beginTransaction().add(R.id.navigation_container, promotionFragment).hide(promotionFragment).commit()
-        fragmentManager.beginTransaction().add(R.id.navigation_container, mapFragment).hide(mapFragment).commit()
+        fragmentManager.beginTransaction().add(R.id.navigation_container, hobbyEventListFragment)
+            .hide(hobbyEventListFragment).commit()
+        fragmentManager.beginTransaction().add(R.id.navigation_container, favoriteListFragment)
+            .hide(favoriteListFragment).commit()
+        fragmentManager.beginTransaction().add(R.id.navigation_container, settingsFragment)
+            .hide(settingsFragment).commit()
+        fragmentManager.beginTransaction().add(R.id.navigation_container, promotionFragment)
+            .hide(promotionFragment).commit()
+        fragmentManager.beginTransaction().add(R.id.navigation_container, mapFragment)
+            .hide(mapFragment).commit()
 
         //openFragment(hobbyEventListFragment)
 
@@ -78,7 +82,7 @@ class MainActivity : AppCompatActivity() {
                             Log.d(TAG, "hobbyID: $hobbyID")
                             val intent = Intent(this, HobbyDetailActivity::class.java)
 
-                            intent.putExtra("EXTRA_HOBBY_ID",hobbyID)
+                            intent.putExtra("EXTRA_HOBBY_ID", hobbyID)
                             intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT)
 
                             startActivity(intent)
@@ -95,55 +99,58 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun switchBetweenMapAndListFragment() {
-        if(isMapFragment) {
+        if (isMapFragment) {
             switchFragment(hobbyEventListFragment, getString(R.string.hobbies))
-            bottomNavigationView.menu.findItem(R.id.navigation_list).setIcon(ContextCompat.getDrawable(this, R.drawable.list_icon))
+            bottomNavigationView.menu.findItem(R.id.navigation_list)
+                .setIcon(ContextCompat.getDrawable(this, R.drawable.list_icon))
             isMapFragment = false
         } else {
             switchFragment(mapFragment, "")
-            bottomNavigationView.menu.findItem(R.id.navigation_list).setIcon(ContextCompat.getDrawable(this, R.drawable.map_icon))
+            bottomNavigationView.menu.findItem(R.id.navigation_list)
+                .setIcon(ContextCompat.getDrawable(this, R.drawable.map_icon))
             isMapFragment = true
         }
     }
 
-    private val onNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
+    private val onNavigationItemSelectedListener =
+        BottomNavigationView.OnNavigationItemSelectedListener { item ->
 
-        when(item.itemId) {
-            R.id.navigation_home -> {
-                switchFragment(homeFragment, "Harrastuspassi")
-                return@OnNavigationItemSelectedListener true
-            }
-            R.id.navigation_list -> {
-                if(isMapFragment) {
-                    switchFragment(mapFragment, "")
-                } else {
-                    switchFragment(hobbyEventListFragment, getString(R.string.hobbies))
+            when (item.itemId) {
+                R.id.navigation_home -> {
+                    switchFragment(homeFragment, "Harrastuspassi")
+                    return@OnNavigationItemSelectedListener true
                 }
-                return@OnNavigationItemSelectedListener true
+                R.id.navigation_list -> {
+                    if (isMapFragment) {
+                        switchFragment(mapFragment, "")
+                    } else {
+                        switchFragment(hobbyEventListFragment, getString(R.string.hobbies))
+                    }
+                    return@OnNavigationItemSelectedListener true
+                }
+                R.id.navigation_favorites -> {
+                    switchFragment(favoriteListFragment, getString(R.string.favorites))
+                    return@OnNavigationItemSelectedListener true
+                }
+                R.id.navigation_promotions -> {
+                    switchFragment(promotionFragment, getString(R.string.promotions))
+                    return@OnNavigationItemSelectedListener true
+                }
+                R.id.navigation_settings -> {
+                    switchFragment(settingsFragment, getString(R.string.settings))
+                    return@OnNavigationItemSelectedListener true
+                }
             }
-            R.id.navigation_favorites -> {
-                switchFragment(favoriteListFragment, getString(R.string.favorites))
-                return@OnNavigationItemSelectedListener true
-            }
-            R.id.navigation_promotions -> {
-                switchFragment(promotionFragment, getString(R.string.promotions))
-                return@OnNavigationItemSelectedListener true
-            }
-            R.id.navigation_settings -> {
-                switchFragment(settingsFragment, getString(R.string.settings))
-                return@OnNavigationItemSelectedListener true
-            }
+
+            false
+
         }
-
-        false
-
-    }
 
     override fun onPause() {
         super.onPause()
         var filters = loadFilters(this)
         filters.isModified = false
-        saveFilters( filters,this)
+        saveFilters(filters, this)
     }
 
     override fun onNewIntent(intent: Intent?) {

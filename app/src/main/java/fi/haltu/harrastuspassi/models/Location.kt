@@ -14,7 +14,7 @@ class Location(json: JSONObject? = null) : Serializable {
     var lon: Double? = 0.0
 
     init {
-        if(json != null) {
+        if (json != null) {
             id = json.getInt("id")
             name = json.getString("name")
             address = json.getString("address")
@@ -23,9 +23,10 @@ class Location(json: JSONObject? = null) : Serializable {
 
             val coordinates = getOptionalJSONObject(json, "coordinates")
 
-            if(coordinates != null) {
+            if (coordinates != null) {
                 val coordinatesString = coordinates.getString("coordinates")
-                val coordinatesList = coordinatesString.removeSurrounding("[", "]").split(",").map{it.toDouble()}
+                val coordinatesList =
+                    coordinatesString.removeSurrounding("[", "]").split(",").map { it.toDouble() }
                 lon = coordinatesList[0]
                 lat = coordinatesList[1]
             }

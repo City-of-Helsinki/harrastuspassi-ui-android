@@ -1,20 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools"
-             android:orientation="vertical"
-             android:layout_width="match_parent"
-             android:layout_height="match_parent"
-             tools:context="fi.haltu.harrastuspassi.fragments.HobbyEventListFragment">
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:context="fi.haltu.harrastuspassi.fragments.HobbyEventListFragment">
 
-    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout android:layout_width="match_parent"
-                                                  android:layout_height="match_parent"
-                                                  android:id="@+id/swipe_refresh_list">
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/swipe_refresh_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
         <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/list_view"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:background="@color/hobbyPurple"
                 android:dividerHeight="2dp"
-                android:footerDividersEnabled="false"
-                android:background="@color/hobbyPurple"/>
+                android:footerDividersEnabled="false" />
 
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
@@ -23,17 +26,17 @@
             style="?android:attr/progressBarStyleHorizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="-7dp"
             android:indeterminate="true"
-            android:max="100"
             android:indeterminateTint="#fff"
-            android:layout_marginTop="-7dp"/>
+            android:max="100" />
 
     <TextView
+            android:id="@+id/progress_text"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:gravity="center"
             android:fontFamily="sans-serif"
-            android:id="@+id/progress_text"
-            android:textColor="#fff"/>
+            android:gravity="center"
+            android:textColor="#fff" />
 
 </FrameLayout>

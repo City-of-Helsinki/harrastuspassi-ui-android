@@ -1,18 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView
-        xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/card_view"
         android:layout_width="120dp"
         android:layout_height="210dp"
         android:layout_marginEnd="8dp"
-        app:cardCornerRadius="10dp"
-        android:id="@+id/card_view"
-        >
+        app:cardCornerRadius="10dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/horizontal_constraint"
             android:layout_width="120dp"
-            android:layout_height="match_parent"
-            android:id="@+id/horizontal_constraint">
+            android:layout_height="match_parent">
 
         <ImageView
                 android:id="@+id/horizontal_promotion_list_image"

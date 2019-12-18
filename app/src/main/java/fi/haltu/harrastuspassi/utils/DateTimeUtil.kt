@@ -15,13 +15,15 @@ fun idToWeekDay(id: Int, activity: Activity): String? {
     val friday = activity.getString(R.string.friday)
     val saturday = activity.getString(R.string.saturday)
     val sunday = activity.getString(R.string.sunday)
-    val weekDays: Map<Int, String> = mapOf(1 to monday,
+    val weekDays: Map<Int, String> = mapOf(
+        1 to monday,
         2 to tuesday,
         3 to wednesday,
         4 to thursday,
         5 to friday,
         6 to saturday,
-        7 to sunday)
+        7 to sunday
+    )
     return weekDays[id]
 }
 
@@ -34,20 +36,22 @@ fun idToWeekDay(id: Int, context: Context): String? {
     val friday = context.getString(R.string.friday)
     val saturday = context.getString(R.string.saturday)
     val sunday = context.getString(R.string.sunday)
-    val weekDays: Map<Int, String> = mapOf(1 to monday,
+    val weekDays: Map<Int, String> = mapOf(
+        1 to monday,
         2 to tuesday,
         3 to wednesday,
         4 to thursday,
         5 to friday,
         6 to saturday,
-        7 to sunday)
+        7 to sunday
+    )
     return weekDays[id]
 }
 
-fun minutesToTime(minutes:Int): String {
-    val hour = minutes/60
-    val minutes = minutes%60
-    return "${hour.toString().padStart(2,'0')}:${minutes.toString().padStart(2,'0')}"
+fun minutesToTime(minutes: Int): String {
+    val hour = minutes / 60
+    val minutes = minutes % 60
+    return "${hour.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}"
 }
 
 fun convertToDateRange(startDate: String, endDate: String): String {
@@ -66,14 +70,14 @@ fun convertToDateRange(startDate: String, endDate: String): String {
     return "$startDateForm. - $endDateForm"
 }
 
-fun convertToTimeRange(startTime:String, endTime: String): String {
+fun convertToTimeRange(startTime: String, endTime: String): String {
     val timeParser = SimpleDateFormat("HH:mm:ss", Locale.US)
     val timeFormatter = SimpleDateFormat("HH.mm", Locale.US)
     var startTimeForm = ""
     var endTimeForm = ""
     try {
         startTimeForm = timeFormatter.format(timeParser.parse(startTime))
-        endTimeForm =  timeFormatter.format(timeParser.parse(endTime))
+        endTimeForm = timeFormatter.format(timeParser.parse(endTime))
     } catch (e: Exception) {
         e.printStackTrace()
     }

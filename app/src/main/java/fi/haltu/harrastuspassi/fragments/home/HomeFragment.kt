@@ -4,8 +4,13 @@ import android.annotation.SuppressLint
 import android.os.AsyncTask
 import android.os.Bundle
 import android.util.Log
-import android.view.*
-import android.widget.*
+import android.view.KeyEvent
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.AutoCompleteTextView
+import android.widget.TextView
+import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -40,16 +45,27 @@ class HomeFragment : Fragment() {
         searchEditText = view.findViewById(R.id.home_search)
         searchContainer = view.findViewById(R.id.search_container)
         searchEditText.setOnFocusChangeListener { _, hasFocus ->
-            if(hasFocus) {
-                searchContainer.setBackgroundColor(ContextCompat.getColor(this.context!!, R.color.white))
+            if (hasFocus) {
+                searchContainer.setBackgroundColor(
+                    ContextCompat.getColor(
+                        this.context!!,
+                        R.color.white
+                    )
+                )
             } else {
-                searchContainer.setBackgroundColor(ContextCompat.getColor(this.context!!, R.color.white80))
+                searchContainer.setBackgroundColor(
+                    ContextCompat.getColor(
+                        this.context!!,
+                        R.color.white80
+                    )
+                )
             }
         }
         searchEditText.setOnKeyListener { _, keyCode, event ->
             // User presses "enter" on keyboard
             if ((event.action == KeyEvent.ACTION_DOWN) &&
-                (keyCode == KeyEvent.KEYCODE_ENTER)) {
+                (keyCode == KeyEvent.KEYCODE_ENTER)
+            ) {
                 search(searchEditText.text.toString())
                 view.clearFocus()
                 return@setOnKeyListener true
@@ -71,13 +87,14 @@ class HomeFragment : Fragment() {
     private fun search(searchStr: String) {
         var isInList = false
         var simplifiedStr = searchStr.trimEnd().toLowerCase()
-        if(simplifiedStr != "") {
-            for(category in categoryList) {
-                if(category.name.toLowerCase().contains(simplifiedStr)) {
+        if (simplifiedStr != "") {
+            for (category in categoryList) {
+                if (category.name.toLowerCase().contains(simplifiedStr)) {
 
                     // FIREBASE ANALYTICS
                     val bundle = Bundle()
                     bundle.putString("categoryName", category.name)
+                    //bundle.putString("municipality", )
                     firebaseAnalytics.logEvent("frontPageSearch", bundle)
 
                     var filters = loadFilters(activity!!)
@@ -92,7 +109,7 @@ class HomeFragment : Fragment() {
                     break
                 }
             }
-            if(!isInList) {
+            if (!isInList) {
                 Toast.makeText(this.context, "Ei tuloksia", Toast.LENGTH_SHORT).show()
             }
         }
@@ -102,7 +119,7 @@ class HomeFragment : Fragment() {
         const val ERROR = "error"
     }
 
-    internal inner class GetCategories: AsyncTask<Void, Void, String>() {
+    internal inner class GetCategories : AsyncTask<Void, Void, String>() {
 
         override fun doInBackground(vararg params: Void?): String {
             return try {
@@ -114,7 +131,7 @@ class HomeFragment : Fragment() {
 
         override fun onPostExecute(result: String?) {
             super.onPostExecute(result)
-            when(result) {
+            when (result) {
                 ERROR -> {
                     Log.d("HobbyCategory", "Error")
                 }
@@ -123,7 +140,13 @@ class HomeFragment : Fragment() {
 
                     categoryList.clear()
                     categoryList = jsonArrayToSingleCategoryList(jsonArray)
-                    searchEditText.setAdapter(CategorySearchAdapter(context!!, android.R.layout.simple_list_item_1, categoryList))
+                    searchEditText.setAdapter(
+                        CategorySearchAdapter(
+                            context!!,
+                            android.R.layout.simple_list_item_1,
+                            categoryList
+                        )
+                    )
                     searchEditText.threshold = 2
                     searchEditText.setOnItemClickListener { _, _, _, id ->
                         var filters = loadFilters(activity!!)

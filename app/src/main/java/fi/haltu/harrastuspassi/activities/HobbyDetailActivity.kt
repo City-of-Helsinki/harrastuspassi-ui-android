@@ -1,12 +1,10 @@
 package fi.haltu.harrastuspassi.activities
 
 import android.annotation.SuppressLint
-import android.content.Context
 import android.net.Uri
 import android.os.AsyncTask
 import android.os.Bundle
 import android.util.Log
-import android.util.Log.VERBOSE
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuItem
@@ -27,19 +25,14 @@ import com.google.android.gms.maps.model.MarkerOptions
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.dynamiclinks.DynamicLink
 import com.google.firebase.dynamiclinks.FirebaseDynamicLinks
-import com.google.gson.Gson
 import com.squareup.picasso.Picasso
 import fi.haltu.harrastuspassi.R
-import fi.haltu.harrastuspassi.models.Filters
 import fi.haltu.harrastuspassi.models.HobbyEvent
 import fi.haltu.harrastuspassi.utils.*
-import kotlinx.android.synthetic.main.activity_hobby_detail.view.*
 import org.json.JSONArray
 import org.json.JSONObject
 import java.io.IOException
 import java.net.URL
-import kotlin.collections.ArrayList
-import kotlin.collections.HashSet
 
 
 class HobbyDetailActivity : AppCompatActivity(), OnMapReadyCallback {
@@ -53,7 +46,7 @@ class HobbyDetailActivity : AppCompatActivity(), OnMapReadyCallback {
     private lateinit var locationAddress: TextView
     private lateinit var locationZipCode: TextView
     private var id: Int = 0
-    private  var locationReceived: Boolean = true
+    private var locationReceived: Boolean = true
 
     private lateinit var map: GoogleMap
     private lateinit var latLan: LatLng
@@ -70,11 +63,11 @@ class HobbyDetailActivity : AppCompatActivity(), OnMapReadyCallback {
         supportActionBar!!.title = ""
         firebaseAnalytics = FirebaseAnalytics.getInstance(this)
 
-        if(intent.extras!!.getSerializable("EXTRA_HOBBY") != null) {
+        if (intent.extras!!.getSerializable("EXTRA_HOBBY") != null) {
             hobbyEvent = intent.extras!!.getSerializable("EXTRA_HOBBY") as HobbyEvent
             id = hobbyEvent.hobby.id
         }
-        if(intent.extras!!.getSerializable("EXTRA_HOBBY_ID") != null) {
+        if (intent.extras!!.getSerializable("EXTRA_HOBBY_ID") != null) {
             id = intent.extras!!.getSerializable("EXTRA_HOBBY_ID") as Int
         }
         GetHobbyEvents().execute()
@@ -99,16 +92,25 @@ class HobbyDetailActivity : AppCompatActivity(), OnMapReadyCallback {
         } else {
             bundle.putString("organizerName", "no organization")
         }
-        //bundle.putString("municipality", hobbyEvent.hobby.municipality)
+        if (hobbyEvent.hobby.municipality != null) {
+            bundle.putString("municipality", hobbyEvent.hobby.municipality)
+        } else {
+            bundle.putString("municipality", "Haltu")
+        }
 
         //Loads favorite id:s
         favorites = loadFavorites(this)
-        if(favorites.contains(id)) {
+        if (favorites.contains(id)) {
             favoriteView.background.setTint(ContextCompat.getColor(this, R.color.hobbyPurple))
         }
         favoriteView.setOnClickListener {
-            if(favorites.contains(id)) {
-                favoriteView.background.setTint(ContextCompat.getColor(this, R.color.common_google_signin_btn_text_light_disabled))
+            if (favorites.contains(id)) {
+                favoriteView.background.setTint(
+                    ContextCompat.getColor(
+                        this,
+                        R.color.common_google_signin_btn_text_light_disabled
+                    )
+                )
                 favorites.remove(id)
             } else {
                 favoriteView.background.setTint(ContextCompat.getColor(this, R.color.hobbyPurple))
@@ -145,45 +147,53 @@ class HobbyDetailActivity : AppCompatActivity(), OnMapReadyCallback {
             }
             R.id.action_share -> {
 
-            FirebaseDynamicLinks.getInstance().createDynamicLink()
-                .setLink(Uri.parse("https://hpassi.page.link/share/?hobbyEvent=$id"))
-                .setDomainUriPrefix("https://hpassi.page.link")
-                .setSocialMetaTagParameters(DynamicLink.SocialMetaTagParameters.Builder()
-                    .setTitle(hobbyEvent.hobby.name)
-                    .setImageUrl(Uri.parse(hobbyEvent.hobby.imageUrl))
-                    .build()
-                )
-                .setNavigationInfoParameters(DynamicLink.NavigationInfoParameters.Builder()
-                    .setForcedRedirectEnabled(true).build()
-                )
-                .setAndroidParameters(
-                    DynamicLink.AndroidParameters.Builder("fi.haltu.harrastuspassi")
-                        .setMinimumVersion(6)
-                        .build())
-                .setIosParameters(
-                    DynamicLink.IosParameters.Builder("fi.haltu.harrastuspassi")
-                        .setAppStoreId("1473780933")
-                        .setMinimumVersion("0.6.0")
-                        .build())
-                .buildShortDynamicLink()
-                .addOnSuccessListener { result ->
-                    ShareCompat.IntentBuilder.from(this)
-                        .setType("text/plain")
-                        .setChooserTitle("Share URL")
-                        .setText(result.shortLink.toString())
-                        .startChooser()
-                }
+                FirebaseDynamicLinks.getInstance().createDynamicLink()
+                    .setLink(Uri.parse("https://hpassi.page.link/share/?hobbyEvent=$id"))
+                    .setDomainUriPrefix("https://hpassi.page.link")
+                    .setSocialMetaTagParameters(
+                        DynamicLink.SocialMetaTagParameters.Builder()
+                            .setTitle(hobbyEvent.hobby.name)
+                            .setImageUrl(Uri.parse(hobbyEvent.hobby.imageUrl))
+                            .build()
+                    )
+                    .setNavigationInfoParameters(
+                        DynamicLink.NavigationInfoParameters.Builder()
+                            .setForcedRedirectEnabled(true).build()
+                    )
+                    .setAndroidParameters(
+                        DynamicLink.AndroidParameters.Builder("fi.haltu.harrastuspassi")
+                            .setMinimumVersion(6)
+                            .build()
+                    )
+                    .setIosParameters(
+                        DynamicLink.IosParameters.Builder("fi.haltu.harrastuspassi")
+                            .setAppStoreId("1473780933")
+                            .setMinimumVersion("0.6.0")
+                            .build()
+                    )
+                    .buildShortDynamicLink()
+                    .addOnSuccessListener { result ->
+                        ShareCompat.IntentBuilder.from(this)
+                            .setType("text/plain")
+                            .setChooserTitle("Share URL")
+                            .setText(result.shortLink.toString())
+                            .startChooser()
+                    }
 
                 // FIREBASE ANALYTICS
                 val bundle = Bundle()
                 bundle.putInt("hobbyId", hobbyEvent.hobby.id)
                 bundle.putString("hobbyName", hobbyEvent.hobby.name)
                 if (hobbyEvent.hobby.organizer != null) {
-                    bundle.putString("organizerName", hobbyEvent.hobby.organizer!!.name)
+                    bundle.putString("provider", hobbyEvent.hobby.organizer!!.name)
                 } else {
-                    bundle.putString("organizerName", "no organization")
+                    bundle.putString("provider", "no provider")
                 }
-                // //bundle.putString("municipality", hobbyEvent.hobby.municipality)
+                if (hobbyEvent.hobby.municipality != null) {
+                    bundle.putString("municipality", hobbyEvent.hobby.municipality)
+                } else {
+                    bundle.putString("municipality", "Haltu")
+                }
 
                 firebaseAnalytics.logEvent("shareHobby", bundle)
             }
@@ -204,13 +214,20 @@ class HobbyDetailActivity : AppCompatActivity(), OnMapReadyCallback {
         } else {
             bundle.putString("organizerName", "no organization")
         }
-        for(index in 0 until filters.categories.size) {
+        for (index in 0 until filters.categories.size) {
             bundle.putInt("filterCategory$index", filters.categories.toIntArray()[index])
         }
-        bundle.putString("coordinates", "${hobbyEvent.hobby.location.lat}, ${hobbyEvent.hobby.location.lon}")
-        //bundle.putString("free", ) missing?
+        bundle.putString(
+            "coordinates",
+            "${hobbyEvent.hobby.location.lat}, ${hobbyEvent.hobby.location.lon}"
+        )
+        bundle.putBoolean("free", hobbyEvent.hobby.isFree)
         bundle.putString("postalCode", hobbyEvent.hobby.location.zipCode)
-        //bundle.putString("_municipality",) missing?
+        if (hobbyEvent.hobby.municipality != null) {
+            bundle.putString("municipality", hobbyEvent.hobby.municipality)
+        } else {
+            bundle.putString("municipality", "Haltu")
+        }
 
         firebaseAnalytics.logEvent("viewHobby", bundle)
 
@@ -237,10 +254,13 @@ class HobbyDetailActivity : AppCompatActivity(), OnMapReadyCallback {
 
         //TABLE
         for (hobbyEvent in hobbyEvents) {
-            var row: TableRow = LayoutInflater.from(this).inflate(R.layout.table_row, null) as TableRow
-            row.findViewById<TextView>(R.id.week_day).text = idToWeekDay(hobbyEvent.startWeekday, this)
+            var row: TableRow =
+                LayoutInflater.from(this).inflate(R.layout.table_row, null) as TableRow
+            row.findViewById<TextView>(R.id.week_day).text =
+                idToWeekDay(hobbyEvent.startWeekday, this)
             row.findViewById<TextView>(R.id.start_date).text = hobbyEvent.startDate
-            row.findViewById<TextView>(R.id.time).text = convertToTimeRange(hobbyEvent.startTime, hobbyEvent.endTime)
+            row.findViewById<TextView>(R.id.time).text =
+                convertToTimeRange(hobbyEvent.startTime, hobbyEvent.endTime)
             tableLayout.addView(row)
         }
 
@@ -249,15 +269,18 @@ class HobbyDetailActivity : AppCompatActivity(), OnMapReadyCallback {
 
         //MAP
         if (hobbyEvents[0].hobby.location.lat != null) {
-            latLan = LatLng(hobbyEvents[0].hobby.location.lat!!, hobbyEvents[0].hobby.location.lon!!)
+            latLan =
+                LatLng(hobbyEvents[0].hobby.location.lat!!, hobbyEvents[0].hobby.location.lon!!)
         } else {
             locationReceived = false
         }
         if (locationReceived) {
             val markerPos = latLan
-            map.addMarker(MarkerOptions()
-                .position(markerPos)
-                .icon(bitmapDescriptorFromVector(this, R.drawable.ic_location_24dp)))
+            map.addMarker(
+                MarkerOptions()
+                    .position(markerPos)
+                    .icon(bitmapDescriptorFromVector(this, R.drawable.ic_location_24dp))
+            )
             map.moveCamera(CameraUpdateFactory.newLatLng(markerPos))
         }
     }
@@ -294,7 +317,7 @@ class HobbyDetailActivity : AppCompatActivity(), OnMapReadyCallback {
                     }
                     Log.d("hobbydetail", "id: $id")
                     Log.d("hobbydetail", "id: $eventList")
-                    if(eventList.isEmpty()) {
+                    if (eventList.isEmpty()) {
                         showErrorDialog()
                     }
                     setHobbyDetailView(eventList)

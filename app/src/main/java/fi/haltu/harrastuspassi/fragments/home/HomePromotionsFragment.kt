@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.app.Dialog
 import android.os.AsyncTask
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import android.widget.ImageView
 import android.widget.TextView
@@ -19,8 +18,6 @@ import com.ncorti.slidetoact.SlideToActView
 import com.squareup.picasso.Picasso
 import fi.haltu.harrastuspassi.R
 import fi.haltu.harrastuspassi.adapters.PromotionHorizontalListAdapter
-import fi.haltu.harrastuspassi.adapters.PromotionListAdapter
-import fi.haltu.harrastuspassi.fragments.PromotionFragment
 import fi.haltu.harrastuspassi.models.Filters
 import fi.haltu.harrastuspassi.models.Promotion
 import fi.haltu.harrastuspassi.utils.*
@@ -68,7 +65,7 @@ class HomePromotionsFragment : Fragment() {
     }
 
     private fun setPromotions(parentView: View, promotionList: ArrayList<Promotion>) {
-        if(promotionList.isNotEmpty()) {
+        if (promotionList.isNotEmpty()) {
             var popularPromotions = ArrayList<Promotion>()
             popularPromotions.addAll(promotionList.shuffled())
 
@@ -83,30 +80,43 @@ class HomePromotionsFragment : Fragment() {
                 .error(R.drawable.harrastuspassi_lil_kel)
                 .into(parentView.findViewById<ImageView>(R.id.home_promoted_image))
             //TITLE
-            parentView.findViewById<TextView>(R.id.home_promoted_title).text = promotedPromotion.title
+            parentView.findViewById<TextView>(R.id.home_promoted_title).text =
+                promotedPromotion.title
             //DESCRIPTION
-            parentView.findViewById<TextView>(R.id.home_promoted_description).text = promotedPromotion.description
-            parentView.findViewById<TextView>(R.id.home_promoted_duration).text = "${convertToDateRange(promotedPromotion.startDate, promotedPromotion.endDate)}"
+            parentView.findViewById<TextView>(R.id.home_promoted_description).text =
+                promotedPromotion.description
+            parentView.findViewById<TextView>(R.id.home_promoted_duration).text =
+                "${convertToDateRange(promotedPromotion.startDate, promotedPromotion.endDate)}"
             parentView.findViewById<CardView>(R.id.home_promoted_promotion).setOnClickListener {
                 promotionsItemClicked(promotedPromotion)
             }
-            if(promotedPromotion.isUsed) {
-                parentView.findViewById<ConstraintLayout>(R.id.constraintLayout).background = ContextCompat.getDrawable(this.context!!, R.color.blackOpacity40)
-                parentView.findViewById<TextView>(R.id.home_promoted_duration).text = activity!!.getString(R.string.promotions_used)
+            if (promotedPromotion.isUsed) {
+                parentView.findViewById<ConstraintLayout>(R.id.constraintLayout).background =
+                    ContextCompat.getDrawable(this.context!!, R.color.blackOpacity40)
+                parentView.findViewById<TextView>(R.id.home_promoted_duration).text =
+                    activity!!.getString(R.string.promotions_used)
             }
             //POPULAR PROMOTION LIST
             when {
                 popularPromotions.size > MAX_ITEM_AMOUNT -> {
                     popularPromotionsListView.apply {
-                        layoutManager = LinearLayoutManager(this.context, LinearLayoutManager.HORIZONTAL, false)
-                        adapter = PromotionHorizontalListAdapter(context!!, popularPromotions.subList(0, MAX_ITEM_AMOUNT ))
-                        { promotion: Promotion -> promotionsItemClicked(promotion)}
+                        layoutManager =
+                            LinearLayoutManager(this.context, LinearLayoutManager.HORIZONTAL, false)
+                        adapter = PromotionHorizontalListAdapter(
+                            context!!,
+                            popularPromotions.subList(0, MAX_ITEM_AMOUNT)
+                        )
+                        { promotion: Promotion -> promotionsItemClicked(promotion) }
                     }
                 }
                 popularPromotions.size > MIN_ITEM_AMOUNT -> {
                     popularPromotionsListView.apply {
-                        layoutManager = LinearLayoutManager(this.context, LinearLayoutManager.HORIZONTAL, false)
-                        adapter = PromotionHorizontalListAdapter(context!!, popularPromotions){ promotion: Promotion -> promotionsItemClicked(promotion)}
+                        layoutManager =
+                            LinearLayoutManager(this.context, LinearLayoutManager.HORIZONTAL, false)
+                        adapter = PromotionHorizontalListAdapter(
+                            context!!,
+                            popularPromotions
+                        ) { promotion: Promotion -> promotionsItemClicked(promotion) }
                     }
                 }
                 else -> popularPromotionsListView.visibility = View.INVISIBLE
@@ -115,18 +125,24 @@ class HomePromotionsFragment : Fragment() {
             when {
                 promotionList.size >= MAX_ITEM_AMOUNT -> {
                     userPromotionsListView.apply {
-                        layoutManager = LinearLayoutManager(this.context, LinearLayoutManager.HORIZONTAL, false)
-                        adapter = PromotionHorizontalListAdapter(context!!,
-                            promotionList.subList(0, MAX_ITEM_AMOUNT))
-                            { promotion: Promotion -> promotionsItemClicked(promotion)}
+                        layoutManager =
+                            LinearLayoutManager(this.context, LinearLayoutManager.HORIZONTAL, false)
+                        adapter = PromotionHorizontalListAdapter(
+                            context!!,
+                            promotionList.subList(0, MAX_ITEM_AMOUNT)
+                        )
+                        { promotion: Promotion -> promotionsItemClicked(promotion) }
                     }
                 }
                 promotionList.size >= MIN_ITEM_AMOUNT -> {
                     userPromotionsListView.apply {
-                        layoutManager = LinearLayoutManager(this.context, LinearLayoutManager.HORIZONTAL, false)
-                        adapter = PromotionHorizontalListAdapter(context!!,
-                            promotionList)
-                        { promotion: Promotion -> promotionsItemClicked(promotion)}
+                        layoutManager =
+                            LinearLayoutManager(this.context, LinearLayoutManager.HORIZONTAL, false)
+                        adapter = PromotionHorizontalListAdapter(
+                            context!!,
+                            promotionList
+                        )
+                        { promotion: Promotion -> promotionsItemClicked(promotion) }
                     }
                 }
                 else -> userPromotionsListView.visibility = View.INVISIBLE
@@ -138,9 +154,7 @@ class HomePromotionsFragment : Fragment() {
     override fun onHiddenChanged(hidden: Boolean) {
         super.onHiddenChanged(hidden)
 
-        Log.d("onHiddenChanged", "1")
-        if(!hidden) {
-            Log.d("onHiddenChanged", "2")
+        if (!hidden) {
 
             usedPromotions = loadUsedPromotions(this.activity!!)
             GetPromotions().execute()
@@ -181,7 +195,10 @@ class HomePromotionsFragment : Fragment() {
         //DATE
         val durationText = dialog.findViewById<TextView>(R.id.promotion_dialog_duration)
 
-        durationText.text = "${activity!!.getString(R.string.available)}: ${convertToDateRange(promotion.startDate, promotion.endDate)}"
+        durationText.text = "${activity!!.getString(R.string.available)}: ${convertToDateRange(
+            promotion.startDate,
+            promotion.endDate
+        )}"
         //CLOSE_ICON
         val closeIcon = dialog.findViewById<ImageView>(R.id.dialog_close_button)
         closeIcon.setOnClickListener {
@@ -223,13 +240,16 @@ class HomePromotionsFragment : Fragment() {
             popularPromotionsListView.adapter!!.notifyDataSetChanged()
         }
 
-        dialog.window?.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT)
+        dialog.window?.setLayout(
+            WindowManager.LayoutParams.MATCH_PARENT,
+            WindowManager.LayoutParams.MATCH_PARENT
+        )
         dialog.show()
     }
 
 
-
-    internal inner class PostPromotion(private val promotionId: Int) : AsyncTask<Void, Void, String>() {
+    internal inner class PostPromotion(private val promotionId: Int) :
+        AsyncTask<Void, Void, String>() {
         override fun doInBackground(vararg params: Void?): String {
             val client = OkHttpClient()
             val requestBody = MultipartBody.Builder()
@@ -242,7 +262,7 @@ class HomePromotionsFragment : Fragment() {
                 .post(requestBody)
                 .build()
             client.newCall(request).execute()
-                .use { response ->  return response.body.toString() }
+                .use { response -> return response.body.toString() }
         }
     }
 
@@ -270,17 +290,17 @@ class HomePromotionsFragment : Fragment() {
                             val sObject = mJsonArray.get(i).toString()
                             val hobbyObject = JSONObject(sObject)
                             val promotion = Promotion(hobbyObject)
-                            if(usedPromotions.contains(promotion.id)) {
+                            if (usedPromotions.contains(promotion.id)) {
                                 promotion.isUsed = true
                             }
-                            if(promotion.usedCount < promotion.availableCount) {
+                            if (promotion.usedCount < promotion.availableCount) {
                                 popularPromotionList.add(promotion)
                             }
                         }
 
                         setPromotions(rootView, popularPromotionList)
 
-                    } catch(e: JSONException) {
+                    } catch (e: JSONException) {
 
                     }
                 }

@@ -6,12 +6,11 @@
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="8dp"
-        app:cardCornerRadius="10dp"
-        >
+        app:cardCornerRadius="10dp">
+
     <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            >
+            android:layout_height="wrap_content">
 
         <ImageView
                 android:id="@+id/image"
@@ -22,7 +21,7 @@
                 android:transitionName="@string/item_detail"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"/>
+                app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
                 android:id="@+id/title"
@@ -32,9 +31,9 @@
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="8dp"
                 android:ellipsize="end"
+                android:fontFamily="sans-serif"
                 android:maxLines="15"
                 android:singleLine="true"
-                android:fontFamily="sans-serif"
                 android:textColor="@color/hobbyPurple"
                 android:textSize="16sp"
                 android:textStyle="bold"

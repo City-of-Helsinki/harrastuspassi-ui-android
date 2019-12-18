@@ -3,7 +3,7 @@ package fi.haltu.harrastuspassi.models
 import org.json.JSONObject
 import java.io.Serializable
 
-class Promotion(json: JSONObject? = null): Serializable {
+class Promotion(json: JSONObject? = null) : Serializable {
     var id: Int = 0
     var title: String = ""
     var description: String = ""
@@ -12,12 +12,12 @@ class Promotion(json: JSONObject? = null): Serializable {
     var endDate: String = ""
     var isUsed: Boolean = false
     var organizer: Int = 5
+    var municipality: String? = null
     var availableCount: Int = 0
     var usedCount: Int = 0
-    var municipality: String = "Kunnan nimi"
 
     init {
-        if(json != null) {
+        if (json != null) {
             id = json.getInt("id")
             title = json.getString("name")
             description = json.getString("description")
@@ -28,6 +28,9 @@ class Promotion(json: JSONObject? = null): Serializable {
             availableCount = json.getInt("available_count")
             usedCount = json.getInt("used_count")
             municipality = json.getString("municipality")
+            if (municipality == "null") {
+                municipality = "Kunnan nimeä ei ilmoitettu"
+            }
         }
     }
 }

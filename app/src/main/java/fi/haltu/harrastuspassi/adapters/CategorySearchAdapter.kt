@@ -1,7 +1,6 @@
 package fi.haltu.harrastuspassi.adapters
 
 import android.content.Context
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,7 +10,10 @@ import android.widget.TextView
 import androidx.annotation.LayoutRes
 import fi.haltu.harrastuspassi.models.Category
 
-class CategorySearchAdapter(context: Context, @LayoutRes private val layoutResource: Int, categoryList: List<Category>):
+class CategorySearchAdapter(
+    context: Context, @LayoutRes private val layoutResource: Int,
+    categoryList: List<Category>
+) :
     ArrayAdapter<Category>(context, layoutResource, categoryList) {
     private var categories: List<Category> = categoryList
     private var categoriesOrigin: List<Category> = categoryList
@@ -28,7 +30,11 @@ class CategorySearchAdapter(context: Context, @LayoutRes private val layoutResou
     }
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
-        val view: TextView = convertView as TextView? ?: LayoutInflater.from(context).inflate(layoutResource, parent, false) as TextView
+        val view: TextView = convertView as TextView? ?: LayoutInflater.from(context).inflate(
+            layoutResource,
+            parent,
+            false
+        ) as TextView
         view.text = "${categories[position].name}"
         return view
     }

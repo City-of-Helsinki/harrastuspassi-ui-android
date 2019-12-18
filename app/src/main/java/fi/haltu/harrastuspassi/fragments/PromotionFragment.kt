@@ -10,8 +10,8 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.firebase.analytics.FirebaseAnalytics
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import com.google.firebase.analytics.FirebaseAnalytics
 import com.ncorti.slidetoact.SlideToActView
 import com.ncorti.slidetoact.SlideToActView.OnSlideCompleteListener
 import com.squareup.picasso.Picasso
@@ -22,17 +22,16 @@ import fi.haltu.harrastuspassi.utils.convertToDateRange
 import fi.haltu.harrastuspassi.utils.loadUsedPromotions
 import fi.haltu.harrastuspassi.utils.saveUsedPromotions
 import okhttp3.MultipartBody
+import okhttp3.OkHttpClient
 import okhttp3.Request
 import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
 import java.io.IOException
 import java.net.URL
-import kotlin.collections.ArrayList
-import okhttp3.OkHttpClient
 
 
-class PromotionFragment : Fragment(){
+class PromotionFragment : Fragment() {
     private lateinit var promotionListView: RecyclerView
     private lateinit var comingSoonTextView: TextView
     private lateinit var firebaseAnalytics: FirebaseAnalytics
@@ -56,6 +55,8 @@ class PromotionFragment : Fragment(){
         comingSoonTextView = view.findViewById(R.id.promotion_coming_soon)
         firebaseAnalytics = FirebaseAnalytics.getInstance(this.context!!)
         GetPromotions().execute()
+
+        firebaseAnalytics = FirebaseAnalytics.getInstance(this.context!!)
         return view
     }
 
@@ -92,7 +93,10 @@ class PromotionFragment : Fragment(){
         //DATE
         val durationText = dialog.findViewById<TextView>(R.id.promotion_dialog_duration)
 
-        durationText.text = "${activity!!.getString(R.string.available)}: ${convertToDateRange(promotion.startDate, promotion.endDate)}"
+        durationText.text = "${activity!!.getString(R.string.available)}: ${convertToDateRange(
+            promotion.startDate,
+            promotion.endDate
+        )}"
         //CLOSE_ICON
         val closeIcon = dialog.findViewById<ImageView>(R.id.dialog_close_button)
         closeIcon.setOnClickListener {
@@ -102,7 +106,7 @@ class PromotionFragment : Fragment(){
         val slideButton = dialog.findViewById<SlideToActView>(R.id.promotion_dialog_slide_button)
         val promotionUsedText = dialog.findViewById<TextView>(R.id.promotion_dialog_used)
 
-        slideButton.onSlideCompleteListener = object : OnSlideCompleteListener{
+        slideButton.onSlideCompleteListener = object : OnSlideCompleteListener {
             override fun onSlideComplete(view: SlideToActView) {
                 // FIREBASE ANALYTICS
                 val bundle = Bundle()
@@ -135,7 +139,10 @@ class PromotionFragment : Fragment(){
             promotionListView.adapter!!.notifyDataSetChanged()
         }
 
-        dialog.window?.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT)
+        dialog.window?.setLayout(
+            WindowManager.LayoutParams.MATCH_PARENT,
+            WindowManager.LayoutParams.MATCH_PARENT
+        )
         dialog.show()
 
     }
@@ -143,7 +150,7 @@ class PromotionFragment : Fragment(){
     override fun onHiddenChanged(hidden: Boolean) {
         super.onHiddenChanged(hidden)
         //hidden == false is almost same than onResume
-        if(!hidden) {
+        if (!hidden) {
             usedPromotions = loadUsedPromotions(this.activity!!)
             GetPromotions().execute()
         }
@@ -159,7 +166,8 @@ class PromotionFragment : Fragment(){
         const val ERROR = "error"
     }
 
-    internal inner class PostPromotion(private val promotionId: Int) : AsyncTask<Void, Void, String>() {
+    internal inner class PostPromotion(private val promotionId: Int) :
+        AsyncTask<Void, Void, String>() {
         override fun doInBackground(vararg params: Void?): String {
             val client = OkHttpClient()
             val requestBody = MultipartBody.Builder()
@@ -172,7 +180,7 @@ class PromotionFragment : Fragment(){
                 .post(requestBody)
                 .build()
             client.newCall(request).execute()
-                .use { response ->  return response.body.toString() }
+                .use { response -> return response.body.toString() }
         }
     }
 
@@ -200,24 +208,32 @@ class PromotionFragment : Fragment(){
                             val sObject = mJsonArray.get(i).toString()
                             val hobbyObject = JSONObject(sObject)
                             val promotion = Promotion(hobbyObject)
-                            if(usedPromotions.contains(promotion.id)) {
+                            if (usedPromotions.contains(promotion.id)) {
                                 promotion.isUsed = true
                             }
-                            if(promotion.usedCount < promotion.availableCount) {
+                            if (promotion.usedCount < promotion.availableCount) {
                                 promotionList.add(promotion)
                             }
                         }
-                        val promotionListAdapter = PromotionListAdapter(context!!, promotionList){ promotion: Promotion, promotionImage: ImageView -> promotionItemClicked(promotion, promotionImage)}
+                        val promotionListAdapter = PromotionListAdapter(
+                            context!!,
+                            promotionList
+                        ) { promotion: Promotion, promotionImage: ImageView ->
+                            promotionItemClicked(
+                                promotion,
+                                promotionImage
+                            )
+                        }
                         promotionListView.apply {
                             layoutManager = LinearLayoutManager(activity)
                             adapter = promotionListAdapter
                         }
-                        if(promotionList.isEmpty()) {
+                        if (promotionList.isEmpty()) {
                             comingSoonTextView.text = activity!!.getString(R.string.coming_soon)
                             comingSoonTextView.visibility = View.VISIBLE
                         }
 
-                    } catch(e: JSONException) {
+                    } catch (e: JSONException) {
 
                     }
                 }
