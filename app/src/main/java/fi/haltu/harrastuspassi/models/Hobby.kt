@@ -16,6 +16,8 @@ class Hobby(json: JSONObject? = null) : Serializable, ClusterItem {
     var description: String = ""
     var organizer: Organizer? = null
     var location: Location = Location()
+    var municipality: String? = null
+    var isFree: Boolean = true
 
     init {
         if(json != null) {
@@ -38,6 +40,9 @@ class Hobby(json: JSONObject? = null) : Serializable, ClusterItem {
             if (locationObject != null) {
                 location = Location(locationObject)
             }
+
+            //municipality = json.getString("municipality")
+            //isFree = json.getBoolean("isFree")
         }
     }
     override fun getSnippet(): String {

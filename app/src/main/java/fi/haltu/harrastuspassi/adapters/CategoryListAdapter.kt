@@ -15,10 +15,12 @@ import fi.haltu.harrastuspassi.activities.HobbyCategoriesActivity
 import fi.haltu.harrastuspassi.models.Category
 import fi.haltu.harrastuspassi.models.Filters
 
-class CategoryListAdapter(private val categories: ArrayList<Category>,
-                          private val activity: AppCompatActivity,
-                          private val filters: Filters,
-                          private val clickListener:(Category) -> Unit) :
+class CategoryListAdapter(
+    private val categories: ArrayList<Category>,
+    private val activity: AppCompatActivity,
+    private val filters: Filters,
+    private val clickListener: (Category) -> Unit
+) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CategoryListViewHolder {
@@ -27,7 +29,7 @@ class CategoryListAdapter(private val categories: ArrayList<Category>,
         return CategoryListViewHolder(view)
     }
 
-    override fun getItemCount(): Int =  categories.size
+    override fun getItemCount(): Int = categories.size
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val category: Category = categories[position]
@@ -41,14 +43,19 @@ class CategoryListAdapter(private val categories: ArrayList<Category>,
         private var showMoreButton: ImageButton = itemView.findViewById(R.id.show_more_button)
         private var isButtonPressed: Boolean = false
 
-        fun bind(category: Category, activity: AppCompatActivity, filters: Filters, clickListener: (Category) -> Unit) {
+        fun bind(
+            category: Category,
+            activity: AppCompatActivity,
+            filters: Filters,
+            clickListener: (Category) -> Unit
+        ) {
             name.text = category.name
             itemView.setOnClickListener { clickListener(category) }
 
             checkButton.isChecked = filters.categories.contains(category.id!!)
 
             checkButton.setOnClickListener {
-                if(filters.categories.contains(category.id!!)) {
+                if (filters.categories.contains(category.id!!)) {
                     filters.categories.remove(category.id!!)
                     checkButton.isChecked = false
 
@@ -56,18 +63,22 @@ class CategoryListAdapter(private val categories: ArrayList<Category>,
                     filters.categories.add(category.id!!)
                     checkButton.isChecked = true
                 }
-                setShowMoreButton(category, filters,activity)
+                setShowMoreButton(category, filters, activity)
             }
             setShowMoreButton(category, filters, activity)
         }
 
-        private fun setShowMoreButton(category: Category, filters: Filters, activity: AppCompatActivity) {
-            if(category.childCategories!!.size == 0 ) {
+        private fun setShowMoreButton(
+            category: Category,
+            filters: Filters,
+            activity: AppCompatActivity
+        ) {
+            if (category.childCategories!!.size == 0) {
                 showMoreButton.visibility = View.INVISIBLE
             } else {
                 showMoreButton.visibility = View.VISIBLE
-                showMoreButton.setOnClickListener{
-                    if(!isButtonPressed) {
+                showMoreButton.setOnClickListener {
+                    if (!isButtonPressed) {
                         isButtonPressed = true
                         val intent = Intent(activity, HobbyCategoriesActivity::class.java)
                         val bundle = Bundle()
@@ -77,7 +88,10 @@ class CategoryListAdapter(private val categories: ArrayList<Category>,
                         intent.putExtra("EXTRA_FILTERS", filters)
 
                         activity.startActivityForResult(intent, 1)
-                        activity.overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left)
+                        activity.overridePendingTransition(
+                            R.anim.slide_in_left,
+                            R.anim.slide_out_left
+                        )
                     }
                 }
             }

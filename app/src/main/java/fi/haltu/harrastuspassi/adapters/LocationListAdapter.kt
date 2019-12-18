@@ -28,7 +28,7 @@ class LocationListAdapter(private var locationList: Settings) :
 
     inner class LocationListViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         var radioButton: RadioButton = itemView.findViewById(R.id.radio_button)
-        var cityTextView:TextView = itemView.findViewById(R.id.city_name)
+        var cityTextView: TextView = itemView.findViewById(R.id.city_name)
         var addressTextView: TextView = itemView.findViewById(R.id.address)
 
         fun bind(location: Location, position: Int) {

@@ -1,23 +1,27 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
-        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:orientation="vertical"
         tools:context="fi.haltu.harrastuspassi.fragments.FavoriteListFragment">
+
     <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:id="@+id/swipe_refresh_list">
+
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+                android:id="@+id/swipe_refresh_list"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
             <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/list_view"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:background="@color/hobbyPurple"
                     android:dividerHeight="2dp"
-                    android:footerDividersEnabled="false"
-                    android:background="@color/hobbyPurple"/>
+                    android:footerDividersEnabled="false" />
 
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 

@@ -5,7 +5,9 @@ import android.app.ActivityOptions
 import android.content.Intent
 import android.os.AsyncTask
 import android.os.Bundle
-import android.view.*
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
@@ -39,7 +41,13 @@ class FavoriteListFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val view: View = inflater.inflate(R.layout.fragment_favorite_list, container, false)
-        val hobbyEventListAdapter = HobbyEventListAdapter(hobbyEventArrayList) { hobbyEvent: HobbyEvent, hobbyImage: ImageView -> hobbyItemClicked(hobbyEvent, hobbyImage)}
+        val hobbyEventListAdapter =
+            HobbyEventListAdapter(hobbyEventArrayList) { hobbyEvent: HobbyEvent, hobbyImage: ImageView ->
+                hobbyItemClicked(
+                    hobbyEvent,
+                    hobbyImage
+                )
+            }
         refreshLayout = view.findViewById(R.id.swipe_refresh_list)
 
         refreshLayout.setOnRefreshListener {
@@ -72,14 +80,15 @@ class FavoriteListFragment : Fragment() {
 
         val sharedView: View = hobbyImage
         val transition = getString(R.string.item_detail)
-        val transitionActivity = ActivityOptions.makeSceneTransitionAnimation(this.activity, sharedView, transition)
+        val transitionActivity =
+            ActivityOptions.makeSceneTransitionAnimation(this.activity, sharedView, transition)
         startActivity(intent, transitionActivity.toBundle())
     }
 
     override fun onHiddenChanged(hidden: Boolean) {
         super.onHiddenChanged(hidden)
         //hidden == false is almost same than onResume
-        if(!hidden) {
+        if (!hidden) {
             favorites = loadFavorites(this.activity!!)
             updateListView(listView, filterFavorites(hobbyEventArrayList, favorites))
         }
@@ -105,7 +114,7 @@ class FavoriteListFragment : Fragment() {
 
         override fun doInBackground(vararg params: Void?): String {
             return try {
-                URL(getString(R.string.API_URL) +"hobbyevents/?include=hobby_detail&include=location_detail&include=organizer_detail").readText()
+                URL(getString(R.string.API_URL) + "hobbyevents/?include=hobby_detail&include=location_detail&include=organizer_detail").readText()
 
             } catch (e: IOException) {
                 return when (!verifyAvailableNetwork(activity!!)) {
@@ -141,14 +150,14 @@ class FavoriteListFragment : Fragment() {
                             hobbyEventArrayList.add(hobbyEvent)
                         }
 
-                        if(hobbyEventArrayList.size == 0) {
+                        if (hobbyEventArrayList.size == 0) {
                             progressText.visibility = View.VISIBLE
                             progressText.text = getString(R.string.error_no_hobby_events)
                         } else {
                             progressText.visibility = View.INVISIBLE
                             listView.adapter!!.notifyDataSetChanged()
                         }
-                    } catch(e: JSONException) {
+                    } catch (e: JSONException) {
                         progressText.text = getString(R.string.error_no_hobby_events)
                     }
                 }
@@ -160,17 +169,26 @@ class FavoriteListFragment : Fragment() {
     }
 
     private fun updateListView(listView: RecyclerView, hobbyEventArrayList: ArrayList<HobbyEvent>) {
-        if(hobbyEventArrayList.isEmpty()) {
+        if (hobbyEventArrayList.isEmpty()) {
             progressText.visibility = View.VISIBLE
             progressText.text = getString(R.string.no_favorites)
         } else {
             progressText.visibility = View.INVISIBLE
         }
-        val hobbyEventListAdapter = HobbyEventListAdapter(hobbyEventArrayList) { hobbyEvent: HobbyEvent, hobbyImage: ImageView -> hobbyItemClicked(hobbyEvent, hobbyImage)}
+        val hobbyEventListAdapter =
+            HobbyEventListAdapter(hobbyEventArrayList) { hobbyEvent: HobbyEvent, hobbyImage: ImageView ->
+                hobbyItemClicked(
+                    hobbyEvent,
+                    hobbyImage
+                )
+            }
         listView.adapter = hobbyEventListAdapter
     }
 
-    private fun filterFavorites(hobbyEvents:ArrayList<HobbyEvent>, favorites: HashSet<Int>): ArrayList<HobbyEvent> {
+    private fun filterFavorites(
+        hobbyEvents: ArrayList<HobbyEvent>,
+        favorites: HashSet<Int>
+    ): ArrayList<HobbyEvent> {
         var filteredList = ArrayList<HobbyEvent>()
         val hobbyEventSet: Set<HobbyEvent> = hobbyEvents.toSet()
 

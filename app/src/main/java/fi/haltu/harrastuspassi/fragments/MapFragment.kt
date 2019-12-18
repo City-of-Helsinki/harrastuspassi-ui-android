@@ -7,7 +7,6 @@ import android.app.Dialog
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.location.Location as AndroidLocation
 import android.location.LocationListener
 import android.location.LocationManager
 import android.os.AsyncTask
@@ -31,14 +30,17 @@ import fi.haltu.harrastuspassi.activities.HobbyDetailActivity
 import fi.haltu.harrastuspassi.activities.MainActivity
 import fi.haltu.harrastuspassi.adapters.HobbyEventListAdapter
 import fi.haltu.harrastuspassi.adapters.MarkerClusterRenderer
-import fi.haltu.harrastuspassi.models.*
+import fi.haltu.harrastuspassi.models.Filters
+import fi.haltu.harrastuspassi.models.Hobby
+import fi.haltu.harrastuspassi.models.HobbyEvent
+import fi.haltu.harrastuspassi.models.Settings
 import fi.haltu.harrastuspassi.utils.*
 import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
 import java.io.IOException
-import java.lang.Exception
 import java.net.URL
+import android.location.Location as AndroidLocation
 
 class MapFragment : Fragment(), OnMapReadyCallback {
 
@@ -76,7 +78,7 @@ class MapFragment : Fragment(), OnMapReadyCallback {
         mapView.onResume()
         try {
             MapsInitializer.initialize(activity!!.applicationContext)
-        } catch(e: Exception) {
+        } catch (e: Exception) {
             e.printStackTrace()
         }
 
@@ -85,16 +87,17 @@ class MapFragment : Fragment(), OnMapReadyCallback {
 
         return view
     }
+
     override fun onMapReady(googleMap: GoogleMap) {
         gMap = googleMap
         zoomToLocation(filters, settings)
         setUpClusterManager(gMap)
     }
-    
+
     override fun onResume() {
         super.onResume()
         mapView.onResume()
-        if(!isInit) {
+        if (!isInit) {
             updateMap()
         } else {
             isInit = false
@@ -118,7 +121,7 @@ class MapFragment : Fragment(), OnMapReadyCallback {
 
     override fun onHiddenChanged(hidden: Boolean) {
         super.onHiddenChanged(hidden)
-        if(!hidden) {
+        if (!hidden) {
             updateMap()
         }
     }
@@ -140,7 +143,10 @@ class MapFragment : Fragment(), OnMapReadyCallback {
                 val intent = Intent(this.context, FilterViewActivity::class.java)
                 intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT)
                 startActivity(intent)
-                this.activity?.overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left)
+                this.activity?.overridePendingTransition(
+                    R.anim.slide_in_left,
+                    R.anim.slide_out_left
+                )
                 return true
             }
         }
@@ -149,7 +155,8 @@ class MapFragment : Fragment(), OnMapReadyCallback {
     }
 
     override fun onPrepareOptionsMenu(menu: Menu) {
-        menu.findItem(R.id.map).icon =  ContextCompat.getDrawable(this.context!!, R.drawable.list_icon)
+        menu.findItem(R.id.map).icon =
+            ContextCompat.getDrawable(this.context!!, R.drawable.list_icon)
         super.onPrepareOptionsMenu(menu)
     }
 
@@ -163,34 +170,42 @@ class MapFragment : Fragment(), OnMapReadyCallback {
     }
 
     private fun zoomToLocation(filters: Filters, settings: Settings) {
-        if(settings.useCurrentLocation) {
+        if (settings.useCurrentLocation) {
             try {
                 // Request location updates
-                locationManager = this.activity!!.getSystemService(Context.LOCATION_SERVICE) as LocationManager
-                locationManager?.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0L, 0f, locationListener)
-                if(!gMap.isMyLocationEnabled) {
+                locationManager =
+                    this.activity!!.getSystemService(Context.LOCATION_SERVICE) as LocationManager
+                locationManager?.requestLocationUpdates(
+                    LocationManager.NETWORK_PROVIDER,
+                    0L,
+                    0f,
+                    locationListener
+                )
+                if (!gMap.isMyLocationEnabled) {
                     gMap.isMyLocationEnabled = true
 
-                    val myLocation = locationManager?.getLastKnownLocation(LocationManager.GPS_PROVIDER)
+                    val myLocation =
+                        locationManager?.getLastKnownLocation(LocationManager.GPS_PROVIDER)
                     if (myLocation != null) {
                         val latLng = LatLng(myLocation.latitude, myLocation.longitude)
                         val cameraPoint = CameraUpdateFactory.newLatLngZoom(latLng, 10f)
                         gMap.moveCamera(cameraPoint)
                     }
 
-                    if(::userMarker.isInitialized) {
+                    if (::userMarker.isInitialized) {
                         userMarker.remove()
                     }
                 }
-            } catch(ex: SecurityException) {
-                requestPermissions(arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
+            } catch (ex: SecurityException) {
+                requestPermissions(
+                    arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
                     LOCATION_PERMISSION
                 )
             }
         } else {
             gMap.isMyLocationEnabled = false
 
-            if(filters.longitude != 0.0 && filters.latitude != 0.0) {
+            if (filters.longitude != 0.0 && filters.latitude != 0.0) {
                 val userLocation = LatLng(filters.latitude, filters.longitude)
                 val cameraPoint = CameraUpdateFactory.newLatLngZoom(userLocation, 10f)
                 addUserLocationMarker(gMap, userLocation)
@@ -208,8 +223,13 @@ class MapFragment : Fragment(), OnMapReadyCallback {
 
         userMarker = gMap.addMarker(
             MarkerOptions().position(latLng)
-            .title(activity!!.getString(R.string.your_location))
-            .icon(bitmapDescriptorFromVector(this.context!!, R.drawable.ic_accessibility_purple_24dp))
+                .title(activity!!.getString(R.string.your_location))
+                .icon(
+                    bitmapDescriptorFromVector(
+                        this.context!!,
+                        R.drawable.ic_accessibility_purple_24dp
+                    )
+                )
         )
     }
 
@@ -218,18 +238,19 @@ class MapFragment : Fragment(), OnMapReadyCallback {
         //adds items to cluster
 
         val markerClusterRenderer = MarkerClusterRenderer(this.context!!, googleMap, clusterManager)
-        clusterManager.renderer =  markerClusterRenderer
+        clusterManager.renderer = markerClusterRenderer
         //googleMap.setInfoWindowAdapter(clusterManager.markerManager)
 
         //clusterManager.markerCollection.setOnInfoWindowAdapter(HobbyInfoWindowAdapter(this.context!!))
 
-        for(event in hobbyArrayList) {
+        for (event in hobbyArrayList) {
             clusterManager.addItem(event)
         }
 
         googleMap.setOnCameraIdleListener(clusterManager)
+
         googleMap.setOnMarkerClickListener { marker ->
-            if(marker.tag != null) {
+            if (marker.tag != null) {
                 val hobby: Hobby? = marker.tag as Hobby?
                 val dialog = Dialog(this.context!!)
                 dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
@@ -241,12 +262,18 @@ class MapFragment : Fragment(), OnMapReadyCallback {
                 //HOBBY_LIST
                 val recyclerView = dialog.findViewById<RecyclerView>(R.id.hobby_list)
                 var hobbyList = ArrayList<HobbyEvent>()
-                for(event in hobbyEventArrayList) {
-                    if(event.hobby.location.id == hobby!!.location.id) {
+                for (event in hobbyEventArrayList) {
+                    if (event.hobby.location.id == hobby!!.location.id) {
                         hobbyList.add(event)
                     }
                 }
-                val hobbyEventListAdapter = HobbyEventListAdapter(hobbyList) { hobbyEvent: HobbyEvent, hobbyImage: ImageView -> hobbyItemClicked(hobbyEvent, hobbyImage)}
+                val hobbyEventListAdapter =
+                    HobbyEventListAdapter(hobbyList) { hobbyEvent: HobbyEvent, hobbyImage: ImageView ->
+                        hobbyItemClicked(
+                            hobbyEvent,
+                            hobbyImage
+                        )
+                    }
                 recyclerView.apply {
                     layoutManager = LinearLayoutManager(this.context)
                     adapter = hobbyEventListAdapter
@@ -258,7 +285,10 @@ class MapFragment : Fragment(), OnMapReadyCallback {
                     dialog.dismiss()
                 }
 
-                dialog.window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT)
+                dialog.window.setLayout(
+                    WindowManager.LayoutParams.MATCH_PARENT,
+                    WindowManager.LayoutParams.MATCH_PARENT
+                )
                 dialog.show()
             } else {
                 val markerPosition = LatLng(marker.position.latitude, marker.position.longitude)
@@ -280,29 +310,38 @@ class MapFragment : Fragment(), OnMapReadyCallback {
 
         val sharedView: View = hobbyImage
         val transition = getString(R.string.item_detail)
-        val transitionActivity = ActivityOptions.makeSceneTransitionAnimation(this.activity, sharedView, transition)
+        val transitionActivity =
+            ActivityOptions.makeSceneTransitionAnimation(this.activity, sharedView, transition)
         startActivity(intent, transitionActivity.toBundle())
     }
 
-    override fun onRequestPermissionsResult(requestCode: Int,
-                                        permissions: Array<String>, grantResults: IntArray) {
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<String>, grantResults: IntArray
+    ) {
         when (requestCode) {
             LOCATION_PERMISSION -> {
                 if ((grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
                     try {
                         // Request location updates
-                        locationManager?.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0L, 0f, locationListener)
-                        if(!gMap.isMyLocationEnabled) {
+                        locationManager?.requestLocationUpdates(
+                            LocationManager.NETWORK_PROVIDER,
+                            0L,
+                            0f,
+                            locationListener
+                        )
+                        if (!gMap.isMyLocationEnabled) {
                             gMap.isMyLocationEnabled = true
 
-                            val myLocation = locationManager?.getLastKnownLocation(LocationManager.GPS_PROVIDER)
+                            val myLocation =
+                                locationManager?.getLastKnownLocation(LocationManager.GPS_PROVIDER)
                             if (myLocation != null) {
                                 val latLng = LatLng(myLocation.latitude, myLocation.longitude)
                                 val cameraPoint = CameraUpdateFactory.newLatLngZoom(latLng, 10f)
                                 gMap.moveCamera(cameraPoint)
                             }
                         }
-                    } catch(ex: SecurityException) {
+                    } catch (ex: SecurityException) {
                         gMap.isMyLocationEnabled = false
                     }
                 } else {
@@ -320,23 +359,24 @@ class MapFragment : Fragment(), OnMapReadyCallback {
     }
 
     private val locationListener: LocationListener = object : LocationListener {
-    override fun onLocationChanged(location: AndroidLocation) {
-        val currentLocation = LatLng(location.latitude, location.longitude)
-        val cameraUpdate = CameraUpdateFactory.newLatLngZoom(currentLocation, 10f)
-        gMap.animateCamera(cameraUpdate)
-        locationManager!!.removeUpdates(this)
+        override fun onLocationChanged(location: AndroidLocation) {
+            val currentLocation = LatLng(location.latitude, location.longitude)
+            val cameraUpdate = CameraUpdateFactory.newLatLngZoom(currentLocation, 10f)
+            gMap.animateCamera(cameraUpdate)
+            locationManager!!.removeUpdates(this)
 
-    }
-    override fun onStatusChanged(provider: String, status: Int, extras: Bundle) {}
-    override fun onProviderEnabled(provider: String) {}
-    override fun onProviderDisabled(provider: String) {}
+        }
+
+        override fun onStatusChanged(provider: String, status: Int, extras: Bundle) {}
+        override fun onProviderEnabled(provider: String) {}
+        override fun onProviderDisabled(provider: String) {}
     }
 
     internal inner class GetHobbyEvents : AsyncTask<Void, Void, String>() {
 
         override fun doInBackground(vararg params: Void?): String {
             return try {
-                URL(getString(R.string.API_URL) + createQueryUrl(filters)).readText()
+                URL(getString(R.string.API_URL) + createHobbyEventQueryUrl(filters)).readText()
             } catch (e: IOException) {
                 return HobbyCategoriesActivity.ERROR
             }
@@ -361,13 +401,13 @@ class MapFragment : Fragment(), OnMapReadyCallback {
                         val hobbyEventSet: Set<HobbyEvent> = hobbyEventArrayList.toSet()
                         hobbyEventArrayList.clear()
 
-                        for(hobbyEvent in hobbyEventSet) {
+                        for (hobbyEvent in hobbyEventSet) {
                             hobbyEventArrayList.add(hobbyEvent)
                         }
                         hobbyArrayList = uniqueByLocation(hobbyEventArrayList)
                         setUpClusterManager(gMap)
                         zoomToLocation(filters, settings)
-                    } catch(e: JSONException) {
+                    } catch (e: JSONException) {
 
                     }
                 }
@@ -383,7 +423,7 @@ class MapFragment : Fragment(), OnMapReadyCallback {
         val hobbySet: Set<Hobby> = array.toSet()
 
         array.clear()
-        for(hobby in hobbySet) {
+        for (hobby in hobbySet) {
             array.add(hobby)
         }
 

@@ -1,29 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/rounded_corners_20dp">
+        android:background="@drawable/rounded_corners_20dp"
+        android:orientation="vertical">
 
     <ImageView
             android:id="@+id/promotion_dialog_image"
             android:layout_width="0dp"
             android:layout_height="328dp"
-            android:scaleType="fitCenter"
+            android:scaleType="centerCrop"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
             android:id="@+id/dialog_close_button"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
-            android:background="@drawable/close_icon"
-            android:backgroundTint="@color/hobbyPurple"
+            android:background="@drawable/ic_cancel_black_24dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -84,20 +82,19 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:layout_marginBottom="16dp"
             android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
 
-            app:text="@string/use_promotion"
-            app:text_style="bold"
             app:area_margin="4dp"
-            app:outer_color="@color/hobbyPurpleLight"
             app:inner_color="@color/white"
-            app:text_size="14sp"
-            app:slider_locked="false"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            />
+            app:outer_color="@color/hobbyPurpleLight"
+            app:slider_locked="false"
+            app:text="@string/use_promotion"
+            app:text_size="14sp"
+            app:text_style="bold" />
 
     <TextView
             android:id="@+id/promotion_dialog_used"
@@ -105,9 +102,9 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
+            android:gravity="center"
             android:textSize="16sp"
             android:textStyle="bold"
-            android:gravity="center"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

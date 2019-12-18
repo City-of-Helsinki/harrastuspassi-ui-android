@@ -2,7 +2,7 @@
 <resources>
     <string name="app_name">Harrastuspassi</string>
     <string name="category_filter_component_title">Harrastus</string>
-    <string name="choose_hobby">Valitse hrrastus</string>
+    <string name="choose_hobby">Valitse harastus</string>
     <string name="choose_location_from_map">Valitse sijainti kartalta</string>
     <string name="hobby_tag">Harrastus</string>
     <string name="location_title">Sijainti</string>
@@ -11,7 +11,7 @@
     <string name="save">Tallenna</string>
     <string name="settings">Asetukset</string>
     <string name="timespan_filter_title">Alkamisaika</string>
-    <string name="title_home">Aloitusnäyttö</string>
+    <string name="title_home">Etusivu</string>
     <string name="title_notifications">Ilmoitukset</string>
     <string name="use_current_location">Käytä nykyistä sijaintia</string>
     <string name="weekday_filter_title">Viikonpäivä</string>
@@ -48,4 +48,9 @@
     <string name="accept_from_settings">Anna lupaa asetuksista</string>
     <string name="hobbies">Harrastukset</string>
     <string name="home_title">Löydä harrastuksia läheltäsi</string>
+    <string name="find_hobbies">Etsi Harrastuksia kategorialla</string>
+    <string name="popular_promotions">Suosituimmat etuudet</string>
+    <string name="promotions_for_you">Etuuksia sinulle</string>
+    <string name="popular_hobbies">Suosituimmat harrastukset</string>
+    <string name="hobbies_for_you">Harrastuksia sinulle</string>
 </resources>
