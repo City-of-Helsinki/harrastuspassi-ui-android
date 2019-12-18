@@ -70,7 +70,7 @@ class HomeHobbiesFragment : Fragment() {
 
             //PROMOTED HOBBY
             var promotedHobby = popularHobbies[0]
-
+            popularHobbies.removeAt(0)
             //IMAGE
             var imageView = parentView.findViewById<ImageView>(R.id.home_promoted_image)
             Picasso.with(this.context)
@@ -91,15 +91,13 @@ class HomeHobbiesFragment : Fragment() {
             //POPULAR PROMOTION LIST
             when {
                 popularHobbies.size > MAX_ITEM_AMOUNT -> {
-                    popularHobbies.removeAt(0)
                     popularHobbyList.apply {
                         this.layoutManager = LinearLayoutManager(this.context, LinearLayoutManager.HORIZONTAL, false)
-                        this.adapter = HobbyHorizontalListAdapter(popularHobbies.subList(0, MAX_ITEM_AMOUNT ))
+                        this.adapter = HobbyHorizontalListAdapter(popularHobbies.subList(0, MAX_ITEM_AMOUNT))
                         { hobbyEvent: HobbyEvent, image: ImageView -> hobbyItemClicked(hobbyEvent, image)}
                     }
                 }
                 popularHobbies.size > MIN_ITEM_AMOUNT -> popularHobbyList.apply {
-                    popularHobbies.removeAt(0)
                     this.layoutManager = LinearLayoutManager(this.context, LinearLayoutManager.HORIZONTAL, false)
                     this.adapter = HobbyHorizontalListAdapter(popularHobbies)
                     { hobbyEvent: HobbyEvent, image: ImageView -> hobbyItemClicked(hobbyEvent, image)}

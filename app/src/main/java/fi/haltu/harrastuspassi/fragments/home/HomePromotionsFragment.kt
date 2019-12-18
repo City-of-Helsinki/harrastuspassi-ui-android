@@ -74,6 +74,8 @@ class HomePromotionsFragment : Fragment() {
 
             //PROMOTED PROMOTION
             val promotedPromotion = popularPromotions[0]
+            popularPromotions.removeAt(0)
+
             //IMAGE
             Picasso.with(this.context)
                 .load(promotedPromotion.imageUrl)
@@ -95,15 +97,13 @@ class HomePromotionsFragment : Fragment() {
             //POPULAR PROMOTION LIST
             when {
                 popularPromotions.size > MAX_ITEM_AMOUNT -> {
-                    popularPromotions.removeAt(0)
                     popularPromotionsListView.apply {
                         layoutManager = LinearLayoutManager(this.context, LinearLayoutManager.HORIZONTAL, false)
-                        adapter = PromotionHorizontalListAdapter(context!!, popularPromotions.subList(0, MAX_ITEM_AMOUNT - 1))
+                        adapter = PromotionHorizontalListAdapter(context!!, popularPromotions.subList(0, MAX_ITEM_AMOUNT ))
                         { promotion: Promotion -> promotionsItemClicked(promotion)}
                     }
                 }
                 popularPromotions.size > MIN_ITEM_AMOUNT -> {
-                    popularPromotions.removeAt(0)
                     popularPromotionsListView.apply {
                         layoutManager = LinearLayoutManager(this.context, LinearLayoutManager.HORIZONTAL, false)
                         adapter = PromotionHorizontalListAdapter(context!!, popularPromotions){ promotion: Promotion -> promotionsItemClicked(promotion)}
@@ -114,18 +114,19 @@ class HomePromotionsFragment : Fragment() {
             //USER PROMOTION LIST
             when {
                 promotionList.size >= MAX_ITEM_AMOUNT -> {
-                    val promotionListAdapter = PromotionHorizontalListAdapter(context!!,
-                        promotionList.subList(0, MAX_ITEM_AMOUNT)){ promotion: Promotion -> promotionsItemClicked(promotion)}
                     userPromotionsListView.apply {
                         layoutManager = LinearLayoutManager(this.context, LinearLayoutManager.HORIZONTAL, false)
-                        adapter = promotionListAdapter
+                        adapter = PromotionHorizontalListAdapter(context!!,
+                            promotionList.subList(0, MAX_ITEM_AMOUNT))
+                            { promotion: Promotion -> promotionsItemClicked(promotion)}
                     }
                 }
                 promotionList.size >= MIN_ITEM_AMOUNT -> {
-                    val promotionListAdapter = PromotionHorizontalListAdapter(context!!, promotionList){ promotion: Promotion -> promotionsItemClicked(promotion)}
                     userPromotionsListView.apply {
                         layoutManager = LinearLayoutManager(this.context, LinearLayoutManager.HORIZONTAL, false)
-                        adapter = promotionListAdapter
+                        adapter = PromotionHorizontalListAdapter(context!!,
+                            promotionList)
+                        { promotion: Promotion -> promotionsItemClicked(promotion)}
                     }
                 }
                 else -> userPromotionsListView.visibility = View.INVISIBLE
