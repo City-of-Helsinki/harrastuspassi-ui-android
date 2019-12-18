@@ -26,6 +26,7 @@ and add the following contents with an API URL and a valid Google Maps SDK API-k
 <resources>
     <string name="GOOGLE_MAPS_API_KEY" translatable="false">{YOUR_API_KEY}</string>
     <string name="API_URL" translatable="false">{YOUR_API_URL}</string>
+    <string name="PROMOTION_TOKEN" translatable="false">{YOUR_TOKEN}</string>
 </resources>
 ```
 
