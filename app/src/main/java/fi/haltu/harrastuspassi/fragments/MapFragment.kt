@@ -228,6 +228,7 @@ class MapFragment : Fragment(), OnMapReadyCallback {
         }
 
         googleMap.setOnCameraIdleListener(clusterManager)
+
         googleMap.setOnMarkerClickListener { marker ->
             if(marker.tag != null) {
                 val hobby: Hobby? = marker.tag as Hobby?

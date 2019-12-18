@@ -41,6 +41,16 @@ fun createHobbyEventQueryUrl(filters: Filters): String {
     return query
 }
 
+fun createPromotionQueryUrl(filters: Filters): String {
+    var query = "promotions?ordering=nearest"
+    if(filters.latitude != 0.0 && filters.longitude != 0.0) {
+        query += "&ordering=nearest"
+        query += "&near_latitude=${filters.latitude}"
+        query += "&near_longitude=${filters.longitude}"
+    }
+    return query
+}
+
 fun createFavoriteQueryUrl(favorites: HashSet<Int>):String {
     val query = "hobbyevents/?include=hobby_detail&include=location_detail&include=organizer_detail"
     if(favorites.isNotEmpty()) {

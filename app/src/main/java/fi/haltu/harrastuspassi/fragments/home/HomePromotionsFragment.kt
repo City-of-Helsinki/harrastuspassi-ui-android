@@ -23,10 +23,7 @@ import fi.haltu.harrastuspassi.adapters.PromotionListAdapter
 import fi.haltu.harrastuspassi.fragments.PromotionFragment
 import fi.haltu.harrastuspassi.models.Filters
 import fi.haltu.harrastuspassi.models.Promotion
-import fi.haltu.harrastuspassi.utils.convertToDateRange
-import fi.haltu.harrastuspassi.utils.loadFilters
-import fi.haltu.harrastuspassi.utils.loadUsedPromotions
-import fi.haltu.harrastuspassi.utils.saveUsedPromotions
+import fi.haltu.harrastuspassi.utils.*
 import okhttp3.MultipartBody
 import okhttp3.OkHttpClient
 import okhttp3.Request
@@ -44,6 +41,12 @@ class HomePromotionsFragment : Fragment() {
     private var usedPromotions: HashSet<Int> = HashSet()
     private var popularPromotionList = ArrayList<Promotion>()
     private var filters = Filters()
+
+    companion object {
+        const val ERROR = "error"
+        const val MAX_ITEM_AMOUNT = 5 //max amount of promotions to show in recyclerViews
+        const val MIN_ITEM_AMOUNT = 1 //min amount of promotions to show in recyclerViews
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -66,10 +69,10 @@ class HomePromotionsFragment : Fragment() {
 
     private fun setPromotions(parentView: View, promotionList: ArrayList<Promotion>) {
         if(promotionList.isNotEmpty()) {
-            //POPULAR PROMOTION LIST
             var popularPromotions = ArrayList<Promotion>()
             popularPromotions.addAll(promotionList.shuffled())
 
+            //PROMOTED PROMOTION
             val promotedPromotion = popularPromotions[0]
             //IMAGE
             Picasso.with(this.context)
@@ -89,36 +92,43 @@ class HomePromotionsFragment : Fragment() {
                 parentView.findViewById<ConstraintLayout>(R.id.constraintLayout).background = ContextCompat.getDrawable(this.context!!, R.color.blackOpacity40)
                 parentView.findViewById<TextView>(R.id.home_promoted_duration).text = activity!!.getString(R.string.promotions_used)
             }
-
-            if (popularPromotions.size > 7) {
-                popularPromotions.removeAt(0)
-                val popularPromotionsAdapter = PromotionHorizontalListAdapter(context!!, popularPromotions.subList(1,6)){ promotion: Promotion -> promotionsItemClicked(promotion)}
-                popularPromotionsListView.apply {
-                    layoutManager = LinearLayoutManager(this.context, LinearLayoutManager.HORIZONTAL, false)
-                    adapter = popularPromotionsAdapter
+            //POPULAR PROMOTION LIST
+            when {
+                popularPromotions.size > MAX_ITEM_AMOUNT -> {
+                    popularPromotions.removeAt(0)
+                    popularPromotionsListView.apply {
+                        layoutManager = LinearLayoutManager(this.context, LinearLayoutManager.HORIZONTAL, false)
+                        adapter = PromotionHorizontalListAdapter(context!!, popularPromotions.subList(0, MAX_ITEM_AMOUNT - 1))
+                        { promotion: Promotion -> promotionsItemClicked(promotion)}
+                    }
                 }
-            } else if(popularPromotions.size > 2) {
-                popularPromotions.removeAt(0)
-                val popularPromotionsAdapter = PromotionHorizontalListAdapter(context!!, popularPromotions){ promotion: Promotion -> promotionsItemClicked(promotion)}
-                popularPromotionsListView.apply {
-                    layoutManager = LinearLayoutManager(this.context, LinearLayoutManager.HORIZONTAL, false)
-                    adapter = popularPromotionsAdapter
+                popularPromotions.size > MIN_ITEM_AMOUNT -> {
+                    popularPromotions.removeAt(0)
+                    popularPromotionsListView.apply {
+                        layoutManager = LinearLayoutManager(this.context, LinearLayoutManager.HORIZONTAL, false)
+                        adapter = PromotionHorizontalListAdapter(context!!, popularPromotions){ promotion: Promotion -> promotionsItemClicked(promotion)}
+                    }
                 }
+                else -> popularPromotionsListView.visibility = View.INVISIBLE
             }
             //USER PROMOTION LIST
-            if (promotionList.size > 7) {
-                val promotionListAdapter = PromotionHorizontalListAdapter(context!!, promotionList.subList(1,6)){ promotion: Promotion -> promotionsItemClicked(promotion)}
-                userPromotionsListView.apply {
-                    layoutManager = LinearLayoutManager(this.context, LinearLayoutManager.HORIZONTAL, false)
-                    adapter = promotionListAdapter
+            when {
+                promotionList.size >= MAX_ITEM_AMOUNT -> {
+                    val promotionListAdapter = PromotionHorizontalListAdapter(context!!,
+                        promotionList.subList(0, MAX_ITEM_AMOUNT)){ promotion: Promotion -> promotionsItemClicked(promotion)}
+                    userPromotionsListView.apply {
+                        layoutManager = LinearLayoutManager(this.context, LinearLayoutManager.HORIZONTAL, false)
+                        adapter = promotionListAdapter
+                    }
                 }
-            } else if(promotionList.size > 2) {
-                promotionList.removeAt(0)
-                val promotionListAdapter = PromotionHorizontalListAdapter(context!!, promotionList){ promotion: Promotion -> promotionsItemClicked(promotion)}
-                userPromotionsListView.apply {
-                    layoutManager = LinearLayoutManager(this.context, LinearLayoutManager.HORIZONTAL, false)
-                    adapter = promotionListAdapter
+                promotionList.size >= MIN_ITEM_AMOUNT -> {
+                    val promotionListAdapter = PromotionHorizontalListAdapter(context!!, promotionList){ promotion: Promotion -> promotionsItemClicked(promotion)}
+                    userPromotionsListView.apply {
+                        layoutManager = LinearLayoutManager(this.context, LinearLayoutManager.HORIZONTAL, false)
+                        adapter = promotionListAdapter
+                    }
                 }
+                else -> userPromotionsListView.visibility = View.INVISIBLE
             }
         }
 
@@ -216,9 +226,7 @@ class HomePromotionsFragment : Fragment() {
         dialog.show()
     }
 
-    companion object {
-        const val ERROR = "error"
-    }
+
 
     internal inner class PostPromotion(private val promotionId: Int) : AsyncTask<Void, Void, String>() {
         override fun doInBackground(vararg params: Void?): String {
@@ -241,7 +249,7 @@ class HomePromotionsFragment : Fragment() {
 
         override fun doInBackground(vararg params: Void?): String {
             return try {
-                URL(getString(R.string.API_URL) + "promotions").readText()
+                URL(getString(R.string.API_URL) + createPromotionQueryUrl(filters)).readText()
             } catch (e: IOException) {
                 return ERROR
             }
