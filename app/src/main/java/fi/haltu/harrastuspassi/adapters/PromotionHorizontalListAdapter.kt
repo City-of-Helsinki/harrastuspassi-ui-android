@@ -1,10 +1,12 @@
 package fi.haltu.harrastuspassi.adapters
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
@@ -12,7 +14,11 @@ import fi.haltu.harrastuspassi.R
 import fi.haltu.harrastuspassi.models.Promotion
 import fi.haltu.harrastuspassi.utils.convertToDateRange
 
-class PromotionHorizontalListAdapter(private val list: List<Promotion>, private val clickListener: (Promotion, ImageView) -> Unit) :
+class PromotionHorizontalListAdapter(
+    private val context: Context,
+    private val list: List<Promotion>,
+    private val clickListener: (Promotion) -> Unit
+) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HobbyListViewHolder {
@@ -23,7 +29,7 @@ class PromotionHorizontalListAdapter(private val list: List<Promotion>, private 
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val promotion: Promotion = list[position]
-        (holder as HobbyListViewHolder).bind(promotion, clickListener)
+        (holder as HobbyListViewHolder).bind(context, promotion, clickListener)
     }
 
     override fun getItemCount(): Int = list.size
@@ -31,10 +37,14 @@ class PromotionHorizontalListAdapter(private val list: List<Promotion>, private 
     class HobbyListViewHolder(itemView: View) :
         RecyclerView.ViewHolder(itemView) {
         private var image: ImageView = itemView.findViewById(R.id.horizontal_promotion_list_image)
-        private var title: TextView = itemView.findViewById(R.id.horizontal_promotion_list_title_text)
-        private var duration: TextView = itemView.findViewById(R.id.horizontal_promotion_list_available_text)
+        private var title: TextView =
+            itemView.findViewById(R.id.horizontal_promotion_list_title_text)
+        private var availableLabel: TextView =
+            itemView.findViewById(R.id.horizontal_promotion_list_available_label)
+        private var duration: TextView =
+            itemView.findViewById(R.id.horizontal_promotion_list_available_text)
 
-        fun bind(promotion: Promotion, clickListener: (Promotion, ImageView) -> Unit) {
+        fun bind(context: Context, promotion: Promotion, clickListener: (Promotion) -> Unit) {
             title.text = promotion.title
 
             Picasso.with(itemView.context)
@@ -45,12 +55,13 @@ class PromotionHorizontalListAdapter(private val list: List<Promotion>, private 
 
 
             duration.text = "${convertToDateRange(promotion.startDate, promotion.endDate)}"
-            itemView.setOnClickListener { clickListener(promotion, image) }
+            itemView.setOnClickListener { clickListener(promotion) }
 
             if (promotion.isUsed) {
-
+                availableLabel.visibility = View.INVISIBLE
                 duration.text = itemView.context.getString(R.string.promotions_used)
-                itemView.background = ContextCompat.getDrawable(itemView.context, R.drawable.promotion_card_op85)
+                itemView.findViewById<ConstraintLayout>(R.id.horizontal_constraint).background =
+                    ContextCompat.getDrawable(context, R.color.blackOpacity40)
             }
         }
     }

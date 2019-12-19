@@ -1,14 +1,13 @@
 package fi.haltu.harrastuspassi.adapters
 
-import com.google.maps.android.clustering.view.DefaultClusterRenderer
 import android.content.Context
 import android.graphics.Color
-import android.util.Log
-import com.google.android.gms.maps.model.MarkerOptions
-import com.google.maps.android.clustering.ClusterManager
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.model.Marker
+import com.google.android.gms.maps.model.MarkerOptions
 import com.google.maps.android.clustering.Cluster
+import com.google.maps.android.clustering.ClusterManager
+import com.google.maps.android.clustering.view.DefaultClusterRenderer
 import fi.haltu.harrastuspassi.R
 import fi.haltu.harrastuspassi.models.Hobby
 import fi.haltu.harrastuspassi.utils.bitmapDescriptorFromVector
@@ -32,7 +31,12 @@ class MarkerClusterRenderer(
 
     override fun onBeforeClusterItemRendered(item: Hobby, markerOptions: MarkerOptions) { // 5
         //markerOptions.title(item.title)
-        markerOptions.icon(bitmapDescriptorFromVector(context, R.drawable.ic_location_on_purple_light_24dp))
+        markerOptions.icon(
+            bitmapDescriptorFromVector(
+                context,
+                R.drawable.ic_location_on_purple_light_24dp
+            )
+        )
     }
 
     override fun onClusterItemRendered(clusterItem: Hobby?, marker: Marker?) {

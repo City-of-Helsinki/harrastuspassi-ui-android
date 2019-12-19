@@ -1,21 +1,22 @@
 package fi.haltu.harrastuspassi.activities
 
+import android.content.Intent
 import android.os.AsyncTask
 import android.os.Bundle
 import android.util.Log
-import fi.haltu.harrastuspassi.R
-import fi.haltu.harrastuspassi.adapters.CategoryListAdapter
-import fi.haltu.harrastuspassi.models.Category
-import fi.haltu.harrastuspassi.utils.jsonArrayToCategoryList
-import org.json.JSONArray import java.io.IOException
-import java.net.URL
-import android.content.Intent
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import fi.haltu.harrastuspassi.R
+import fi.haltu.harrastuspassi.adapters.CategoryListAdapter
+import fi.haltu.harrastuspassi.models.Category
 import fi.haltu.harrastuspassi.models.Filters
+import fi.haltu.harrastuspassi.utils.jsonArrayToCategoryList
+import org.json.JSONArray
+import java.io.IOException
+import java.net.URL
 
 
 class HobbyCategoriesActivity : AppCompatActivity() {
@@ -40,7 +41,11 @@ class HobbyCategoriesActivity : AppCompatActivity() {
             GetCategories().execute()
         }
 
-        val categoryAdapter = CategoryListAdapter(categoryList, this, filters) { category: Category -> categoryItemClicked(category)}
+        val categoryAdapter = CategoryListAdapter(
+            categoryList,
+            this,
+            filters
+        ) { category: Category -> categoryItemClicked(category) }
         listView = this.findViewById(R.id.category_list_view)
         listView.apply {
             layoutManager = LinearLayoutManager(this.context)
@@ -53,7 +58,11 @@ class HobbyCategoriesActivity : AppCompatActivity() {
         if (requestCode == 1) {
 
             filters = data!!.extras.getSerializable("EXTRA_FILTERS") as Filters
-            val categoryAdapter = CategoryListAdapter(categoryList, this, filters) { category: Category -> categoryItemClicked(category)}
+            val categoryAdapter = CategoryListAdapter(
+                categoryList,
+                this,
+                filters
+            ) { category: Category -> categoryItemClicked(category) }
             listView.apply {
                 layoutManager = LinearLayoutManager(this.context)
                 adapter = categoryAdapter
@@ -76,11 +85,12 @@ class HobbyCategoriesActivity : AppCompatActivity() {
                 setResult(1, intent)
                 finish()
             }
-            R.id.save-> {
-                if(!isSaveClicked) {
+            R.id.save -> {
+                if (!isSaveClicked) {
                     isSaveClicked = true
                     val intent = Intent(this, FilterViewActivity::class.java)
-                    intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
+                    intent.flags =
+                        Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
                     intent.putExtra("EXTRA_FILTERS", filters)
                     setResult(1, intent)
                     //startActivity(intent)
@@ -107,7 +117,7 @@ class HobbyCategoriesActivity : AppCompatActivity() {
     }
 
     private fun categoryItemClicked(category: Category) {
-        if(filters.categories.contains(category.id!!)) {
+        if (filters.categories.contains(category.id!!)) {
             filters.categories.remove(category.id!!)
 
         } else {
@@ -122,7 +132,7 @@ class HobbyCategoriesActivity : AppCompatActivity() {
         const val ERROR = "error"
     }
 
-    internal inner class GetCategories: AsyncTask<Void, Void, String>() {
+    internal inner class GetCategories : AsyncTask<Void, Void, String>() {
 
         override fun onPreExecute() {
             super.onPreExecute()
@@ -138,7 +148,7 @@ class HobbyCategoriesActivity : AppCompatActivity() {
 
         override fun onPostExecute(result: String?) {
             super.onPostExecute(result)
-            when(result) {
+            when (result) {
                 ERROR -> {
                     Log.d("HobbyCategory", "Error")
                 }

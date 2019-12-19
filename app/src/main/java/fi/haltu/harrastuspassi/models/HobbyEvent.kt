@@ -1,6 +1,5 @@
 package fi.haltu.harrastuspassi.models
 
-import android.util.Log
 import com.google.android.gms.maps.model.LatLng
 import com.google.maps.android.clustering.ClusterItem
 import fi.haltu.harrastuspassi.utils.getOptionalJSONObject
@@ -19,7 +18,7 @@ class HobbyEvent(json: JSONObject? = null) : Serializable, ClusterItem {
     lateinit var hobby: Hobby
 
     init {
-        if(json != null) {
+        if (json != null) {
             id = json.getInt("id")
             startDate = json.getString("start_date")
             endDate = json.getString("end_date")

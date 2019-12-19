@@ -5,6 +5,7 @@ import android.app.ActivityOptions
 import android.content.Intent
 import android.os.AsyncTask
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import android.widget.ImageView
 import android.widget.ProgressBar
@@ -13,6 +14,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import com.google.firebase.analytics.FirebaseAnalytics
 import fi.haltu.harrastuspassi.R
 import fi.haltu.harrastuspassi.activities.FilterViewActivity
 import fi.haltu.harrastuspassi.adapters.HobbyEventListAdapter
@@ -35,6 +37,8 @@ class HobbyEventListFragment : Fragment() {
     private lateinit var progressText: TextView
     private var filters: Filters = Filters()
     private lateinit var refreshLayout: SwipeRefreshLayout
+    private lateinit var firebaseAnalytics: FirebaseAnalytics
+
 
 
     override fun onCreateView(
@@ -45,6 +49,8 @@ class HobbyEventListFragment : Fragment() {
         val hobbyEventListAdapter = HobbyEventListAdapter(hobbyEventArrayList) { hobbyEvent: HobbyEvent, hobbyImage: ImageView -> hobbyItemClicked(hobbyEvent, hobbyImage)}
 
         setHasOptionsMenu(true)
+
+        firebaseAnalytics = FirebaseAnalytics.getInstance(this.context!!)
 
         refreshLayout = view.findViewById(R.id.swipe_refresh_list)
 
@@ -81,19 +87,20 @@ class HobbyEventListFragment : Fragment() {
     override fun onHiddenChanged(hidden: Boolean) {
         super.onHiddenChanged(hidden)
         if(!hidden) {
-            updateList()
+            filters = loadFilters(this.activity!!)
+            GetHobbyEvents().execute()
+            filters.isListUpdated = true
+            saveFilters(filters, this.activity!!)
         }
-        //if hidden = false, it's almost same than onResume
+
     }
 
     override fun onResume() {
         super.onResume()
-        updateList()
-    }
-
-    private fun updateList() {
         filters = loadFilters(this.activity!!)
+
         if(!filters.isListUpdated) {
+            Log.d("updateList", "inIf")
             GetHobbyEvents().execute()
             filters.isListUpdated = true
             saveFilters(filters, this.activity!!)
@@ -116,13 +123,31 @@ class HobbyEventListFragment : Fragment() {
             R.id.action_filter -> {
                 val intent = Intent(this.context, FilterViewActivity::class.java)
                 intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT)
-                startActivity(intent)
+                startActivityForResult(intent, 2)
                 this.activity?.overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left)
                 return true
             }
         }
 
         return super.onOptionsItemSelected(item)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == 2) {
+            //FIREBASE ANALYTICS
+            val bundle = Bundle()
+            for(index in 0 until filters.categories.size) {
+                bundle.putInt("filterCategory$index", filters.categories.toIntArray()[index])
+            }
+            for(index in 0 until filters.dayOfWeeks.size) {
+                bundle.putInt("weekDay$index", filters.dayOfWeeks.toIntArray()[index])
+            }
+            bundle.putString("startTime", "${minutesToTime(filters.startTimeFrom)}, ${minutesToTime(filters.startTimeTo)}")
+            bundle.putBoolean("free", filters.isFree)
+            //bundle.putString("municipality",)
+            firebaseAnalytics.logEvent("hobbyFilter", bundle)
+        }
     }
 
     companion object {
@@ -139,7 +164,7 @@ class HobbyEventListFragment : Fragment() {
 
         override fun doInBackground(vararg params: Void?): String {
             return try {
-                URL(getString(R.string.API_URL) + createQueryUrl(filters)).readText()
+                URL(getString(R.string.API_URL) + createHobbyEventQueryUrl(filters)).readText()
 
             } catch (e: IOException) {
                 return when (!verifyAvailableNetwork(activity!!)) {

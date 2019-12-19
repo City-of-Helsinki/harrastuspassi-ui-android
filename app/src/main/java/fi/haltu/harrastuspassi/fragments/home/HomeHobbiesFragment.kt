@@ -9,7 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.cardview.widget.CardView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -17,8 +17,11 @@ import com.squareup.picasso.Picasso
 import fi.haltu.harrastuspassi.R
 import fi.haltu.harrastuspassi.activities.HobbyDetailActivity
 import fi.haltu.harrastuspassi.adapters.HobbyHorizontalListAdapter
+import fi.haltu.harrastuspassi.models.Filters
 import fi.haltu.harrastuspassi.models.HobbyEvent
+import fi.haltu.harrastuspassi.utils.createHobbyEventQueryUrl
 import fi.haltu.harrastuspassi.utils.idToWeekDay
+import fi.haltu.harrastuspassi.utils.loadFilters
 import fi.haltu.harrastuspassi.utils.verifyAvailableNetwork
 import org.json.JSONArray
 import org.json.JSONException
@@ -30,26 +33,43 @@ class HomeHobbiesFragment : Fragment() {
     lateinit var rootView: View
     lateinit var popularHobbyList: RecyclerView
     lateinit var title: TextView
-    //lateinit var userHobbyList: RecyclerView
+    lateinit var userHobbyList: RecyclerView
+    private var filters = Filters()
     var hobbyEventArrayList = ArrayList<HobbyEvent>()
+
+    companion object {
+        const val ERROR = "error"
+        const val NO_INTERNET = "no_internet"
+        const val MAX_ITEM_AMOUNT = 5 //max amount of hobbies to show in recyclerViews
+        const val MIN_ITEM_AMOUNT = 1 //min amount of hobbies to show in recyclerViews
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         rootView = inflater.inflate(R.layout.fragment_home_hobbies, container, false)
         setHasOptionsMenu(true)
+        //Loads filters to fetch hobbies filtered by locations
+        filters = loadFilters(this.activity!!)
+
         title = rootView.findViewById<TextView>(R.id.home_promoted_title)
         //PROMOTIONS LISTS
         popularHobbyList = rootView.findViewById(R.id.home_popular_hobby_list)
-        //userHobbyList = view.findViewById(R.id.home_user_hobby_list)
+
+        userHobbyList = rootView.findViewById(R.id.home_user_hobby_list)
         GetHobbyEvents().execute()
         return rootView
     }
 
     private fun setHobbyEvents(parentView: View, hobbyEventList: ArrayList<HobbyEvent>) {
-        if(hobbyEventList.isNotEmpty()) {
-            var promotedHobby = hobbyEventList[0]
+        if (hobbyEventList.isNotEmpty()) {
+            var popularHobbies = ArrayList<HobbyEvent>()
+            popularHobbies.addAll(hobbyEventList.shuffled())
 
+            //PROMOTED HOBBY
+            var promotedHobby = popularHobbies[0]
+            popularHobbies.removeAt(0)
             //IMAGE
             var imageView = parentView.findViewById<ImageView>(R.id.home_promoted_image)
             Picasso.with(this.context)
@@ -60,47 +80,72 @@ class HomeHobbiesFragment : Fragment() {
             //TITLE
             title.text = promotedHobby.hobby.name
             //DESCRIPTION
-            parentView.findViewById<TextView>(R.id.home_promoted_description).text = promotedHobby.hobby.description
+            parentView.findViewById<TextView>(R.id.home_promoted_description).text =
+                promotedHobby.hobby.description
             //DURATION
-            parentView.findViewById<TextView>(R.id.home_promoted_duration).text = "${idToWeekDay(promotedHobby.startWeekday, this.activity!!)}"
+            parentView.findViewById<TextView>(R.id.home_promoted_duration).text =
+                "${idToWeekDay(promotedHobby.startWeekday, this.activity!!)}"
 
-            parentView.findViewById<ConstraintLayout>(R.id.home_promoted_hobby).setOnClickListener {
+            parentView.findViewById<CardView>(R.id.home_promoted_hobby).setOnClickListener {
                 hobbyItemClicked(promotedHobby, imageView)
             }
-            if (hobbyEventList.size > 7) {
-                hobbyEventList.removeAt(0)
-                popularHobbyList.apply {
-                    this.layoutManager = LinearLayoutManager(this.context, LinearLayoutManager.HORIZONTAL, false)
-                    this.adapter = HobbyHorizontalListAdapter(hobbyEventList.subList(1,6)){ hobbyEvent: HobbyEvent, image: ImageView -> hobbyItemClicked(hobbyEvent, image)}
+            //POPULAR PROMOTION LIST
+            when {
+                popularHobbies.size > MAX_ITEM_AMOUNT -> {
+                    popularHobbyList.apply {
+                        this.layoutManager =
+                            LinearLayoutManager(this.context, LinearLayoutManager.HORIZONTAL, false)
+                        this.adapter =
+                            HobbyHorizontalListAdapter(popularHobbies.subList(0, MAX_ITEM_AMOUNT))
+                            { hobbyEvent: HobbyEvent, image: ImageView ->
+                                hobbyItemClicked(
+                                    hobbyEvent,
+                                    image
+                                )
+                            }
+                    }
                 }
-            } else {
-                popularHobbyList.visibility = View.INVISIBLE
+                popularHobbies.size > MIN_ITEM_AMOUNT -> popularHobbyList.apply {
+                    this.layoutManager =
+                        LinearLayoutManager(this.context, LinearLayoutManager.HORIZONTAL, false)
+                    this.adapter = HobbyHorizontalListAdapter(popularHobbies)
+                    { hobbyEvent: HobbyEvent, image: ImageView ->
+                        hobbyItemClicked(
+                            hobbyEvent,
+                            image
+                        )
+                    }
+                }
+                else -> popularHobbyList.visibility = View.INVISIBLE
+            }
+            //USER HOBBIES LIST
+            when {
+                hobbyEventList.size > MAX_ITEM_AMOUNT -> userHobbyList.apply {
+                    this.layoutManager =
+                        LinearLayoutManager(this.context, LinearLayoutManager.HORIZONTAL, false)
+                    this.adapter =
+                        HobbyHorizontalListAdapter(hobbyEventList.subList(0, MAX_ITEM_AMOUNT))
+                        { hobbyEvent: HobbyEvent, image: ImageView ->
+                            hobbyItemClicked(
+                                hobbyEvent,
+                                image
+                            )
+                        }
+                }
+                hobbyEventList.size >= MIN_ITEM_AMOUNT -> userHobbyList.apply {
+                    this.layoutManager =
+                        LinearLayoutManager(this.context, LinearLayoutManager.HORIZONTAL, false)
+                    this.adapter =
+                        HobbyHorizontalListAdapter(hobbyEventList) { hobbyEvent: HobbyEvent, image: ImageView ->
+                            hobbyItemClicked(
+                                hobbyEvent,
+                                image
+                            )
+                        }
+                }
+                else -> userHobbyList.visibility = View.INVISIBLE
             }
         }
-
-        //POPULAR PROMOTION LIST
-
-        /*var hobbyList = ArrayList<HobbyEvent>()
-        var hobbyEvent = HobbyEvent()
-        hobbyEvent.apply{
-            this.startWeekday = 1
-            this.hobby = Hobby().apply {
-                this.name = "Harrastuksen nimi tähän, voi olla kahdella rivillä"
-                this.description = "Harrastuksen lyhyehkö kuvaus tarvittaessa"
-            }
-        }
-
-        hobbyList.add(hobbyEvent)
-        hobbyList.add(hobbyEvent)
-        hobbyList.add(hobbyEvent)
-        hobbyList.add(hobbyEvent)
-        hobbyList.add(hobbyEvent)*/
-
-        /*USER PROMOTION LIST
-        userHobbyList.apply {
-            this.layoutManager = LinearLayoutManager(this.context, LinearLayoutManager.HORIZONTAL, false)
-            this.adapter = HobbyHorizontalListAdapter(hobbyList){ hobbyEvent: HobbyEvent, image: ImageView -> hobbyItemClicked(hobbyEvent, image)}
-        }*/
     }
 
     private fun hobbyItemClicked(hobbyEvent: HobbyEvent, imageView: ImageView) {
@@ -111,25 +156,21 @@ class HomeHobbiesFragment : Fragment() {
 
         val sharedView: View = imageView
         val transition = getString(R.string.item_detail)
-        val transitionActivity = ActivityOptions.makeSceneTransitionAnimation(this.activity, sharedView, transition)
+        val transitionActivity =
+            ActivityOptions.makeSceneTransitionAnimation(this.activity, sharedView, transition)
         startActivity(intent, transitionActivity.toBundle())
     }
 
 
-    companion object {
-        const val ERROR = "error"
-        const val NO_INTERNET = "no_internet"
-    }
-
     internal inner class GetHobbyEvents : AsyncTask<Void, Void, String>() {
 
-        override fun onPreExecute() {
-            super.onPreExecute()
-        }
-
         override fun doInBackground(vararg params: Void?): String {
+            //creates new Filters object to use createHobbyEventQueryUrl -function without having other filters
+            var locationFilter = Filters()
+            locationFilter.longitude = filters.longitude
+            locationFilter.latitude = filters.latitude
             return try {
-                URL(getString(R.string.API_URL) + "hobbyevents/?include=hobby_detail&include=location_detail&include=organizer_detail").readText()
+                URL(getString(R.string.API_URL) + createHobbyEventQueryUrl(locationFilter)).readText()
 
             } catch (e: IOException) {
                 return when (!verifyAvailableNetwork(activity!!)) {
@@ -142,11 +183,9 @@ class HomeHobbiesFragment : Fragment() {
         override fun onPostExecute(result: String?) {
             super.onPostExecute(result)
 
-
             when (result) {
                 ERROR -> {
-                    //progressText.visibility = View.VISIBLE
-                    //this@HobbyEventListFragment.progressText.text = getString(R.string.error_try_again_later)
+                    title.text = getString(R.string.error_try_again_later)
                 }
                 NO_INTERNET -> {
                     title.text = activity!!.getString(R.string.error_no_internet)
@@ -172,11 +211,7 @@ class HomeHobbiesFragment : Fragment() {
 
                         setHobbyEvents(rootView, hobbyEventArrayList)
 
-                        if (hobbyEventArrayList.size == 0) {
-                            //progressText.visibility = View.VISIBLE
-                            //progressText.text = getString(R.string.error_no_hobby_events)
-                        } else {
-                            //progressText.visibility = View.INVISIBLE
+                        if (hobbyEventArrayList.size != 0) {
                             popularHobbyList.adapter!!.notifyDataSetChanged()
                         }
                     } catch (e: JSONException) {
@@ -184,10 +219,6 @@ class HomeHobbiesFragment : Fragment() {
                     }
                 }
             }
-            //progressBar.visibility = View.INVISIBLE
-            //refreshLayout.isRefreshing = false
-            //updateListView(listView, hobbyEventArrayList)
-
         }
     }
 }

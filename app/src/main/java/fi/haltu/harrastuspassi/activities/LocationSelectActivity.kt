@@ -1,12 +1,12 @@
 package fi.haltu.harrastuspassi.activities
 
 import android.os.Bundle
-import com.google.android.gms.maps.GoogleMap
-import com.google.android.gms.maps.OnMapReadyCallback
-import com.google.android.gms.maps.SupportMapFragment
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.OnMapReadyCallback
+import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import fi.haltu.harrastuspassi.R
 import fi.haltu.harrastuspassi.models.Filters
@@ -26,7 +26,7 @@ class LocationSelectActivity : AppCompatActivity(), OnMapReadyCallback {
         val mapFragment = supportFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
         filters = intent.extras!!.getSerializable("EXTRA_FILTERS") as Filters
-        findViewById<Button>(R.id.use_location_button).setOnClickListener{
+        findViewById<Button>(R.id.use_location_button).setOnClickListener {
             intent.putExtra("EXTRA_FILTERS", filters)
             setResult(1, intent)
             finish()
@@ -36,7 +36,7 @@ class LocationSelectActivity : AppCompatActivity(), OnMapReadyCallback {
     override fun onMapReady(googleMap: GoogleMap) {
         gMap = googleMap
 
-        if(filters.longitude != 0.0 && filters.latitude != 0.0) {
+        if (filters.longitude != 0.0 && filters.latitude != 0.0) {
             val userLocation = LatLng(filters.latitude, filters.longitude)
             val cameraPoint = CameraUpdateFactory.newLatLngZoom(userLocation, 10f)
             gMap.moveCamera(cameraPoint)

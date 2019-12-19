@@ -15,31 +15,32 @@ class Filters : Serializable {
     var longitude: Double = 0.0
     //Whether filter is modified or not
     var isModified = false
-        set(value){
-            if(value) {
+        set(value) {
+            if (value) {
                 isMapUpdated = false
                 isListUpdated = false
             }
             field = value
         }
     var isMapUpdated = true
-        set(value){
-            if(value && isListUpdated) {
+        set(value) {
+            if (value && isListUpdated) {
                 isModified = false
             }
             field = value
         }
     var isListUpdated = true
-        set(value){
-            if(value && isMapUpdated) {
+        set(value) {
+            if (value && isMapUpdated) {
                 isModified = false
             }
             field = value
         }
+    var isFree: Boolean = true
     override fun toString(): String {
         return "categories: $categories\ndayOfWeeks:$dayOfWeeks\n" +
-               "startTimeFrom:${minutesToTime(startTimeFrom)}\n" +
-               "startTimeTo:${minutesToTime(startTimeTo)}" +
+                "startTimeFrom:${minutesToTime(startTimeFrom)}\n" +
+                "startTimeTo:${minutesToTime(startTimeTo)}" +
                 "Location(lat/long): $latitude, $longitude"
     }
 

@@ -1,18 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
-        xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/home_background"
-        >
+        android:background="@drawable/home_background">
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
->
+            android:layout_height="match_parent">
 
         <TextView
                 android:id="@+id/home_title"
@@ -29,7 +25,6 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
-        <!--
 
         <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/search_container"
@@ -42,16 +37,17 @@
                 app:layout_constraintStart_toStartOf="@+id/home_title"
                 app:layout_constraintTop_toBottomOf="@+id/home_title">
 
-            <EditText
+            <AutoCompleteTextView
                     android:id="@+id/home_search"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:hint="Etsi harrastuksia"
                     android:layout_marginStart="16dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
                     android:backgroundTint="@color/hobbyPurple"
+                    android:hint="@string/find_hobbies"
+                    android:textColor="@color/hobbyPurple"
                     android:textCursorDrawable="@drawable/purple_cursor"
-                    android:layout_marginTop="16dp"
-                    android:layout_marginBottom="16dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/home_search_icon"
                     app:layout_constraintStart_toStartOf="parent"
@@ -69,9 +65,6 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
-    -->
-
-        <!--
 
         <fragment
                 android:id="@+id/home_promotions_fragment"
@@ -82,18 +75,18 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/search_container" />
-    -->
+
         <fragment
                 android:id="@+id/home_hobbies_fragment"
                 android:name="fi.haltu.harrastuspassi.fragments.home.HomeHobbiesFragment"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:layout_marginBottom="16dp"
+                android:layout_marginTop="32dp"
+                android:layout_marginBottom="8dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/home_title" />
+                app:layout_constraintTop_toBottomOf="@+id/home_promotions_fragment" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 

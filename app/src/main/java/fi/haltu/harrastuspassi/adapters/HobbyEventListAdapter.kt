@@ -13,7 +13,10 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 
-class HobbyEventListAdapter(private val list: List<HobbyEvent>, private val clickListener: (HobbyEvent, ImageView) -> Unit) :
+class HobbyEventListAdapter(
+    private val list: List<HobbyEvent>,
+    private val clickListener: (HobbyEvent, ImageView) -> Unit
+) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HobbyListViewHolder {

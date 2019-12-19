@@ -1,16 +1,20 @@
 package fi.haltu.harrastuspassi.adapters
 
-import androidx.core.content.ContextCompat
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import fi.haltu.harrastuspassi.R
 import fi.haltu.harrastuspassi.activities.FilterViewActivity
 
 
-class DayOfWeekListAdapter(private val list: HashSet<Int>, private val activity: FilterViewActivity, private val clickListener: (Int) -> Unit) :
+class DayOfWeekListAdapter(
+    private val list: HashSet<Int>,
+    private val activity: FilterViewActivity,
+    private val clickListener: (Int) -> Unit
+) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private var dayOfWeekList: Map<Int, String> = createDayOfWeekList(activity)
@@ -28,13 +32,15 @@ class DayOfWeekListAdapter(private val list: HashSet<Int>, private val activity:
     override fun getItemCount(): Int = dayOfWeekList.size
 
     private fun createDayOfWeekList(activity: FilterViewActivity): Map<Int, String> {
-        return mapOf(1 to activity.getString(R.string.monday),
+        return mapOf(
+            1 to activity.getString(R.string.monday),
             2 to activity.getString(R.string.tuesday),
             3 to activity.getString(R.string.wednesday),
             4 to activity.getString(R.string.thursday),
             5 to activity.getString(R.string.friday),
             6 to activity.getString(R.string.saturday),
-            7 to activity.getString(R.string.sunday))
+            7 to activity.getString(R.string.sunday)
+        )
     }
 
     inner class DayOfWeekViewHolder(itemView: View) :
@@ -44,17 +50,32 @@ class DayOfWeekListAdapter(private val list: HashSet<Int>, private val activity:
         fun bind(position: Int, clickListener: (Int) -> Unit) {
             val dayOfWeek: String = dayOfWeekList[position].toString()
             dayButton.text = dayOfWeek
-            if(list.contains(position)){
-                dayButton.setBackgroundColor(ContextCompat.getColor(itemView.context, R.color.hobbyPurpleLight))
+            if (list.contains(position)) {
+                dayButton.setBackgroundColor(
+                    ContextCompat.getColor(
+                        itemView.context,
+                        R.color.hobbyPurpleLight
+                    )
+                )
                 dayButton.setTextColor(ContextCompat.getColor(itemView.context, R.color.white))
 
             } else {
-                dayButton.setBackgroundColor(ContextCompat.getColor(itemView.context, R.color.white))
-                dayButton.setTextColor(ContextCompat.getColor(itemView.context,  R.color.hobbyPurple))
+                dayButton.setBackgroundColor(
+                    ContextCompat.getColor(
+                        itemView.context,
+                        R.color.white
+                    )
+                )
+                dayButton.setTextColor(
+                    ContextCompat.getColor(
+                        itemView.context,
+                        R.color.hobbyPurple
+                    )
+                )
 
             }
 
-            itemView.setOnClickListener {clickListener(position)}
+            itemView.setOnClickListener { clickListener(position) }
         }
     }
 }
