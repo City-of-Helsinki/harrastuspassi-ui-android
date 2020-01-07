@@ -1,6 +1,7 @@
 package fi.haltu.harrastuspassi.fragments.home
 
 import android.annotation.SuppressLint
+import android.app.ActionBar
 import android.app.Dialog
 import android.os.AsyncTask
 import android.os.Bundle
@@ -29,6 +30,9 @@ import org.json.JSONException
 import org.json.JSONObject
 import java.io.IOException
 import java.net.URL
+import android.view.ViewManager
+import androidx.constraintlayout.widget.Constraints
+
 
 class HomePromotionsFragment : Fragment() {
     lateinit var rootView: View
@@ -145,10 +149,16 @@ class HomePromotionsFragment : Fragment() {
                         { promotion: Promotion -> promotionsItemClicked(promotion) }
                     }
                 }
-                else -> userPromotionsListView.visibility = View.INVISIBLE
+                else -> {
+                    userPromotionsListView.visibility = View.INVISIBLE
+                    rootView.findViewById<TextView>(R.id.user_promotion_text_label).visibility = View.INVISIBLE
+                }
             }
+        } else {
+            //TODO MUST FIX!!
+            parentView.visibility = View.INVISIBLE
+            parentView.layoutParams = Constraints.LayoutParams(0,400)
         }
-
     }
 
     override fun onHiddenChanged(hidden: Boolean) {
