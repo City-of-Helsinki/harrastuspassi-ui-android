@@ -83,21 +83,6 @@ class HobbyDetailActivity : AppCompatActivity(), OnMapReadyCallback {
         locationAddress = findViewById(R.id.location_address)
         locationZipCode = findViewById(R.id.location_zipcode)
 
-        // FIREBASE ANALYTICS
-        val bundle = Bundle()
-        bundle.putInt("hobbyId", hobbyEvent.hobby.id)
-        bundle.putString("hobbyName", hobbyEvent.hobby.name)
-        if (hobbyEvent.hobby.organizer != null) {
-            bundle.putString("organizerName", hobbyEvent.hobby.organizer!!.name)
-        } else {
-            bundle.putString("organizerName", "no organization")
-        }
-        if (hobbyEvent.hobby.municipality != null) {
-            bundle.putString("municipality", hobbyEvent.hobby.municipality)
-        } else {
-            bundle.putString("municipality", "Haltu")
-        }
-
         //Loads favorite id:s
         favorites = loadFavorites(this)
         if (favorites.contains(id)) {
@@ -113,6 +98,20 @@ class HobbyDetailActivity : AppCompatActivity(), OnMapReadyCallback {
                 )
                 favorites.remove(id)
             } else {
+                // FIREBASE ANALYTICS
+                val bundle = Bundle()
+                bundle.putInt("hobbyId", hobbyEvent.hobby.id)
+                bundle.putString("hobbyName", hobbyEvent.hobby.name)
+                if (hobbyEvent.hobby.organizer != null) {
+                    bundle.putString("organizerName", hobbyEvent.hobby.organizer!!.name)
+                } else {
+                    bundle.putString("organizerName", "no organization")
+                }
+                if (hobbyEvent.hobby.municipality != null) {
+                    bundle.putString("municipality", hobbyEvent.hobby.municipality)
+                } else {
+                    bundle.putString("municipality", "Haltu")
+                }
                 favoriteView.background.setTint(ContextCompat.getColor(this, R.color.hobbyPurple))
                 favorites.add(id)
 
@@ -319,6 +318,8 @@ class HobbyDetailActivity : AppCompatActivity(), OnMapReadyCallback {
                     Log.d("hobbydetail", "id: $eventList")
                     if (eventList.isEmpty()) {
                         showErrorDialog()
+                    } else {
+                        hobbyEvent = eventList[0]
                     }
                     setHobbyDetailView(eventList)
                 }
