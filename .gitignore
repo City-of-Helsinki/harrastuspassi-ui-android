@@ -16,3 +16,4 @@
 /app/src/main/res/values/api_keys.xml
 **/local.properties
 /app/release/
+/app/google-services.json
