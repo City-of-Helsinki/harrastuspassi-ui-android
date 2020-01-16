@@ -67,7 +67,7 @@ fun convertToDateRange(startDate: String, endDate: String): String {
         e.printStackTrace()
     }
 
-    return "$startDateForm. - $endDateForm"
+    return "$startDateForm - $endDateForm"
 }
 
 fun convertToTimeRange(startTime: String, endTime: String): String {

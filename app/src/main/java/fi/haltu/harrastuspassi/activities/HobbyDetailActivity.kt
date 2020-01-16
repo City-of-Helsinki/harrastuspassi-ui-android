@@ -8,10 +8,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.ImageView
-import android.widget.TableLayout
-import android.widget.TableRow
-import android.widget.TextView
+import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ShareCompat
@@ -45,7 +42,7 @@ class HobbyDetailActivity : AppCompatActivity(), OnMapReadyCallback {
     private lateinit var descriptionTextView: TextView
     private lateinit var locationAddress: TextView
     private lateinit var locationZipCode: TextView
-    private var id: Int = 0
+    private var hobbyEventID: Int = 0
     private var locationReceived: Boolean = true
 
     private lateinit var map: GoogleMap
@@ -65,12 +62,12 @@ class HobbyDetailActivity : AppCompatActivity(), OnMapReadyCallback {
 
         if (intent.extras!!.getSerializable("EXTRA_HOBBY") != null) {
             hobbyEvent = intent.extras!!.getSerializable("EXTRA_HOBBY") as HobbyEvent
-            id = hobbyEvent.hobby.id
+            hobbyEventID = hobbyEvent.id
         }
-        if (intent.extras!!.getSerializable("EXTRA_HOBBY_ID") != null) {
-            id = intent.extras!!.getSerializable("EXTRA_HOBBY_ID") as Int
+        if (intent.extras!!.getSerializable("EXTRA_HOBBY_EVENT_ID") != null) {
+            hobbyEventID = intent.extras!!.getSerializable("EXTRA_HOBBY_EVENT_ID") as Int
         }
-        GetHobbyEvents().execute()
+        GetHobbyEvent().execute()
 
         coverImageView = findViewById(R.id.hobby_image)
         titleTextView = findViewById(R.id.hobby_title)
@@ -85,18 +82,18 @@ class HobbyDetailActivity : AppCompatActivity(), OnMapReadyCallback {
 
         //Loads favorite id:s
         favorites = loadFavorites(this)
-        if (favorites.contains(id)) {
+        if (favorites.contains(hobbyEventID)) {
             favoriteView.background.setTint(ContextCompat.getColor(this, R.color.hobbyPurple))
         }
         favoriteView.setOnClickListener {
-            if (favorites.contains(id)) {
+            if (favorites.contains(hobbyEventID)) {
                 favoriteView.background.setTint(
                     ContextCompat.getColor(
                         this,
                         R.color.common_google_signin_btn_text_light_disabled
                     )
                 )
-                favorites.remove(id)
+                favorites.remove(hobbyEventID)
             } else {
                 // FIREBASE ANALYTICS
                 val bundle = Bundle()
@@ -113,7 +110,7 @@ class HobbyDetailActivity : AppCompatActivity(), OnMapReadyCallback {
                     bundle.putString("municipality", "Haltu")
                 }
                 favoriteView.background.setTint(ContextCompat.getColor(this, R.color.hobbyPurple))
-                favorites.add(id)
+                favorites.add(hobbyEventID)
 
                 firebaseAnalytics.logEvent("addFavourite", bundle)
             }
@@ -145,9 +142,8 @@ class HobbyDetailActivity : AppCompatActivity(), OnMapReadyCallback {
                 onBackPressed()
             }
             R.id.action_share -> {
-
                 FirebaseDynamicLinks.getInstance().createDynamicLink()
-                    .setLink(Uri.parse("https://hpassi.page.link/share/?hobbyEvent=$id"))
+                    .setLink(Uri.parse("https://hpassi.page.link/share/?hobbyEvent=$hobbyEventID"))
                     .setDomainUriPrefix("https://hpassi.page.link")
                     .setSocialMetaTagParameters(
                         DynamicLink.SocialMetaTagParameters.Builder()
@@ -177,6 +173,10 @@ class HobbyDetailActivity : AppCompatActivity(), OnMapReadyCallback {
                             .setChooserTitle("Share URL")
                             .setText(result.shortLink.toString())
                             .startChooser()
+                    }
+                    .addOnCompleteListener { task ->
+                        Log.d("DynamicLink", "Result: ${task.exception}")
+
                     }
 
                 // FIREBASE ANALYTICS
@@ -288,10 +288,10 @@ class HobbyDetailActivity : AppCompatActivity(), OnMapReadyCallback {
         const val ERROR = "error"
     }
 
-    internal inner class GetHobbyEvents : AsyncTask<Void, Void, String>() {
+    internal inner class GetHobbyEvent : AsyncTask<Void, Void, String>() {
         override fun doInBackground(vararg params: Void?): String {
             return try {
-                URL(getString(R.string.API_URL) + "hobbyevents/?hobby=$id&include=hobby_detail&include=location_detail&include=organizer_detail").readText()
+                URL(getString(R.string.API_URL) + "hobbyevents/$hobbyEventID/?&include=hobby_detail&include=location_detail&include=organizer_detail").readText()
             } catch (e: IOException) {
                 return ERROR
             }
@@ -303,6 +303,39 @@ class HobbyDetailActivity : AppCompatActivity(), OnMapReadyCallback {
 
             when (result) {
                 ERROR -> {
+                    Log.d("ErrorLog", "1")
+                    showErrorDialog()
+                }
+
+                else -> {
+                    val jsonArray = JSONObject(result)
+                    val sObject = jsonArray.toString()
+                    val eventObject = JSONObject(sObject)
+                    val hobbyEvent = HobbyEvent(eventObject)
+
+                    GetHobbyEvents(hobbyEvent.hobby.id).execute()
+                }
+            }
+        }
+    }
+
+    internal inner class GetHobbyEvents(hobbyID:Int) : AsyncTask<Void, Void, String>() {
+        private val hobbyID = hobbyID
+        override fun doInBackground(vararg params: Void?): String {
+            return try {
+                URL(getString(R.string.API_URL) + "hobbyevents/?hobby=$hobbyID&include=hobby_detail&include=location_detail&include=organizer_detail").readText()
+            } catch (e: IOException) {
+                return ERROR
+            }
+        }
+
+        @SuppressLint("SetTextI18n")
+        override fun onPostExecute(result: String?) {
+            super.onPostExecute(result)
+
+            when (result) {
+                ERROR -> {
+                    Log.d("ErrorLog", "3")
                     showErrorDialog()
                 }
 
@@ -314,9 +347,10 @@ class HobbyDetailActivity : AppCompatActivity(), OnMapReadyCallback {
                         val hobbyEvent = HobbyEvent(eventObject)
                         eventList.add(hobbyEvent)
                     }
-                    Log.d("hobbydetail", "id: $id")
-                    Log.d("hobbydetail", "id: $eventList")
+
                     if (eventList.isEmpty()) {
+                        Log.d("ErrorLog", "4")
+
                         showErrorDialog()
                     } else {
                         hobbyEvent = eventList[0]

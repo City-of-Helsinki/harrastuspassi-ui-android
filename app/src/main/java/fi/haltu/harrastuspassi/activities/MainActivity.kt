@@ -78,11 +78,11 @@ class MainActivity : AppCompatActivity() {
                     when {
                         //works only if deep links form is: https://hpassi.page.link/share/?hobbyEvent={HOBBY_ID}
                         deepLinkStr.contains("?hobbyEvent") -> {
-                            val hobbyID: Int = deepLinkStr.substringAfter("?hobbyEvent=").toInt()
-                            Log.d(TAG, "hobbyID: $hobbyID")
+                            val hobbyEventID: Int = deepLinkStr.substringAfter("?hobbyEvent=").toInt()
+                            Log.d(TAG, "hobbyEventID: $hobbyEventID")
                             val intent = Intent(this, HobbyDetailActivity::class.java)
 
-                            intent.putExtra("EXTRA_HOBBY_ID", hobbyID)
+                            intent.putExtra("EXTRA_HOBBY_EVENT_ID", hobbyEventID)
                             intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT)
 
                             startActivity(intent)

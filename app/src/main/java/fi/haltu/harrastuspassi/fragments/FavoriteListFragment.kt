@@ -193,7 +193,7 @@ class FavoriteListFragment : Fragment() {
         val hobbyEventSet: Set<HobbyEvent> = hobbyEvents.toSet()
 
         for (event in hobbyEventSet) {
-            if (favorites.contains(event.hobby.id)) {
+            if (favorites.contains(event.id)) {
                 filteredList.add(event)
             }
         }
