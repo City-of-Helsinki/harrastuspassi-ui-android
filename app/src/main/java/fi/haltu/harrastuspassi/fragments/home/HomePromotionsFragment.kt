@@ -42,6 +42,7 @@ class HomePromotionsFragment : Fragment() {
     private var usedPromotions: HashSet<Int> = HashSet()
     private var popularPromotionList = ArrayList<Promotion>()
     private var filters = Filters()
+    private var promotedPromotionID = 0
 
     companion object {
         const val ERROR = "error"
@@ -75,6 +76,8 @@ class HomePromotionsFragment : Fragment() {
 
             //PROMOTED PROMOTION
             val promotedPromotion = popularPromotions[0]
+            promotedPromotionID = promotedPromotion.id
+
             popularPromotions.removeAt(0)
 
             //IMAGE
@@ -163,13 +166,10 @@ class HomePromotionsFragment : Fragment() {
 
     override fun onHiddenChanged(hidden: Boolean) {
         super.onHiddenChanged(hidden)
-
         if (!hidden) {
-
             usedPromotions = loadUsedPromotions(this.activity!!)
             GetPromotions().execute()
         }
-
     }
 
     private fun promotionsItemClicked(promotion: Promotion) {
@@ -236,9 +236,16 @@ class HomePromotionsFragment : Fragment() {
                 slideButton.visibility = View.INVISIBLE
                 promotionUsedText.text = activity!!.getString(R.string.promotions_used)
                 promotionUsedText.visibility = View.VISIBLE
-                popularPromotionsListView.adapter!!.notifyDataSetChanged()
+                popularPromotionsListView.adapter?.notifyDataSetChanged()
+                userPromotionsListView.adapter?.notifyDataSetChanged()
+                if(promotedPromotionID == promotion.id) {
+                    rootView.findViewById<ConstraintLayout>(R.id.constraintLayout).background =
+                        ContextCompat.getDrawable(context!!, R.color.blackOpacity40)
+                    rootView.findViewById<TextView>(R.id.home_promoted_duration).text =
+                        activity!!.getString(R.string.promotions_used)
+                }
 
-                firebaseAnalytics.logEvent("usePromotion", bundle)
+                    firebaseAnalytics.logEvent("usePromotion", bundle)
                 PostPromotion(promotion.id).execute()
             }
         }
@@ -247,7 +254,9 @@ class HomePromotionsFragment : Fragment() {
             slideButton.visibility = View.INVISIBLE
             promotionUsedText.text = activity!!.getString(R.string.promotions_used)
             promotionUsedText.visibility = View.VISIBLE
-            popularPromotionsListView.adapter!!.notifyDataSetChanged()
+
+            popularPromotionsListView.adapter?.notifyDataSetChanged()
+            userPromotionsListView.adapter?.notifyDataSetChanged()
         }
 
         dialog.window?.setLayout(
