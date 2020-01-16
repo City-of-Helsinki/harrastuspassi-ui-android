@@ -11,6 +11,7 @@ import android.location.LocationListener
 import android.location.LocationManager
 import android.os.AsyncTask
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import android.widget.ImageView
 import android.widget.TextView
@@ -43,7 +44,6 @@ import java.net.URL
 import android.location.Location as AndroidLocation
 
 class MapFragment : Fragment(), OnMapReadyCallback {
-
 
     companion object {
         const val CENTER_LAT = 64.9600 //Center point of Finland
@@ -83,15 +83,13 @@ class MapFragment : Fragment(), OnMapReadyCallback {
         }
 
         mapView.getMapAsync(this)
-        GetHobbyEvents().execute()
 
         return view
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
         gMap = googleMap
-        zoomToLocation(filters, settings)
-        setUpClusterManager(gMap)
+        GetHobbyEvents().execute()
     }
 
     override fun onResume() {
@@ -166,7 +164,6 @@ class MapFragment : Fragment(), OnMapReadyCallback {
         filters = loadFilters(this.activity!!)
         settings = loadSettings(this.activity!!)
         GetHobbyEvents().execute()
-        zoomToLocation(filters, settings)
     }
 
     private fun zoomToLocation(filters: Filters, settings: Settings) {
@@ -220,7 +217,6 @@ class MapFragment : Fragment(), OnMapReadyCallback {
     }
 
     private fun addUserLocationMarker(gMap: GoogleMap, latLng: LatLng) {
-
         userMarker = gMap.addMarker(
             MarkerOptions().position(latLng)
                 .title(activity!!.getString(R.string.your_location))
