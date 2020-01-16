@@ -16,7 +16,7 @@
         <ImageView
                 android:id="@+id/promotion_image"
                 android:layout_width="121dp"
-                android:layout_height="166dp"
+                android:layout_height="0dp"
                 android:scaleType="centerCrop"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
