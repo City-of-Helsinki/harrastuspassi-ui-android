@@ -72,6 +72,9 @@
                 <data
                         android:host="hpassi.page.link"
                         android:scheme="https"/>
+                <data
+                        android:host="hpassi.page.link"
+                        android:scheme="http"/>
             </intent-filter>
         </activity>
     </application>
