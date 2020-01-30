@@ -202,6 +202,12 @@ class HomePromotionsFragment : Fragment() {
         //TITLE
         val titleText = dialog.findViewById<TextView>(R.id.promotion_dialog_title)
         titleText.text = promotion.title
+
+        //LOCATION
+        dialog.findViewById<TextView>(R.id.promotion_location).text = promotion.location.name
+        dialog.findViewById<TextView>(R.id.promotion_location_address).text = "${promotion.location.address}, ${promotion.location.city}"
+        dialog.findViewById<TextView>(R.id.promotion_location_zipcode).text = promotion.location.zipCode
+
         //DESCRIPTION
         val descriptionText = dialog.findViewById<TextView>(R.id.promotion_dialog_description)
         descriptionText.text = promotion.description

@@ -93,7 +93,6 @@ class PromotionFragment : Fragment() {
         dialog.findViewById<TextView>(R.id.promotion_location_address).text = "${promotion.location.address}, ${promotion.location.city}"
         dialog.findViewById<TextView>(R.id.promotion_location_zipcode).text = promotion.location.zipCode
 
-
         //DESCRIPTION
         val descriptionText = dialog.findViewById<TextView>(R.id.promotion_dialog_description)
         descriptionText.text = promotion.description
