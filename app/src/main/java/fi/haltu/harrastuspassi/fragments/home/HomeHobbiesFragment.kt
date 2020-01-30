@@ -4,6 +4,7 @@ import android.app.ActivityOptions
 import android.content.Intent
 import android.os.AsyncTask
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -32,8 +33,9 @@ import java.net.URL
 class HomeHobbiesFragment : Fragment() {
     lateinit var rootView: View
     lateinit var popularHobbyList: RecyclerView
-    lateinit var title: TextView
+    lateinit var promotedTitle: TextView
     lateinit var userHobbyList: RecyclerView
+    lateinit var userHobbyEventsText: TextView
     private var filters = Filters()
     var hobbyEventArrayList = ArrayList<HobbyEvent>()
 
@@ -53,11 +55,12 @@ class HomeHobbiesFragment : Fragment() {
         //Loads filters to fetch hobbies filtered by locations
         filters = loadFilters(this.activity!!)
 
-        title = rootView.findViewById<TextView>(R.id.home_promoted_title)
+        promotedTitle = rootView.findViewById<TextView>(R.id.home_promoted_title)
         //PROMOTIONS LISTS
         popularHobbyList = rootView.findViewById(R.id.home_popular_hobby_list)
 
         userHobbyList = rootView.findViewById(R.id.home_user_hobby_list)
+        userHobbyEventsText = rootView.findViewById(R.id.user_hobby_text_label)
         GetHobbyEvents().execute()
         return rootView
     }
@@ -78,7 +81,7 @@ class HomeHobbiesFragment : Fragment() {
                 .error(R.drawable.harrastuspassi_lil_kel)
                 .into(imageView)
             //TITLE
-            title.text = promotedHobby.hobby.name
+            promotedTitle.text = promotedHobby.hobby.name
             //DESCRIPTION
             parentView.findViewById<TextView>(R.id.home_promoted_description).text =
                 promotedHobby.hobby.description
@@ -116,7 +119,9 @@ class HomeHobbiesFragment : Fragment() {
                         )
                     }
                 }
-                else -> popularHobbyList.visibility = View.INVISIBLE
+                else -> {
+                    popularHobbyList.visibility = View.INVISIBLE
+                }
             }
             //USER HOBBIES LIST
             when {
@@ -143,7 +148,9 @@ class HomeHobbiesFragment : Fragment() {
                             )
                         }
                 }
-                else -> userHobbyList.visibility = View.INVISIBLE
+                else -> {
+                    userHobbyList.visibility = View.INVISIBLE
+                }
             }
         }
     }
@@ -185,15 +192,22 @@ class HomeHobbiesFragment : Fragment() {
 
             when (result) {
                 ERROR -> {
-                    title.text = getString(R.string.error_try_again_later)
+                    promotedTitle.text = getString(R.string.error_try_again_later)
+                    userHobbyEventsText.visibility = View.INVISIBLE
+
                 }
                 NO_INTERNET -> {
-                    title.text = activity!!.getString(R.string.error_no_internet)
+                    promotedTitle.text = activity!!.getString(R.string.error_no_internet)
+                    userHobbyEventsText.visibility = View.INVISIBLE
+
                     //progressText.text = getString(R.string.error_no_internet)
                 }
                 else -> {
                     try {
-                        val mJsonArray = JSONArray(result)
+                        Log.d("Error", result)
+
+                        val results = JSONObject(result)
+                        val mJsonArray = results.getJSONArray("results")
 
                         for (i in 0 until mJsonArray.length()) {
                             val sObject = mJsonArray.get(i).toString()
@@ -215,6 +229,8 @@ class HomeHobbiesFragment : Fragment() {
                             popularHobbyList.adapter!!.notifyDataSetChanged()
                         }
                     } catch (e: JSONException) {
+                        Log.d("Error", e.toString())
+                        userHobbyEventsText.visibility = View.INVISIBLE
                         //progressText.text = getString(R.string.error_no_hobby_events)
                     }
                 }

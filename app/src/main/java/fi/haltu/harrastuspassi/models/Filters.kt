@@ -11,8 +11,8 @@ class Filters : Serializable {
     var startTimeFrom: Int = 0 // 0:00
     var startTimeTo: Int = 24 * 60 - 1 // 23:59
     //Location
-    var latitude: Double = 0.0
-    var longitude: Double = 0.0
+    var latitude: Double = 64.9600
+    var longitude: Double = 27.5900
     //Whether filter is modified or not
     var isModified = false
         set(value) {

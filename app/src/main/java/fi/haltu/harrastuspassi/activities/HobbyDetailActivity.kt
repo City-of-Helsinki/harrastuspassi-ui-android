@@ -26,7 +26,6 @@ import com.squareup.picasso.Picasso
 import fi.haltu.harrastuspassi.R
 import fi.haltu.harrastuspassi.models.HobbyEvent
 import fi.haltu.harrastuspassi.utils.*
-import org.json.JSONArray
 import org.json.JSONObject
 import java.io.IOException
 import java.net.URL
@@ -75,10 +74,10 @@ class HobbyDetailActivity : AppCompatActivity(), OnMapReadyCallback {
         organizerTextView = findViewById(R.id.hobby_organizer)
         tableLayout = findViewById(R.id.tableLayout)
 
-        locationNameTextView = findViewById(R.id.location)
+        locationNameTextView = findViewById(R.id.promotion_location)
         descriptionTextView = findViewById(R.id.description_text)
-        locationAddress = findViewById(R.id.location_address)
-        locationZipCode = findViewById(R.id.location_zipcode)
+        locationAddress = findViewById(R.id.promotion_location_address)
+        locationZipCode = findViewById(R.id.promotion_location_zipcode)
 
         //Loads favorite id:s
         favorites = loadFavorites(this)
@@ -303,7 +302,6 @@ class HobbyDetailActivity : AppCompatActivity(), OnMapReadyCallback {
 
             when (result) {
                 ERROR -> {
-                    Log.d("ErrorLog", "1")
                     showErrorDialog()
                 }
 
@@ -312,7 +310,6 @@ class HobbyDetailActivity : AppCompatActivity(), OnMapReadyCallback {
                     val sObject = jsonArray.toString()
                     val eventObject = JSONObject(sObject)
                     val hobbyEvent = HobbyEvent(eventObject)
-
                     GetHobbyEvents(hobbyEvent.hobby.id).execute()
                 }
             }
@@ -335,12 +332,13 @@ class HobbyDetailActivity : AppCompatActivity(), OnMapReadyCallback {
 
             when (result) {
                 ERROR -> {
-                    Log.d("ErrorLog", "3")
                     showErrorDialog()
                 }
 
                 else -> {
-                    val jsonArray = JSONArray(result)
+
+                    val results = JSONObject(result)
+                    val jsonArray = results.getJSONArray("results")
                     for (i in 0 until jsonArray.length()) {
                         val sObject = jsonArray.get(i).toString()
                         val eventObject = JSONObject(sObject)
@@ -349,13 +347,13 @@ class HobbyDetailActivity : AppCompatActivity(), OnMapReadyCallback {
                     }
 
                     if (eventList.isEmpty()) {
-                        Log.d("ErrorLog", "4")
 
                         showErrorDialog()
                     } else {
                         hobbyEvent = eventList[0]
                     }
                     setHobbyDetailView(eventList)
+
                 }
             }
         }

@@ -5,6 +5,7 @@ import android.app.ActivityOptions
 import android.content.Intent
 import android.os.AsyncTask
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -19,8 +20,10 @@ import fi.haltu.harrastuspassi.R
 import fi.haltu.harrastuspassi.activities.HobbyDetailActivity
 import fi.haltu.harrastuspassi.activities.MainActivity
 import fi.haltu.harrastuspassi.adapters.HobbyEventListAdapter
+import fi.haltu.harrastuspassi.models.Filters
 import fi.haltu.harrastuspassi.models.HobbyEvent
 import fi.haltu.harrastuspassi.utils.loadFavorites
+import fi.haltu.harrastuspassi.utils.loadFilters
 import fi.haltu.harrastuspassi.utils.verifyAvailableNetwork
 import org.json.JSONArray
 import org.json.JSONException
@@ -32,10 +35,13 @@ import java.net.URL
 class FavoriteListFragment : Fragment() {
     private lateinit var listView: RecyclerView
     private var hobbyEventArrayList = ArrayList<HobbyEvent>()
+    private var filteredArrayList = ArrayList<HobbyEvent>()
     private lateinit var progressBar: ProgressBar
     private lateinit var progressText: TextView
     private lateinit var refreshLayout: SwipeRefreshLayout
     private lateinit var favorites: HashSet<Int>
+    private lateinit var filters: Filters
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -51,8 +57,11 @@ class FavoriteListFragment : Fragment() {
         refreshLayout = view.findViewById(R.id.swipe_refresh_list)
 
         refreshLayout.setOnRefreshListener {
-            GetHobbyEvents().execute()
+            filters = loadFilters(this.activity!!)
+            GetHobbyEvents(null).execute()
         }
+
+        filters = loadFilters(this.activity!!)
         favorites = loadFavorites(this.activity!!)
 
         progressBar = view.findViewById(R.id.progressbar)
@@ -67,7 +76,7 @@ class FavoriteListFragment : Fragment() {
             adapter = hobbyEventListAdapter
         }
 
-        GetHobbyEvents().execute()
+        GetHobbyEvents(null).execute()
         return view
     }
 
@@ -105,8 +114,8 @@ class FavoriteListFragment : Fragment() {
         const val NO_INTERNET = "no_internet"
     }
 
-    internal inner class GetHobbyEvents : AsyncTask<Void, Void, String>() {
-
+    internal inner class GetHobbyEvents(url: String? = null) : AsyncTask<Void, Void, String>() {
+        private val fetchUrl = url
         override fun onPreExecute() {
             super.onPreExecute()
             progressBar.visibility = View.VISIBLE
@@ -114,7 +123,13 @@ class FavoriteListFragment : Fragment() {
 
         override fun doInBackground(vararg params: Void?): String {
             return try {
-                URL(getString(R.string.API_URL) + "hobbyevents/?include=hobby_detail&include=location_detail&include=organizer_detail").readText()
+                Log.d("latitude", "${filters.latitude}")
+                if(fetchUrl.isNullOrEmpty()) {
+                    URL(getString(R.string.API_URL) + "hobbyevents/?include=location_detail&include=hobby_detail&include=organizer_detail&ordering=nearest&near_latitude=${filters.latitude}&near_longitude=${filters.longitude}").readText()
+                } else {
+                    URL(fetchUrl).readText()
+                }
+
 
             } catch (e: IOException) {
                 return when (!verifyAvailableNetwork(activity!!)) {
@@ -128,7 +143,7 @@ class FavoriteListFragment : Fragment() {
         override fun onPostExecute(result: String?) {
             super.onPostExecute(result)
 
-            hobbyEventArrayList.clear()
+            var nextHobbyEventsURL = ""
 
             when (result) {
                 ERROR -> {
@@ -140,8 +155,9 @@ class FavoriteListFragment : Fragment() {
                 }
                 else -> {
                     try {
-                        val mJsonArray = JSONArray(result)
-
+                        val results = JSONObject(result)
+                        val mJsonArray = results.getJSONArray("results")
+                        nextHobbyEventsURL = results.getString("next")
                         for (i in 0 until mJsonArray.length()) {
                             val sObject = mJsonArray.get(i).toString()
                             val hobbyObject = JSONObject(sObject)
@@ -164,7 +180,11 @@ class FavoriteListFragment : Fragment() {
             }
             progressBar.visibility = View.INVISIBLE
             refreshLayout.isRefreshing = false
-            updateListView(listView, filterFavorites(hobbyEventArrayList, favorites))
+            if(nextHobbyEventsURL.isNullOrEmpty() || nextHobbyEventsURL == "null") {
+                updateListView(listView, filterFavorites(hobbyEventArrayList, favorites))
+            } else {
+                GetHobbyEvents(nextHobbyEventsURL).execute()
+            }
         }
     }
 

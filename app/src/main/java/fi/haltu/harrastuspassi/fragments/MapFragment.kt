@@ -386,7 +386,8 @@ class MapFragment : Fragment(), OnMapReadyCallback {
                 }
                 else -> {
                     try {
-                        val mJsonArray = JSONArray(result)
+                        val results = JSONObject(result)
+                        val mJsonArray = results.getJSONArray("results")
                         hobbyEventArrayList.clear()
                         for (i in 0 until mJsonArray.length()) {
                             val sObject = mJsonArray.get(i).toString()

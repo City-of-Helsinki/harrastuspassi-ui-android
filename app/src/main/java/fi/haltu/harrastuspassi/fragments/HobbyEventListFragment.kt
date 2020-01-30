@@ -186,11 +186,13 @@ class HobbyEventListFragment : Fragment() {
                     this@HobbyEventListFragment.progressText.text = getString(R.string.error_try_again_later)
                 }
                 NO_INTERNET -> {
+
                     progressText.text = getString(R.string.error_no_internet)
                 }
                 else -> {
                     try {
-                        val mJsonArray = JSONArray(result)
+                        val results = JSONObject(result)
+                        val mJsonArray = results.getJSONArray("results")
 
                         for (i in 0 until mJsonArray.length()) {
                             val sObject = mJsonArray.get(i).toString()
