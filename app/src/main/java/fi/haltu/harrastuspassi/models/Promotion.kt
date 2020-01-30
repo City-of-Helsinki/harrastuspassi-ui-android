@@ -1,5 +1,6 @@
 package fi.haltu.harrastuspassi.models
 
+import fi.haltu.harrastuspassi.utils.getOptionalJSONObject
 import org.json.JSONObject
 import java.io.Serializable
 
@@ -15,6 +16,7 @@ class Promotion(json: JSONObject? = null) : Serializable {
     var municipality: String? = null
     var availableCount: Int = 0
     var usedCount: Int = 0
+    var location: Location = Location()
 
     init {
         if (json != null) {
@@ -30,6 +32,10 @@ class Promotion(json: JSONObject? = null) : Serializable {
             municipality = json.getString("municipality")
             if (municipality == "null") {
                 municipality = "Haltu"
+            }
+            val locationObject = getOptionalJSONObject(json, "location")
+            if (locationObject != null) {
+                location = Location(locationObject)
             }
         }
     }

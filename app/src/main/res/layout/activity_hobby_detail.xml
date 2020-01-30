@@ -80,7 +80,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/hobby_title" />
 
             <TextView
-                    android:id="@+id/location_icon"
+                    android:id="@+id/promotion_location_icon"
                     android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:layout_marginTop="16dp"
@@ -91,27 +91,27 @@
                     app:layout_constraintTop_toBottomOf="@+id/hobby_organizer" />
 
             <TextView
-                    android:id="@+id/location_address"
+                    android:id="@+id/promotion_location_address"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
 
                     android:textSize="14sp"
-                    app:layout_constraintEnd_toEndOf="@+id/location"
-                    app:layout_constraintStart_toStartOf="@+id/location"
-                    app:layout_constraintTop_toBottomOf="@+id/location" />
+                    app:layout_constraintEnd_toEndOf="@+id/promotion_location"
+                    app:layout_constraintStart_toStartOf="@+id/promotion_location"
+                    app:layout_constraintTop_toBottomOf="@+id/promotion_location" />
 
             <TextView
-                    android:id="@+id/location_zipcode"
+                    android:id="@+id/promotion_location_zipcode"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
 
                     android:textSize="14sp"
-                    app:layout_constraintEnd_toEndOf="@+id/location_address"
-                    app:layout_constraintStart_toStartOf="@+id/location_address"
-                    app:layout_constraintTop_toBottomOf="@+id/location_address" />
+                    app:layout_constraintEnd_toEndOf="@+id/promotion_location_address"
+                    app:layout_constraintStart_toStartOf="@+id/promotion_location_address"
+                    app:layout_constraintTop_toBottomOf="@+id/promotion_location_address" />
 
             <TextView
-                    android:id="@+id/location"
+                    android:id="@+id/promotion_location"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
 
@@ -119,10 +119,10 @@
                     android:fontFamily="sans-serif"
                     android:gravity="start"
                     android:textSize="14sp"
-                    app:layout_constraintBottom_toBottomOf="@+id/location_icon"
+                    app:layout_constraintBottom_toBottomOf="@+id/promotion_location_icon"
                     app:layout_constraintEnd_toEndOf="@+id/hobby_organizer"
-                    app:layout_constraintStart_toEndOf="@+id/location_icon"
-                    app:layout_constraintTop_toTopOf="@+id/location_icon"
+                    app:layout_constraintStart_toEndOf="@+id/promotion_location_icon"
+                    app:layout_constraintTop_toTopOf="@+id/promotion_location_icon"
                     app:layout_constraintVertical_bias="0.0" />
 
 
@@ -137,9 +137,9 @@
                     android:paddingRight="8dp"
                     android:paddingBottom="16dp"
                     android:stretchColumns="*"
-                    app:layout_constraintEnd_toEndOf="@+id/location"
-                    app:layout_constraintStart_toStartOf="@+id/location_icon"
-                    app:layout_constraintTop_toBottomOf="@+id/location_zipcode">
+                    app:layout_constraintEnd_toEndOf="@+id/promotion_location"
+                    app:layout_constraintStart_toStartOf="@+id/promotion_location_icon"
+                    app:layout_constraintTop_toBottomOf="@+id/promotion_location_zipcode">
                 <!-- first row of the table layout-->
                 <TableRow
                         android:layout_width="fill_parent"

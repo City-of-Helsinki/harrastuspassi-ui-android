@@ -38,6 +38,7 @@ class HomePromotionsFragment : Fragment() {
     lateinit var rootView: View
     lateinit var popularPromotionsListView: RecyclerView
     lateinit var userPromotionsListView: RecyclerView
+    lateinit var userPromotionText: TextView
     private lateinit var firebaseAnalytics: FirebaseAnalytics
     private var usedPromotions: HashSet<Int> = HashSet()
     private var popularPromotionList = ArrayList<Promotion>()
@@ -65,6 +66,8 @@ class HomePromotionsFragment : Fragment() {
         userPromotionsListView = rootView.findViewById(R.id.home_user_promotion_list)
         usedPromotions = loadUsedPromotions(this.activity!!)
         firebaseAnalytics = FirebaseAnalytics.getInstance(this.context!!)
+        userPromotionText = rootView.findViewById(R.id.user_promotion_text_label)
+
         GetPromotions().execute()
         return rootView
     }
@@ -300,6 +303,7 @@ class HomePromotionsFragment : Fragment() {
             super.onPostExecute(result)
             when (result) {
                 ERROR -> {
+                    userPromotionText.visibility = View.INVISIBLE
                 }
                 else -> {
                     try {
@@ -320,6 +324,7 @@ class HomePromotionsFragment : Fragment() {
                         setPromotions(rootView, popularPromotionList)
 
                     } catch (e: JSONException) {
+                        userPromotionText.visibility = View.INVISIBLE
 
                     }
                 }

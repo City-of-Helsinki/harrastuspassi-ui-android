@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/rounded_corners_20dp"
@@ -9,7 +10,7 @@
     <ImageView
             android:id="@+id/promotion_dialog_image"
             android:layout_width="0dp"
-            android:layout_height="328dp"
+            android:layout_height="250dp"
             android:scaleType="centerCrop"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -40,6 +41,52 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/promotion_dialog_image" />
 
+    <TextView
+            android:id="@+id/promotion_location_icon"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/location_icon"
+            android:backgroundTint="@color/hobbyPurple"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintStart_toStartOf="@+id/promotion_dialog_title"
+            app:layout_constraintTop_toBottomOf="@+id/promotion_dialog_title" />
+
+    <TextView
+            android:id="@+id/promotion_location_address"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+
+            android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="@+id/promotion_dialog_title"
+            app:layout_constraintStart_toStartOf="@+id/promotion_location"
+            app:layout_constraintTop_toBottomOf="@+id/promotion_location" />
+
+    <TextView
+            android:id="@+id/promotion_location_zipcode"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+
+            android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="@+id/promotion_location_address"
+            app:layout_constraintStart_toStartOf="@+id/promotion_location_address"
+            app:layout_constraintTop_toBottomOf="@+id/promotion_location_address" />
+
+    <TextView
+            android:id="@+id/promotion_location"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+
+            android:layout_marginStart="8dp"
+            android:fontFamily="sans-serif"
+            android:gravity="start"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="@+id/promotion_location_icon"
+            app:layout_constraintEnd_toEndOf="@+id/promotion_dialog_title"
+            app:layout_constraintStart_toEndOf="@+id/promotion_location_icon"
+            app:layout_constraintTop_toTopOf="@+id/promotion_location_icon"
+            app:layout_constraintVertical_bias="0.0" />
+
     <ScrollView
             android:layout_width="0dp"
             android:layout_height="0dp"
@@ -51,8 +98,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/promotion_dialog_title"
-            app:layout_constraintVertical_bias="1.0">
+            app:layout_constraintTop_toBottomOf="@+id/promotion_location_zipcode">
 
         <TextView
                 android:id="@+id/promotion_dialog_description"
