@@ -322,7 +322,7 @@ class HomePromotionsFragment : Fragment() {
                             if (usedPromotions.contains(promotion.id)) {
                                 promotion.isUsed = true
                             }
-                            if (promotion.usedCount < promotion.availableCount) {
+                            if (promotion.usedCount < promotion.availableCount && !promotion.isUsed) {
                                 popularPromotionList.add(promotion)
                             }
                         }
