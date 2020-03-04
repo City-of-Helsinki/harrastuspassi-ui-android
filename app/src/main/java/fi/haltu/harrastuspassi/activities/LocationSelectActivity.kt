@@ -2,6 +2,7 @@ package fi.haltu.harrastuspassi.activities
 
 import android.os.Bundle
 import android.widget.Button
+import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -12,6 +13,7 @@ import fi.haltu.harrastuspassi.R
 import fi.haltu.harrastuspassi.models.Filters
 
 class LocationSelectActivity : AppCompatActivity(), OnMapReadyCallback {
+    lateinit var closeButton: ImageView
     companion object {
         const val CENTER_LAT = 64.9600 //Center point of Finland
         const val CENTER_LON = 27.5900
@@ -25,6 +27,10 @@ class LocationSelectActivity : AppCompatActivity(), OnMapReadyCallback {
         setContentView(R.layout.activity_location_select)
         val mapFragment = supportFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
+        closeButton = findViewById(R.id.map_select_close_button)
+        closeButton.setOnClickListener {
+            this.onBackPressed()
+        }
         filters = intent.extras!!.getSerializable("EXTRA_FILTERS") as Filters
         findViewById<Button>(R.id.use_location_button).setOnClickListener {
             intent.putExtra("EXTRA_FILTERS", filters)
