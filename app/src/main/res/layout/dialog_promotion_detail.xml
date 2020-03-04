@@ -58,7 +58,7 @@
             android:layout_height="wrap_content"
 
             android:textSize="14sp"
-            app:layout_constraintEnd_toEndOf="@+id/promotion_dialog_title"
+            app:layout_constraintEnd_toEndOf="@+id/promotion_location"
             app:layout_constraintStart_toStartOf="@+id/promotion_location"
             app:layout_constraintTop_toBottomOf="@+id/promotion_location" />
 
@@ -88,24 +88,22 @@
             app:layout_constraintVertical_bias="0.0" />
 
     <ScrollView
+            android:id="@+id/scrollView3"
             android:layout_width="0dp"
-            android:layout_height="0dp"
+            android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
-            android:layout_marginBottom="8dp"
-            app:layout_constraintBottom_toTopOf="@+id/promotion_dialog_duration"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/promotion_location_zipcode">
 
         <TextView
                 android:id="@+id/promotion_dialog_description"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
                 android:fontFamily="sans-serif"
-                android:textSize="12sp" />
+                android:textSize="14sp" />
     </ScrollView>
 
     <TextView
@@ -113,15 +111,26 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
-            android:layout_marginBottom="16dp"
             android:fontFamily="sans-serif"
             android:textColor="@color/hobbyPurple"
-            android:textSize="14sp"
+            android:textSize="16sp"
             android:textStyle="bold"
-            app:layout_constraintBottom_toTopOf="@+id/promotion_dialog_slide_button"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/scrollView3" />
+
+    <TextView
+            android:id="@+id/promotion_dialog_used_amount"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintEnd_toEndOf="@+id/promotion_dialog_duration"
+            app:layout_constraintStart_toStartOf="@+id/promotion_dialog_duration"
+            app:layout_constraintTop_toBottomOf="@+id/promotion_dialog_duration" />
 
     <com.ncorti.slidetoact.SlideToActView
             android:id="@+id/promotion_dialog_slide_button"
@@ -151,8 +160,8 @@
             android:gravity="center"
             android:textSize="16sp"
             android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toBottomOf="@+id/promotion_dialog_slide_button"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/promotion_dialog_duration" />
+            app:layout_constraintTop_toTopOf="@+id/promotion_dialog_slide_button" />
 </androidx.constraintlayout.widget.ConstraintLayout>

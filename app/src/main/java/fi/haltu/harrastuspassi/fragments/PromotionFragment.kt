@@ -103,6 +103,11 @@ class PromotionFragment : Fragment() {
             promotion.startDate,
             promotion.endDate
         )}"
+
+        //USED AMOUNT
+        val usedAmountText = dialog.findViewById<TextView>(R.id.promotion_dialog_used_amount)
+        usedAmountText.text = "${activity!!.getString(R.string.promotions_left)}: ${promotion.availableCount - promotion.usedCount}"
+
         //CLOSE_ICON
         val closeIcon = dialog.findViewById<ImageView>(R.id.dialog_close_button)
         closeIcon.setOnClickListener {
@@ -135,6 +140,8 @@ class PromotionFragment : Fragment() {
 
                 firebaseAnalytics.logEvent("usePromotion", bundle)
                 PostPromotion(promotion.id).execute()
+                GetPromotions().execute()
+                dialog.dismiss()
             }
         }
 

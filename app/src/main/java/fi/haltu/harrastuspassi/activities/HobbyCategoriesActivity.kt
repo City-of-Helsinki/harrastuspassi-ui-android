@@ -25,13 +25,14 @@ class HobbyCategoriesActivity : AppCompatActivity() {
     private lateinit var listView: RecyclerView
     private var isSaveClicked: Boolean = false
     private var filters: Filters = Filters()
+    private var filtersOriginal: Filters = Filters()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_hobby_categories)
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
 
         filters = intent.extras!!.getSerializable("EXTRA_FILTERS") as Filters
-
+        filtersOriginal = intent.extras!!.getSerializable("EXTRA_FILTERS") as Filters
         if (intent.hasExtra("EXTRA_CATEGORY_BUNDLE")) {
             val bundle = intent.getBundleExtra("EXTRA_CATEGORY_BUNDLE")
             categoryList = bundle.getSerializable("CATEGORY_LIST") as ArrayList<Category>
@@ -81,7 +82,7 @@ class HobbyCategoriesActivity : AppCompatActivity() {
         when (item.itemId) {
             android.R.id.home -> {
                 val intent = Intent()
-                intent.putExtra("EXTRA_FILTERS", filters)
+                intent.putExtra("EXTRA_FILTERS", filtersOriginal)
                 setResult(1, intent)
                 finish()
             }
@@ -105,7 +106,7 @@ class HobbyCategoriesActivity : AppCompatActivity() {
 
     override fun onBackPressed() {
         val intent = Intent()
-        intent.putExtra("EXTRA_FILTERS", filters)
+        intent.putExtra("EXTRA_FILTERS", filtersOriginal)
         setResult(1, intent)
         finish()
         super.onBackPressed()
