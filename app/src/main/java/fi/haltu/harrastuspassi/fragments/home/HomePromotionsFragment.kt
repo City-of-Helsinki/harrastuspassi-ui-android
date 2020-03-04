@@ -30,7 +30,6 @@ import org.json.JSONException
 import org.json.JSONObject
 import java.io.IOException
 import java.net.URL
-import android.view.ViewManager
 import androidx.constraintlayout.widget.Constraints
 
 
@@ -213,11 +212,14 @@ class HomePromotionsFragment : Fragment() {
         descriptionText.text = promotion.description
         //DATE
         val durationText = dialog.findViewById<TextView>(R.id.promotion_dialog_duration)
-
         durationText.text = "${activity!!.getString(R.string.available)}: ${convertToDateRange(
             promotion.startDate,
             promotion.endDate
         )}"
+
+        //USED AMOUNT
+        val usedAmountText = dialog.findViewById<TextView>(R.id.promotion_dialog_used_amount)
+        usedAmountText.text = "${activity!!.getString(R.string.promotions_left)}: ${promotion.availableCount - promotion.usedCount}"
         //CLOSE_ICON
         val closeIcon = dialog.findViewById<ImageView>(R.id.dialog_close_button)
         closeIcon.setOnClickListener {
@@ -240,6 +242,9 @@ class HomePromotionsFragment : Fragment() {
                 bundle.putString("municipality", promotion.municipality)
 
                 promotion.isUsed = true
+                promotion.usedCount += 1
+                usedAmountText.text = "${activity!!.getString(R.string.promotions_left)}: ${promotion.availableCount - promotion.usedCount}"
+
                 usedPromotions.add(promotion.id)
                 saveUsedPromotions(usedPromotions, activity!!)
                 slideButton.visibility = View.INVISIBLE
@@ -253,8 +258,7 @@ class HomePromotionsFragment : Fragment() {
                     rootView.findViewById<TextView>(R.id.home_promoted_duration).text =
                         activity!!.getString(R.string.promotions_used)
                 }
-
-                    firebaseAnalytics.logEvent("usePromotion", bundle)
+                firebaseAnalytics.logEvent("usePromotion", bundle)
                 PostPromotion(promotion.id).execute()
             }
         }
