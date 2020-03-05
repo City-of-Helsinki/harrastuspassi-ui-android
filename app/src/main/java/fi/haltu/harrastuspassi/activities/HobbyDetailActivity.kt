@@ -256,7 +256,8 @@ class HobbyDetailActivity : AppCompatActivity(), OnMapReadyCallback {
                 LayoutInflater.from(this).inflate(R.layout.table_row, null) as TableRow
             row.findViewById<TextView>(R.id.week_day).text =
                 idToWeekDay(hobbyEvent.startWeekday, this)
-            row.findViewById<TextView>(R.id.start_date).text = hobbyEvent.startDate
+            Log.d("Table", formatDate(hobbyEvent.startDate))
+            row.findViewById<TextView>(R.id.start_date).text = formatDate(hobbyEvent.startDate)
             row.findViewById<TextView>(R.id.time).text =
                 convertToTimeRange(hobbyEvent.startTime, hobbyEvent.endTime)
             tableLayout.addView(row)
