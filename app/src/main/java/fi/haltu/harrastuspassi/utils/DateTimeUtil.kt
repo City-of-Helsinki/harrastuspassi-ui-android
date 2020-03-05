@@ -67,7 +67,20 @@ fun convertToDateRange(startDate: String, endDate: String): String {
         e.printStackTrace()
     }
 
-    return "$startDateForm - $endDateForm"
+    return "$startDateForm. - $endDateForm"
+}
+
+fun formatDate(date: String): String {
+    val parser = SimpleDateFormat("yyyy-MM-dd", Locale.US)
+    val formatterDDMMYYYY = SimpleDateFormat("dd.MM.yyyy", Locale.US)
+    var dateForm = ""
+    try {
+        dateForm = formatterDDMMYYYY.format(parser.parse(date))
+    } catch (e: Exception) {
+        e.printStackTrace()
+    }
+
+    return dateForm
 }
 
 fun convertToTimeRange(startTime: String, endTime: String): String {
