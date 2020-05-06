@@ -3,6 +3,8 @@ package fi.haltu.harrastuspassi.fragments.home
 import android.annotation.SuppressLint
 import android.app.ActionBar
 import android.app.Dialog
+import android.content.Intent
+import android.net.Uri
 import android.os.AsyncTask
 import android.os.Bundle
 import android.view.*
@@ -209,7 +211,14 @@ class HomePromotionsFragment : Fragment() {
 
         //DESCRIPTION
         val descriptionText = dialog.findViewById<TextView>(R.id.promotion_dialog_description)
-        descriptionText.text = promotion.description
+        descriptionText.setTextWithLinkSupport(promotion.description) {
+            var url = it
+            if (!url.startsWith("http://") && !url.startsWith("https://"))
+                url = "http://$url";
+            // Opens url in browser
+            val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+            startActivity(browserIntent)
+        }
         //DATE
         val durationText = dialog.findViewById<TextView>(R.id.promotion_dialog_duration)
         durationText.text = "${activity!!.getString(R.string.available)}: ${convertToDateRange(

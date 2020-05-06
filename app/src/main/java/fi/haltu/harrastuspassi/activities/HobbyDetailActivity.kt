@@ -1,14 +1,22 @@
 package fi.haltu.harrastuspassi.activities
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.net.Uri
 import android.os.AsyncTask
 import android.os.Bundle
+import android.text.SpannableString
+import android.text.Spanned
+import android.text.style.ClickableSpan
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.*
+import android.view.View
+import android.widget.ImageView
+import android.widget.TableLayout
+import android.widget.TableRow
+import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ShareCompat
@@ -264,7 +272,14 @@ class HobbyDetailActivity : AppCompatActivity(), OnMapReadyCallback {
         }
 
         //DESCRIPTION
-        descriptionTextView.text = hobbyEvents[0].hobby.description
+        descriptionTextView.setTextWithLinkSupport(hobbyEvents[0].hobby.description) {
+            var url = it
+            if (!url.startsWith("http://") && !url.startsWith("https://"))
+                url = "http://$url";
+            // Opens url in browser
+            val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+            startActivity(browserIntent)
+        }
 
         //MAP
         if (hobbyEvents[0].hobby.location.lat != null) {
