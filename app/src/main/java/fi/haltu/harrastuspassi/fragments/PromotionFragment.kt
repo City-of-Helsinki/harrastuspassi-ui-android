@@ -2,8 +2,17 @@ package fi.haltu.harrastuspassi.fragments
 
 import android.annotation.SuppressLint
 import android.app.Dialog
+import android.content.Intent
+import android.net.Uri
 import android.os.AsyncTask
 import android.os.Bundle
+import android.text.SpannableString
+import android.text.Spanned
+import android.text.method.LinkMovementMethod
+import android.text.style.ClickableSpan
+import android.text.style.URLSpan
+import android.util.Log
+import android.util.Patterns
 import android.view.*
 import android.widget.ImageView
 import android.widget.TextView
@@ -21,6 +30,7 @@ import fi.haltu.harrastuspassi.models.Promotion
 import fi.haltu.harrastuspassi.utils.convertToDateRange
 import fi.haltu.harrastuspassi.utils.loadUsedPromotions
 import fi.haltu.harrastuspassi.utils.saveUsedPromotions
+import fi.haltu.harrastuspassi.utils.setTextWithLinkSupport
 import okhttp3.MultipartBody
 import okhttp3.OkHttpClient
 import okhttp3.Request
@@ -95,7 +105,15 @@ class PromotionFragment : Fragment() {
 
         //DESCRIPTION
         val descriptionText = dialog.findViewById<TextView>(R.id.promotion_dialog_description)
-        descriptionText.text = promotion.description
+        descriptionText.setTextWithLinkSupport(promotion.description) {
+            var url = it
+            if (!url.startsWith("http://") && !url.startsWith("https://"))
+                url = "http://$url";
+            // Opens url in browser
+            val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+            startActivity(browserIntent)
+        }
+
         //DATE
         val durationText = dialog.findViewById<TextView>(R.id.promotion_dialog_duration)
 
