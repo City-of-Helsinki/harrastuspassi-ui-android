@@ -213,6 +213,41 @@
                         app:layout_constraintTop_toTopOf="@+id/time_span_slider" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
+            <TextView
+                    android:id="@+id/paid_text"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="32dp"
+                    android:text="Maksullisuus"
+                    app:textAllCaps="true"
+                    android:fontFamily="Roboto"
+                    android:textColor="@color/hobbyPurple"
+                    android:textSize="13sp"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/timespan_filter_title"
+                    app:layout_constraintTop_toBottomOf="@+id/timespan_container" />
+
+            <CheckBox
+                    android:id="@+id/is_free_check_box"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginBottom="16dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/paid_text"
+                    app:layout_constraintTop_toBottomOf="@+id/paid_text" />
+
+            <TextView
+                    android:id="@+id/show_only_free_hobbies_text"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="Näytä vain maksuttomat harrastukset"
+                    android:layout_marginStart="8dp"
+                    app:layout_constraintBottom_toBottomOf="@+id/is_free_check_box"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/is_free_check_box"
+                    app:layout_constraintTop_toTopOf="@+id/is_free_check_box" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </ScrollView>
@@ -222,6 +257,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="16dp"
             android:backgroundTint="@color/hobbyPurple"
@@ -234,6 +270,7 @@
             android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/scrollView" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
