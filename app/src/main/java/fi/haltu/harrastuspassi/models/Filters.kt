@@ -36,12 +36,16 @@ class Filters : Serializable {
             }
             field = value
         }
-    var isFree: Boolean = true
+    // Whether show only free hobbies or not
+    var showFree: Boolean = false
+    var searchText: String = ""
+    //var showHobbiesWithPromotion = false
     override fun toString(): String {
         return "categories: $categories\ndayOfWeeks:$dayOfWeeks\n" +
                 "startTimeFrom:${minutesToTime(startTimeFrom)}\n" +
-                "startTimeTo:${minutesToTime(startTimeTo)}" +
-                "Location(lat/long): $latitude, $longitude"
+                "startTimeTo:${minutesToTime(startTimeTo)}\n" +
+                "Location(lat/long): $latitude, $longitude\n" +
+                "showFree: $showFree\n"
     }
 
     fun clone(): Filters {

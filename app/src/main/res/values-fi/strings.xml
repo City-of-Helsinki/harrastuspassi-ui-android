@@ -54,4 +54,5 @@
     <string name="popular_hobbies">Suosituimmat harrastukset</string>
     <string name="hobbies_for_you">Harrastuksia sinulle</string>
     <string name="promotions_left">Etuuksia jäljellä</string>
+    <string name="search">Haku</string>
 </resources>

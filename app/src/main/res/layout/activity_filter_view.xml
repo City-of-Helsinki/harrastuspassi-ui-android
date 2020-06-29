@@ -248,6 +248,43 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/is_free_check_box"
                     app:layout_constraintTop_toTopOf="@+id/is_free_check_box" />
+<!--
+            <TextView
+                    android:id="@+id/promotion_text"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="32dp"
+                    android:fontFamily="Roboto"
+                    android:text="@string/promotions"
+                    android:textColor="@color/hobbyPurple"
+                    android:textSize="13sp"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/is_free_check_box"
+                    app:layout_constraintTop_toBottomOf="@+id/is_free_check_box"
+                    app:textAllCaps="true" />
+
+            <CheckBox
+                    android:id="@+id/has_promotion_check_box"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginBottom="16dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/promotion_text"
+                    app:layout_constraintTop_toBottomOf="@+id/promotion_text" />
+
+            <TextView
+                    android:id="@+id/show_hobbies_with_promotion_text"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:text="Vain harrastukse, joissa on etuuksia"
+                    app:layout_constraintBottom_toBottomOf="@+id/has_promotion_check_box"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/has_promotion_check_box"
+                    app:layout_constraintTop_toTopOf="@+id/has_promotion_check_box" />
+                    -->
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </ScrollView>

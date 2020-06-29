@@ -17,6 +17,8 @@ fun createHobbyEventQueryUrl(filters: Filters): String {
                 "category=$categoryId&"
             }
         }
+    } else if(filters.searchText != "") {
+        query += "&search=${filters.searchText}"
     }
     if (weekDayArrayList.isNotEmpty()) {
         query += "&"
@@ -30,6 +32,10 @@ fun createHobbyEventQueryUrl(filters: Filters): String {
         }
     }
 
+    if (filters.showFree) {
+        query += "&price_type=free"
+    }
+
     query += "&start_time_from=${minutesToTime(filters.startTimeFrom)}"
     query += "&start_time_to=${minutesToTime(filters.startTimeTo)}"
 
@@ -38,7 +44,7 @@ fun createHobbyEventQueryUrl(filters: Filters): String {
     query += "&near_longitude=${filters.longitude}"
 
 
-    Log.d("uery", query)
+    Log.d("query", query)
     return query
 }
 

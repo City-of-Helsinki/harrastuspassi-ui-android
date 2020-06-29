@@ -85,32 +85,30 @@ class HomeFragment : Fragment() {
 
     @SuppressLint("DefaultLocale")
     private fun search(searchStr: String) {
-        var isInList = false
         var simplifiedStr = searchStr.trimEnd().toLowerCase()
         if (simplifiedStr != "") {
             for (category in categoryList) {
-                if (category.name.toLowerCase().contains(simplifiedStr)) {
 
-                    // FIREBASE ANALYTICS
-                    val bundle = Bundle()
-                    bundle.putString("categoryName", category.name)
-                    firebaseAnalytics.logEvent("frontPageSearch", bundle)
+                // FIREBASE ANALYTICS
+                val bundle = Bundle()
+                bundle.putString("categoryName", category.name)
+                firebaseAnalytics.logEvent("frontPageSearch", bundle)
 
-                    var filters = loadFilters(activity!!)
+                var filters = loadFilters(activity!!)
 
-                    filters.categories.clear()
-                    filters.categories.add(category.id!!)
-                    filters.isListUpdated = false
-                    saveFilters(filters, activity!!)
-                    var mainActivity = context as MainActivity
-                    mainActivity.performListClick()
-                    isInList = true
-                    break
-                }
+                filters.categories.clear()
+                //filters.categories.add(category.id!!)
+                filters.searchText = searchStr
+                filters.isListUpdated = false
+                saveFilters(filters, activity!!)
+                searchEditText.text.clear()
+                var mainActivity = context as MainActivity
+                mainActivity.performListClick()
+                break
             }
-            if (!isInList) {
+            /*if (!isInList) {
                 Toast.makeText(this.context, "Ei tuloksia", Toast.LENGTH_SHORT).show()
-            }
+            }*/
         }
     }
 
@@ -150,13 +148,24 @@ class HomeFragment : Fragment() {
                     searchEditText.setOnItemClickListener { _, _, _, id ->
                         var filters = loadFilters(activity!!)
                         filters.categories.clear()
-                        filters.categories.add(id.toInt())
+                        filters.searchText = getCategoryNameById(categoryList, id.toInt())
+
                         saveFilters(filters, activity!!)
+                        searchEditText.text.clear()
+
                         var mainActivity = context as MainActivity
                         mainActivity.performListClick()
                     }
                 }
             }
+        }
+        fun getCategoryNameById(categories: ArrayList<Category>, categoryId: Int): String {
+            for(category in categories) {
+                if(category.id == categoryId) {
+                    return category.name
+                }
+            }
+            return ""
         }
     }
 }

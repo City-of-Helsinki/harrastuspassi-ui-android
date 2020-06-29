@@ -18,7 +18,6 @@ import com.google.firebase.analytics.FirebaseAnalytics
 import fi.haltu.harrastuspassi.R
 import fi.haltu.harrastuspassi.activities.FilterViewActivity
 import fi.haltu.harrastuspassi.adapters.HobbyEventListAdapter
-import org.json.JSONArray
 import org.json.JSONObject
 import java.io.IOException
 import java.net.URL
@@ -38,8 +37,8 @@ class HobbyEventListFragment : Fragment() {
     private var filters: Filters = Filters()
     private lateinit var refreshLayout: SwipeRefreshLayout
     private lateinit var firebaseAnalytics: FirebaseAnalytics
-
-
+    private lateinit var searchText: TextView
+    private lateinit var searchCloseButton: ImageView
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -49,7 +48,6 @@ class HobbyEventListFragment : Fragment() {
         val hobbyEventListAdapter = HobbyEventListAdapter(hobbyEventArrayList) { hobbyEvent: HobbyEvent, hobbyImage: ImageView -> hobbyItemClicked(hobbyEvent, hobbyImage)}
 
         setHasOptionsMenu(true)
-
         firebaseAnalytics = FirebaseAnalytics.getInstance(this.context!!)
 
         refreshLayout = view.findViewById(R.id.swipe_refresh_list)
@@ -57,7 +55,6 @@ class HobbyEventListFragment : Fragment() {
         refreshLayout.setOnRefreshListener {
             GetHobbyEvents().execute()
         }
-
         progressBar = view.findViewById(R.id.progressbar)
         progressText = view.findViewById(R.id.progress_text)
 
@@ -68,6 +65,20 @@ class HobbyEventListFragment : Fragment() {
         }
 
         filters = loadFilters(this.activity!!)
+
+        searchText = view.findViewById(R.id.event_list_search_text)
+        searchCloseButton = view.findViewById(R.id.event_list_search_close_button)
+        searchCloseButton.setOnClickListener {
+            searchText.visibility = View.GONE
+            searchCloseButton.visibility = View.GONE
+            GetHobbyEvents().execute()
+
+        }
+        if(filters.searchText == "") {
+            searchText.visibility = View.GONE
+            searchCloseButton.visibility = View.GONE
+        }
+
         GetHobbyEvents().execute()
         return view
     }
@@ -89,10 +100,12 @@ class HobbyEventListFragment : Fragment() {
         if(!hidden) {
             filters = loadFilters(this.activity!!)
             GetHobbyEvents().execute()
+
+            //filters.searchText = ""
             filters.isListUpdated = true
             saveFilters(filters, this.activity!!)
         }
-
+        Log.d("Hidden", "onHiddenChanged, $hidden")
     }
 
     override fun onResume() {
@@ -100,11 +113,14 @@ class HobbyEventListFragment : Fragment() {
         filters = loadFilters(this.activity!!)
 
         if(!filters.isListUpdated) {
-            Log.d("updateList", "inIf")
+            searchText.visibility = View.GONE
+            searchCloseButton.visibility = View.GONE
             GetHobbyEvents().execute()
             filters.isListUpdated = true
             saveFilters(filters, this.activity!!)
         }
+        Log.d("Hidden", "onResume")
+
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -144,7 +160,7 @@ class HobbyEventListFragment : Fragment() {
                 bundle.putInt("weekDay$index", filters.dayOfWeeks.toIntArray()[index])
             }
             bundle.putString("startTime", "${minutesToTime(filters.startTimeFrom)}, ${minutesToTime(filters.startTimeTo)}")
-            bundle.putBoolean("free", filters.isFree)
+            bundle.putBoolean("free", filters.showFree)
             //bundle.putString("municipality",)
             firebaseAnalytics.logEvent("hobbyFilter", bundle)
         }
@@ -216,6 +232,13 @@ class HobbyEventListFragment : Fragment() {
                             progressText.visibility = View.INVISIBLE
                             listView.adapter!!.notifyDataSetChanged()
                         }
+                        if(filters.searchText != "") {
+                            searchText.visibility = View.VISIBLE
+                            searchCloseButton.visibility = View.VISIBLE
+                            searchText.text = "${activity!!.getString(R.string.search)}: \"${filters.searchText}\""
+                        }
+                        filters.searchText = ""
+                        saveFilters(filters, activity!!)
                     } catch(e: JSONException) {
                             progressText.text = getString(R.string.error_no_hobby_events)
                     }

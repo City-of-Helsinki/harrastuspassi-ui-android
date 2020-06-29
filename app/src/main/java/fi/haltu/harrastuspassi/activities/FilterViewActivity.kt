@@ -45,6 +45,7 @@ class FilterViewActivity : AppCompatActivity(), View.OnClickListener {
     private lateinit var tagsRecyclerView: RecyclerView
     private lateinit var rangeBar: RangeBar
     private lateinit var isFreeCheckBox: CheckBox
+    //private lateinit var showHobbiesWithPromotionCheckBox: CheckBox
     private lateinit var firebaseAnalytics: FirebaseAnalytics
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -135,10 +136,15 @@ class FilterViewActivity : AppCompatActivity(), View.OnClickListener {
 
         //IS FREE CHECK BOX
         isFreeCheckBox = findViewById(R.id.is_free_check_box)
-        isFreeCheckBox.isChecked = filters.isFree
+        isFreeCheckBox.isChecked = filters.showFree
             isFreeCheckBox.setOnClickListener {
-            filters.isFree = isFreeCheckBox.isChecked
+            filters.showFree = isFreeCheckBox.isChecked
         }
+        /*SHOW_HOBBIES_WITH_PROMOTION_CHECK_BOX
+        showHobbiesWithPromotionCheckBox = findViewById(R.id.has_promotion_check_box)
+        showHobbiesWithPromotionCheckBox.setOnClickListener {
+            //filters.showHobbiesWithPromotion = showHobbiesWithPromotionCheckBox.isChecked
+        }*/
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

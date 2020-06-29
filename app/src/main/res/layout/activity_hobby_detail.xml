@@ -25,7 +25,6 @@
                 android:paddingTop="0dp"
                 android:scrollbars="vertical">
 
-
             <ImageView
                     android:id="@+id/hobby_image"
                     android:layout_width="0dp"
