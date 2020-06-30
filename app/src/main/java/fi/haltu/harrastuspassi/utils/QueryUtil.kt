@@ -48,13 +48,17 @@ fun createHobbyEventQueryUrl(filters: Filters): String {
     return query
 }
 
-fun createPromotionQueryUrl(filters: Filters): String {
+fun createPromotionQueryUrl(filters: Filters, searchText: String? = null): String {
     var query = "promotions/?include=location_detail&ordering=nearest"
     if (filters.latitude != 0.0 && filters.longitude != 0.0) {
         query += "&ordering=nearest"
         query += "&near_latitude=${filters.latitude}"
         query += "&near_longitude=${filters.longitude}"
     }
+    if(!searchText.isNullOrEmpty()) {
+        query += "&search=$searchText"
+    }
+    Log.d("query_promotion", query)
     return query
 }
 

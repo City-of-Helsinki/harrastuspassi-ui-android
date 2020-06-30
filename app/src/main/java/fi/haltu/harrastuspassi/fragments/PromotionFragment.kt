@@ -6,15 +6,10 @@ import android.content.Intent
 import android.net.Uri
 import android.os.AsyncTask
 import android.os.Bundle
-import android.text.SpannableString
-import android.text.Spanned
-import android.text.method.LinkMovementMethod
-import android.text.style.ClickableSpan
-import android.text.style.URLSpan
-import android.util.Log
-import android.util.Patterns
 import android.view.*
 import android.widget.ImageView
+import android.widget.ProgressBar
+import android.widget.SearchView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -26,11 +21,9 @@ import com.ncorti.slidetoact.SlideToActView.OnSlideCompleteListener
 import com.squareup.picasso.Picasso
 import fi.haltu.harrastuspassi.R
 import fi.haltu.harrastuspassi.adapters.PromotionListAdapter
+import fi.haltu.harrastuspassi.models.Filters
 import fi.haltu.harrastuspassi.models.Promotion
-import fi.haltu.harrastuspassi.utils.convertToDateRange
-import fi.haltu.harrastuspassi.utils.loadUsedPromotions
-import fi.haltu.harrastuspassi.utils.saveUsedPromotions
-import fi.haltu.harrastuspassi.utils.setTextWithLinkSupport
+import fi.haltu.harrastuspassi.utils.*
 import okhttp3.MultipartBody
 import okhttp3.OkHttpClient
 import okhttp3.Request
@@ -45,21 +38,43 @@ class PromotionFragment : Fragment() {
     private lateinit var promotionListView: RecyclerView
     private lateinit var comingSoonTextView: TextView
     private lateinit var firebaseAnalytics: FirebaseAnalytics
+    private lateinit var searchView: SearchView
+    private lateinit var progressBar: ProgressBar
     private var promotionList = ArrayList<Promotion>()
     private lateinit var refreshLayout: SwipeRefreshLayout
     private var usedPromotions: HashSet<Int> = HashSet()
-
+    private var searchText: String? = null
+    private lateinit var filters: Filters
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         firebaseAnalytics = FirebaseAnalytics.getInstance(this.context!!)
         val view: View = inflater.inflate(R.layout.fragment_promotion, container, false)
+        //PROGRESS BAR
+        progressBar = view.findViewById(R.id.promotion_progressbar)
         refreshLayout = view.findViewById(R.id.swipe_refresh_list)
-
         refreshLayout.setOnRefreshListener {
             GetPromotions().execute()
         }
+        filters = loadFilters(activity!!)
+        // SEARCH_VIEW
+        searchView = view.findViewById(R.id.promotion_search)
+        searchView.setOnClickListener {
+            searchView.isIconified = false
+        }
+        searchView.setOnQueryTextListener(object: SearchView.OnQueryTextListener{
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                searchText = query
+                GetPromotions().execute()
+                return false
+            }
+            override fun onQueryTextChange(newText: String?): Boolean {
+                searchText = newText
+                GetPromotions().execute()
+                return false
+            }
+        })
         usedPromotions = loadUsedPromotions(this.activity!!)
         promotionListView = view.findViewById(R.id.promotion_list_view)
         comingSoonTextView = view.findViewById(R.id.promotion_coming_soon)
@@ -82,7 +97,6 @@ class PromotionFragment : Fragment() {
         bundle.putString("municipality", promotion.municipality)
 
         firebaseAnalytics.logEvent("viewPromotion", bundle)
-
         val dialog = Dialog(this.context!!)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.setCancelable(true)
@@ -182,6 +196,7 @@ class PromotionFragment : Fragment() {
         super.onHiddenChanged(hidden)
         //hidden == false is almost same than onResume
         if (!hidden) {
+            filters = loadFilters(activity!!)
             usedPromotions = loadUsedPromotions(this.activity!!)
             GetPromotions().execute()
         }
@@ -189,6 +204,7 @@ class PromotionFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
+        filters = loadFilters(activity!!)
         usedPromotions = loadUsedPromotions(this.activity!!)
     }
 
@@ -216,10 +232,13 @@ class PromotionFragment : Fragment() {
     }
 
     internal inner class GetPromotions : AsyncTask<Void, Void, String>() {
-
+        override fun onPreExecute() {
+            super.onPreExecute()
+            progressBar.visibility = View.VISIBLE
+        }
         override fun doInBackground(vararg params: Void?): String {
             return try {
-                URL(getString(R.string.API_URL) + "promotions/?include=location_detail").readText()
+                URL(getString(R.string.API_URL) + createPromotionQueryUrl(filters, searchText)).readText()
             } catch (e: IOException) {
                 return ERROR
             }
@@ -262,6 +281,8 @@ class PromotionFragment : Fragment() {
                         if (promotionList.isEmpty()) {
                             comingSoonTextView.text = activity!!.getString(R.string.coming_soon)
                             comingSoonTextView.visibility = View.VISIBLE
+                        } else {
+                            comingSoonTextView.visibility = View.GONE
                         }
 
                     } catch (e: JSONException) {
@@ -269,6 +290,7 @@ class PromotionFragment : Fragment() {
                     }
                 }
             }
+            progressBar.visibility = View.INVISIBLE
             refreshLayout.isRefreshing = false
         }
     }
