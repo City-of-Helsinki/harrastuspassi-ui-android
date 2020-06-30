@@ -5,10 +5,10 @@ import android.app.ActivityOptions
 import android.content.Intent
 import android.os.AsyncTask
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import android.widget.ImageView
 import android.widget.ProgressBar
+import android.widget.SearchView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -37,8 +37,7 @@ class HobbyEventListFragment : Fragment() {
     private var filters: Filters = Filters()
     private lateinit var refreshLayout: SwipeRefreshLayout
     private lateinit var firebaseAnalytics: FirebaseAnalytics
-    private lateinit var searchText: TextView
-    private lateinit var searchCloseButton: ImageView
+    private lateinit var searchView: SearchView
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -66,19 +65,30 @@ class HobbyEventListFragment : Fragment() {
 
         filters = loadFilters(this.activity!!)
 
-        searchText = view.findViewById(R.id.event_list_search_text)
-        searchCloseButton = view.findViewById(R.id.event_list_search_close_button)
-        searchCloseButton.setOnClickListener {
-            searchText.visibility = View.GONE
-            searchCloseButton.visibility = View.GONE
-            GetHobbyEvents().execute()
-
+        //SEARCH VIEW
+        searchView = view.findViewById(R.id.hobby_event_search)
+        searchView.setOnClickListener {
+            searchView.isIconified = false
         }
-        if(filters.searchText == "") {
-            searchText.visibility = View.GONE
-            searchCloseButton.visibility = View.GONE
-        }
+        searchView.setOnQueryTextListener(object: SearchView.OnQueryTextListener{
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                if(query != null) {
+                    filters.searchText = query
+                }
+                saveFilters(filters,activity!!)
+                GetHobbyEvents().execute()
+                return false
+            }
 
+            override fun onQueryTextChange(newText: String?): Boolean {
+                if(newText != null) {
+                    filters.searchText = newText
+                }
+                saveFilters(filters,activity!!)
+                GetHobbyEvents().execute()
+                return false
+            }
+        })
         GetHobbyEvents().execute()
         return view
     }
@@ -99,13 +109,12 @@ class HobbyEventListFragment : Fragment() {
         super.onHiddenChanged(hidden)
         if(!hidden) {
             filters = loadFilters(this.activity!!)
-            GetHobbyEvents().execute()
+            searchView.setQuery(filters.searchText, false)
 
             //filters.searchText = ""
             filters.isListUpdated = true
             saveFilters(filters, this.activity!!)
         }
-        Log.d("Hidden", "onHiddenChanged, $hidden")
     }
 
     override fun onResume() {
@@ -113,14 +122,10 @@ class HobbyEventListFragment : Fragment() {
         filters = loadFilters(this.activity!!)
 
         if(!filters.isListUpdated) {
-            searchText.visibility = View.GONE
-            searchCloseButton.visibility = View.GONE
             GetHobbyEvents().execute()
             filters.isListUpdated = true
             saveFilters(filters, this.activity!!)
         }
-        Log.d("Hidden", "onResume")
-
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -161,7 +166,6 @@ class HobbyEventListFragment : Fragment() {
             }
             bundle.putString("startTime", "${minutesToTime(filters.startTimeFrom)}, ${minutesToTime(filters.startTimeTo)}")
             bundle.putBoolean("free", filters.showFree)
-            //bundle.putString("municipality",)
             firebaseAnalytics.logEvent("hobbyFilter", bundle)
         }
     }
@@ -193,16 +197,13 @@ class HobbyEventListFragment : Fragment() {
         @SuppressLint("SetTextI18n")
         override fun onPostExecute(result: String?) {
             super.onPostExecute(result)
-
             hobbyEventArrayList.clear()
-
             when (result) {
                 ERROR -> {
                     progressText.visibility = View.VISIBLE
                     this@HobbyEventListFragment.progressText.text = getString(R.string.error_try_again_later)
                 }
                 NO_INTERNET -> {
-
                     progressText.text = getString(R.string.error_no_internet)
                 }
                 else -> {
@@ -224,7 +225,6 @@ class HobbyEventListFragment : Fragment() {
                             hobbyEventArrayList.add(hobbyEvent)
                         }
 
-
                         if(hobbyEventArrayList.size == 0) {
                             progressText.visibility = View.VISIBLE
                             progressText.text = getString(R.string.error_no_hobby_events)
@@ -232,12 +232,6 @@ class HobbyEventListFragment : Fragment() {
                             progressText.visibility = View.INVISIBLE
                             listView.adapter!!.notifyDataSetChanged()
                         }
-                        if(filters.searchText != "") {
-                            searchText.visibility = View.VISIBLE
-                            searchCloseButton.visibility = View.VISIBLE
-                            searchText.text = "${activity!!.getString(R.string.search)}: \"${filters.searchText}\""
-                        }
-                        filters.searchText = ""
                         saveFilters(filters, activity!!)
                     } catch(e: JSONException) {
                             progressText.text = getString(R.string.error_no_hobby_events)

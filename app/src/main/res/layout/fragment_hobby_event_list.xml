@@ -12,7 +12,7 @@
         android:background="@color/hobbyPurple"
         android:layout_height="match_parent">
 
-    <TextView
+    <!--<TextView
             android:id="@+id/event_list_search_text"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -38,14 +38,29 @@
             app:layout_constraintBottom_toBottomOf="@+id/event_list_search_text"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/event_list_search_text" />
+            -->
+
+    <SearchView
+            android:id="@+id/hobby_event_search"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            android:background="@color/white60"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
             android:id="@+id/swipe_refresh_list"
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            android:layout_marginTop="16dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/event_list_search_text">
+            app:layout_constraintTop_toBottomOf="@+id/hobby_event_search">
 
         <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/list_view"
