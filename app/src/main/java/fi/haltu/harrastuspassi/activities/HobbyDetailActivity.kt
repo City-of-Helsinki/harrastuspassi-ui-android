@@ -121,7 +121,7 @@ class HobbyDetailActivity : AppCompatActivity(), OnMapReadyCallback {
             saveFavorite(favorites, this)
         }
 
-        val mapFragment = supportFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
+        val mapFragment = supportFragmentManager.findFragmentById(R.id.map_icon) as SupportMapFragment
         mapFragment.getMapAsync(this)
     }
 

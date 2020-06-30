@@ -7,7 +7,6 @@
         android:layout_width="match_parent"
         android:background="@color/hobbyPurple"
         android:layout_height="match_parent">
-
     <SearchView
             android:id="@+id/promotion_search"
             android:layout_width="0dp"

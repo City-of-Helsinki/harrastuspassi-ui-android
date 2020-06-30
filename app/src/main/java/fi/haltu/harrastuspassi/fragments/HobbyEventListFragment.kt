@@ -6,10 +6,8 @@ import android.content.Intent
 import android.os.AsyncTask
 import android.os.Bundle
 import android.view.*
-import android.widget.ImageView
-import android.widget.ProgressBar
-import android.widget.SearchView
-import android.widget.TextView
+import android.widget.*
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -38,15 +36,29 @@ class HobbyEventListFragment : Fragment() {
     private lateinit var refreshLayout: SwipeRefreshLayout
     private lateinit var firebaseAnalytics: FirebaseAnalytics
     private lateinit var searchView: SearchView
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         val view: View = inflater.inflate(R.layout.fragment_hobby_event_list, container, false)
         val hobbyEventListAdapter = HobbyEventListAdapter(hobbyEventArrayList) { hobbyEvent: HobbyEvent, hobbyImage: ImageView -> hobbyItemClicked(hobbyEvent, hobbyImage)}
+        // APP BAR
+        (activity as AppCompatActivity).supportActionBar!!.hide()
+        view.findViewById<ImageView>(R.id.map_icon).setOnClickListener {
+            val mainActivity = this.context as MainActivity
+            mainActivity.switchBetweenMapAndListFragment()
+        }
+        view.findViewById<TextView>(R.id.map_text).setOnClickListener {
+            val mainActivity = this.context as MainActivity
+            mainActivity.switchBetweenMapAndListFragment()
+        }
+        view.findViewById<ImageView>(R.id.filter_icon).setOnClickListener {
+            startFilterActivity()
+        }
+        view.findViewById<TextView>(R.id.filter_text).setOnClickListener {
+            startFilterActivity()
+        }
 
-        setHasOptionsMenu(true)
         firebaseAnalytics = FirebaseAnalytics.getInstance(this.context!!)
 
         refreshLayout = view.findViewById(R.id.swipe_refresh_list)
@@ -93,6 +105,13 @@ class HobbyEventListFragment : Fragment() {
         return view
     }
 
+    private fun startFilterActivity() {
+        val intent = Intent(this.context, FilterViewActivity::class.java)
+        intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT)
+        startActivityForResult(intent, 2)
+        this.activity?.overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left)
+    }
+
     private fun hobbyItemClicked(hobbyEvent: HobbyEvent, hobbyImage: ImageView) {
         val intent = Intent(context, HobbyDetailActivity::class.java)
 
@@ -126,31 +145,6 @@ class HobbyEventListFragment : Fragment() {
             filters.isListUpdated = true
             saveFilters(filters, this.activity!!)
         }
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.menu, menu)
-        super.onCreateOptionsMenu(menu, inflater)
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            R.id.map -> {
-                val mainActivity = this.context as MainActivity
-                mainActivity.switchBetweenMapAndListFragment()
-                return true
-            }
-
-            R.id.action_filter -> {
-                val intent = Intent(this.context, FilterViewActivity::class.java)
-                intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT)
-                startActivityForResult(intent, 2)
-                this.activity?.overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left)
-                return true
-            }
-        }
-
-        return super.onOptionsItemSelected(item)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

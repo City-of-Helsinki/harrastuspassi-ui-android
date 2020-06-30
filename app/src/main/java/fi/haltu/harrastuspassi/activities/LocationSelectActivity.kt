@@ -25,7 +25,7 @@ class LocationSelectActivity : AppCompatActivity(), OnMapReadyCallback {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_location_select)
-        val mapFragment = supportFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
+        val mapFragment = supportFragmentManager.findFragmentById(R.id.map_icon) as SupportMapFragment
         mapFragment.getMapAsync(this)
         closeButton = findViewById(R.id.map_select_close_button)
         closeButton.setOnClickListener {
