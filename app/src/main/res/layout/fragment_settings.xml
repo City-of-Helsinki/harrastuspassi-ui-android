@@ -9,13 +9,23 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             tools:context=".fragment.SettingsFragment">
+        <androidx.appcompat.widget.Toolbar
+                android:id="@+id/map_toolbar"
+                app:title="@string/settings"
+                app:titleTextColor="@color/white"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:background="@color/hobbyPurple"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"/>
 
         <TextView
                 android:id="@+id/locationText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:layout_marginTop="24dp"
+                android:layout_marginTop="16dp"
                 android:text="@string/location_title"
                 android:textAllCaps="true"
                 android:textColor="@color/hobbyPurple"
@@ -25,7 +35,7 @@
                 android:textSize="13sp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toBottomOf="@+id/map_toolbar" />
 
         <TextView
                 android:id="@+id/current_location_text"
