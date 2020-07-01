@@ -32,7 +32,7 @@ import fi.haltu.harrastuspassi.utils.saveSettings
 import java.util.*
 import android.location.Location as AndroidLocation
 
-class SettingsFragment : Fragment() {
+class SettingsFragment : Fragment(), LocationListener {
     private var locationManager: LocationManager? = null
     private lateinit var geocoder: Geocoder
     private lateinit var currentLocationSwitch: Switch
@@ -75,22 +75,36 @@ class SettingsFragment : Fragment() {
                 LocationManager.NETWORK_PROVIDER,
                 0L,
                 0f,
-                locationListener
+                this
             )
-        } catch (ex: SecurityException) {
+            locationManager?.requestLocationUpdates(
+                LocationManager.GPS_PROVIDER,
+                0L,
+                0f,
+                this
+            )
 
+        } catch (ex: SecurityException) {
+            Log.d("LocationPermissin", "$ex")
         }
         currentLocationSwitch.setOnCheckedChangeListener { buttonView, isChecked ->
             if (isChecked) {
                 locationManager = context?.getSystemService(LOCATION_SERVICE) as LocationManager?
                 disableChooseLocation(true)
                 try {
+
                     // Request location updates
                     locationManager?.requestLocationUpdates(
                         LocationManager.NETWORK_PROVIDER,
                         0L,
                         0f,
-                        locationListener
+                        this
+                    )
+                    locationManager?.requestLocationUpdates(
+                        LocationManager.GPS_PROVIDER,
+                        0L,
+                        0f,
+                        this
                     )
                 } catch (ex: SecurityException) {
                     this.requestPermissions(
@@ -102,7 +116,6 @@ class SettingsFragment : Fragment() {
                 disableChooseLocation(false)
             }
         }
-
         //ACCEPT FROM SETTINGS TEXT
         acceptFromSettingsText = view.findViewById(R.id.accept_from_settings)
         acceptFromSettingsText.setOnClickListener {
@@ -132,17 +145,16 @@ class SettingsFragment : Fragment() {
         return view
     }
 
-    private val locationListener: LocationListener = object : LocationListener {
-        override fun onLocationChanged(location: AndroidLocation) {
-            filters.latitude = location.latitude
-            filters.longitude = location.longitude
-            filters.isModified = true
-        }
-
-        override fun onStatusChanged(provider: String, status: Int, extras: Bundle) {}
-        override fun onProviderEnabled(provider: String) {}
-        override fun onProviderDisabled(provider: String) {}
+    override fun onLocationChanged(location: AndroidLocation) {
+        filters.latitude = location.latitude
+        filters.longitude = location.longitude
+        filters.isModified = true
+        locationManager!!.removeUpdates(this)
     }
+
+    override fun onStatusChanged(provider: String, status: Int, extras: Bundle) {}
+    override fun onProviderEnabled(provider: String) {}
+    override fun onProviderDisabled(provider: String) {}
 
     override fun onHiddenChanged(hidden: Boolean) {
         super.onHiddenChanged(hidden)
@@ -158,6 +170,10 @@ class SettingsFragment : Fragment() {
             saveSettings(settings, this.activity!!)
         } else {
             filters = loadFilters(this.activity!!)
+            var savedSettings = loadSettings(this.activity!!)
+            settings.useCurrentLocation = savedSettings.useCurrentLocation
+            currentLocationSwitch.isChecked = settings.useCurrentLocation
+            currentLocationSwitch.isChecked = settings.useCurrentLocation
             filtersOriginal = filters.clone()
             this.locationListView.adapter!!.notifyDataSetChanged()
         }
@@ -165,7 +181,6 @@ class SettingsFragment : Fragment() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-
         if (requestCode == 1 && data != null) {
             filters = data.extras.getSerializable("EXTRA_FILTERS") as Filters
             val addresses = geocoder.getFromLocation(filters.latitude, filters.longitude, 1)
@@ -205,14 +220,17 @@ class SettingsFragment : Fragment() {
                             LocationManager.NETWORK_PROVIDER,
                             0L,
                             0f,
-                            locationListener
+                            this
                         )
-                        Log.d("permissionDialog", "accept")
+                        locationManager?.requestLocationUpdates(
+                            LocationManager.GPS_PROVIDER,
+                            0L,
+                            0f,
+                            this
+                        )
 
                     } catch (ex: SecurityException) {
                         currentLocationSwitch.isChecked = false
-                        Log.d("permissionDialog", "deny1")
-
                     }
                 } else if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_DENIED) {
                     //user rejected the permission
@@ -222,10 +240,8 @@ class SettingsFragment : Fragment() {
                             permissions[0]
                         )
                     ) {
-                        Log.d("permissionDialog", "deny&&never ask")
                         acceptFromSettingsText.visibility = View.VISIBLE
                     } else {
-                        Log.d("permissionDialog", "deny&&")
                         acceptFromSettingsText.visibility = View.INVISIBLE
                     }
                 }
@@ -235,7 +251,6 @@ class SettingsFragment : Fragment() {
 
             else -> {
                 currentLocationSwitch.isChecked = false
-                Log.d("permissionDialog", "else")
             }
         }
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)

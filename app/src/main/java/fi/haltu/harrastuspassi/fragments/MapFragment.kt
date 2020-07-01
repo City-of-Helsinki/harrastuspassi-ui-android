@@ -11,6 +11,7 @@ import android.location.LocationListener
 import android.location.LocationManager
 import android.os.AsyncTask
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import android.widget.ImageView
 import android.widget.TextView
@@ -166,6 +167,12 @@ class MapFragment : Fragment(), OnMapReadyCallback {
                     0f,
                     locationListener
                 )
+                locationManager?.requestLocationUpdates(
+                    LocationManager.GPS_PROVIDER,
+                    0L,
+                    0f,
+                    locationListener
+                )
                 if (!gMap.isMyLocationEnabled) {
                     gMap.isMyLocationEnabled = true
 
@@ -314,6 +321,13 @@ class MapFragment : Fragment(), OnMapReadyCallback {
                             0f,
                             locationListener
                         )
+                        locationManager?.requestLocationUpdates(
+                            LocationManager.GPS_PROVIDER,
+                            0L,
+                            0f,
+                            locationListener
+                        )
+
                         if (!gMap.isMyLocationEnabled) {
                             gMap.isMyLocationEnabled = true
 
@@ -348,7 +362,6 @@ class MapFragment : Fragment(), OnMapReadyCallback {
             val cameraUpdate = CameraUpdateFactory.newLatLngZoom(currentLocation, 10f)
             gMap.animateCamera(cameraUpdate)
             locationManager!!.removeUpdates(this)
-
         }
 
         override fun onStatusChanged(provider: String, status: Int, extras: Bundle) {}

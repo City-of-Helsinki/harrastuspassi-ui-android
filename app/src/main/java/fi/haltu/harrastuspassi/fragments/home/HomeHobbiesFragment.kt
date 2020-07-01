@@ -155,6 +155,11 @@ class HomeHobbiesFragment : Fragment() {
         }
     }
 
+    fun updateContent() {
+        filters = loadFilters(activity!!)
+        GetHobbyEvents().execute()
+    }
+
     private fun hobbyItemClicked(hobbyEvent: HobbyEvent, imageView: ImageView) {
         val intent = Intent(context, HobbyDetailActivity::class.java)
 
@@ -204,8 +209,6 @@ class HomeHobbiesFragment : Fragment() {
                 }
                 else -> {
                     try {
-                        Log.d("Error", result)
-
                         val results = JSONObject(result)
                         val mJsonArray = results.getJSONArray("results")
 
@@ -229,7 +232,6 @@ class HomeHobbiesFragment : Fragment() {
                             popularHobbyList.adapter!!.notifyDataSetChanged()
                         }
                     } catch (e: JSONException) {
-                        Log.d("Error", e.toString())
                         userHobbyEventsText.visibility = View.INVISIBLE
                         //progressText.text = getString(R.string.error_no_hobby_events)
                     }

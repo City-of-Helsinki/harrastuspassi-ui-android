@@ -168,6 +168,11 @@ class HomePromotionsFragment : Fragment() {
         }
     }
 
+    fun updateContent() {
+        filters = loadFilters(activity!!)
+
+    }
+
     override fun onHiddenChanged(hidden: Boolean) {
         super.onHiddenChanged(hidden)
         if (!hidden) {
