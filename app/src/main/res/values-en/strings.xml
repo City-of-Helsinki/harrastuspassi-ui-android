@@ -56,4 +56,7 @@
     <string name="hobbies_for_you">Hobbies for you</string>
     <string name="promotions_left">Promotions left</string>
     <string name="search">Search</string>
+    <string name="payment">Payment</string>
+    <string name="show_only_free_hobbies">Show only free hobbies</string>
+    <string name="no_promotions_found">No promotions found</string>
 </resources>

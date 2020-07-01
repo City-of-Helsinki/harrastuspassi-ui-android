@@ -55,4 +55,7 @@
     <string name="hobbies_for_you">Harrastuksia sinulle</string>
     <string name="promotions_left">Etuuksia jäljellä</string>
     <string name="search">Haku</string>
+    <string name="payment">Maksullisuus</string>
+    <string name="show_only_free_hobbies">Näytä vain maksuttomat harrastukset</string>
+    <string name="no_promotions_found">Etuuksia ei löytynyt</string>
 </resources>

@@ -40,4 +40,13 @@
     <string name="filter">Filtrera</string>
     <string name="promotion_valid">Träder i kraft:</string>
     <string name="hobbies">Hobbies</string>
+    <string name="payment">Betalning</string>
+    <string name="show_only_free_hobbies">" Visa endast gratis fritidsintressen"</string>
+    <string name="search">" Sök"</string>
+    <string name="promotions_left">Kampanjer kvar</string>
+    <string name="hobbies_for_you">Hobbyer för dig</string>
+    <string name="popular_hobbies">Populära hobbyer</string>
+    <string name="promotions_for_you">Kampanjer för dig</string>
+    <string name="popular_promotions">Populära kampanjer</string>
+    <string name="no_promotions_found">" Inga kampanjer hittades"</string>
 </resources>

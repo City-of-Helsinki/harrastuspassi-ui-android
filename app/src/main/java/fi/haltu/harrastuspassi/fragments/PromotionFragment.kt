@@ -279,7 +279,7 @@ class PromotionFragment : Fragment() {
                             adapter = promotionListAdapter
                         }
                         if (promotionList.isEmpty()) {
-                            comingSoonTextView.text = activity!!.getString(R.string.coming_soon)
+                            comingSoonTextView.text = activity!!.getString(R.string.no_promotions_found)
                             comingSoonTextView.visibility = View.VISIBLE
                         } else {
                             comingSoonTextView.visibility = View.GONE
