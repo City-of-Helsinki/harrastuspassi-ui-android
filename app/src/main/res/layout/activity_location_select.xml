@@ -20,7 +20,6 @@
     </fragment>
 
     <ImageView
-            android:id="@+id/map_pin"
             android:layout_width="53dp"
             android:layout_height="0dp"
             android:layout_alignParentBottom="true"

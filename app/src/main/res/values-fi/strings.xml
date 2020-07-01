@@ -6,20 +6,15 @@
     <string name="choose_location_from_map">Valitse sijainti kartalta</string>
     <string name="hobby_tag">Harrastus</string>
     <string name="location_title">Sijainti</string>
-    <string name="openFilterCategories">Lisää harrastuksia</string>
     <string name="recent_locations">Viimeisimmät sijainnit</string>
     <string name="save">Tallenna</string>
     <string name="settings">Asetukset</string>
     <string name="timespan_filter_title">Alkamisaika</string>
     <string name="title_home">Etusivu</string>
-    <string name="title_notifications">Ilmoitukset</string>
     <string name="use_current_location">Käytä nykyistä sijaintia</string>
     <string name="weekday_filter_title">Viikonpäivä</string>
-    <string name="delete_tag">Poista</string>
     <string name="filter_button">Suodata</string>
     <string name="hobby_detail_description_title">Kuvaus</string>
-    <string name="hobby_detail_day_of_week" translatable="false">Keskiviikko</string>
-    <string name="hobby_detail_location" translatable="false">Sijainti tähän</string>
     <string name="hobby_image" translatable="false">Kuva</string>
     <string name="error_try_again_later">Jokin meni vikaan. Kokeile myöhemmin uudelleen.</string>
     <string name="error_no_hobby_events">Ei harrastustapahtumia</string>
@@ -36,14 +31,12 @@
     <string name="list">Lista</string>
     <string name="favorites">Suosikit</string>
     <string name="map">Kartta</string>
-    <string name="action_filter" translatable="false">Suodatin</string>
     <string name="filter">Suodatin</string>
     <string name="promotions">Etuudet</string>
     <string name="use_promotion">Käytä etuus</string>
     <string name="available">Voimassa</string>
     <string name="promotion_valid">Voimassa</string>
     <string name="promotions_used">Etuus on käytetty</string>
-    <string name="coming_soon">Tulossa pian</string>
     <string name="no_favorites">Sinulla ei ole lempiharrastuksia. Etsi lempiharrastuksesi täältä!</string>
     <string name="accept_from_settings">Anna lupaa asetuksista</string>
     <string name="hobbies">Harrastukset</string>
@@ -54,7 +47,6 @@
     <string name="popular_hobbies">Suosituimmat harrastukset</string>
     <string name="hobbies_for_you">Harrastuksia sinulle</string>
     <string name="promotions_left">Etuuksia jäljellä</string>
-    <string name="search">Haku</string>
     <string name="payment">Maksullisuus</string>
     <string name="show_only_free_hobbies">Näytä vain maksuttomat harrastukset</string>
     <string name="no_promotions_found">Etuuksia ei löytynyt</string>

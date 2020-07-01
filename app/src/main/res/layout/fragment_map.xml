@@ -78,7 +78,6 @@
                         app:layout_constraintTop_toTopOf="@+id/map_filter_text" />
 
                 <TextView
-                        android:id="@+id/map_title"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"

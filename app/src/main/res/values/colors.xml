@@ -4,7 +4,6 @@
     <color name="hobbyPurpleDark">#170A36</color>
     <color name="hobbyPurpleOpacity60">#6030146E</color>
     <color name="hobbyPurpleLight">#77329B</color>
-    <color name="hobbyPurpleLightOpacity80">#8077329B</color>
     <color name="hobbyPurpleLightOpacity20">#2077329B</color>
 
     <color name="hobbyYellow">#FFEB32</color>
@@ -14,7 +13,4 @@
     <color name="blackOpacity40">#40000000</color>
     <color name="blackOpacity60">#60000000</color>
     <color name="blackOpacity0">#00000000</color>
-    <color name="colorPrimary">#008577</color>
-    <color name="colorPrimaryDark">#00574B</color>
-    <color name="colorAccent">#D81B60</color>
 </resources>
