@@ -9,6 +9,7 @@ import android.widget.Filter
 import android.widget.TextView
 import androidx.annotation.LayoutRes
 import fi.haltu.harrastuspassi.models.Category
+import java.util.*
 
 class CategorySearchAdapter(
     context: Context, @LayoutRes private val layoutResource: Int,
@@ -35,7 +36,20 @@ class CategorySearchAdapter(
             parent,
             false
         ) as TextView
-        view.text = "${categories[position].name}"
+        val category = categories[position]
+        val currentLanguage = Locale.getDefault().language
+
+        if(currentLanguage == "fi") {
+            view.text = category.nameFi
+        } else if(currentLanguage == "sv") {
+            view.text = category.nameSv
+        } else {
+            if(category.nameEn.isNullOrEmpty()) {
+                view.text = category.name
+            } else {
+                view.text = category.nameEn
+            }
+        }
         return view
     }
 
@@ -54,7 +68,18 @@ class CategorySearchAdapter(
                     categoriesOrigin
                 } else {
                     categories.filter {
-                        it.name!!.toLowerCase().contains(queryString)
+                        val currentLanguage = Locale.getDefault().language
+                        if(currentLanguage == "fi") {
+                            it.nameFi.toLowerCase().contains(queryString)
+                        } else if(currentLanguage == "sv") {
+                            it.nameSv.toLowerCase().contains(queryString)
+                        } else {
+                            if(it.nameEn.isNullOrEmpty()) {
+                                it.name.toLowerCase().contains(queryString)
+                            } else {
+                                it.nameEn.toLowerCase().contains(queryString)
+                            }
+                        }
                     }
                 }
 

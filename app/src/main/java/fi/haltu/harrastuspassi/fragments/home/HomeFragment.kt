@@ -25,6 +25,8 @@ import fi.haltu.harrastuspassi.utils.saveFilters
 import org.json.JSONArray
 import java.io.IOException
 import java.net.URL
+import java.util.*
+import kotlin.collections.ArrayList
 
 
 class HomeFragment : Fragment() {
@@ -106,9 +108,6 @@ class HomeFragment : Fragment() {
                 mainActivity.performListClick()
                 break
             }
-            /*if (!isInList) {
-                Toast.makeText(this.context, "Ei tuloksia", Toast.LENGTH_SHORT).show()
-            }*/
         }
     }
 
@@ -159,10 +158,21 @@ class HomeFragment : Fragment() {
                 }
             }
         }
-        fun getCategoryNameById(categories: ArrayList<Category>, categoryId: Int): String {
+        private fun getCategoryNameById(categories: ArrayList<Category>, categoryId: Int): String {
             for(category in categories) {
                 if(category.id == categoryId) {
-                    return category.name
+                    val currentLanguage = Locale.getDefault().language
+                    return if(currentLanguage == "fi") {
+                        category.nameFi
+                    } else if(currentLanguage == "sv") {
+                        category.nameSv
+                    } else {
+                        if(category.nameEn.isNullOrEmpty()) {
+                            category.name
+                        } else {
+                            category.nameEn
+                        }
+                    }
                 }
             }
             return ""
