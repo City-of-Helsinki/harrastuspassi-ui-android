@@ -17,7 +17,8 @@ class Hobby(json: JSONObject? = null) : Serializable, ClusterItem {
     var organizer: Organizer? = null
     var location: Location = Location()
     var municipality: String? = null
-    var isFree: Boolean = true
+    var priceType: String = ""
+    var priceAmount: Double=0.00
 
     init {
         if(json != null) {
@@ -42,9 +43,12 @@ class Hobby(json: JSONObject? = null) : Serializable, ClusterItem {
             }
 
             //municipality = json.getString("municipality")
-            //isFree = json.getBoolean("isFree")
+            priceType = json.getString("price_type")
+            priceAmount = json.getDouble("price_amount")
+            Log.d("Hobby $id", this.toString())
         }
     }
+
     override fun getSnippet(): String {
         return ""
     }
@@ -63,7 +67,7 @@ class Hobby(json: JSONObject? = null) : Serializable, ClusterItem {
     }
 
     override fun toString(): String {
-        return "{id:$id, name:$name, location:$location}"
+        return "{id:$id, name:$name, location:$location, price_type: $priceType, price_amount: $priceAmount}"
     }
 
     override fun hashCode(): Int {

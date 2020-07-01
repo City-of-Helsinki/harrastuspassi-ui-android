@@ -15,6 +15,7 @@ import android.util.Log
 import android.view.*
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -36,7 +37,6 @@ import fi.haltu.harrastuspassi.models.Hobby
 import fi.haltu.harrastuspassi.models.HobbyEvent
 import fi.haltu.harrastuspassi.models.Settings
 import fi.haltu.harrastuspassi.utils.*
-import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
 import java.io.IOException
@@ -66,8 +66,23 @@ class MapFragment : Fragment(), OnMapReadyCallback {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        setHasOptionsMenu(true)
         val view: View = inflater.inflate(R.layout.fragment_map, container, false)
+        // APP BAR
+        (activity as AppCompatActivity).supportActionBar!!.hide()
+        view.findViewById<ImageView>(R.id.list_icon).setOnClickListener {
+            val mainActivity = this.context as MainActivity
+            mainActivity.switchBetweenMapAndListFragment()
+        }
+        view.findViewById<TextView>(R.id.list_text).setOnClickListener {
+            val mainActivity = this.context as MainActivity
+            mainActivity.switchBetweenMapAndListFragment()
+        }
+        view.findViewById<ImageView>(R.id.map_filter_icon).setOnClickListener {
+            startFilterActivity()
+        }
+        view.findViewById<TextView>(R.id.map_filter_text).setOnClickListener {
+            startFilterActivity()
+        }
 
         settings = loadSettings(this.activity!!)
         filters = loadFilters(this.activity!!)
@@ -124,41 +139,15 @@ class MapFragment : Fragment(), OnMapReadyCallback {
         }
     }
 
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.menu, menu)
-        super.onCreateOptionsMenu(menu, inflater)
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            R.id.map -> {
-                val mainActivity = this.context as MainActivity
-                mainActivity.switchBetweenMapAndListFragment()
-                return true
-            }
-
-            R.id.action_filter -> {
-                val intent = Intent(this.context, FilterViewActivity::class.java)
-                intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT)
-                startActivity(intent)
-                this.activity?.overridePendingTransition(
-                    R.anim.slide_in_left,
-                    R.anim.slide_out_left
-                )
-                return true
-            }
-        }
-
-        return super.onOptionsItemSelected(item)
-    }
-
-    override fun onPrepareOptionsMenu(menu: Menu) {
-        menu.findItem(R.id.map).icon =
-            ContextCompat.getDrawable(this.context!!, R.drawable.list_icon)
-        super.onPrepareOptionsMenu(menu)
-    }
-
-
+    private fun startFilterActivity() {
+        val intent = Intent(this.context, FilterViewActivity::class.java)
+        intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT)
+        startActivity(intent)
+        this.activity?.overridePendingTransition(
+            R.anim.slide_in_left,
+            R.anim.slide_out_left
+    )
+}
     private fun updateMap() {
         gMap.clear()
         filters = loadFilters(this.activity!!)
@@ -174,6 +163,12 @@ class MapFragment : Fragment(), OnMapReadyCallback {
                     this.activity!!.getSystemService(Context.LOCATION_SERVICE) as LocationManager
                 locationManager?.requestLocationUpdates(
                     LocationManager.NETWORK_PROVIDER,
+                    0L,
+                    0f,
+                    locationListener
+                )
+                locationManager?.requestLocationUpdates(
+                    LocationManager.GPS_PROVIDER,
                     0L,
                     0f,
                     locationListener
@@ -326,6 +321,13 @@ class MapFragment : Fragment(), OnMapReadyCallback {
                             0f,
                             locationListener
                         )
+                        locationManager?.requestLocationUpdates(
+                            LocationManager.GPS_PROVIDER,
+                            0L,
+                            0f,
+                            locationListener
+                        )
+
                         if (!gMap.isMyLocationEnabled) {
                             gMap.isMyLocationEnabled = true
 
@@ -360,7 +362,6 @@ class MapFragment : Fragment(), OnMapReadyCallback {
             val cameraUpdate = CameraUpdateFactory.newLatLngZoom(currentLocation, 10f)
             gMap.animateCamera(cameraUpdate)
             locationManager!!.removeUpdates(this)
-
         }
 
         override fun onStatusChanged(provider: String, status: Int, extras: Bundle) {}

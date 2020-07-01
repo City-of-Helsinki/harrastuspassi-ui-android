@@ -2,6 +2,7 @@ package fi.haltu.harrastuspassi.adapters
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,6 +15,8 @@ import fi.haltu.harrastuspassi.R
 import fi.haltu.harrastuspassi.activities.HobbyCategoriesActivity
 import fi.haltu.harrastuspassi.models.Category
 import fi.haltu.harrastuspassi.models.Filters
+import java.util.*
+import kotlin.collections.ArrayList
 
 class CategoryListAdapter(
     private val categories: ArrayList<Category>,
@@ -49,7 +52,18 @@ class CategoryListAdapter(
             filters: Filters,
             clickListener: (Category) -> Unit
         ) {
-            name.text = category.name
+            val currentLanguage = Locale.getDefault().language
+            if(currentLanguage == "fi") {
+                name.text = category.nameFi
+            } else if(currentLanguage == "sv") {
+                name.text = category.nameSv
+            } else {
+                if(category.nameEn.isNullOrEmpty()) {
+                    name.text = category.name
+                } else {
+                    name.text = category.nameEn
+                }
+            }
             itemView.setOnClickListener { clickListener(category) }
 
             checkButton.isChecked = filters.categories.contains(category.id!!)

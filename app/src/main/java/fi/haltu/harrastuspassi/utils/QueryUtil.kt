@@ -2,6 +2,9 @@ package fi.haltu.harrastuspassi.utils
 
 import android.util.Log
 import fi.haltu.harrastuspassi.models.Filters
+import java.text.SimpleDateFormat
+import java.util.*
+import kotlin.collections.HashSet
 
 fun createHobbyEventQueryUrl(filters: Filters): String {
     var query = "hobbyevents/?include=location_detail&include=organizer_detail&include=hobby_detail"
@@ -17,6 +20,8 @@ fun createHobbyEventQueryUrl(filters: Filters): String {
                 "category=$categoryId&"
             }
         }
+    } else if(filters.searchText != "") {
+        query += "&search=${filters.searchText}"
     }
     if (weekDayArrayList.isNotEmpty()) {
         query += "&"
@@ -30,23 +35,36 @@ fun createHobbyEventQueryUrl(filters: Filters): String {
         }
     }
 
+    if (filters.showFree) {
+        query += "&price_type=free"
+    }
+
     query += "&start_time_from=${minutesToTime(filters.startTimeFrom)}"
     query += "&start_time_to=${minutesToTime(filters.startTimeTo)}"
 
-        query += "&ordering=nearest"
-        query += "&near_latitude=${filters.latitude}"
-        query += "&near_longitude=${filters.longitude}"
-    Log.d("uery", query)
+    query += "&ordering=nearest"
+    query += "&near_latitude=${filters.latitude}"
+    query += "&near_longitude=${filters.longitude}"
+
+    val simpleDateFormat = SimpleDateFormat("yyyy-MM-dd", Locale("fi", "FI"))
+    query += "&start_date_from=${simpleDateFormat.format(Date())}"
+
+    Log.d("query", query)
+
     return query
 }
 
-fun createPromotionQueryUrl(filters: Filters): String {
-    var query = "promotions/?include=location_detail&ordering=nearest"
+fun createPromotionQueryUrl(filters: Filters, searchText: String? = null): String {
+    var query = "promotions/?exclude_past_events=true&usable_only=true&include=location_detail&ordering=nearest"
     if (filters.latitude != 0.0 && filters.longitude != 0.0) {
         query += "&ordering=nearest"
         query += "&near_latitude=${filters.latitude}"
         query += "&near_longitude=${filters.longitude}"
     }
+    if(!searchText.isNullOrEmpty()) {
+        query += "&search=$searchText"
+    }
+    Log.d("query_promotion", query)
     return query
 }
 

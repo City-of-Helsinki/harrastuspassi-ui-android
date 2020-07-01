@@ -1,18 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Harrastuspassi</string>
-    <string name="delete_tag">Delete</string>
     <string name="filter_button">Filter</string>
-    <string name="hobby_detail_day_of_week" translatable="false">Wednesday</string>
     <string name="hobby_detail_description_title">Description</string>
-    <string name="hobby_detail_location">Hobby location here</string>
     <string name="hobby_image" translatable="false">image</string>
     <string name="hobby_tag">Hobby</string>
     <string name="category_filter_component_title">Hobby</string>
-    <string name="openFilterCategories">Add hobbies</string>
     <string name="timespan_filter_title">Start time</string>
     <string name="title_home">Home</string>
-    <string name="title_notifications">Notifications</string>
     <string name="weekday_filter_title">Day of the week</string>
     <string name="choose_location_from_map">Choose location from map</string>
     <string name="settings">Settings</string>
@@ -37,14 +32,12 @@
     <string name="list">List</string>
     <string name="favorites">Favorites</string>
     <string name="map">Map</string>
-    <string name="action_filter" translatable="false">Filter</string>
     <string name="filter">Filter</string>
     <string name="promotions">Promotions</string>
     <string name="use_promotion">Use a promotion</string>
     <string name="available">Available</string>
     <string name="promotion_valid">Valid:</string>
     <string name="promotions_used">Used</string>
-    <string name="coming_soon">Coming soon</string>
     <string name="no_favorites">You don\'t have any favorite hobbies. Find your favovorite hobbies here!</string>
     <string name="accept_from_settings">Give the permission from settings</string>
     <string name="hobbies">Hobbies</string>
@@ -55,4 +48,7 @@
     <string name="popular_hobbies">Popular hobbies</string>
     <string name="hobbies_for_you">Hobbies for you</string>
     <string name="promotions_left">Promotions left</string>
+    <string name="payment">Payment</string>
+    <string name="show_only_free_hobbies">Show only free hobbies</string>
+    <string name="no_promotions_found">No promotions found</string>
 </resources>

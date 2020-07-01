@@ -52,7 +52,6 @@ class HobbyEventListAdapter(
             var startDate = ""
             try {
                 startDate = formatter.format(parser.parse(hobbyEvent.startDate))
-
             } catch (e: Exception) {
                 e.printStackTrace()
             }

@@ -7,7 +7,8 @@ class Settings : Serializable {
     var selectedIndex = 0
     var useCurrentLocation = false
     var locationList = ArrayList<Location>()
-
+    // Whether user is using the application fist time after installation
+    var isFirstTime = true
     companion object {
         const val MAX_SIZE = 5
     }

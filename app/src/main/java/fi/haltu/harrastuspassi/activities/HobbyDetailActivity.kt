@@ -5,14 +5,10 @@ import android.content.Intent
 import android.net.Uri
 import android.os.AsyncTask
 import android.os.Bundle
-import android.text.SpannableString
-import android.text.Spanned
-import android.text.style.ClickableSpan
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
 import android.widget.ImageView
 import android.widget.TableLayout
 import android.widget.TableRow
@@ -125,7 +121,7 @@ class HobbyDetailActivity : AppCompatActivity(), OnMapReadyCallback {
             saveFavorite(favorites, this)
         }
 
-        val mapFragment = supportFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
+        val mapFragment = supportFragmentManager.findFragmentById(R.id.map_icon) as SupportMapFragment
         mapFragment.getMapAsync(this)
     }
 
@@ -227,7 +223,7 @@ class HobbyDetailActivity : AppCompatActivity(), OnMapReadyCallback {
             "coordinates",
             "${hobbyEvent.hobby.location.lat}, ${hobbyEvent.hobby.location.lon}"
         )
-        bundle.putBoolean("free", hobbyEvent.hobby.isFree)
+        bundle.putString("price_type", hobbyEvent.hobby.priceType)
         bundle.putString("postalCode", hobbyEvent.hobby.location.zipCode)
         if (hobbyEvent.hobby.municipality != null) {
             bundle.putString("municipality", hobbyEvent.hobby.municipality)

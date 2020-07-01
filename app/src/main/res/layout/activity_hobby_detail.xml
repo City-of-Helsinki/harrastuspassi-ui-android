@@ -2,13 +2,11 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
-        android:id="@+id/constraintLayout2"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".activities.HobbyDetailActivity">
 
     <ScrollView
-            android:id="@+id/scrollView2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -24,7 +22,6 @@
                 android:orientation="vertical"
                 android:paddingTop="0dp"
                 android:scrollbars="vertical">
-
 
             <ImageView
                     android:id="@+id/hobby_image"
@@ -171,7 +168,6 @@
                             android:background="@drawable/side_borders">
 
                         <TextView
-                                android:id="@+id/date_icon"
 
                                 android:layout_width="24dp"
                                 android:layout_height="24dp"
@@ -190,7 +186,6 @@
                             android:layout_height="wrap_content">
 
                         <TextView
-                                android:id="@+id/start_time_icon"
 
 
                                 android:layout_width="24dp"
@@ -229,7 +224,7 @@
 
                     android:fontFamily="sans-serif"
                     android:textSize="16sp"
-                    app:layout_constraintBottom_toTopOf="@+id/map"
+                    app:layout_constraintBottom_toTopOf="@+id/map_icon"
                     app:layout_constraintEnd_toEndOf="@+id/description_label"
                     app:layout_constraintHorizontal_bias="1.0"
                     app:layout_constraintStart_toStartOf="@+id/description_label"
@@ -238,7 +233,7 @@
 
             <fragment xmlns:android="http://schemas.android.com/apk/res/android"
                     xmlns:map="http://schemas.android.com/apk/res-auto"
-                    android:id="@+id/map"
+                    android:id="@+id/map_icon"
                     android:name="com.google.android.gms.maps.SupportMapFragment"
                     android:layout_width="0dp"
                     android:layout_height="300dp"

@@ -7,6 +7,7 @@ import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import android.widget.Button
+import android.widget.CheckBox
 import android.widget.ImageButton
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
@@ -43,7 +44,8 @@ class FilterViewActivity : AppCompatActivity(), View.OnClickListener {
     private lateinit var weekRecyclerView: RecyclerView
     private lateinit var tagsRecyclerView: RecyclerView
     private lateinit var rangeBar: RangeBar
-
+    private lateinit var isFreeCheckBox: CheckBox
+    //private lateinit var showHobbiesWithPromotionCheckBox: CheckBox
     private lateinit var firebaseAnalytics: FirebaseAnalytics
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -83,7 +85,6 @@ class FilterViewActivity : AppCompatActivity(), View.OnClickListener {
         weekRecyclerView.apply {
             layoutManager = GridLayoutManager(context, 3)
             adapter = dayOfWeekListAdapter
-
         }
         weekRecyclerView.setHasFixedSize(true)
 
@@ -132,6 +133,18 @@ class FilterViewActivity : AppCompatActivity(), View.OnClickListener {
             override fun onTouchStarted(rangeBar: RangeBar) {
             }
         })
+
+        //IS FREE CHECK BOX
+        isFreeCheckBox = findViewById(R.id.is_free_check_box)
+        isFreeCheckBox.isChecked = filters.showFree
+            isFreeCheckBox.setOnClickListener {
+            filters.showFree = isFreeCheckBox.isChecked
+        }
+        /*SHOW_HOBBIES_WITH_PROMOTION_CHECK_BOX
+        showHobbiesWithPromotionCheckBox = findViewById(R.id.has_promotion_check_box)
+        showHobbiesWithPromotionCheckBox.setOnClickListener {
+            //filters.showHobbiesWithPromotion = showHobbiesWithPromotionCheckBox.isChecked
+        }*/
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

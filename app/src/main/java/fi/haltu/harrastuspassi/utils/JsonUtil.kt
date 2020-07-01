@@ -36,6 +36,9 @@ fun jsonArrayToCategoryList(jsonArray: JSONArray): ArrayList<Category> {
         val categoryJson = JSONObject(stringObject)
         val id = getOptionalInt(categoryJson, "id")
         val name = categoryJson.getString("name")
+        val nameFi = categoryJson.getString("name_fi")
+        val nameEn = categoryJson.getString("name_en")
+        val nameSv = categoryJson.getString("name_sv")
         val treeId = getOptionalInt(categoryJson, "tree_id")
         val level = getOptionalInt(categoryJson, "level")
         val parent = getOptionalInt(categoryJson, "parent")
@@ -50,6 +53,9 @@ fun jsonArrayToCategoryList(jsonArray: JSONArray): ArrayList<Category> {
         category.apply {
             this.id = id
             this.name = name
+            this.nameFi = nameFi
+            this.nameEn = nameEn
+            this.nameSv = nameSv
             this.treeId = treeId
             this.level = level
             this.parent = parent
@@ -69,6 +75,9 @@ fun jsonArrayToSingleCategoryList(jsonArray: JSONArray): ArrayList<Category> {
         val categoryJson = JSONObject(stringObject)
         val id = getOptionalInt(categoryJson, "id")
         val name = categoryJson.getString("name")
+        val nameFi = categoryJson.getString("name_fi")
+        val nameEn = categoryJson.getString("name_en")
+        val nameSv = categoryJson.getString("name_sv")
         val treeId = getOptionalInt(categoryJson, "tree_id")
         val level = getOptionalInt(categoryJson, "level")
         val parent = getOptionalInt(categoryJson, "parent")
@@ -76,6 +85,9 @@ fun jsonArrayToSingleCategoryList(jsonArray: JSONArray): ArrayList<Category> {
         category.apply {
             this.id = id
             this.name = name
+            this.nameFi = nameFi
+            this.nameEn = nameEn
+            this.nameSv = nameSv
             this.treeId = treeId
             this.level = level
             this.parent = parent
