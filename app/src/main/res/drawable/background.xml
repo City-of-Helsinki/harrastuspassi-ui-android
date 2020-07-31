@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:drawable="@color/hobbyPurple"/>
+    <item android:drawable="@color/hobbyBlue"/>
     <item>
         <bitmap android:src="@drawable/harrastuspassi_kel_lil_2" android:gravity="center"/>
     </item>

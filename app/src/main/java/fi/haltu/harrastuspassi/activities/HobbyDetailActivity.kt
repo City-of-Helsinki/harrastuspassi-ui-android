@@ -86,7 +86,7 @@ class HobbyDetailActivity : AppCompatActivity(), OnMapReadyCallback {
         //Loads favorite id:s
         favorites = loadFavorites(this)
         if (favorites.contains(hobbyEventID)) {
-            favoriteView.background.setTint(ContextCompat.getColor(this, R.color.hobbyPurple))
+            favoriteView.background.setTint(ContextCompat.getColor(this, R.color.hobbyBlue))
         }
         favoriteView.setOnClickListener {
             if (favorites.contains(hobbyEventID)) {
@@ -112,7 +112,7 @@ class HobbyDetailActivity : AppCompatActivity(), OnMapReadyCallback {
                 } else {
                     bundle.putString("municipality", "Haltu")
                 }
-                favoriteView.background.setTint(ContextCompat.getColor(this, R.color.hobbyPurple))
+                favoriteView.background.setTint(ContextCompat.getColor(this, R.color.hobbyBlue))
                 favorites.add(hobbyEventID)
 
                 firebaseAnalytics.logEvent("addFavourite", bundle)

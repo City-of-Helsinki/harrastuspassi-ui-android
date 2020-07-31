@@ -15,7 +15,7 @@
             android:gravity="center"
             android:paddingHorizontal="10dp"
             android:paddingVertical="10dp"
-            android:textColor="@color/hobbyPurple"
+            android:textColor="@color/hobbyBlue"
             android:textSize="14sp"
             android:textStyle="normal"
             app:layout_constraintBottom_toBottomOf="parent"

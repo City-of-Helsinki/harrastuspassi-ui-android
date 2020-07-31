@@ -69,7 +69,7 @@ class DayOfWeekListAdapter(
                 dayButton.setTextColor(
                     ContextCompat.getColor(
                         itemView.context,
-                        R.color.hobbyPurple
+                        R.color.hobbyBlue
                     )
                 )
 

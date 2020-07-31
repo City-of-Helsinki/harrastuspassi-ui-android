@@ -29,15 +29,15 @@
                     android:layout_marginTop="24dp"
                     android:layout_marginBottom="8dp"
                     android:layout_weight="1"
-                    android:fontFamily="Roboto"
+                    android:fontFamily="Poppins"
                     android:text="@string/category_filter_component_title"
-                    android:textColor="@color/hobbyPurple"
+                    android:textColor="@color/hobbyBlue"
                     android:textSize="13sp"
                     android:textStyle="bold"
                     app:layout_constraintBottom_toTopOf="@+id/linearLayout"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:textAllCaps="true" />
+                    app:textAllCaps="false" />
 
             <LinearLayout
                     android:id="@+id/linearLayout"
@@ -82,7 +82,7 @@
                         android:layout_marginEnd="16dp"
                         android:layout_marginBottom="2dp"
                         android:background="@drawable/ic_add_black_24dp"
-                        android:backgroundTint="@color/hobbyPurple"
+                        android:backgroundTint="@color/hobbyBlue"
                         android:scaleX="1.4"
                         android:scaleY="1.4"
                         app:layout_constraintBottom_toBottomOf="@+id/name"
@@ -99,15 +99,15 @@
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="32dp"
                     android:layout_marginBottom="16dp"
-                    android:fontFamily="Roboto"
+                    android:fontFamily="Poppins"
                     android:text="@string/weekday_filter_title"
-                    android:textColor="@color/hobbyPurple"
+                    android:textColor="@color/hobbyBlue"
                     android:textSize="13sp"
                     android:textStyle="bold"
                     app:layout_constraintBottom_toTopOf="@+id/day_of_week_list"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/linearLayout"
-                    app:textAllCaps="true" />
+                    app:textAllCaps="false" />
 
             <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/day_of_week_list"
@@ -128,15 +128,15 @@
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="32dp"
                     android:layout_marginBottom="8dp"
-                    android:fontFamily="Roboto"
+                    android:fontFamily="Poppins"
                     android:text="@string/timespan_filter_title"
-                    android:textColor="@color/hobbyPurple"
+                    android:textColor="@color/hobbyBlue"
                     android:textSize="13sp"
                     android:textStyle="bold"
                     app:layout_constraintBottom_toTopOf="@+id/timespan_container"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/day_of_week_list"
-                    app:textAllCaps="true" />
+                    app:textAllCaps="false" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/timespan_container"
@@ -156,7 +156,7 @@
                         android:gravity="center"
                         android:paddingTop="8dp"
                         android:text="@string/range_text_left"
-                        android:textColor="@color/hobbyPurple"
+                        android:textColor="@color/hobbyBlue"
                         android:textSize="13sp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toStartOf="@+id/time_span_slider"
@@ -203,7 +203,7 @@
                         android:gravity="center"
                         android:paddingTop="8dp"
                         android:text="@string/range_text_right"
-                        android:textColor="@color/hobbyPurple"
+                        android:textColor="@color/hobbyBlue"
                         android:textSize="13sp"
                         app:layout_constraintBottom_toBottomOf="@+id/time_span_slider"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -217,15 +217,15 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="32dp"
-                    android:fontFamily="Roboto"
+                    android:fontFamily="Poppins"
                     android:text="@string/payment"
-                    android:textColor="@color/hobbyPurple"
+                    android:textColor="@color/hobbyBlue"
                     android:textSize="13sp"
                     android:textStyle="bold"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="@+id/timespan_filter_title"
                     app:layout_constraintTop_toBottomOf="@+id/timespan_container"
-                    app:textAllCaps="true" />
+                    app:textAllCaps="false" />
 
             <CheckBox
                     android:id="@+id/is_free_check_box"
@@ -295,13 +295,13 @@
             android:layout_marginTop="8dp"
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="16dp"
-            android:backgroundTint="@color/hobbyPurple"
+            android:backgroundTint="@color/hobbyBlue"
             android:paddingVertical="16dp"
             android:paddingTop="8dp"
             android:paddingBottom="8dp"
             android:text="@string/filter_button"
             android:textAllCaps="false"
-            android:textColor="@color/hobbyYellow"
+            android:textColor="@color/hobbyPink"
             android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
