@@ -22,5 +22,6 @@
     <color name="hobbyGrey">#555555</color>
     <color name="hobbyGreyLight">#0000001A</color>
     <color name="hobbyGreyExtraLight">#F3F3F3</color>
+    <color name="darkGreyOpacity35">#35212121</color>
 
 </resources>
