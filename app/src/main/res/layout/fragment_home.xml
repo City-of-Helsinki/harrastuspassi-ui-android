@@ -7,19 +7,19 @@
         xmlns:android="http://schemas.android.com/apk/res/android">
     <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
-            app:title="@string/app_name"
-            app:titleTextColor="@color/white"
+            app:title=""
+            app:titleTextColor="@color/hobbyGreyExtraLight"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="parent"
-            android:background="@color/hobbyPurple"
+            android:background="@color/hobbyBlue"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"/>
 
     <ScrollView
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:background="@drawable/home_background"
+            android:background="@color/white"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -30,87 +30,104 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-            <TextView
-                    android:id="@+id/home_title"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="16dp"
-                    android:layout_marginEnd="16dp"
-                    android:fontFamily="sans-serif"
-                    android:text="@string/home_title"
-                    android:textColor="@color/hobbyYellow"
-                    android:textSize="28sp"
-                    android:textStyle="bold"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/search_container"
+                    android:id="@+id/logo_container"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:background="@color/white60"
-                    app:layout_constraintEnd_toEndOf="@+id/home_title"
+                    android:background="@color/hobbyBlue"
+                    app:layout_constraintBottom_toTopOf="@+id/home_promotions_fragment"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
-                    app:layout_constraintStart_toStartOf="@+id/home_title"
-                    app:layout_constraintTop_toBottomOf="@+id/home_title">
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:paddingBottom="24dp">
 
-                <AutoCompleteTextView
-                        android:id="@+id/home_search"
+                <ImageView
+                        android:id="@+id/imageView"
+                        android:layout_width="202dp"
+                        android:layout_height="94dp"
+                        app:layout_constraintBottom_toTopOf="@+id/search_container"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:srcCompat="@drawable/hp_logo_new" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/search_container"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
-                        android:layout_marginTop="8dp"
-                        android:layout_marginBottom="8dp"
-                        android:backgroundTint="@color/hobbyPurple"
-                        android:hint="@string/find_hobbies"
-                        android:textColor="@color/hobbyPurple"
-                        android:textCursorDrawable="@drawable/purple_cursor"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toStartOf="@+id/home_search_icon"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                <TextView
-                        android:id="@+id/home_search_icon"
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
+                        android:layout_marginTop="16dp"
                         android:layout_marginEnd="16dp"
-                        android:background="@drawable/ic_search_purple_24dp"
+                        android:layout_marginBottom="16dp"
+                        android:background="@drawable/rounded_corners_white"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintDimensionRatio="1:1"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/logo_container">
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
+                    <AutoCompleteTextView
+                            android:id="@+id/home_search"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
+                            android:layout_marginTop="8dp"
+                            android:layout_marginEnd="16dp"
+                            android:layout_marginBottom="8dp"
+                            android:background="@color/white"
+                            android:fontFamily="@font/poppins_regular"
+                            android:hint="@string/find_hobbies"
+                            android:textColor="@color/hobbyGrey"
+                            android:textCursorDrawable="@drawable/purple_cursor"
+                            android:textSize="14sp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toEndOf="@+id/home_search_icon"
+                            app:layout_constraintTop_toTopOf="parent" />
 
-            <fragment
-                    android:id="@+id/home_promotions_fragment"
-                    android:name="fi.haltu.harrastuspassi.fragments.home.HomePromotionsFragment"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="32dp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/search_container" />
+                    <TextView
+                            android:id="@+id/home_search_icon"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_marginStart="8dp"
+                            android:background="@drawable/ic_search_pink_24dp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintDimensionRatio="1:1"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
 
-            <fragment
-                    android:id="@+id/home_hobbies_fragment"
-                    android:name="fi.haltu.harrastuspassi.fragments.home.HomeHobbiesFragment"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="32dp"
-                    android:layout_marginBottom="8dp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/home_promotions_fragment" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-    </ScrollView>
+    <fragment
+            android:id="@+id/home_promotions_fragment"
+            android:name="fi.haltu.harrastuspassi.fragments.home.HomePromotionsFragment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/logo_container" />
+
+    <fragment
+            android:id="@+id/home_hobbies_fragment"
+            android:name="fi.haltu.harrastuspassi.fragments.home.HomeHobbiesFragment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:layout_marginBottom="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/home_promotions_fragment" />
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 
