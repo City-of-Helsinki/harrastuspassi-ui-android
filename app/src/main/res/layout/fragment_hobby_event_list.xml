@@ -105,6 +105,7 @@
 
         <SearchView
                 android:id="@+id/hobby_event_search"
+                android:queryHint="@string/find_hobbies"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
