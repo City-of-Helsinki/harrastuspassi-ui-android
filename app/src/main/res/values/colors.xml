@@ -15,6 +15,7 @@
 
     <color name="hobbyPink">#FF3796</color>
     <color name="hobbyBlue">#0D0BB5</color>
+    <color name="hobbyBlue80">#800D0BB5</color>
     <color name="hobbyTurquoise">#03FAAC</color>
     <color name="white">#FFFFFF</color>
 
