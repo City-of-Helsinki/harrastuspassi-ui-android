@@ -49,4 +49,8 @@
     <style name="BottomNavigationView.Active" parent="@style/TextAppearance.AppCompat.Caption">
         <item name="android:textSize">11sp</item>
     </style>
+    <style name="ToolbarTitleStyles" parent="ThemeOverlay.AppCompat.Light">
+        <item name="android:fontFamily">@font/poppins_semibold</item>
+        <item name="android:textSize">22sp</item>
+    </style>
 </resources>
