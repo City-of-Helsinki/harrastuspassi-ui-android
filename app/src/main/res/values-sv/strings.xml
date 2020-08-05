@@ -43,4 +43,5 @@
     <string name="promotions_for_you">Kampanjer för dig</string>
     <string name="popular_promotions">Populära kampanjer</string>
     <string name="no_promotions_found">" Inga kampanjer hittades"</string>
+    <string name="find_promotions">"Hitta kampanjer "</string>
 </resources>

@@ -50,4 +50,5 @@
     <string name="payment">Maksullisuus</string>
     <string name="show_only_free_hobbies">Näytä vain maksuttomat harrastukset</string>
     <string name="no_promotions_found">Etuuksia ei löytynyt</string>
+    <string name="find_promotions">Löydä etuuksia</string>
 </resources>
