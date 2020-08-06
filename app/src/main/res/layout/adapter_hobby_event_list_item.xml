@@ -62,7 +62,7 @@
                 android:layout_width="16dp"
                 android:layout_height="16dp"
                 android:layout_marginStart="8dp"
-                android:background="@drawable/date_range_icon"
+                android:background="@drawable/ic_calendar_today_24dp"
                 android:backgroundTint="@color/hobbyBlue"
                 android:gravity="start"
                 app:layout_constraintDimensionRatio="1:1"
