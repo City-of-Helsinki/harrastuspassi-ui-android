@@ -17,7 +17,7 @@
 
     <style name="MyCheckBox" parent="Theme.AppCompat.Light">
         <item name="colorControlNormal">@color/hobbyBlue</item>
-        <item name="colorControlActivated">@color/hobbyPurpleLight</item>
+        <item name="colorControlActivated">@color/hobbyBlue</item>
     </style>
     <style name="SwitchTheme" parent="Theme.AppCompat.Light">
         <item name="colorControlActivated">@color/hobbyBlue</item>

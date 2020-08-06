@@ -54,10 +54,12 @@ class DayOfWeekListAdapter(
                 dayButton.setBackgroundColor(
                     ContextCompat.getColor(
                         itemView.context,
-                        R.color.hobbyPurpleLight
+                        R.color.hobbyBlue
                     )
                 )
                 dayButton.setTextColor(ContextCompat.getColor(itemView.context, R.color.white))
+                dayButton.setBackgroundResource(R.drawable.rounded_corners_20dp_blue_bg)
+
 
             } else {
                 dayButton.setBackgroundColor(
@@ -69,9 +71,11 @@ class DayOfWeekListAdapter(
                 dayButton.setTextColor(
                     ContextCompat.getColor(
                         itemView.context,
-                        R.color.hobbyBlue
+                        R.color.hobbyGrey
                     )
                 )
+                dayButton.setBackgroundResource(R.drawable.rounded_corners_20dp)
+
 
             }
 

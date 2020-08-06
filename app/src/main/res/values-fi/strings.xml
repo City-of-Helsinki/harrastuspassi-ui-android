@@ -54,4 +54,5 @@
     <string name="use_location">Käytä tätä sijaintia</string>
     <string name="close_view">Sulje näkymä</string>
     <string name="location_selector">Sijainnin osoittaja</string>
+    <string name="remove_tag">Poista kategoria suodattimista</string>
 </resources>

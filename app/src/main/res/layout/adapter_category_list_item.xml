@@ -3,7 +3,8 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp">
+        android:layout_marginTop="8dp"
+        android:background="@drawable/rounded_corners_20dp">
 
     <CheckBox
             android:id="@+id/check_button"
@@ -28,7 +29,10 @@
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="8dp"
+            android:fontFamily="@font/poppins_regular"
             android:gravity="center_vertical"
+            android:textColor="@color/hobbyGreyDark"
+            android:textColorHighlight="@color/hobbyBlue"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/show_more_button"
             app:layout_constraintStart_toEndOf="@+id/check_button"
@@ -39,7 +43,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
-            android:background="@drawable/ic_arrow_right_24dp"
+            android:background="@drawable/ic_arrow_forward"
             android:backgroundTint="@color/hobbyBlue"
             android:scaleX="1.2"
             android:scaleY="1.2"

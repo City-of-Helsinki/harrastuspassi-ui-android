@@ -47,4 +47,5 @@
     <string name="use_location">" Använd den här platsen"</string>
     <string name="close_view">" Närbild"</string>
     <string name="location_selector">Platsväljare</string>
+    <string name="remove_tag">" Ta bort kategorivalget från filtren"</string>
 </resources>
