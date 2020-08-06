@@ -55,4 +55,7 @@
     <string name="show_only_free_hobbies">Show only free hobbies</string>
     <string name="no_promotions_found">No promotions found</string>
     <string name="find_promotions">Find promotions</string>
+    <string name="use_location">Use this location</string>
+    <string name="close_view">Close view</string>
+    <string name="location_selector">Location selector</string>
 </resources>

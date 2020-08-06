@@ -44,4 +44,7 @@
     <string name="popular_promotions">Populära kampanjer</string>
     <string name="no_promotions_found">" Inga kampanjer hittades"</string>
     <string name="find_promotions">"Hitta kampanjer "</string>
+    <string name="use_location">" Använd den här platsen"</string>
+    <string name="close_view">" Närbild"</string>
+    <string name="location_selector">Platsväljare</string>
 </resources>

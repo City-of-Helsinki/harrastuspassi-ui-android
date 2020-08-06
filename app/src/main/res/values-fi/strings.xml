@@ -51,4 +51,7 @@
     <string name="show_only_free_hobbies">Näytä vain maksuttomat harrastukset</string>
     <string name="no_promotions_found">Etuuksia ei löytynyt</string>
     <string name="find_promotions">Löydä etuuksia</string>
+    <string name="use_location">Käytä tätä sijaintia</string>
+    <string name="close_view">Sulje näkymä</string>
+    <string name="location_selector">Sijainnin osoittaja</string>
 </resources>
