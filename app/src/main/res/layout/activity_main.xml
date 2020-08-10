@@ -17,7 +17,6 @@
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
             android:id="@+id/navigationView"
-            style="@style/NavigationView"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="0dp"
@@ -30,7 +29,7 @@
             app:itemIconTint="@drawable/bottom_navigation_selector"
             app:itemTextAppearance="@style/TextAppearance.AppCompat.Caption"
             app:itemTextAppearanceActive="@style/BottomNavigationView.Active"
-            app:itemTextAppearanceInactive="@style/BottomNavigationView"
+            app:itemTextAppearanceInactive="@style/BottomNavigationView.Inactive"
             app:labelVisibilityMode="labeled"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
