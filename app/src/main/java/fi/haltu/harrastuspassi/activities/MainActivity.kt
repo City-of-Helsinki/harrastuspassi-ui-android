@@ -102,12 +102,12 @@ class MainActivity : AppCompatActivity() {
         if (isMapFragment) {
             switchFragment(hobbyEventListFragment, getString(R.string.hobbies))
             bottomNavigationView.menu.findItem(R.id.navigation_list)
-                .setIcon(ContextCompat.getDrawable(this, R.drawable.list_icon))
+                .setIcon(ContextCompat.getDrawable(this, R.drawable.icon24_list))
             isMapFragment = false
         } else {
             switchFragment(mapFragment, "")
             bottomNavigationView.menu.findItem(R.id.navigation_list)
-                .setIcon(ContextCompat.getDrawable(this, R.drawable.map_icon))
+                .setIcon(ContextCompat.getDrawable(this, R.drawable.ic_map_24px_new))
             isMapFragment = true
         }
     }

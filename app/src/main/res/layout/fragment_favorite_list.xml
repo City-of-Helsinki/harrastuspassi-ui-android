@@ -4,22 +4,24 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:background="@color/hobbyPurple"
+        android:background="@color/hobbyBlue"
         tools:context="fi.haltu.harrastuspassi.fragments.FavoriteListFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+
         <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolbar"
-                app:title="@string/favorites"
-                app:titleTextColor="@color/white"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:background="@color/hobbyBlue"
+                android:theme="@style/ToolbarTitleStyles"
                 app:layout_constraintEnd_toEndOf="parent"
-                android:background="@color/hobbyPurple"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"/>
+                app:layout_constraintTop_toTopOf="parent"
+                app:title="@string/favorites"
+                app:titleTextColor="@color/white" />
 
         <ProgressBar
                 android:id="@+id/progressbar"
@@ -47,7 +49,7 @@
                     android:id="@+id/list_view"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="@color/hobbyPurple"
+                    android:background="@color/hobbyGreyExtraLight"
                     android:dividerHeight="2dp"
                     android:footerDividersEnabled="false" />
 

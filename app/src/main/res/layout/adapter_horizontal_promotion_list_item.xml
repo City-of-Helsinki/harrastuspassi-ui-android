@@ -2,14 +2,14 @@
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="120dp"
-        android:layout_height="210dp"
+        android:layout_height="match_parent"
         android:layout_marginEnd="8dp"
         app:cardCornerRadius="10dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/horizontal_constraint"
             android:layout_width="120dp"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content">
 
         <ImageView
                 android:id="@+id/horizontal_promotion_list_image"
@@ -28,11 +28,11 @@
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="8dp"
                 android:ellipsize="end"
+                android:fontFamily="@font/poppins_semibold"
                 android:maxLines="3"
                 android:minLines="1"
-                android:textColor="@color/hobbyPurple"
-                android:textSize="12sp"
-                android:textStyle="bold"
+                android:textColor="@color/hobbyGreyDark"
+                android:textSize="14sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/horizontal_promotion_list_image" />
@@ -42,8 +42,10 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
+                android:fontFamily="@font/poppins_medium"
                 android:text="@string/available"
-                android:textSize="10sp"
+                android:textColor="@color/hobbyBlue"
+                android:textSize="14sp"
                 app:layout_constraintBottom_toTopOf="@+id/horizontal_promotion_list_available_text"
                 app:layout_constraintEnd_toEndOf="@+id/horizontal_promotion_list_title_text"
                 app:layout_constraintStart_toStartOf="@+id/horizontal_promotion_list_title_text"
@@ -54,7 +56,9 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
-                android:textSize="10sp"
+                android:fontFamily="@font/poppins_medium"
+                android:textColor="@color/hobbyBlue"
+                android:textSize="14sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="@+id/horizontal_promotion_list_available_label"
                 app:layout_constraintStart_toStartOf="@+id/horizontal_promotion_list_available_label"

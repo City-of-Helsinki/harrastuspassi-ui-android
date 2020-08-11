@@ -7,146 +7,145 @@
         android:orientation="vertical"
         tools:context="fi.haltu.harrastuspassi.fragments.HobbyEventListFragment">
 
-<androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:background="@color/hobbyPurple"
-        android:layout_height="match_parent">
-
-    <androidx.appcompat.widget.Toolbar
-            android:id="@+id/list_toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:background="@color/hobbyPurple"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                tools:layout_editor_absoluteX="16dp">
-
-            <ImageView
-                    android:id="@+id/map_icon"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="8dp"
-                    android:src="@drawable/map_icon"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                    android:id="@+id/map_text"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginEnd="8dp"
-                    android:gravity="start"
-                    android:text="@string/map"
-                    android:textColor="@color/white"
-
-                    android:textSize="16sp"
-                    app:layout_constraintBottom_toBottomOf="@+id/map_icon"
-                    app:layout_constraintEnd_toStartOf="@+id/filter_text"
-                    app:layout_constraintHorizontal_bias="0.5"
-                    app:layout_constraintStart_toEndOf="@+id/map_icon"
-                    app:layout_constraintTop_toTopOf="@+id/map_icon" />
-
-            <TextView
-                    android:id="@+id/filter_text"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-
-                    android:layout_marginEnd="8dp"
-                    android:gravity="end"
-                    android:text="@string/filter"
-                    android:textColor="@color/white"
-                    android:textSize="16sp"
-                    app:layout_constraintBottom_toBottomOf="@+id/map_text"
-                    app:layout_constraintEnd_toStartOf="@+id/filter_icon"
-                    app:layout_constraintHorizontal_bias="0.5"
-                    app:layout_constraintStart_toEndOf="@+id/map_text"
-                    app:layout_constraintTop_toTopOf="@+id/map_text" />
-
-            <ImageView
-                    android:id="@+id/filter_icon"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="16dp"
-                    android:src="@drawable/ic_tune_24dp"
-                    app:layout_constraintBottom_toBottomOf="@+id/filter_text"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/filter_text" />
-
-            <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginBottom="8dp"
-                    android:gravity="start"
-                    android:text="@string/hobbies"
-                    android:textColor="@color/white"
-                    android:textSize="22sp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/map_icon" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-    </androidx.appcompat.widget.Toolbar>
-    <ProgressBar
-            android:id="@+id/progressbar"
-            style="?android:attr/progressBarStyleHorizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:indeterminate="true"
-            android:indeterminateTint="#fff"
-            android:max="100"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/list_toolbar" />
-    <SearchView
-            android:id="@+id/hobby_event_search"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
-            android:background="@color/white60"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/progressbar" />
-
-    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-            android:id="@+id/swipe_refresh_list"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_marginTop="16dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/hobby_event_search">
-
-        <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/list_view"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@color/hobbyPurple"
-                android:dividerHeight="2dp"
-                android:footerDividersEnabled="false" />
-
-    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
-
-    <TextView
-            android:id="@+id/progress_text"
+    <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:fontFamily="sans-serif"
-            android:gravity="center"
-            android:textColor="#fff" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+            android:background="@color/hobbyBlue">
+
+        <androidx.appcompat.widget.Toolbar
+                android:id="@+id/list_toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/hobbyBlue"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    tools:layout_editor_absoluteX="16dp"
+                    tools:layout_editor_absoluteY="4dp">
+
+                <ImageView
+                        android:id="@+id/map_icon"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_marginTop="8dp"
+                        android:src="@drawable/ic_map_24px_new"
+                        app:layout_constraintEnd_toEndOf="@+id/map_text"
+                        app:layout_constraintStart_toStartOf="@+id/map_text"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                        android:id="@+id/map_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="16dp"
+                        android:gravity="start"
+                        android:text="@string/map"
+
+                        android:textColor="@color/white"
+                        android:textSize="10sp"
+                        app:layout_constraintEnd_toStartOf="@+id/filter_text"
+                        app:layout_constraintTop_toBottomOf="@+id/map_icon" />
+
+                <TextView
+                        android:id="@+id/filter_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+
+                        android:layout_marginEnd="24dp"
+                        android:gravity="end"
+                        android:text="@string/filter"
+                        android:textColor="@color/white"
+                        android:textSize="10sp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/filter_icon" />
+
+                <ImageView
+                        android:id="@+id/filter_icon"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_marginTop="8dp"
+                        android:src="@drawable/ic_filter_24px_new"
+                        app:layout_constraintEnd_toEndOf="@+id/filter_text"
+                        app:layout_constraintStart_toStartOf="@+id/filter_text"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="24dp"
+                        android:fontFamily="@font/poppins_semibold"
+                        android:gravity="start"
+                        android:text="@string/hobbies"
+                        android:textColor="@color/white"
+                        android:textSize="22sp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@+id/map_icon"
+                        app:layout_constraintHorizontal_bias="1.0"
+                        app:layout_constraintStart_toStartOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.appcompat.widget.Toolbar>
+
+        <ProgressBar
+                android:id="@+id/progressbar"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:indeterminate="true"
+                android:indeterminateTint="#fff"
+                android:max="100"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/list_toolbar" />
+
+        <SearchView
+                android:id="@+id/hobby_event_search"
+                android:queryHint="@string/find_hobbies"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:background="@drawable/rounded_corners_white"
+                android:goIcon="@drawable/ic_search_pink_24dp"
+                android:searchHintIcon="@drawable/ic_search_pink_24dp"
+                android:searchIcon="@drawable/ic_search_pink_24dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/progressbar" />
+
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+                android:id="@+id/swipe_refresh_list"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginTop="16dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/hobby_event_search">
+
+            <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/list_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/hobbyGreyExtraLight"
+                    android:dividerHeight="2dp"
+                    android:footerDividersEnabled="false" />
+
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+        <TextView
+                android:id="@+id/progress_text"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:fontFamily="sans-serif"
+                android:gravity="center"
+                android:textColor="#fff" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 
 </FrameLayout>
