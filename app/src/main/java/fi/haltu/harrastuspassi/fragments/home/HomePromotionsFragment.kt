@@ -1,7 +1,6 @@
 package fi.haltu.harrastuspassi.fragments.home
 
 import android.annotation.SuppressLint
-import android.app.ActionBar
 import android.app.Dialog
 import android.content.Intent
 import android.net.Uri

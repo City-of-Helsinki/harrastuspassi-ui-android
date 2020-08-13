@@ -144,9 +144,9 @@
                 android:id="@+id/progress_text"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:fontFamily="sans-serif"
+                android:fontFamily="@font/poppins_bold"
                 android:gravity="center"
-                android:textColor="#fff" />
+                android:textColor="@color/hobbyPink" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 

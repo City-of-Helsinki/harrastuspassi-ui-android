@@ -167,6 +167,7 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:outer_color="@color/hobbyBlue"
                 app:inner_color="@color/hobbyTurquoise"
+                app:icon_margin="8dp"
                 app:slider_locked="false"
                 app:text="@string/use_promotion"
                 app:text_color="@color/hobbyTurquoise"

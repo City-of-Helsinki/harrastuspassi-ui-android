@@ -21,6 +21,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:title="@string/favorites"
+                app:titleTextAppearance="@font/poppins_bold"
                 app:titleTextColor="@color/white" />
 
         <ProgressBar
@@ -62,9 +63,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginEnd="8dp"
-                android:fontFamily="sans-serif"
+                android:fontFamily="@font/poppins_bold"
                 android:gravity="center"
-                android:textColor="#fff"
+                android:textColor="@color/hobbyPink"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

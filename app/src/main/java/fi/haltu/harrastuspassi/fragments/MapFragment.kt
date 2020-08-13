@@ -218,7 +218,7 @@ class MapFragment : Fragment(), OnMapReadyCallback {
                 .icon(
                     bitmapDescriptorFromVector(
                         this.context!!,
-                        R.drawable.ic_accessibility_purple_24dp
+                        R.drawable.ic_person_marker_24px
                     )
                 )
         )
