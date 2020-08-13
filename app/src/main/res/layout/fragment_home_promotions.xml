@@ -45,15 +45,15 @@
             app:layout_constraintTop_toBottomOf="@+id/home_popular_promotions_title" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/home_popular_promotion_list"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:paddingBottom="16dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/home_promoted_promotion" />
+            android:id="@+id/home_popular_promotion_list"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:paddingBottom="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/home_promoted_promotion" />
 
     <TextView
             android:id="@+id/user_promotion_text_label"
@@ -72,14 +72,14 @@
 
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/home_user_promotion_list"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:paddingBottom="8dp"
-        app:layout_constraintEnd_toEndOf="@+id/home_popular_promotion_list"
-        app:layout_constraintStart_toStartOf="@+id/home_popular_promotion_list"
-        app:layout_constraintTop_toBottomOf="@+id/user_promotion_text_label" />
+            android:id="@+id/home_user_promotion_list"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:paddingBottom="8dp"
+            app:layout_constraintEnd_toEndOf="@+id/home_popular_promotion_list"
+            app:layout_constraintStart_toStartOf="@+id/home_popular_promotion_list"
+            app:layout_constraintTop_toBottomOf="@+id/user_promotion_text_label" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

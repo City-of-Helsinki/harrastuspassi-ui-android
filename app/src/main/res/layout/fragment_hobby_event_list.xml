@@ -141,12 +141,12 @@
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
         <TextView
-            android:id="@+id/progress_text"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:fontFamily="@font/poppins_bold"
-            android:gravity="center"
-            android:textColor="@color/hobbyPink" />
+                android:id="@+id/progress_text"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:fontFamily="@font/poppins_bold"
+                android:gravity="center"
+                android:textColor="@color/hobbyPink" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 
