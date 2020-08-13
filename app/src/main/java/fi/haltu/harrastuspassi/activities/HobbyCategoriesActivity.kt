@@ -4,8 +4,11 @@ import android.content.Intent
 import android.os.AsyncTask
 import android.os.Bundle
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -29,18 +32,37 @@ class HobbyCategoriesActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_hobby_categories)
-        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
+/*
+         * There's probably a better way to change the font on the support action bar, but I was
+         * unable to find a way to change the font using styles.xml. This solution is copy-pasted
+         * from
+         * https://stackoverflow.com/questions/8607707/how-to-set-a-custom-font-in-the-actionbar-title
+         */
+
+        // Action Bar Custom View - Start
+
+        supportActionBar!!.setDisplayShowCustomEnabled(true)
+        supportActionBar!!.setDisplayShowTitleEnabled(false)
+
+        val inflater = LayoutInflater.from(this)
+        val v: View = inflater.inflate(R.layout.custom_action_bar, null)
 
         filters = intent.extras!!.getSerializable("EXTRA_FILTERS") as Filters
         filtersOriginal = intent.extras!!.getSerializable("EXTRA_FILTERS") as Filters
         if (intent.hasExtra("EXTRA_CATEGORY_BUNDLE")) {
             val bundle = intent.getBundleExtra("EXTRA_CATEGORY_BUNDLE")
             categoryList = bundle.getSerializable("CATEGORY_LIST") as ArrayList<Category>
-            supportActionBar!!.title = intent.getStringExtra("EXTRA_CATEGORY_NAME")
+            (v.findViewById<View>(R.id.title) as TextView).text = intent.getStringExtra("EXTRA_CATEGORY_NAME")
         } else {
-            supportActionBar!!.title = resources.getString(R.string.choose_hobby)
+            (v.findViewById<View>(R.id.title) as TextView).text = resources.getString(R.string.choose_hobby)
             GetCategories().execute()
         }
+
+        (v.findViewById<View>(R.id.title) as TextView).text = resources.getString(R.string.choose_hobby)
+
+        supportActionBar!!.customView = v
+
+        // Action Bar Custom View - End
 
         val categoryAdapter = CategoryListAdapter(
             categoryList,

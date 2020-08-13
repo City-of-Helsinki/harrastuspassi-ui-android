@@ -3,13 +3,16 @@
 
     <TextView
             android:id="@+id/week_day"
-            android:gravity="center" />
+            android:gravity="center"
+            android:fontFamily="@font/poppins_regular" />
 
     <TextView
             android:id="@+id/start_date"
-            android:gravity="center" />
+            android:gravity="center"
+            android:fontFamily="@font/poppins_regular" />
 
     <TextView
             android:id="@+id/time"
-            android:gravity="center" />
+            android:gravity="center"
+            android:fontFamily="@font/poppins_regular" />
 </TableRow>
