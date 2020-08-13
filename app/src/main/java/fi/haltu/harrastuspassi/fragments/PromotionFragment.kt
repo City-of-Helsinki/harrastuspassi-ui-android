@@ -3,7 +3,6 @@ package fi.haltu.harrastuspassi.fragments
 import android.annotation.SuppressLint
 import android.app.Dialog
 import android.content.Intent
-import android.graphics.Typeface
 import android.net.Uri
 import android.os.AsyncTask
 import android.os.Bundle
@@ -32,7 +31,6 @@ import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
 import java.io.IOException
-import java.lang.reflect.Type
 import java.net.URL
 
 
