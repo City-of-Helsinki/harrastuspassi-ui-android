@@ -15,7 +15,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:layout_constraintEnd_toEndOf="parent"
-                android:background="@color/hobbyPurple"
+                android:background="@color/hobbyBlue"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
@@ -26,11 +26,11 @@
 
                 <ImageView
                         android:id="@+id/list_icon"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
                         android:layout_marginStart="16dp"
                         android:layout_marginTop="8dp"
-                        android:src="@drawable/list_icon"
+                        android:src="@drawable/icon24_list"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
@@ -43,7 +43,8 @@
                         android:gravity="start"
                         android:text="@string/list"
                         android:textColor="@color/white"
-                        android:textSize="16sp"
+                        android:textSize="10sp"
+                        android:fontFamily="@font/poppins_regular"
                         app:layout_constraintBottom_toBottomOf="@+id/list_icon"
                         app:layout_constraintEnd_toStartOf="@+id/map_filter_text"
                         app:layout_constraintHorizontal_bias="0.5"
@@ -60,7 +61,8 @@
                         android:gravity="end"
                         android:text="@string/filter"
                         android:textColor="@color/white"
-                        android:textSize="16sp"
+                        android:textSize="10sp"
+                        android:fontFamily="@font/poppins_regular"
                         app:layout_constraintBottom_toBottomOf="@+id/list_text"
                         app:layout_constraintEnd_toStartOf="@+id/map_filter_icon"
                         app:layout_constraintHorizontal_bias="0.5"
@@ -85,7 +87,8 @@
                         android:gravity="start"
                         android:text="@string/hobbies"
                         android:textColor="@color/white"
-                        android:textSize="28sp"
+                        android:textSize="22sp"
+                        android:fontFamily="@font/poppins_semibold"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -99,7 +102,7 @@
                 android:name="com.google.android.gms.maps.SupportMapFragment"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:textColor="@color/hobbyPurple"
+                android:textColor="@color/hobbyBlue"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

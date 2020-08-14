@@ -1,41 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
 
     <!-- TODO: Update blank fragment layout -->
     <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="8dp"
+            android:layout_marginStart="4dp"
+            android:layout_marginEnd="4dp"
             android:layout_marginTop="2dp"
             android:layout_marginBottom="2dp"
-            android:background="@color/hobbyPurpleLight"
+            android:backgroundTint="@color/hobbyBlue"
             android:gravity="center_horizontal"
             android:orientation="horizontal"
             android:paddingLeft="2dp"
-            android:paddingRight="8dp">
+            android:paddingRight="8dp"
+            android:background="@drawable/rounded_corners_pill">
 
         <TextView
                 android:id="@+id/textView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:layout_marginHorizontal="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="4dp"
                 android:layout_weight="1"
+                android:fontFamily="@font/poppins_medium"
                 android:paddingTop="4sp"
                 android:paddingBottom="4sp"
                 android:text="@string/hobby_tag"
                 android:textColor="@color/white"
-                android:textSize="14sp" />
+                android:textSize="12sp" />
 
         <ImageButton
                 android:id="@+id/delete_tag"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
                 android:layout_gravity="center_vertical"
-                android:layout_marginVertical="4dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginBottom="4dp"
                 android:background="@drawable/ic_cancel_24dp"
                 android:backgroundTint="@color/white"
                 app:layout_constraintEnd_toEndOf="parent" />
@@ -43,3 +49,4 @@
     </LinearLayout>
 
 </FrameLayout>
+

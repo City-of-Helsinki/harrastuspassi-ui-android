@@ -3,14 +3,15 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="8dp"
         app:cardCornerRadius="10dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="300dp"
             android:layout_height="wrap_content"
-
-            >
+            android:layout_marginBottom="8dp"
+            android:paddingBottom="8dp">
 
         <ImageView
                 android:id="@+id/horizontal_hobby_list_image"
@@ -28,9 +29,11 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="8dp"
-                android:textColor="@color/hobbyPurple"
+                android:fontFamily="@font/poppins_semibold"
+                android:maxLines="2"
+                android:minLines="1"
+                android:textColor="@color/hobbyGreyDark"
                 android:textSize="14sp"
-                android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/horizontal_hobby_list_image"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -42,9 +45,11 @@
                 android:layout_marginTop="4dp"
                 android:layout_marginBottom="8dp"
                 android:ellipsize="end"
+                android:fontFamily="@font/poppins_regular"
                 android:maxLines="2"
                 android:minLines="1"
-                android:textSize="12sp"
+                android:textColor="@color/hobbyGrey"
+                android:textSize="14sp"
                 app:layout_constraintBottom_toTopOf="@+id/horizontal_hobby_list_week_day_icon"
                 app:layout_constraintEnd_toEndOf="@+id/horizontal_hobby_list_title_text"
                 app:layout_constraintStart_toStartOf="@+id/horizontal_hobby_list_title_text"
@@ -55,7 +60,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
-                android:background="@drawable/ic_date_range_24dp"
+                android:background="@drawable/ic_event_blue_24dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/horizontal_hobby_list_description" />
 
@@ -64,8 +69,9 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                android:textColor="@color/hobbyPurple"
-                android:textSize="12sp"
+                android:fontFamily="@font/poppins_regular"
+                android:textColor="@color/hobbyBlue"
+                android:textSize="14sp"
                 app:layout_constraintBottom_toBottomOf="@+id/horizontal_hobby_list_week_day_icon"
                 app:layout_constraintEnd_toEndOf="@+id/horizontal_hobby_list_description"
                 app:layout_constraintStart_toEndOf="@+id/horizontal_hobby_list_week_day_icon"

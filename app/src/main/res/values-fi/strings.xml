@@ -2,7 +2,7 @@
 <resources>
     <string name="app_name">Harrastuspassi</string>
     <string name="category_filter_component_title">Harrastus</string>
-    <string name="choose_hobby">Valitse harastus</string>
+    <string name="choose_hobby">Valitse harrastus</string>
     <string name="choose_location_from_map">Valitse sijainti kartalta</string>
     <string name="hobby_tag">Harrastus</string>
     <string name="location_title">Sijainti</string>
@@ -31,7 +31,7 @@
     <string name="list">Lista</string>
     <string name="favorites">Suosikit</string>
     <string name="map">Kartta</string>
-    <string name="filter">Suodatin</string>
+    <string name="filter">Suodata</string>
     <string name="promotions">Etuudet</string>
     <string name="use_promotion">Käytä etuus</string>
     <string name="available">Voimassa</string>
@@ -41,7 +41,7 @@
     <string name="accept_from_settings">Anna lupaa asetuksista</string>
     <string name="hobbies">Harrastukset</string>
     <string name="home_title">Löydä harrastuksia läheltäsi</string>
-    <string name="find_hobbies">Etsi Harrastuksia kategorialla</string>
+    <string name="find_hobbies">Löydä harrastus</string>
     <string name="popular_promotions">Suosituimmat etuudet</string>
     <string name="promotions_for_you">Etuuksia sinulle</string>
     <string name="popular_hobbies">Suosituimmat harrastukset</string>
@@ -50,4 +50,9 @@
     <string name="payment">Maksullisuus</string>
     <string name="show_only_free_hobbies">Näytä vain maksuttomat harrastukset</string>
     <string name="no_promotions_found">Etuuksia ei löytynyt</string>
+    <string name="find_promotions">Löydä etuuksia</string>
+    <string name="use_location">Käytä tätä sijaintia</string>
+    <string name="close_view">Sulje näkymä</string>
+    <string name="location_selector">Sijainnin osoittaja</string>
+    <string name="remove_tag">Poista kategoria suodattimista</string>
 </resources>

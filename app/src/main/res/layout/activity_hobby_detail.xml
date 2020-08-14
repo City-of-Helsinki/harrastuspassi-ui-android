@@ -42,10 +42,10 @@
                     android:layout_marginStart="24dp"
                     android:layout_marginTop="24dp"
                     android:layout_marginEnd="8dp"
-                    android:fontFamily="sans-serif"
-                    android:textColor="@color/hobbyPurple"
-                    android:textSize="24sp"
-                    android:textStyle="bold"
+                    android:fontFamily="@font/poppins_semibold"
+                    android:lineSpacingExtra="-2sp"
+                    android:textColor="@color/hobbyGreyDark"
+                    android:textSize="22sp"
                     app:layout_constraintBottom_toTopOf="@+id/hobby_organizer"
                     app:layout_constraintEnd_toStartOf="@+id/favorite_icon_button"
                     app:layout_constraintStart_toStartOf="@+id/hobby_image"
@@ -53,11 +53,11 @@
 
             <TextView
                     android:id="@+id/favorite_icon_button"
-                    android:layout_width="32dp"
-                    android:layout_height="0dp"
+                    android:layout_width="24dp"
+                    android:layout_height="wrap_content"
                     android:layout_marginTop="26dp"
                     android:layout_marginEnd="24dp"
-                    android:background="@drawable/favorite_icon"
+                    android:background="@drawable/ic_icon24_favourites_grey"
                     android:backgroundTint="@color/common_google_signin_btn_text_light_disabled"
                     app:layout_constraintDimensionRatio="1:1"
                     app:layout_constraintEnd_toEndOf="@+id/hobby_image"
@@ -69,9 +69,9 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:layout_marginEnd="24dp"
-                    android:fontFamily="sans-serif"
-                    android:textSize="16sp"
-                    android:textStyle="normal"
+                    android:fontFamily="@font/poppins_semibold"
+                    android:textColor="@color/hobbyGrey"
+                    android:textSize="14sp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="@+id/hobby_title"
                     app:layout_constraintTop_toBottomOf="@+id/hobby_title" />
@@ -80,18 +80,19 @@
                     android:id="@+id/promotion_location_icon"
                     android:layout_width="24dp"
                     android:layout_height="24dp"
-                    android:layout_marginTop="16dp"
                     android:background="@drawable/location_icon"
-                    android:backgroundTint="@color/hobbyPurple"
+                    android:backgroundTint="@color/hobbyBlue"
                     app:layout_constraintDimensionRatio="1:1"
                     app:layout_constraintStart_toStartOf="@+id/hobby_organizer"
-                    app:layout_constraintTop_toBottomOf="@+id/hobby_organizer" />
+                    app:layout_constraintTop_toTopOf="@+id/promotion_location_address" />
 
             <TextView
                     android:id="@+id/promotion_location_address"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
 
+                    android:fontFamily="@font/poppins_regular"
+                    android:textColor="@color/hobbyGrey"
                     android:textSize="14sp"
                     app:layout_constraintEnd_toEndOf="@+id/promotion_location"
                     app:layout_constraintStart_toStartOf="@+id/promotion_location"
@@ -102,6 +103,8 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
 
+                    android:fontFamily="@font/poppins_regular"
+                    android:textColor="@color/hobbyGrey"
                     android:textSize="14sp"
                     app:layout_constraintEnd_toEndOf="@+id/promotion_location_address"
                     app:layout_constraintStart_toStartOf="@+id/promotion_location_address"
@@ -113,14 +116,14 @@
                     android:layout_height="wrap_content"
 
                     android:layout_marginStart="8dp"
-                    android:fontFamily="sans-serif"
+                    android:layout_marginTop="16dp"
+                    android:fontFamily="@font/poppins_regular"
                     android:gravity="start"
+                    android:textColor="@color/hobbyGrey"
                     android:textSize="14sp"
-                    app:layout_constraintBottom_toBottomOf="@+id/promotion_location_icon"
                     app:layout_constraintEnd_toEndOf="@+id/hobby_organizer"
                     app:layout_constraintStart_toEndOf="@+id/promotion_location_icon"
-                    app:layout_constraintTop_toTopOf="@+id/promotion_location_icon"
-                    app:layout_constraintVertical_bias="0.0" />
+                    app:layout_constraintTop_toBottomOf="@+id/hobby_organizer" />
 
 
             <TableLayout
@@ -128,7 +131,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="24dp"
-                    android:background="@drawable/rounded_corners_light_purple"
+                    android:background="@drawable/rounded_corners_extra_light_grey"
                     android:paddingLeft="8dp"
                     android:paddingTop="16dp"
                     android:paddingRight="8dp"
@@ -149,31 +152,11 @@
 
                         <TextView
                                 android:id="@+id/calendar_icon"
-
                                 android:layout_width="24dp"
                                 android:layout_height="24dp"
-                                android:background="@drawable/ic_date_range_24dp"
-                                android:backgroundTint="@color/hobbyPurple"
+                                android:background="@drawable/ic_calendar_today_24dp"
+                                android:backgroundTint="@color/hobbyBlue"
                                 android:gravity="start"
-                                app:layout_constraintBottom_toBottomOf="parent"
-                                app:layout_constraintDimensionRatio="1:1"
-                                app:layout_constraintEnd_toEndOf="parent"
-                                app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toTopOf="parent" />
-                    </androidx.constraintlayout.widget.ConstraintLayout>
-
-                    <androidx.constraintlayout.widget.ConstraintLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:background="@drawable/side_borders">
-
-                        <TextView
-
-                                android:layout_width="24dp"
-                                android:layout_height="24dp"
-                                android:background="@drawable/today_ic"
-                                android:backgroundTint="@color/hobbyPurple"
-                                android:gravity="center"
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintDimensionRatio="1:1"
                                 app:layout_constraintEnd_toEndOf="parent"
@@ -187,11 +170,27 @@
 
                         <TextView
 
+                                android:layout_width="24dp"
+                                android:layout_height="24dp"
+                                android:background="@drawable/today_ic"
+                                android:backgroundTint="@color/hobbyBlue"
+                                android:gravity="center"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintDimensionRatio="1:1"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
 
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content">
+
+                        <TextView
                                 android:layout_width="24dp"
                                 android:layout_height="24dp"
                                 android:background="@drawable/clock_ic"
-                                android:backgroundTint="@color/hobbyPurple"
+                                android:backgroundTint="@color/hobbyBlue"
                                 android:gravity="center"
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintDimensionRatio="1:1"
@@ -208,10 +207,10 @@
                     android:layout_height="wrap_content"
 
                     android:layout_marginTop="24dp"
-                    android:fontFamily="sans-serif"
+                    android:fontFamily="@font/poppins_semibold"
                     android:text="@string/hobby_detail_description_title"
-                    android:textColor="@color/hobbyPurple"
-                    android:textSize="16sp"
+                    android:textColor="@color/hobbyGreyDark"
+                    android:textSize="14sp"
                     android:textStyle="bold"
                     app:layout_constraintEnd_toEndOf="@+id/tableLayout"
                     app:layout_constraintStart_toStartOf="@+id/tableLayout"
@@ -222,8 +221,9 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
 
-                    android:fontFamily="sans-serif"
-                    android:textSize="16sp"
+                    android:fontFamily="@font/poppins_regular"
+                    android:textColor="@color/hobbyGreyDark"
+                    android:textSize="14sp"
                     app:layout_constraintBottom_toTopOf="@+id/map_icon"
                     app:layout_constraintEnd_toEndOf="@+id/description_label"
                     app:layout_constraintHorizontal_bias="1.0"

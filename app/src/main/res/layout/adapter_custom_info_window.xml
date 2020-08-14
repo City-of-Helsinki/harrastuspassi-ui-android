@@ -28,7 +28,7 @@
             android:layout_marginStart="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="8dp"
-            android:textColor="@color/hobbyPurple"
+            android:textColor="@color/hobbyBlue"
             android:textSize="16sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toTopOf="@+id/calendar_icon"
@@ -41,8 +41,8 @@
             android:layout_width="24dp"
             android:layout_height="0dp"
             android:layout_marginBottom="8dp"
-            android:background="@drawable/date_range_icon"
-            android:backgroundTint="@color/hobbyPurple"
+            android:background="@drawable/ic_calendar_today_24dp"
+            android:backgroundTint="@color/hobbyBlue"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintStart_toStartOf="@+id/info_title" />
@@ -53,7 +53,7 @@
             android:layout_gravity="center_vertical"
             android:layout_marginStart="8dp"
             android:text="test"
-            android:textColor="@color/hobbyPurple"
+            android:textColor="@color/hobbyBlue"
             app:layout_constraintBottom_toBottomOf="@+id/calendar_icon"
             app:layout_constraintStart_toEndOf="@+id/calendar_icon"
             app:layout_constraintTop_toTopOf="@+id/calendar_icon" />
