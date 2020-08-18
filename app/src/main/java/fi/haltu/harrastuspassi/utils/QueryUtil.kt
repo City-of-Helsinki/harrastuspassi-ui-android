@@ -42,13 +42,11 @@ fun createHobbyEventQueryUrl(filters: Filters): String {
     query += "&start_time_from=${minutesToTime(filters.startTimeFrom)}"
     query += "&start_time_to=${minutesToTime(filters.startTimeTo)}"
 
+    query += "&exclude_past_events=true"
+
     query += "&ordering=nearest"
     query += "&near_latitude=${filters.latitude}"
     query += "&near_longitude=${filters.longitude}"
-
-    val simpleDateFormat = SimpleDateFormat("yyyy-MM-dd", Locale("fi", "FI"))
-    query += "&start_date_from=${simpleDateFormat.format(Date())}"
-
     Log.d("query", query)
 
     return query
