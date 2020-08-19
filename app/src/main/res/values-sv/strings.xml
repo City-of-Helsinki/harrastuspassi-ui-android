@@ -40,10 +40,11 @@
     <string name="promotions_left">Kampanjer kvar</string>
     <string name="hobbies_for_you">Hobbyer för dig</string>
     <string name="popular_hobbies">Populära hobbyer</string>
-    <string name="promotions_for_you">Kampanjer för dig</string>
-    <string name="popular_promotions">Populära kampanjer</string>
+    <string name="promotions_for_you">Förmåner för dig</string>
+    <string name="popular_promotions">Populära förmåner</string>
     <string name="no_promotions_found">" Inga kampanjer hittades"</string>
     <string name="find_promotions">"Hitta kampanjer "</string>
+    <string name="find_hobbies">Sök hobbyer</string>
     <string name="use_location">" Använd den här platsen"</string>
     <string name="close_view">" Närbild"</string>
     <string name="location_selector">Platsväljare</string>
