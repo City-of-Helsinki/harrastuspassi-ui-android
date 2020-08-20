@@ -187,6 +187,7 @@
                             android:layout_height="wrap_content">
 
                         <TextView
+                                android:id="@+id/tableLayoutClock"
                                 android:layout_width="24dp"
                                 android:layout_height="24dp"
                                 android:background="@drawable/clock_ic"

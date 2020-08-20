@@ -33,6 +33,7 @@
     <string name="favorites">Favoriter</string>
     <string name="map">Karta</string>
     <string name="filter">Filtrera</string>
+    <string name="filter_button">Filtrera</string>
     <string name="promotion_valid">Träder i kraft:</string>
     <string name="hobbies">Hobbies</string>
     <string name="payment">Betalning</string>
@@ -40,12 +41,18 @@
     <string name="promotions_left">Kampanjer kvar</string>
     <string name="hobbies_for_you">Hobbyer för dig</string>
     <string name="popular_hobbies">Populära hobbyer</string>
-    <string name="promotions_for_you">Kampanjer för dig</string>
-    <string name="popular_promotions">Populära kampanjer</string>
+    <string name="promotions_for_you">Förmåner för dig</string>
+    <string name="popular_promotions">Populära förmåner</string>
     <string name="no_promotions_found">" Inga kampanjer hittades"</string>
     <string name="find_promotions">"Hitta kampanjer "</string>
+    <string name="find_hobbies">Sök hobbyer</string>
     <string name="use_location">" Använd den här platsen"</string>
     <string name="close_view">" Närbild"</string>
     <string name="location_selector">Platsväljare</string>
     <string name="remove_tag">" Ta bort kategorivalget från filtren"</string>
+    <string name="available">Giltig</string>
+    <string name="promotions_used">Använt</string>
+    <string name="no_favorites">Du har inga favoriter! Hitta dina favorithobbyer här!</string>
+    <string name="use_promotion">Använd förmånen</string>
+    <string name="promotions">Förmåner</string>
 </resources>
