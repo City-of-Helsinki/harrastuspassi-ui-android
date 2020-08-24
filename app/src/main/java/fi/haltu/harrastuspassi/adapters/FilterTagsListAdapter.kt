@@ -7,10 +7,12 @@ import android.widget.ImageButton
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import fi.haltu.harrastuspassi.R
+import java.util.*
+import kotlin.collections.ArrayList
 
 class FilterTagsListAdapter(
     private val categoryTagsList: ArrayList<String>,
-    private val clickListener: (categryName: String) -> Unit
+    private val clickListener: (categoryName: String) -> Unit
 ) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
@@ -28,13 +30,31 @@ class FilterTagsListAdapter(
     override fun getItemCount(): Int {
         return categoryTagsList.size
     }
+    object translation {
+        fun translateCategory(category: String) {
+            val currentLanguage = Locale.getDefault().language
+
+            if(currentLanguage == "fi") {
+                return category.nameFi
+            } else if(currentLanguage == "sv") {
+                return category.nameSv
+            } else {
+                if(category.nameEn.isNullOrEmpty()) {
+                    return category.name
+                } else {
+                    retrun category.nameEn
+                }
+            }
+        }
+    }
+
 
     class TagViewHolder(itemView: View) :
         RecyclerView.ViewHolder(itemView) {
         private var tag: TextView = itemView.findViewById(R.id.textView)
         private var deleteButton: ImageButton = itemView.findViewById(R.id.delete_tag)
         fun bind(filterTag: String, clickListener: (String) -> Unit) {
-            tag.text = filterTag
+            tag.text = translation.translateCategory(filterTag).toString()
 
             deleteButton.setOnClickListener { clickListener(filterTag) }
         }
