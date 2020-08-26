@@ -31,33 +31,35 @@ class FilterTagsListAdapter(
     override fun getItemCount(): Int {
         return categoryTagsList.size
     }
-    object translation {
-        fun translateCategory(category: Category) : String {
-            val currentLanguage = Locale.getDefault().language
 
-            if(currentLanguage == "fi") {
-                return category.nameFi
-            } else if(currentLanguage == "sv") {
-                return category.nameSv
-            } else {
-                if(category.nameEn.isNullOrEmpty()) {
-                    return category.name
-                } else {
-                    return category.nameEn
-                }
-            }
-        }
-    }
+
+
 
 
     class TagViewHolder(itemView: View) :
         RecyclerView.ViewHolder(itemView) {
         private var tag: TextView = itemView.findViewById(R.id.textView)
         private var deleteButton: ImageButton = itemView.findViewById(R.id.delete_tag)
-        fun bind(category: Category, clickListener: (Category) -> Unit) {
-            tag.text = translation.translateCategory(category).toString()
 
+        fun bind(category: Category, clickListener: (Category) -> Unit) {
+            tag.text = translateCategory(category)
             deleteButton.setOnClickListener { clickListener(category) }
+        }
+
+        private fun translateCategory(category: Category) : String {
+            val currentLanguage = Locale.getDefault().language
+
+            return if(currentLanguage == "fi") {
+                category.nameFi
+            } else if(currentLanguage == "sv") {
+                category.nameSv
+            } else {
+                if(category.nameEn.isNullOrEmpty()) {
+                    category.name
+                } else {
+                    category.nameEn
+                }
+            }
         }
     }
 }
