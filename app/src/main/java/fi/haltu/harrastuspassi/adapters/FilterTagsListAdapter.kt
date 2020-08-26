@@ -7,12 +7,13 @@ import android.widget.ImageButton
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import fi.haltu.harrastuspassi.R
+import fi.haltu.harrastuspassi.models.Category
 import java.util.*
 import kotlin.collections.ArrayList
 
 class FilterTagsListAdapter(
-    private val categoryTagsList: ArrayList<String>,
-    private val clickListener: (categoryName: String) -> Unit
+    private val categoryTagsList: ArrayList<Category>,
+    private val clickListener: (category: Category) -> Unit
 ) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
@@ -23,7 +24,7 @@ class FilterTagsListAdapter(
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        val filterTag: String = categoryTagsList[position]
+        val filterTag: Category = categoryTagsList[position]
         (holder as TagViewHolder).bind(filterTag, clickListener)
     }
 
@@ -31,7 +32,7 @@ class FilterTagsListAdapter(
         return categoryTagsList.size
     }
     object translation {
-        fun translateCategory(category: String) {
+        fun translateCategory(category: Category) : String {
             val currentLanguage = Locale.getDefault().language
 
             if(currentLanguage == "fi") {
@@ -42,7 +43,7 @@ class FilterTagsListAdapter(
                 if(category.nameEn.isNullOrEmpty()) {
                     return category.name
                 } else {
-                    retrun category.nameEn
+                    return category.nameEn
                 }
             }
         }
@@ -53,10 +54,10 @@ class FilterTagsListAdapter(
         RecyclerView.ViewHolder(itemView) {
         private var tag: TextView = itemView.findViewById(R.id.textView)
         private var deleteButton: ImageButton = itemView.findViewById(R.id.delete_tag)
-        fun bind(filterTag: String, clickListener: (String) -> Unit) {
-            tag.text = translation.translateCategory(filterTag).toString()
+        fun bind(category: Category, clickListener: (Category) -> Unit) {
+            tag.text = translation.translateCategory(category).toString()
 
-            deleteButton.setOnClickListener { clickListener(filterTag) }
+            deleteButton.setOnClickListener { clickListener(category) }
         }
     }
 }
