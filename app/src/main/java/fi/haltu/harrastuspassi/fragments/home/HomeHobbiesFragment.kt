@@ -42,6 +42,7 @@ class HomeHobbiesFragment : Fragment() {
         const val NO_INTERNET = "no_internet"
         const val MAX_ITEM_AMOUNT = 5 //max amount of hobbies to show in recyclerViews
         const val MIN_ITEM_AMOUNT = 1 //min amount of hobbies to show in recyclerViews
+        const val PAGE_SIZE = 50
     }
 
     override fun onCreateView(
@@ -180,7 +181,7 @@ class HomeHobbiesFragment : Fragment() {
             locationFilter.longitude = filters.longitude
             locationFilter.latitude = filters.latitude
             return try {
-                URL(getString(R.string.API_URL) + createHobbyEventQueryUrl(locationFilter)).readText()
+                URL(getString(R.string.API_URL) + createHobbyEventQueryUrl(locationFilter, PAGE_SIZE)).readText()
 
             } catch (e: IOException) {
                 return when (!verifyAvailableNetwork(activity!!)) {

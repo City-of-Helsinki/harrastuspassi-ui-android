@@ -49,6 +49,7 @@ class MapFragment : Fragment(), OnMapReadyCallback {
         const val CENTER_LAT = 64.9600 //Center point of Finland
         const val CENTER_LON = 27.5900
         const val LOCATION_PERMISSION = 1
+        const val PAGE_SIZE = 500
     }
 
     private var locationManager: LocationManager? = null
@@ -60,7 +61,6 @@ class MapFragment : Fragment(), OnMapReadyCallback {
     private lateinit var mapView: MapView
     private var isInit = true
     private lateinit var userMarker: Marker
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -373,7 +373,7 @@ class MapFragment : Fragment(), OnMapReadyCallback {
 
         override fun doInBackground(vararg params: Void?): String {
             return try {
-                URL(getString(R.string.API_URL) + createHobbyEventQueryUrl(filters)).readText()
+                URL(getString(R.string.API_URL) + createHobbyEventQueryUrl(filters, PAGE_SIZE)).readText()
             } catch (e: IOException) {
                 return HobbyCategoriesActivity.ERROR
             }

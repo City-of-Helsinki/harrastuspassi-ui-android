@@ -42,7 +42,6 @@ class HobbyEventListFragment : Fragment() {
     private lateinit var firebaseAnalytics: FirebaseAnalytics
     private lateinit var searchView: SearchView
     private var nextPageUrl: String? = ""
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -184,6 +183,7 @@ class HobbyEventListFragment : Fragment() {
         const val ERROR = "error"
         const val NO_INTERNET = "no_internet"
         const val NO_MORE_RESULTS = "no more results"
+        const val PAGE_SIZE = 50
     }
 
     internal inner class GetHobbyEvents : AsyncTask<Void, Void, String>() {
@@ -195,7 +195,7 @@ class HobbyEventListFragment : Fragment() {
 
         override fun doInBackground(vararg params: Void?): String {
             return try {
-                URL(getString(R.string.API_URL) + createHobbyEventQueryUrl(filters)).readText()
+                URL(getString(R.string.API_URL) + createHobbyEventQueryUrl(filters, PAGE_SIZE)).readText()
 
             } catch (e: IOException) {
                 return when (!verifyAvailableNetwork(activity!!)) {
