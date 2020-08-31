@@ -5,8 +5,13 @@ import android.app.ActivityOptions
 import android.content.Intent
 import android.os.AsyncTask
 import android.os.Bundle
-import android.view.*
-import android.widget.*
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.ProgressBar
+import android.widget.SearchView
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -15,16 +20,16 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.google.firebase.analytics.FirebaseAnalytics
 import fi.haltu.harrastuspassi.R
 import fi.haltu.harrastuspassi.activities.FilterViewActivity
-import fi.haltu.harrastuspassi.adapters.HobbyEventListAdapter
-import org.json.JSONObject
-import java.io.IOException
-import java.net.URL
 import fi.haltu.harrastuspassi.activities.HobbyDetailActivity
 import fi.haltu.harrastuspassi.activities.MainActivity
+import fi.haltu.harrastuspassi.adapters.HobbyEventListAdapter
 import fi.haltu.harrastuspassi.models.Filters
 import fi.haltu.harrastuspassi.models.HobbyEvent
 import fi.haltu.harrastuspassi.utils.*
 import org.json.JSONException
+import org.json.JSONObject
+import java.io.IOException
+import java.net.URL
 
 
 class HobbyEventListFragment : Fragment() {
@@ -36,6 +41,8 @@ class HobbyEventListFragment : Fragment() {
     private lateinit var refreshLayout: SwipeRefreshLayout
     private lateinit var firebaseAnalytics: FirebaseAnalytics
     private lateinit var searchView: SearchView
+    private var nextPageUrl: String? = ""
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -74,7 +81,16 @@ class HobbyEventListFragment : Fragment() {
             layoutManager = LinearLayoutManager(activity)
             adapter = hobbyEventListAdapter
         }
-
+        listView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                super.onScrollStateChanged(recyclerView, newState)
+                if (!recyclerView.canScrollVertically(1) && newState == RecyclerView.SCROLL_STATE_IDLE) {
+                    if(nextPageUrl != null) {
+                        GetNextHobbyEvents().execute()
+                    }
+                }
+            }
+        })
         filters = loadFilters(this.activity!!)
 
         //SEARCH VIEW
@@ -167,6 +183,7 @@ class HobbyEventListFragment : Fragment() {
     companion object {
         const val ERROR = "error"
         const val NO_INTERNET = "no_internet"
+        const val NO_MORE_RESULTS = "no more results"
     }
 
     internal inner class GetHobbyEvents : AsyncTask<Void, Void, String>() {
@@ -204,7 +221,7 @@ class HobbyEventListFragment : Fragment() {
                     try {
                         val results = JSONObject(result)
                         val mJsonArray = results.getJSONArray("results")
-
+                        nextPageUrl = getOptionalString(results, "next")
                         for (i in 0 until mJsonArray.length()) {
                             val sObject = mJsonArray.get(i).toString()
                             val hobbyObject = JSONObject(sObject)
@@ -241,6 +258,74 @@ class HobbyEventListFragment : Fragment() {
         private fun updateListView(listView: RecyclerView, hobbyEventArrayList: ArrayList<HobbyEvent>) {
             val hobbyEventListAdapter = HobbyEventListAdapter(hobbyEventArrayList) { hobbyEvent: HobbyEvent, hobbyImage: ImageView -> hobbyItemClicked(hobbyEvent, hobbyImage)}
             listView.adapter = hobbyEventListAdapter
+        }
+    }
+
+    internal inner class GetNextHobbyEvents : AsyncTask<Void, Void, String>() {
+        override fun onPreExecute() {
+            super.onPreExecute()
+            progressBar.visibility = View.VISIBLE
+        }
+
+        override fun doInBackground(vararg params: Void?): String {
+             return try {
+                if(nextPageUrl != null) {
+                    URL(nextPageUrl).readText()
+                } else {
+                    NO_MORE_RESULTS
+                }
+            } catch (e: IOException) {
+                when (!verifyAvailableNetwork(activity!!)) {
+                    true -> NO_INTERNET
+                    else -> ERROR
+                }
+            }
+        }
+
+        @SuppressLint("SetTextI18n")
+        override fun onPostExecute(result: String?) {
+            super.onPostExecute(result)
+            when (result) {
+                ERROR -> {
+                    progressText.visibility = View.VISIBLE
+                    this@HobbyEventListFragment.progressText.text = getString(R.string.error_try_again_later)
+                }
+                NO_INTERNET -> {
+                    progressText.text = getString(R.string.error_no_internet)
+                }
+                NO_MORE_RESULTS -> {
+                    refreshLayout.isRefreshing = false
+                }
+                else -> {
+                    try {
+                        val results = JSONObject(result)
+                        val mJsonArray = results.getJSONArray("results")
+                        val nextHobbyEventArrayList = ArrayList<HobbyEvent>()
+                        nextPageUrl = getOptionalString(results, "next")
+                        for (i in 0 until mJsonArray.length()) {
+                            val sObject = mJsonArray.get(i).toString()
+                            val hobbyObject = JSONObject(sObject)
+                            val hobbyEvent = HobbyEvent(hobbyObject)
+
+                            nextHobbyEventArrayList.add(hobbyEvent)
+                        }
+
+                        val hobbyEventSet: Set<HobbyEvent> = nextHobbyEventArrayList.toSet()
+                        for (hobbyEvent in hobbyEventSet) {
+                            hobbyEventArrayList.add(hobbyEvent)
+                        }
+
+                        progressText.visibility = View.INVISIBLE
+                        listView.adapter!!.notifyDataSetChanged()
+
+                        saveFilters(filters, activity!!)
+                    } catch(e: JSONException) {
+                        progressText.text = getString(R.string.error_no_hobby_events)
+                    }
+                }
+            }
+            progressBar.visibility = View.INVISIBLE
+            refreshLayout.isRefreshing = false
         }
     }
 }

@@ -43,10 +43,11 @@ fun createHobbyEventQueryUrl(filters: Filters): String {
     query += "&start_time_to=${minutesToTime(filters.startTimeTo)}"
 
     query += "&exclude_past_events=true"
-
     query += "&ordering=nearest"
     query += "&near_latitude=${filters.latitude}"
     query += "&near_longitude=${filters.longitude}"
+    query += "&page_size=50"
+
     Log.d("query", query)
 
     return query
