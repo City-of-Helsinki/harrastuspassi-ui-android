@@ -2,7 +2,6 @@ package fi.haltu.harrastuspassi.fragments.home
 
 import android.Manifest
 import android.annotation.SuppressLint
-import android.app.Activity
 import android.content.Context
 import android.content.pm.PackageManager
 import android.location.Location
@@ -15,7 +14,6 @@ import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.inputmethod.InputMethodManager
 import android.widget.AutoCompleteTextView
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -25,7 +23,6 @@ import com.google.firebase.analytics.FirebaseAnalytics
 import fi.haltu.harrastuspassi.R
 import fi.haltu.harrastuspassi.activities.MainActivity
 import fi.haltu.harrastuspassi.adapters.CategorySearchAdapter
-import fi.haltu.harrastuspassi.fragments.HobbyEventListFragment
 import fi.haltu.harrastuspassi.fragments.SettingsFragment
 import fi.haltu.harrastuspassi.models.Category
 import fi.haltu.harrastuspassi.models.Filters
@@ -88,8 +85,6 @@ class HomeFragment : Fragment(), LocationListener {
                 (keyCode == KeyEvent.KEYCODE_ENTER)
             ) {
                 search(searchEditText.text.toString())
-                KeyboardUtils.hideKeyboard(activity!!)
-                view.clearFocus()
                 return@setOnKeyListener true
             }
             return@setOnKeyListener false
@@ -97,7 +92,6 @@ class HomeFragment : Fragment(), LocationListener {
         searchIcon = view.findViewById(R.id.home_search_icon)
         searchIcon.setOnClickListener {
             search(searchEditText.text.toString())
-            KeyboardUtils.hideKeyboard(activity!!)
         }
 
         // Asking permission to use users location
@@ -161,21 +155,19 @@ class HomeFragment : Fragment(), LocationListener {
         var simplifiedStr = searchStr.trimEnd().toLowerCase()
         if (simplifiedStr != "") {
             for (category in categoryList) {
-
                 // FIREBASE ANALYTICS
                 val bundle = Bundle()
-                bundle.putString("categoryName", category.name)
+                bundle.putString("categoryName", searchStr)
                 firebaseAnalytics.logEvent("frontPageSearch", bundle)
-
-                var filters = loadFilters(activity!!)
-
+                val filters = loadFilters(activity!!)
                 filters.categories.clear()
-                //filters.categories.add(category.id!!)
                 filters.searchText = searchStr
                 filters.isListUpdated = false
                 saveFilters(filters, activity!!)
                 searchEditText.text.clear()
-                var mainActivity = context as MainActivity
+                KeyboardUtils.hideKeyboard(activity!!)
+                view!!.clearFocus()
+                val mainActivity = context as MainActivity
                 mainActivity.performListClick()
                 break
             }
@@ -260,15 +252,7 @@ class HomeFragment : Fragment(), LocationListener {
                     )
                     searchEditText.threshold = 2
                     searchEditText.setOnItemClickListener { _, _, _, id ->
-                        var filters = loadFilters(activity!!)
-                        filters.categories.clear()
-                        filters.searchText = getCategoryNameById(categoryList, id.toInt())
-
-                        saveFilters(filters, activity!!)
-                        searchEditText.text.clear()
-
-                        var mainActivity = context as MainActivity
-                        mainActivity.performListClick()
+                        search(getCategoryNameById(categoryList, id.toInt()))
                     }
                 }
             }
