@@ -2,6 +2,7 @@ package fi.haltu.harrastuspassi.fragments.home
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Context
 import android.content.pm.PackageManager
 import android.location.Location
@@ -14,6 +15,7 @@ import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import android.widget.AutoCompleteTextView
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -86,6 +88,7 @@ class HomeFragment : Fragment(), LocationListener {
                 (keyCode == KeyEvent.KEYCODE_ENTER)
             ) {
                 search(searchEditText.text.toString())
+                KeyboardUtils.hideKeyboard(activity!!)
                 view.clearFocus()
                 return@setOnKeyListener true
             }
@@ -94,6 +97,7 @@ class HomeFragment : Fragment(), LocationListener {
         searchIcon = view.findViewById(R.id.home_search_icon)
         searchIcon.setOnClickListener {
             search(searchEditText.text.toString())
+            KeyboardUtils.hideKeyboard(activity!!)
         }
 
         // Asking permission to use users location

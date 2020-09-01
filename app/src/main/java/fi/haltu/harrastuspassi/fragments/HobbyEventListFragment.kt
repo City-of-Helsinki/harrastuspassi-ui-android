@@ -102,6 +102,7 @@ class HobbyEventListFragment : Fragment() {
                 if(query != null) {
                     filters.searchText = query
                 }
+                KeyboardUtils.hideKeyboard(activity!!)
                 saveFilters(filters,activity!!)
                 GetHobbyEvents().execute()
                 return false
