@@ -31,7 +31,7 @@
                 android:fontFamily="@font/poppins_semibold"
                 android:maxLines="2"
                 android:minLines="1"
-                android:textColor="@color/hobbyBlue"
+                android:textColor="@android:color/black"
                 android:textSize="22sp"
                 android:textStyle="bold"
                 android:lineSpacingExtra="-4sp"
