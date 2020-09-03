@@ -12,6 +12,15 @@
             android:layout_height="match_parent"
             android:background="@color/hobbyBlue">
 
+        <!-- Dummy item to prevent SearchView from receiving focus -->
+        <LinearLayout
+                android:id="@+id/linearLayout_focus"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:layout_width="0px"
+                android:layout_height="0px"
+                tools:ignore="MissingConstraints,Orientation" />
+
         <androidx.appcompat.widget.Toolbar
                 android:id="@+id/list_toolbar"
                 android:layout_width="match_parent"
