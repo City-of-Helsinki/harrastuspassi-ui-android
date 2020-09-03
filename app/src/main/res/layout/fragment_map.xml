@@ -28,71 +28,66 @@
                         android:id="@+id/list_icon"
                         android:layout_width="24dp"
                         android:layout_height="24dp"
-                        android:layout_marginStart="16dp"
-                        android:layout_marginTop="8dp"
-                        android:src="@drawable/icon24_list"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        android:src="@drawable/ic_list_24"
+                        app:layout_constraintEnd_toEndOf="@+id/list_text"
+                        app:layout_constraintStart_toStartOf="@+id/list_text"
+                        app:layout_constraintTop_toTopOf="@+id/textView2" />
 
                 <TextView
                         android:id="@+id/list_text"
-                        android:layout_width="0dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
-                        android:layout_marginEnd="8dp"
-                        android:gravity="start"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginEnd="16dp"
+                        android:fontFamily="@font/poppins_regular"
+                        android:gravity="center"
                         android:text="@string/list"
                         android:textColor="@color/white"
                         android:textSize="10sp"
-                        android:fontFamily="@font/poppins_regular"
-                        app:layout_constraintBottom_toBottomOf="@+id/list_icon"
+                        app:layout_constraintBottom_toBottomOf="@+id/textView2"
                         app:layout_constraintEnd_toStartOf="@+id/map_filter_text"
-                        app:layout_constraintHorizontal_bias="0.5"
-                        app:layout_constraintStart_toEndOf="@+id/list_icon"
-                        app:layout_constraintTop_toTopOf="@+id/list_icon" />
+                        app:layout_constraintTop_toBottomOf="@+id/list_icon" />
 
                 <TextView
                         android:id="@+id/map_filter_text"
-                        android:layout_width="0dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
-
-                        android:layout_marginEnd="8dp"
-                        android:gravity="end"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginEnd="24dp"
+                        android:fontFamily="@font/poppins_regular"
+                        android:gravity="center"
                         android:text="@string/filter"
                         android:textColor="@color/white"
                         android:textSize="10sp"
-                        android:fontFamily="@font/poppins_regular"
-                        app:layout_constraintBottom_toBottomOf="@+id/list_text"
-                        app:layout_constraintEnd_toStartOf="@+id/map_filter_icon"
-                        app:layout_constraintHorizontal_bias="0.5"
-                        app:layout_constraintStart_toEndOf="@+id/list_text"
-                        app:layout_constraintTop_toTopOf="@+id/list_text" />
+                        app:layout_constraintBottom_toBottomOf="@+id/textView2"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/map_filter_icon" />
 
                 <ImageView
                         android:id="@+id/map_filter_icon"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="16dp"
-                        android:src="@drawable/ic_tune_24dp"
-                        app:layout_constraintBottom_toBottomOf="@+id/map_filter_text"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="@+id/map_filter_text" />
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:src="@drawable/ic_filter_24px_new"
+                        app:layout_constraintEnd_toEndOf="@+id/map_filter_text"
+                        app:layout_constraintStart_toStartOf="@+id/map_filter_text"
+                        app:layout_constraintTop_toTopOf="@+id/textView2" />
 
                 <TextView
+                        android:id="@+id/textView2"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
+                        android:layout_marginEnd="24dp"
                         android:layout_marginBottom="8dp"
+                        android:fontFamily="@font/poppins_semibold"
                         android:gravity="start"
                         android:text="@string/hobbies"
                         android:textColor="@color/white"
                         android:textSize="22sp"
-                        android:fontFamily="@font/poppins_semibold"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintEnd_toStartOf="@+id/list_icon"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/list_icon" />
+                        app:layout_constraintTop_toTopOf="parent" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </androidx.appcompat.widget.Toolbar>
