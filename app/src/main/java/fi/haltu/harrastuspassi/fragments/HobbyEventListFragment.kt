@@ -12,6 +12,7 @@ import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.SearchView
 import android.widget.TextView
+import android.widget.LinearLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -41,6 +42,7 @@ class HobbyEventListFragment : Fragment() {
     private lateinit var refreshLayout: SwipeRefreshLayout
     private lateinit var firebaseAnalytics: FirebaseAnalytics
     private lateinit var searchView: SearchView
+    private lateinit var linearLayoutFocus: LinearLayout
     private var nextPageUrl: String? = ""
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -91,6 +93,8 @@ class HobbyEventListFragment : Fragment() {
             }
         })
         filters = loadFilters(this.activity!!)
+
+        linearLayoutFocus = view.findViewById(R.id.linearLayout_focus)
 
         //SEARCH VIEW
         searchView = view.findViewById(R.id.hobby_event_search)
@@ -161,6 +165,9 @@ class HobbyEventListFragment : Fragment() {
             filters.isListUpdated = true
             saveFilters(filters, this.activity!!)
         }
+
+        searchView.clearFocus()
+        linearLayoutFocus.requestFocus()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
