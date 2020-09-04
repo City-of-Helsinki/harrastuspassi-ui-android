@@ -62,23 +62,6 @@ class HomeFragment : Fragment(), LocationListener {
         //SEARCH
         searchEditText = view.findViewById(R.id.home_search)
         searchContainer = view.findViewById(R.id.search_container)
-        searchEditText.setOnFocusChangeListener { _, hasFocus ->
-            if (hasFocus) {
-                searchContainer.setBackgroundColor(
-                    ContextCompat.getColor(
-                        this.context!!,
-                        R.color.white
-                    )
-                )
-            } else {
-                searchContainer.setBackgroundColor(
-                    ContextCompat.getColor(
-                        this.context!!,
-                        R.color.white80
-                    )
-                )
-            }
-        }
         searchEditText.setOnKeyListener { _, keyCode, event ->
             // User presses "enter" on keyboard
             if ((event.action == KeyEvent.ACTION_DOWN) &&
