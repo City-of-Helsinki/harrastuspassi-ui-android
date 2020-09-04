@@ -130,20 +130,10 @@ class FilterViewActivity : AppCompatActivity(), View.OnClickListener {
                 val rangeEndValue: Int = rightPinValue.toInt()
 
                 filters.startTimeFrom = rangeStartValue
-
-                if (rangeEndValue == rangeStartValue) {
-                    filters.startTimeTo = (rangeEndValue + 60)
-                } else {
-                    filters.startTimeTo = rangeEndValue
-                }
+                filters.startTimeTo = rangeEndValue
 
                 val startTime = minutesToTime(rangeStartValue)
-
-                val endTime = if (rangeEndValue == rangeStartValue) {
-                    minutesToTime((rangeEndValue + 60))
-                } else {
-                    minutesToTime(rangeEndValue)
-                }
+                val endTime = minutesToTime(rangeEndValue)
 
                 rangeTextLeft.text = startTime
                 rangeTextRight.text = endTime
