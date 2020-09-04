@@ -37,7 +37,8 @@
     <string name="available">Voimassa</string>
     <string name="promotion_valid">Voimassa</string>
     <string name="promotions_used">Etuus on käytetty</string>
-    <string name="no_favorites">Sinulla ei ole lempiharrastuksia. Etsi lempiharrastuksesi täältä!</string>
+    <string name="no_favorites">Sinulla ei ole lempiharrastuksia.</string>
+    <string name="find_favorites">Etsi lempiharrastuksesi täältä!</string>
     <string name="accept_from_settings">Anna lupaa asetuksista</string>
     <string name="hobbies">Harrastukset</string>
     <string name="home_title">Löydä harrastuksia läheltäsi</string>
