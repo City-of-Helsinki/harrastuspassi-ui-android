@@ -148,6 +148,8 @@
                     android:id="@+id/list_view"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:paddingBottom="8dp"
+                    android:clipToPadding="false"
                     android:background="@color/hobbyGreyExtraLight"
                     android:dividerHeight="2dp"
                     android:footerDividersEnabled="false" />
