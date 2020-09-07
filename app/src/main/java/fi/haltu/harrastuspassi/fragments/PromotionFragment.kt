@@ -265,6 +265,12 @@ class PromotionFragment : Fragment() {
                                 promotionList.add(promotion)
                             }
                         }
+
+                        // Move used promotions to end of list
+                        val promotionsByIsUsed = promotionList.groupBy{promotion -> promotion.isUsed}
+                        promotionList = ArrayList(
+                            (promotionsByIsUsed[false] ?: ArrayList()) + (promotionsByIsUsed[true] ?: ArrayList()))
+
                         val promotionListAdapter = PromotionListAdapter(
                             context!!,
                             promotionList
