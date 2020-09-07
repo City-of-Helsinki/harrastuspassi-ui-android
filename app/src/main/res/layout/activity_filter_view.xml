@@ -151,8 +151,8 @@
 
                 <TextView
                         android:id="@+id/range_text_left"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
                         android:layout_gravity="center_vertical"
                         android:layout_marginStart="16dp"
                         android:layout_marginEnd="8dp"
@@ -189,8 +189,9 @@
                         app:mrb_rangeBar="true"
                         app:mrb_rangeBarPaddingBottom="30dp"
                         app:mrb_rangeBar_rounded="true"
-                        app:mrb_selectorColor="@color/hobbyBlue"
-                        app:mrb_selectorSize="12dp"
+                        app:mrb_minThumbDistance="59"
+                        app:mrb_thumbColor="@color/hobbyBlue"
+                        app:mrb_thumbSize="12dp"
                         app:mrb_temporaryPins="true"
                         app:mrb_tickDefaultColor="@color/blackOpacity0"
                         app:mrb_tickEnd="1439"
@@ -199,8 +200,8 @@
 
                 <TextView
                         android:id="@+id/range_text_right"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
                         android:layout_gravity="center_vertical"
                         android:layout_marginStart="8dp"
                         android:layout_marginEnd="16dp"
