@@ -9,6 +9,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
@@ -38,6 +39,7 @@ class FavoriteListFragment : Fragment() {
     private var filteredArrayList = ArrayList<HobbyEvent>()
     private lateinit var progressBar: ProgressBar
     private lateinit var progressText: TextView
+    private lateinit var findFavoritesButton: Button
     private lateinit var refreshLayout: SwipeRefreshLayout
     private lateinit var favorites: HashSet<Int>
     private lateinit var filters: Filters
@@ -64,12 +66,19 @@ class FavoriteListFragment : Fragment() {
         filters = loadFilters(this.activity!!)
         favorites = loadFavorites(this.activity!!)
 
-        progressBar = view.findViewById(R.id.progressbar)
-        progressText = view.findViewById(R.id.progress_text)
-        progressText.setOnClickListener {
+        val navigateToHobbyList = View.OnClickListener {
             var mainActivity = context as MainActivity
             mainActivity.performListClick()
         }
+
+        progressBar = view.findViewById(R.id.progressbar)
+        progressText = view.findViewById(R.id.progress_text)
+        progressText.setOnClickListener(navigateToHobbyList)
+
+        findFavoritesButton = view.findViewById(R.id.find_favorites_button)
+        findFavoritesButton.setOnClickListener(navigateToHobbyList)
+        findFavoritesButton.visibility = View.INVISIBLE
+
         listView = view.findViewById(R.id.list_view)
         listView.apply {
             layoutManager = LinearLayoutManager(activity)
@@ -192,8 +201,10 @@ class FavoriteListFragment : Fragment() {
         if (hobbyEventArrayList.isEmpty()) {
             progressText.visibility = View.VISIBLE
             progressText.text = getString(R.string.no_favorites)
+            findFavoritesButton.visibility = View.VISIBLE
         } else {
             progressText.visibility = View.INVISIBLE
+            findFavoritesButton.visibility = View.INVISIBLE
         }
         val hobbyEventListAdapter =
             HobbyEventListAdapter(hobbyEventArrayList) { hobbyEvent: HobbyEvent, hobbyImage: ImageView ->
