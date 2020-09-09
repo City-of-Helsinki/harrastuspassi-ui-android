@@ -47,7 +47,7 @@
     </style>
 
     <style name="BottomNavigationView.Active" parent="@style/TextAppearance.AppCompat.Caption">
-        <item name="android:textSize">11sp</item>
+        <item name="android:textSize">9sp</item>
         <item name="android:textColor">@color/hobbyTurquoise</item>
     </style>
     <style name="BottomNavigationView.Inactive" parent="@style/TextAppearance.AppCompat.Caption">
