@@ -87,10 +87,8 @@ class HomeFragment : Fragment(), LocationListener {
         imageView = view.findViewById(R.id.imageView)
         toolBar = view.findViewById(R.id.toolbar)
         scrollView = view.findViewById(R.id.scrollview)
-        Log.d("oncreateview", "height: " + imageView.height + " measured h:" + imageView.measuredHeight)
-        scrollView.setOnScrollChangeListener { _, scrollX, scrollY, oldScrollX, oldScrollY ->
+        scrollView.setOnScrollChangeListener { _, _, scrollY, _, _ ->
             val imageViewHeight = imageView.height
-            Log.d("onscroll",  "image view: " + imageViewHeight)
             if (scrollY > imageViewHeight) {
                 toolBar.title = "Harrastuspassi"
             } else {
