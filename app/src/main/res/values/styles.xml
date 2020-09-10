@@ -55,6 +55,14 @@
     </style>
     <style name="ToolbarTitleStyles" parent="ThemeOverlay.AppCompat.Light">
         <item name="android:fontFamily">@font/poppins_semibold</item>
+    </style>
+    <style name="Toolbar.TitleText" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
         <item name="android:textSize">22sp</item>
+    </style>
+
+    <style name="ToolbarPadding">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">16dp</item>
+        <item name="android:background">@color/hobbyBlue</item>
     </style>
 </resources>

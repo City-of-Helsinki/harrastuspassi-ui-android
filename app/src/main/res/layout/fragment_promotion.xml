@@ -18,7 +18,8 @@
             android:background="@color/hobbyBlue"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:theme="@style/ToolbarTitleStyles"/>
+            android:theme="@style/ToolbarTitleStyles"
+            app:titleTextAppearance="@style/Toolbar.TitleText"/>
 
     <ProgressBar
             android:id="@+id/promotion_progressbar"

@@ -15,7 +15,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AutoCompleteTextView
+import android.widget.ImageView
+import android.widget.ScrollView
 import android.widget.TextView
+import androidx.appcompat.widget.Toolbar
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -41,6 +44,9 @@ class HomeFragment : Fragment(), LocationListener {
     lateinit var searchIcon: TextView
     lateinit var promotionsFragment: HomePromotionsFragment
     lateinit var hobbiesFragment: HomeHobbiesFragment
+    lateinit var imageView: ImageView
+    lateinit var scrollView: ScrollView
+    lateinit var toolBar: Toolbar
     var filters = Filters()
     var settings = Settings()
     private var locationManager: LocationManager? = null
@@ -75,6 +81,18 @@ class HomeFragment : Fragment(), LocationListener {
         searchIcon = view.findViewById(R.id.home_search_icon)
         searchIcon.setOnClickListener {
             search(searchEditText.text.toString())
+        }
+
+        // Show "Harrastuspassi" in toolbar, if HP logo is scrolled out of view
+        imageView = view.findViewById(R.id.imageView)
+        toolBar = view.findViewById(R.id.toolbar)
+        scrollView = view.findViewById(R.id.scrollview)
+        scrollView.setOnScrollChangeListener { _, _, scrollY, _, _ ->
+            if (scrollY > imageView.height) {
+                toolBar.title = "Harrastuspassi"
+            } else {
+                toolBar.title = ""
+            }
         }
 
         // Asking permission to use users location
