@@ -22,6 +22,16 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:titleTextAppearance="@style/Toolbar.TitleText"/>
 
+        <View
+                android:id="@+id/toolbar_padding"
+                android:layout_width="match_parent"
+                android:layout_height="16dp"
+                android:background="@color/hobbyBlue"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/map_toolbar" />
+
         <TextView
                 android:id="@+id/locationText"
                 android:layout_width="wrap_content"
@@ -38,7 +48,7 @@
                 android:textSize="14sp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/map_toolbar" />
+                app:layout_constraintTop_toBottomOf="@+id/toolbar_padding" />
 
         <TextView
                 android:id="@+id/current_location_text"
