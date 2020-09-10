@@ -15,7 +15,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AutoCompleteTextView
+import android.widget.ImageView
+import android.widget.ScrollView
 import android.widget.TextView
+import androidx.appcompat.widget.Toolbar
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -41,6 +44,9 @@ class HomeFragment : Fragment(), LocationListener {
     lateinit var searchIcon: TextView
     lateinit var promotionsFragment: HomePromotionsFragment
     lateinit var hobbiesFragment: HomeHobbiesFragment
+    lateinit var imageView: ImageView
+    lateinit var scrollView: ScrollView
+    lateinit var toolBar: Toolbar
     var filters = Filters()
     var settings = Settings()
     private var locationManager: LocationManager? = null
@@ -75,6 +81,21 @@ class HomeFragment : Fragment(), LocationListener {
         searchIcon = view.findViewById(R.id.home_search_icon)
         searchIcon.setOnClickListener {
             search(searchEditText.text.toString())
+        }
+
+        //SCROLLVIEW
+        imageView = view.findViewById(R.id.imageView)
+        toolBar = view.findViewById(R.id.toolbar)
+        scrollView = view.findViewById(R.id.scrollview)
+        Log.d("oncreateview", "height: " + imageView.height + " measured h:" + imageView.measuredHeight)
+        scrollView.setOnScrollChangeListener { _, scrollX, scrollY, oldScrollX, oldScrollY ->
+            val imageViewHeight = imageView.height
+            Log.d("onscroll",  "image view: " + imageViewHeight)
+            if (scrollY > imageViewHeight) {
+                toolBar.title = "Harrastuspassi"
+            } else {
+                toolBar.title = ""
+            }
         }
 
         // Asking permission to use users location
