@@ -83,13 +83,12 @@ class HomeFragment : Fragment(), LocationListener {
             search(searchEditText.text.toString())
         }
 
-        //SCROLLVIEW
+        // Show "Harrastuspassi" in toolbar, if HP logo is scrolled out of view
         imageView = view.findViewById(R.id.imageView)
         toolBar = view.findViewById(R.id.toolbar)
         scrollView = view.findViewById(R.id.scrollview)
         scrollView.setOnScrollChangeListener { _, _, scrollY, _, _ ->
-            val imageViewHeight = imageView.height
-            if (scrollY > imageViewHeight) {
+            if (scrollY > imageView.height) {
                 toolBar.title = "Harrastuspassi"
             } else {
                 toolBar.title = ""
