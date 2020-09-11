@@ -3,6 +3,7 @@ package fi.haltu.harrastuspassi.fragments
 import android.annotation.SuppressLint
 import android.app.ActivityOptions
 import android.content.Intent
+import android.content.res.ColorStateList
 import android.os.AsyncTask
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -43,6 +44,7 @@ class HobbyEventListFragment : Fragment() {
     private lateinit var firebaseAnalytics: FirebaseAnalytics
     private lateinit var searchView: SearchView
     private lateinit var linearLayoutFocus: LinearLayout
+    private lateinit var filterIcon: ImageView
     private var nextPageUrl: String? = ""
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -92,7 +94,9 @@ class HobbyEventListFragment : Fragment() {
                 }
             }
         })
-        filters = loadFilters(this.activity!!)
+        filterIcon = view.findViewById(R.id.filter_icon)
+
+        loadFiltersAndUpdateIcon()
 
         linearLayoutFocus = view.findViewById(R.id.linearLayout_focus)
 
@@ -132,6 +136,15 @@ class HobbyEventListFragment : Fragment() {
         this.activity?.overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left)
     }
 
+    private fun updateFilterIcon() {
+        filterIcon.setImageResource(if (filters.hasActiveSecondaryFilters()) R.drawable.ic_round_tune_active_24dp else R.drawable.ic_round_tune_24dp)
+    }
+
+    private fun loadFiltersAndUpdateIcon() {
+        filters = loadFilters(this.activity!!)
+        updateFilterIcon()
+    }
+
     private fun hobbyItemClicked(hobbyEvent: HobbyEvent, hobbyImage: ImageView) {
         val intent = Intent(context, HobbyDetailActivity::class.java)
 
@@ -147,7 +160,7 @@ class HobbyEventListFragment : Fragment() {
     override fun onHiddenChanged(hidden: Boolean) {
         super.onHiddenChanged(hidden)
         if(!hidden) {
-            filters = loadFilters(this.activity!!)
+            loadFiltersAndUpdateIcon()
             searchView.setQuery(filters.searchText, false)
 
             //filters.searchText = ""
@@ -158,7 +171,7 @@ class HobbyEventListFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        filters = loadFilters(this.activity!!)
+        loadFiltersAndUpdateIcon()
 
         if(!filters.isListUpdated) {
             GetHobbyEvents().execute()
