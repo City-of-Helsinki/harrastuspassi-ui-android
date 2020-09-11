@@ -7,6 +7,7 @@ import android.app.Dialog
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.content.res.ColorStateList
 import android.location.LocationListener
 import android.location.LocationManager
 import android.os.AsyncTask
@@ -61,6 +62,7 @@ class MapFragment : Fragment(), OnMapReadyCallback {
     private lateinit var mapView: MapView
     private var isInit = true
     private lateinit var userMarker: Marker
+    private lateinit var filterIcon: ImageView
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -84,8 +86,10 @@ class MapFragment : Fragment(), OnMapReadyCallback {
             startFilterActivity()
         }
 
+        filterIcon = view.findViewById(R.id.map_filter_icon)
+
         settings = loadSettings(this.activity!!)
-        filters = loadFilters(this.activity!!)
+        loadFiltersAndUpdateIcon()
 
         //GOOGLE MAP
         mapView = view.findViewById(R.id.map_fragment) as MapView
@@ -100,6 +104,17 @@ class MapFragment : Fragment(), OnMapReadyCallback {
         mapView.getMapAsync(this)
 
         return view
+    }
+
+    private fun updateFilterIcon() {
+        filterIcon.imageTintList = ColorStateList.valueOf(resources.getColor(
+            if (filters.hasActiveSecondaryFilters()) R.color.hobbyPink else R.color.white,
+            null))
+    }
+
+    private fun loadFiltersAndUpdateIcon() {
+        filters = loadFilters(this.activity!!)
+        updateFilterIcon()
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
@@ -150,7 +165,7 @@ class MapFragment : Fragment(), OnMapReadyCallback {
 }
     private fun updateMap() {
         gMap.clear()
-        filters = loadFilters(this.activity!!)
+        loadFiltersAndUpdateIcon()
         settings = loadSettings(this.activity!!)
         GetHobbyEvents().execute()
     }

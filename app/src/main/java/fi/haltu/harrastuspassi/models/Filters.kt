@@ -5,11 +5,20 @@ import fi.haltu.harrastuspassi.utils.minutesToTime
 import java.io.Serializable
 
 class Filters : Serializable {
+    companion object Defaults {
+        const val defaultStartTimeFrom = 0 // 0:00
+        const val defaultStartTimeTo = 24 * 60 - 1 // 23:59
+    }
+
+    // -- SECONDARY FILTERS START --
+    // Filters that are set in a filter view
     var categories: HashSet<Int> = HashSet()
     var dayOfWeeks: HashSet<Int> = HashSet()
     // Insert time as minutes and use minutesToTime() -method to convert
-    var startTimeFrom: Int = 0 // 0:00
-    var startTimeTo: Int = 24 * 60 - 1 // 23:59
+    var startTimeFrom: Int = defaultStartTimeFrom
+    var startTimeTo: Int = defaultStartTimeTo
+    // -- SECONDARY FILTERS END --
+
     //Location
     var latitude: Double = 64.9600
     var longitude: Double = 27.5900
@@ -62,5 +71,12 @@ class Filters : Serializable {
         val isSameLongitude = longitude == compareFilters.longitude
 
         return isSameCategories && isSameDayOfWeeks && isSameStartTimeFrom && isSameStartTimeTo && isSameLatitude && isSameLongitude
+    }
+
+    fun hasActiveSecondaryFilters(): Boolean {
+        return categories.isNotEmpty()
+                || dayOfWeeks.isNotEmpty()
+                || startTimeFrom != defaultStartTimeFrom
+                || startTimeTo != defaultStartTimeTo
     }
 }
