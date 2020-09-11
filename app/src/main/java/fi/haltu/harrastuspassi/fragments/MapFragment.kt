@@ -107,9 +107,9 @@ class MapFragment : Fragment(), OnMapReadyCallback {
     }
 
     private fun updateFilterIcon() {
-        filterIcon.imageTintList = ColorStateList.valueOf(resources.getColor(
-            if (filters.hasActiveSecondaryFilters()) R.color.hobbyPink else R.color.white,
-            null))
+        filterIcon.setImageResource(
+            if (filters.hasActiveSecondaryFilters())
+                R.drawable.ic_round_tune_active_24dp else R.drawable.ic_round_tune_24dp)
     }
 
     private fun loadFiltersAndUpdateIcon() {
