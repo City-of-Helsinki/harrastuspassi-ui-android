@@ -3,7 +3,6 @@ package fi.haltu.harrastuspassi.fragments
 import android.annotation.SuppressLint
 import android.app.ActivityOptions
 import android.content.Intent
-import android.content.res.ColorStateList
 import android.os.AsyncTask
 import android.os.Bundle
 import android.view.LayoutInflater
