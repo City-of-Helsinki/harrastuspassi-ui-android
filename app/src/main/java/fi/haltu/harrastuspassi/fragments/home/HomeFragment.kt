@@ -14,14 +14,12 @@ import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AutoCompleteTextView
-import android.widget.ImageView
-import android.widget.ScrollView
-import android.widget.TextView
+import android.widget.*
 import androidx.appcompat.widget.Toolbar
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.google.firebase.analytics.FirebaseAnalytics
 import fi.haltu.harrastuspassi.R
 import fi.haltu.harrastuspassi.activities.MainActivity
@@ -47,6 +45,7 @@ class HomeFragment : Fragment(), LocationListener {
     lateinit var imageView: ImageView
     lateinit var scrollView: ScrollView
     lateinit var toolBar: Toolbar
+    private lateinit var refreshLayout: SwipeRefreshLayout
     var filters = Filters()
     var settings = Settings()
     private var locationManager: LocationManager? = null
@@ -93,6 +92,13 @@ class HomeFragment : Fragment(), LocationListener {
             } else {
                 toolBar.title = ""
             }
+        }
+        // Refreshlayout
+        refreshLayout = view.findViewById(R.id.swipe_refresh_list)
+
+        refreshLayout.setOnRefreshListener {
+            updateChildFragments()
+            refreshLayout.isRefreshing = false
         }
 
         // Asking permission to use users location
