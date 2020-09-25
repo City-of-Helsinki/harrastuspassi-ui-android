@@ -179,7 +179,7 @@
                 app:text="@string/use_promotion"
                 app:text_color="@color/hobbyTurquoise"
                 app:text_size="16sp"
-                app:text_appearance="@font/poppins_bold"/>
+                app:text_appearance="@font/poppins_bold" />
 
         <TextView
                 android:id="@+id/promotion_dialog_used"
