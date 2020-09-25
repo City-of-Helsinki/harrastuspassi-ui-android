@@ -9,6 +9,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             tools:context=".fragment.SettingsFragment">
+
         <androidx.appcompat.widget.Toolbar
                 android:id="@+id/map_toolbar"
                 app:title="@string/settings"
@@ -20,7 +21,7 @@
                 android:background="@color/hobbyBlue"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:titleTextAppearance="@style/Toolbar.TitleText"/>
+                app:titleTextAppearance="@style/Toolbar.TitleText" />
 
         <View
                 android:id="@+id/toolbar_padding"

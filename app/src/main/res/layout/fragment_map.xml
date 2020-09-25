@@ -10,6 +10,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+
         <androidx.appcompat.widget.Toolbar
                 android:id="@+id/map_toolbar"
                 android:layout_width="match_parent"
@@ -91,6 +92,7 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </androidx.appcompat.widget.Toolbar>
+
         <View
                 android:id="@+id/toolbar_padding"
                 android:layout_height="15dp"
@@ -98,7 +100,7 @@
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/map_toolbar"
-                style="@style/ToolbarPadding"/>
+                style="@style/ToolbarPadding" />
 
         <com.google.android.gms.maps.MapView
                 android:id="@+id/map_fragment"
