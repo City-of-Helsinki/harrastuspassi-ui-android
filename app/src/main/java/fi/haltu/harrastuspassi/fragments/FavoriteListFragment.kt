@@ -134,7 +134,7 @@ class FavoriteListFragment : Fragment() {
             return try {
                 Log.d("latitude", "${filters.latitude}")
                 if(fetchUrl.isNullOrEmpty()) {
-                    URL(getString(R.string.API_URL) + "hobbyevents/?include=location_detail&include=hobby_detail&include=organizer_detail&ordering=nearest&near_latitude=${filters.latitude}&near_longitude=${filters.longitude}").readText()
+                    URL(getString(R.string.API_URL) + "hobbyevents/?include=location_detail&include=hobby_detail&include=organizer_detail&ordering=start_date").readText()
                 } else {
                     URL(fetchUrl).readText()
                 }
