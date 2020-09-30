@@ -37,11 +37,16 @@ class HobbyHorizontalListAdapter(
         private var description: TextView =
             itemView.findViewById(R.id.horizontal_hobby_list_description)
         private var weekDay: TextView = itemView.findViewById(R.id.horizontal_hobby_list_week_day)
-
+        private var weekDayIcon: TextView = itemView.findViewById(R.id.horizontal_hobby_list_week_day_icon)
         fun bind(hobbyEvent: HobbyEvent, clickListener: (HobbyEvent, ImageView) -> Unit) {
             title.text = hobbyEvent.hobby.name
             description.text = hobbyEvent.hobby.description
-            weekDay.text = idToWeekDay(hobbyEvent.startWeekday, itemView.context)
+            if(hobbyEvent.isLipasEvent()) {
+                weekDayIcon.visibility = View.INVISIBLE
+                weekDay.text = ""
+            } else {
+                weekDay.text = idToWeekDay(hobbyEvent.startWeekday, itemView.context)
+            }
             Picasso.with(itemView.context)
                 .load(hobbyEvent.hobby.imageUrl)
                 .placeholder(R.drawable.harrastuspassi_lil_kel)
