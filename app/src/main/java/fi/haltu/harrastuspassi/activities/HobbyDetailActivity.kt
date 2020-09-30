@@ -9,7 +9,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
+import android.view.View.GONE
 import android.widget.ImageView
 import android.widget.TableLayout
 import android.widget.TableRow
@@ -259,7 +259,7 @@ class HobbyDetailActivity : AppCompatActivity(), OnMapReadyCallback {
         //TABLE
         for (hobbyEvent in hobbyEvents) {
             if(hobbyEvent.isLipasEvent()) {
-                tableLayout.visibility = View.GONE
+                tableLayout.visibility = GONE
             } else {
                 var row: TableRow =
                     LayoutInflater.from(this).inflate(R.layout.table_row, null) as TableRow
@@ -272,13 +272,12 @@ class HobbyDetailActivity : AppCompatActivity(), OnMapReadyCallback {
                     row.findViewById<TextView>(R.id.time).text =
                         convertToTimeRange(hobbyEvent.startTime, hobbyEvent.endTime)
                 } else {
-                    tableLayoutClock.visibility = View.GONE
-                    row.findViewById<TextView>(R.id.time).visibility = View.GONE
+                    tableLayoutClock.visibility = GONE
+                    row.findViewById<TextView>(R.id.time).visibility = GONE
                 }
                 tableLayout.addView(row)
             }
-            }
-
+        }
 
         //DESCRIPTION
         descriptionTextView.setTextWithLinkSupport(hobbyEvents[0].hobby.description) {
