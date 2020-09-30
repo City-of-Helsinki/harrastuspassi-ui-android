@@ -84,9 +84,15 @@ class HomeHobbiesFragment : Fragment() {
             //DESCRIPTION
             parentView.findViewById<TextView>(R.id.home_promoted_description).text =
                 promotedHobby.hobby.description
-            //DURATION
-            parentView.findViewById<TextView>(R.id.home_promoted_duration).text =
-                "${idToWeekDay(promotedHobby.startWeekday, this.activity!!)}"
+            // WEEK DAY
+            if(promotedHobby.isLipasEvent()) {
+                parentView.findViewById<TextView>(R.id.home_promoted_duration).text =
+                    ""
+            } else {
+                parentView.findViewById<TextView>(R.id.home_promoted_duration).text =
+                    "${idToWeekDay(promotedHobby.startWeekday, this.activity!!)}"
+            }
+
 
             parentView.findViewById<CardView>(R.id.home_promoted_hobby).setOnClickListener {
                 hobbyItemClicked(promotedHobby, imageView)
