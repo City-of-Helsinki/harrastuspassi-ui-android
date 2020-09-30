@@ -258,22 +258,26 @@ class HobbyDetailActivity : AppCompatActivity(), OnMapReadyCallback {
 
         //TABLE
         for (hobbyEvent in hobbyEvents) {
-            var row: TableRow =
-                LayoutInflater.from(this).inflate(R.layout.table_row, null) as TableRow
-            row.findViewById<TextView>(R.id.week_day).text =
-                idToWeekDay(hobbyEvent.startWeekday, this)
-            Log.d("Table", formatDate(hobbyEvent.startDate))
-            row.findViewById<TextView>(R.id.start_date).text = formatDate(hobbyEvent.startDate)
-            Log.d("time", hobbyEvent.startTime)
-            if (hobbyEvent.startTime != "00:00:00" && hobbyEvent.endTime != "00:00:00") {
-                row.findViewById<TextView>(R.id.time).text =
-                    convertToTimeRange(hobbyEvent.startTime, hobbyEvent.endTime)
+            if(hobbyEvent.isLipasEvent()) {
+                tableLayout.visibility = GONE
             } else {
-                tableLayoutClock.visibility = GONE
-                row.findViewById<TextView>(R.id.time).visibility = GONE
-            }
+                var row: TableRow =
+                    LayoutInflater.from(this).inflate(R.layout.table_row, null) as TableRow
+                row.findViewById<TextView>(R.id.week_day).text =
+                    idToWeekDay(hobbyEvent.startWeekday, this)
+                Log.d("Table", formatDate(hobbyEvent.startDate))
+                row.findViewById<TextView>(R.id.start_date).text = formatDate(hobbyEvent.startDate)
+                Log.d("time", hobbyEvent.startTime)
+                if (hobbyEvent.startTime != "00:00:00" && hobbyEvent.endTime != "00:00:00") {
+                    row.findViewById<TextView>(R.id.time).text =
+                        convertToTimeRange(hobbyEvent.startTime, hobbyEvent.endTime)
+                } else {
+                    tableLayoutClock.visibility = GONE
+                    row.findViewById<TextView>(R.id.time).visibility = GONE
+                }
                 tableLayout.addView(row)
             }
+        }
 
         //DESCRIPTION
         descriptionTextView.setTextWithLinkSupport(hobbyEvents[0].hobby.description) {

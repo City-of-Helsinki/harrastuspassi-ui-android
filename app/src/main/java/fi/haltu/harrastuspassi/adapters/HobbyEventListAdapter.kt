@@ -38,6 +38,7 @@ class HobbyEventListAdapter(
         private var place: TextView = itemView.findViewById(R.id.place)
         private var image: ImageView = itemView.findViewById(R.id.image)
         private var duration: TextView = itemView.findViewById(R.id.dateTime)
+        private var calendarIcon: TextView = itemView.findViewById(R.id.calendar_icon)
 
         fun bind(hobbyEvent: HobbyEvent, clickListener: (HobbyEvent, ImageView) -> Unit) {
             title.text = hobbyEvent.hobby.name
@@ -55,8 +56,13 @@ class HobbyEventListAdapter(
             } catch (e: Exception) {
                 e.printStackTrace()
             }
-
-            duration.text = "$startDate"
+            if(hobbyEvent.isLipasEvent()) {
+                duration.text = ""
+                calendarIcon.visibility = View.GONE
+            } else {
+                duration.text = "$startDate"
+                calendarIcon.visibility = View.VISIBLE
+            }
             itemView.setOnClickListener { clickListener(hobbyEvent, image) }
         }
     }
