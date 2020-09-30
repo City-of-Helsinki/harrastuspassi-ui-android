@@ -45,6 +45,7 @@ class HobbyHorizontalListAdapter(
                 weekDayIcon.visibility = View.INVISIBLE
                 weekDay.text = ""
             } else {
+                weekDayIcon.visibility = View.VISIBLE
                 weekDay.text = idToWeekDay(hobbyEvent.startWeekday, itemView.context)
             }
             Picasso.with(itemView.context)
