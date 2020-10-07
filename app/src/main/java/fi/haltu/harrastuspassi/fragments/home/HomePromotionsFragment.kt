@@ -49,6 +49,7 @@ class HomePromotionsFragment : Fragment() {
         const val ERROR = "error"
         const val MAX_ITEM_AMOUNT = 5 //max amount of promotions to show in recyclerViews
         const val MIN_ITEM_AMOUNT = 1 //min amount of promotions to show in recyclerViews
+        const val MAX_DISTANCE = 45 // Km
     }
 
     override fun onCreateView(
@@ -315,7 +316,7 @@ class HomePromotionsFragment : Fragment() {
 
         override fun doInBackground(vararg params: Void?): String {
             return try {
-                URL(getString(R.string.API_URL) + createPromotionQueryUrl(filters)).readText()
+                URL(getString(R.string.API_URL) + createPromotionQueryUrl(filters, null, MAX_DISTANCE)).readText()
             } catch (e: IOException) {
                 return ERROR
             }
