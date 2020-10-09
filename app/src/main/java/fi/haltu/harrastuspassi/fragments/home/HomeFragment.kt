@@ -15,7 +15,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AutoCompleteTextView
+import android.widget.ImageView
+import android.widget.ScrollView
 import android.widget.TextView
+import androidx.appcompat.widget.Toolbar
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -23,7 +26,6 @@ import com.google.firebase.analytics.FirebaseAnalytics
 import fi.haltu.harrastuspassi.R
 import fi.haltu.harrastuspassi.activities.MainActivity
 import fi.haltu.harrastuspassi.adapters.CategorySearchAdapter
-import fi.haltu.harrastuspassi.fragments.HobbyEventListFragment
 import fi.haltu.harrastuspassi.fragments.SettingsFragment
 import fi.haltu.harrastuspassi.models.Category
 import fi.haltu.harrastuspassi.models.Filters
@@ -42,6 +44,9 @@ class HomeFragment : Fragment(), LocationListener {
     lateinit var searchIcon: TextView
     lateinit var promotionsFragment: HomePromotionsFragment
     lateinit var hobbiesFragment: HomeHobbiesFragment
+    lateinit var imageView: ImageView
+    lateinit var scrollView: ScrollView
+    lateinit var toolBar: Toolbar
     var filters = Filters()
     var settings = Settings()
     private var locationManager: LocationManager? = null
@@ -63,30 +68,12 @@ class HomeFragment : Fragment(), LocationListener {
         //SEARCH
         searchEditText = view.findViewById(R.id.home_search)
         searchContainer = view.findViewById(R.id.search_container)
-        searchEditText.setOnFocusChangeListener { _, hasFocus ->
-            if (hasFocus) {
-                searchContainer.setBackgroundColor(
-                    ContextCompat.getColor(
-                        this.context!!,
-                        R.color.white
-                    )
-                )
-            } else {
-                searchContainer.setBackgroundColor(
-                    ContextCompat.getColor(
-                        this.context!!,
-                        R.color.white80
-                    )
-                )
-            }
-        }
         searchEditText.setOnKeyListener { _, keyCode, event ->
             // User presses "enter" on keyboard
             if ((event.action == KeyEvent.ACTION_DOWN) &&
                 (keyCode == KeyEvent.KEYCODE_ENTER)
             ) {
                 search(searchEditText.text.toString())
-                view.clearFocus()
                 return@setOnKeyListener true
             }
             return@setOnKeyListener false
@@ -94,6 +81,18 @@ class HomeFragment : Fragment(), LocationListener {
         searchIcon = view.findViewById(R.id.home_search_icon)
         searchIcon.setOnClickListener {
             search(searchEditText.text.toString())
+        }
+
+        // Show "Harrastuspassi" in toolbar, if HP logo is scrolled out of view
+        imageView = view.findViewById(R.id.imageView)
+        toolBar = view.findViewById(R.id.toolbar)
+        scrollView = view.findViewById(R.id.scrollview)
+        scrollView.setOnScrollChangeListener { _, _, scrollY, _, _ ->
+            if (scrollY > imageView.height) {
+                toolBar.title = "Harrastuspassi"
+            } else {
+                toolBar.title = ""
+            }
         }
 
         // Asking permission to use users location
@@ -157,21 +156,19 @@ class HomeFragment : Fragment(), LocationListener {
         var simplifiedStr = searchStr.trimEnd().toLowerCase()
         if (simplifiedStr != "") {
             for (category in categoryList) {
-
                 // FIREBASE ANALYTICS
                 val bundle = Bundle()
-                bundle.putString("categoryName", category.name)
+                bundle.putString("categoryName", searchStr)
                 firebaseAnalytics.logEvent("frontPageSearch", bundle)
-
-                var filters = loadFilters(activity!!)
-
+                val filters = loadFilters(activity!!)
                 filters.categories.clear()
-                //filters.categories.add(category.id!!)
                 filters.searchText = searchStr
                 filters.isListUpdated = false
                 saveFilters(filters, activity!!)
                 searchEditText.text.clear()
-                var mainActivity = context as MainActivity
+                KeyboardUtils.hideKeyboard(activity!!)
+                view!!.clearFocus()
+                val mainActivity = context as MainActivity
                 mainActivity.performListClick()
                 break
             }
@@ -256,15 +253,7 @@ class HomeFragment : Fragment(), LocationListener {
                     )
                     searchEditText.threshold = 2
                     searchEditText.setOnItemClickListener { _, _, _, id ->
-                        var filters = loadFilters(activity!!)
-                        filters.categories.clear()
-                        filters.searchText = getCategoryNameById(categoryList, id.toInt())
-
-                        saveFilters(filters, activity!!)
-                        searchEditText.text.clear()
-
-                        var mainActivity = context as MainActivity
-                        mainActivity.performListClick()
+                        search(getCategoryNameById(categoryList, id.toInt()))
                     }
                 }
             }

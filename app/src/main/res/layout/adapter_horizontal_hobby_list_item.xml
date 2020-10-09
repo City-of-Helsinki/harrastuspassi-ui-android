@@ -10,8 +10,8 @@
     <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="300dp"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:paddingBottom="8dp">
+            android:layout_marginBottom="0dp"
+            android:paddingBottom="0dp">
 
         <ImageView
                 android:id="@+id/horizontal_hobby_list_image"
@@ -29,8 +29,9 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="8dp"
+                android:ellipsize="end"
                 android:fontFamily="@font/poppins_semibold"
-                android:maxLines="2"
+                android:maxLines="1"
                 android:minLines="1"
                 android:textColor="@color/hobbyGreyDark"
                 android:textSize="14sp"

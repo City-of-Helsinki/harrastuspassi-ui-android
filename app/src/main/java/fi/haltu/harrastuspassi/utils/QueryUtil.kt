@@ -6,7 +6,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.HashSet
 
-fun createHobbyEventQueryUrl(filters: Filters): String {
+fun createHobbyEventQueryUrl(filters: Filters, pageSize: Int): String {
     var query = "hobbyevents/?include=location_detail&include=organizer_detail&include=hobby_detail"
     val categoryArrayList = filters.categories.toArray()
     val weekDayArrayList = filters.dayOfWeeks.toArray()
@@ -43,10 +43,11 @@ fun createHobbyEventQueryUrl(filters: Filters): String {
     query += "&start_time_to=${minutesToTime(filters.startTimeTo)}"
 
     query += "&exclude_past_events=true"
-
     query += "&ordering=nearest"
     query += "&near_latitude=${filters.latitude}"
     query += "&near_longitude=${filters.longitude}"
+    query += "&page_size=$pageSize"
+
     Log.d("query", query)
 
     return query

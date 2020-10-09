@@ -31,7 +31,7 @@
                 android:fontFamily="@font/poppins_semibold"
                 android:maxLines="2"
                 android:minLines="1"
-                android:textColor="@color/hobbyBlue"
+                android:textColor="@android:color/black"
                 android:textSize="22sp"
                 android:textStyle="bold"
                 android:lineSpacingExtra="-4sp"
@@ -65,8 +65,10 @@
                 android:textColor="@color/hobbyBlue"
                 android:textSize="14sp"
                 android:textStyle="normal"
+                android:gravity="right"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/home_promoted_description"
                 app:layout_constraintTop_toBottomOf="@+id/home_promoted_description" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>

@@ -12,6 +12,15 @@
             android:layout_height="match_parent"
             android:background="@color/hobbyBlue">
 
+        <!-- Dummy item to prevent SearchView from receiving focus -->
+        <LinearLayout
+                android:id="@+id/linearLayout_focus"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:layout_width="0px"
+                android:layout_height="0px"
+                tools:ignore="MissingConstraints,Orientation" />
+
         <androidx.appcompat.widget.Toolbar
                 android:id="@+id/list_toolbar"
                 android:layout_width="match_parent"
@@ -31,23 +40,23 @@
                         android:id="@+id/map_icon"
                         android:layout_width="24dp"
                         android:layout_height="24dp"
-                        android:layout_marginTop="8dp"
                         android:src="@drawable/ic_map_24px_new"
                         app:layout_constraintEnd_toEndOf="@+id/map_text"
                         app:layout_constraintStart_toStartOf="@+id/map_text"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="@+id/textView3" />
 
                 <TextView
                         android:id="@+id/map_text"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
                         android:layout_marginEnd="16dp"
-                        android:gravity="start"
+                        android:fontFamily="@font/poppins_regular"
+                        android:gravity="center"
                         android:text="@string/map"
-
                         android:textColor="@color/white"
                         android:textSize="10sp"
-                        android:fontFamily="@font/poppins_regular"
+                        app:layout_constraintBottom_toBottomOf="@+id/textView3"
                         app:layout_constraintEnd_toStartOf="@+id/filter_text"
                         app:layout_constraintTop_toBottomOf="@+id/map_icon" />
 
@@ -56,12 +65,14 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
 
+                        android:layout_marginTop="16dp"
                         android:layout_marginEnd="24dp"
-                        android:gravity="end"
+                        android:fontFamily="@font/poppins_regular"
+                        android:gravity="center"
                         android:text="@string/filter"
                         android:textColor="@color/white"
                         android:textSize="10sp"
-                        android:fontFamily="@font/poppins_regular"
+                        app:layout_constraintBottom_toBottomOf="@+id/textView3"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/filter_icon" />
 
@@ -69,16 +80,18 @@
                         android:id="@+id/filter_icon"
                         android:layout_width="24dp"
                         android:layout_height="24dp"
-                        android:layout_marginTop="8dp"
-                        android:src="@drawable/ic_filter_24px_new"
+                        android:src="@drawable/ic_round_tune_24dp"
                         app:layout_constraintEnd_toEndOf="@+id/filter_text"
                         app:layout_constraintStart_toStartOf="@+id/filter_text"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="@+id/textView3" />
 
                 <TextView
+                        android:id="@+id/textView3"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
                         android:layout_marginEnd="24dp"
+                        android:layout_marginBottom="8dp"
                         android:fontFamily="@font/poppins_semibold"
                         android:gravity="start"
                         android:text="@string/hobbies"
@@ -87,7 +100,8 @@
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toStartOf="@+id/map_icon"
                         app:layout_constraintHorizontal_bias="1.0"
-                        app:layout_constraintStart_toStartOf="parent" />
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </androidx.appcompat.widget.Toolbar>
@@ -134,6 +148,8 @@
                     android:id="@+id/list_view"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:paddingBottom="8dp"
+                    android:clipToPadding="false"
                     android:background="@color/hobbyGreyExtraLight"
                     android:dividerHeight="2dp"
                     android:footerDividersEnabled="false" />
@@ -142,11 +158,16 @@
 
         <TextView
                 android:id="@+id/progress_text"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
                 android:fontFamily="@font/poppins_bold"
-                android:gravity="center"
-                android:textColor="@color/hobbyPink" />
+                android:textColor="@color/hobbyPink"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/hobby_event_search" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 

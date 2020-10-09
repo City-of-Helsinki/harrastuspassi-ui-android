@@ -7,6 +7,7 @@ import android.app.Dialog
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.content.res.ColorStateList
 import android.location.LocationListener
 import android.location.LocationManager
 import android.os.AsyncTask
@@ -49,6 +50,7 @@ class MapFragment : Fragment(), OnMapReadyCallback {
         const val CENTER_LAT = 64.9600 //Center point of Finland
         const val CENTER_LON = 27.5900
         const val LOCATION_PERMISSION = 1
+        const val PAGE_SIZE = 500
     }
 
     private var locationManager: LocationManager? = null
@@ -60,7 +62,7 @@ class MapFragment : Fragment(), OnMapReadyCallback {
     private lateinit var mapView: MapView
     private var isInit = true
     private lateinit var userMarker: Marker
-
+    private lateinit var filterIcon: ImageView
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -84,8 +86,10 @@ class MapFragment : Fragment(), OnMapReadyCallback {
             startFilterActivity()
         }
 
+        filterIcon = view.findViewById(R.id.map_filter_icon)
+
         settings = loadSettings(this.activity!!)
-        filters = loadFilters(this.activity!!)
+        loadFiltersAndUpdateIcon()
 
         //GOOGLE MAP
         mapView = view.findViewById(R.id.map_fragment) as MapView
@@ -100,6 +104,17 @@ class MapFragment : Fragment(), OnMapReadyCallback {
         mapView.getMapAsync(this)
 
         return view
+    }
+
+    private fun updateFilterIcon() {
+        filterIcon.setImageResource(
+            if (filters.hasActiveSecondaryFilters())
+                R.drawable.ic_round_tune_active_24dp else R.drawable.ic_round_tune_24dp)
+    }
+
+    private fun loadFiltersAndUpdateIcon() {
+        filters = loadFilters(this.activity!!)
+        updateFilterIcon()
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
@@ -150,7 +165,7 @@ class MapFragment : Fragment(), OnMapReadyCallback {
 }
     private fun updateMap() {
         gMap.clear()
-        filters = loadFilters(this.activity!!)
+        loadFiltersAndUpdateIcon()
         settings = loadSettings(this.activity!!)
         GetHobbyEvents().execute()
     }
@@ -373,7 +388,7 @@ class MapFragment : Fragment(), OnMapReadyCallback {
 
         override fun doInBackground(vararg params: Void?): String {
             return try {
-                URL(getString(R.string.API_URL) + createHobbyEventQueryUrl(filters)).readText()
+                URL(getString(R.string.API_URL) + createHobbyEventQueryUrl(filters, PAGE_SIZE)).readText()
             } catch (e: IOException) {
                 return HobbyCategoriesActivity.ERROR
             }
