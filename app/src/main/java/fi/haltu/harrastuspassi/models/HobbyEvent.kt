@@ -15,6 +15,7 @@ class HobbyEvent(json: JSONObject? = null) : Serializable, ClusterItem {
     var startTime: String = ""
     var endTime: String = ""
     var startWeekday: Int = 0
+    var dataSource: String = ""
     lateinit var hobby: Hobby
 
     init {
@@ -25,6 +26,7 @@ class HobbyEvent(json: JSONObject? = null) : Serializable, ClusterItem {
             startTime = json.getString("start_time")
             endTime = json.getString("end_time")
             startWeekday = json.getInt("start_weekday")
+            dataSource = json.getString("data_source")
             val hobbyObject = getOptionalJSONObject(json, "hobby")
 
             if (hobbyObject != null) {
@@ -52,5 +54,9 @@ class HobbyEvent(json: JSONObject? = null) : Serializable, ClusterItem {
 
     override fun hashCode(): Int {
         return this.hobby.id.hashCode()
+    }
+
+    fun isLipasEvent(): Boolean {
+        return dataSource == "lipas"
     }
 }

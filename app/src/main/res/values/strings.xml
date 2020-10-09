@@ -41,7 +41,8 @@
     <string name="available">Available</string>
     <string name="promotion_valid">Valid:</string>
     <string name="promotions_used">Used</string>
-    <string name="no_favorites">You don\'t have any favorite hobbies. Find your favovorite hobbies here.</string>
+    <string name="no_favorites">You don\'t have any favorite hobbies.</string>
+    <string name="find_favorites">Find your favorite hobbies here</string>
     <string name="accept_from_settings">Accept from settings</string>
     <string name="hobbies">hobbies</string>
     <string name="home_title">Find hobbies near you</string>

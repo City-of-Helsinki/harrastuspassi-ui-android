@@ -45,6 +45,8 @@ class PromotionFragment : Fragment() {
     private var usedPromotions: HashSet<Int> = HashSet()
     private var searchText: String? = null
     private lateinit var filters: Filters
+
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -211,6 +213,7 @@ class PromotionFragment : Fragment() {
 
     companion object {
         const val ERROR = "error"
+        const val MAX_DISTANCE = 45 // Km
     }
 
     internal inner class PostPromotion(private val promotionId: Int) :
@@ -238,7 +241,7 @@ class PromotionFragment : Fragment() {
         }
         override fun doInBackground(vararg params: Void?): String {
             return try {
-                URL(getString(R.string.API_URL) + createPromotionQueryUrl(filters, searchText)).readText()
+                URL(getString(R.string.API_URL) + createPromotionQueryUrl(filters, searchText, MAX_DISTANCE)).readText()
             } catch (e: IOException) {
                 return ERROR
             }

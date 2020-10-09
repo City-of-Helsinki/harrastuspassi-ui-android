@@ -21,7 +21,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:title="@string/favorites"
-                app:titleTextAppearance="@font/poppins_bold"
+                app:titleTextAppearance="@style/Toolbar.TitleText"
                 app:titleTextColor="@color/white" />
 
         <ProgressBar
@@ -57,18 +57,49 @@
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
 
-        <TextView
-                android:id="@+id/progress_text"
-                android:layout_width="match_parent"
+        <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/empty_list_info"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginEnd="8dp"
-                android:fontFamily="@font/poppins_bold"
-                android:gravity="center"
-                android:textColor="@color/hobbyPink"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/swipe_refresh_list" />
+                app:layout_constraintTop_toBottomOf="@+id/toolbar">
+
+            <TextView
+                    android:id="@+id/progress_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:fontFamily="@font/poppins_bold"
+                    android:gravity="center"
+                    android:textColor="@color/hobbyPink"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            <Button
+                    android:id="@+id/find_favorites_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:background="@drawable/rounded_corners_pill"
+                    android:backgroundTint="@color/hobbyTurquoise"
+                    android:fontFamily="@font/poppins_semibold"
+                    android:paddingHorizontal="16dp"
+                    android:paddingTop="8dp"
+                    android:paddingBottom="4dp"
+                    android:text="@string/find_favorites"
+                    android:textAllCaps="false"
+                    android:textColor="@color/hobbyBlue"
+                    android:textSize="14sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/progress_text" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>

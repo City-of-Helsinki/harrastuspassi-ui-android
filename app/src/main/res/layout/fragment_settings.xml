@@ -9,6 +9,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             tools:context=".fragment.SettingsFragment">
+
         <androidx.appcompat.widget.Toolbar
                 android:id="@+id/map_toolbar"
                 app:title="@string/settings"
@@ -19,7 +20,16 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 android:background="@color/hobbyBlue"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"/>
+                app:layout_constraintTop_toTopOf="parent"
+                app:titleTextAppearance="@style/Toolbar.TitleText" />
+
+        <View
+                android:id="@+id/toolbar_padding"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/map_toolbar"
+                style="@style/ToolbarPadding" />
 
         <TextView
                 android:id="@+id/locationText"
@@ -37,7 +47,7 @@
                 android:textSize="14sp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/map_toolbar" />
+                app:layout_constraintTop_toBottomOf="@+id/toolbar_padding" />
 
         <TextView
                 android:id="@+id/current_location_text"

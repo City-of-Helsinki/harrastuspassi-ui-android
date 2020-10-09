@@ -1,29 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item android:id="@+id/navigation_home"
-        android:icon="@drawable/ic_home"
-        android:title="@string/title_home"
-        />
+    <item
+            android:id="@+id/navigation_home"
+            android:icon="@drawable/ic_home"
+            android:title="@string/title_home" />
 
     <item
             android:id="@+id/navigation_list"
             android:icon="@drawable/icon24_list"
-            android:title="@string/hobbies"/>
+            android:title="@string/hobbies" />
 
     <item
             android:id="@+id/navigation_favorites"
             android:icon="@drawable/icon24_favourites"
-            android:title="@string/favorites"/>
+            android:title="@string/favorites" />
 
-    <item   android:id="@+id/navigation_promotions"
+    <item
+            android:id="@+id/navigation_promotions"
             android:icon="@drawable/icon24_promotions"
-            android:title="@string/promotions"
-            />
+            android:title="@string/promotions" />
 
     <item
             android:id="@+id/navigation_settings"
             android:icon="@drawable/icon24_settings"
-            android:title="@string/settings"/>
+            android:title="@string/settings" />
 
 </menu>
