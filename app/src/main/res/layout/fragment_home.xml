@@ -53,6 +53,7 @@
                         app:layout_constraintBottom_toTopOf="@+id/search_container"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
+                        android:tint="@color/hobbyTurquoise"
                         app:srcCompat="@drawable/hp_logo_new" />
 
                 <androidx.constraintlayout.widget.ConstraintLayout
