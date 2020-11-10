@@ -3,7 +3,6 @@ package fi.haltu.harrastuspassi.adapters
 import android.app.Activity
 import android.content.Context
 import android.graphics.Color
-import androidx.core.content.ContextCompat
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
@@ -11,7 +10,6 @@ import com.google.maps.android.clustering.Cluster
 import com.google.maps.android.clustering.ClusterManager
 import com.google.maps.android.clustering.view.DefaultClusterRenderer
 import fi.haltu.harrastuspassi.R
-import fi.haltu.harrastuspassi.models.Hobby
 import fi.haltu.harrastuspassi.models.HobbyEvent
 import fi.haltu.harrastuspassi.utils.bitmapDescriptorFromVector
 import fi.haltu.harrastuspassi.utils.loadFavorites
@@ -29,10 +27,6 @@ class MarkerClusterRenderer(
     override fun getColor(clusterSize: Int): Int {
         return Color.parseColor("#77329B")
     }
-
-    /*override fun getClusterText(bucket: Int): String {
-        return super.getClusterText(bucket)
-    }*/
 
     override fun onBeforeClusterItemRendered(item: HobbyEvent, markerOptions: MarkerOptions) { // 5
         //markerOptions.title(item.title)
