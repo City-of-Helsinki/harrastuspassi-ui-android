@@ -107,9 +107,8 @@ class MapFragment : Fragment(), OnMapReadyCallback {
     }
 
     private fun updateFilterIcon() {
-        filterIcon.setImageResource(
-            if (filters.hasActiveSecondaryFilters())
-                R.drawable.ic_round_tune_active_24dp else R.drawable.ic_round_tune_24dp)
+        filterIcon.setImageResource(if (filters.hasActiveSecondaryFilters())
+            R.drawable.ic_round_tune_active_24dp else R.drawable.ic_round_tune_24dp)
     }
 
     private fun loadFiltersAndUpdateIcon() {
@@ -228,28 +227,29 @@ class MapFragment : Fragment(), OnMapReadyCallback {
 
     private fun addUserLocationMarker(gMap: GoogleMap, latLng: LatLng) {
         userMarker = gMap.addMarker(
-            MarkerOptions().position(latLng)
-                .title(activity!!.getString(R.string.your_location))
-                .icon(
-                    bitmapDescriptorFromVector(
-                        this.context!!,
-                        R.drawable.ic_person_marker_24px
-                    )
+
+        MarkerOptions().position(latLng)
+            .title(activity!!.getString(R.string.your_location))
+            .icon(
+                bitmapDescriptorFromVector(
+                    this.context!!,
+                    R.drawable.ic_person_marker_24px
                 )
+            )
         )
     }
 
     private fun setUpClusterManager(googleMap: GoogleMap) {
-        val clusterManager = ClusterManager<Hobby>(this.context, googleMap)
+        val clusterManager = ClusterManager<HobbyEvent>(this.context, googleMap)
         //adds items to cluster
 
-        val markerClusterRenderer = MarkerClusterRenderer(this.context!!, googleMap, clusterManager)
+        val markerClusterRenderer = MarkerClusterRenderer(this.context!!, googleMap, clusterManager, activity!!)
         clusterManager.renderer = markerClusterRenderer
         //googleMap.setInfoWindowAdapter(clusterManager.markerManager)
 
         //clusterManager.markerCollection.setOnInfoWindowAdapter(HobbyInfoWindowAdapter(this.context!!))
 
-        for (event in hobbyArrayList) {
+        for (event in hobbyEventArrayList) {
             clusterManager.addItem(event)
         }
 
@@ -257,19 +257,19 @@ class MapFragment : Fragment(), OnMapReadyCallback {
 
         googleMap.setOnMarkerClickListener { marker ->
             if (marker.tag != null) {
-                val hobby: Hobby? = marker.tag as Hobby?
+                val hobbyEvent: HobbyEvent? = marker.tag as HobbyEvent?
                 val dialog = Dialog(this.context!!)
                 dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
                 dialog.setCancelable(true)
                 dialog.setContentView(R.layout.dialog_hobby_list)
                 //TITLE
                 val titleText = dialog.findViewById<TextView>(R.id.title)
-                titleText.text = hobby?.location?.name
+                titleText.text = hobbyEvent?.hobby?.location?.name
                 //HOBBY_LIST
                 val recyclerView = dialog.findViewById<RecyclerView>(R.id.hobby_list)
                 var hobbyList = ArrayList<HobbyEvent>()
                 for (event in hobbyEventArrayList) {
-                    if (event.hobby.location.id == hobby!!.location.id) {
+                    if (event.hobby.location.id == hobbyEvent!!.hobby!!.location.id) {
                         hobbyList.add(event)
                     }
                 }
