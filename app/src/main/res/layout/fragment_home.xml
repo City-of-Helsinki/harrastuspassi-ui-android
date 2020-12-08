@@ -62,11 +62,11 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
                         android:layout_marginTop="16dp"
-                        android:layout_marginEnd="16dp"
+                        android:layout_marginEnd="8dp"
                         android:layout_marginBottom="16dp"
                         android:background="@drawable/rounded_corners_white"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintEnd_toStartOf="@+id/home_filter_label"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/logo_container">
 
@@ -100,8 +100,28 @@
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
 
+
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
+                <ImageView
+                        android:id="@+id/home_filter_button"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:src="@drawable/ic_filter_24px_new"
+                        app:layout_constraintEnd_toEndOf="@+id/home_filter_label"
+                        app:layout_constraintStart_toStartOf="@+id/home_filter_label"
+                        app:layout_constraintTop_toTopOf="@+id/search_container" />
+
+                <TextView
+                        android:id="@+id/home_filter_label"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/white"
+                        android:text="@string/filter"
+                        android:layout_marginEnd="16dp"
+                        app:layout_constraintBottom_toBottomOf="@+id/search_container"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/home_filter_button" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <fragment

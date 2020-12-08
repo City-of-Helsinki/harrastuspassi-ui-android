@@ -96,6 +96,7 @@ class MainActivity : AppCompatActivity() {
     fun performListClick() {
         switchFragment(hobbyEventListFragment, getString(R.string.hobbies))
         navigationView.selectedItemId = R.id.navigation_list
+        isMapFragment = false
     }
 
     fun switchBetweenMapAndListFragment() {

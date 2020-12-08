@@ -164,8 +164,11 @@ class HobbyEventListFragment : Fragment() {
             searchView.setQuery(filters.searchText, false)
 
             //filters.searchText = ""
-            filters.isListUpdated = true
             saveFilters(filters, this.activity!!)
+            if(!filters.isListUpdated) {
+                GetHobbyEvents().execute()
+                filters.isListUpdated = true
+            }
         }
     }
 
