@@ -152,11 +152,6 @@ class FilterViewActivity : AppCompatActivity(), View.OnClickListener {
             isFreeCheckBox.setOnClickListener {
             filters.showFree = isFreeCheckBox.isChecked
         }
-        /*SHOW_HOBBIES_WITH_PROMOTION_CHECK_BOX
-        showHobbiesWithPromotionCheckBox = findViewById(R.id.has_promotion_check_box)
-        showHobbiesWithPromotionCheckBox.setOnClickListener {
-            //filters.showHobbiesWithPromotion = showHobbiesWithPromotionCheckBox.isChecked
-        }*/
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

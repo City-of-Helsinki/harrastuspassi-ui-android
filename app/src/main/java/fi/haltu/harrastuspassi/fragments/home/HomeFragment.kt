@@ -21,7 +21,6 @@ import android.widget.ScrollView
 import android.widget.TextView
 import androidx.appcompat.widget.Toolbar
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.google.firebase.analytics.FirebaseAnalytics
 import fi.haltu.harrastuspassi.R
@@ -179,7 +178,7 @@ class HomeFragment : Fragment(), LocationListener {
                 KeyboardUtils.hideKeyboard(activity!!)
                 view!!.clearFocus()
                 val mainActivity = context as MainActivity
-                mainActivity.performListClick()
+                mainActivity.performHobbyEventListClick()
                 break
             }
         }
@@ -202,7 +201,7 @@ class HomeFragment : Fragment(), LocationListener {
             val mainActivity = context as MainActivity
             filters = loadFilters(mainActivity)
             if(filters.isModified) {
-                mainActivity.performListClick()
+                mainActivity.performHobbyEventListClick()
             }
         }
     }

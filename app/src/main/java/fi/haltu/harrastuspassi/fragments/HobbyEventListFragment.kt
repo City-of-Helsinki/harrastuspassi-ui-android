@@ -136,8 +136,13 @@ class HobbyEventListFragment : Fragment() {
         this.activity?.overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left)
     }
 
+    /*
+    This function shows different filter icon if filter contains items.
+    There were two different icons but replaced with new icon.
+    In case we need this code again, I don't remove these codes.
+    */
     private fun updateFilterIcon() {
-        filterIcon.setImageResource(if (filters.hasActiveSecondaryFilters()) R.drawable.ic_round_tune_active_24dp else R.drawable.ic_round_tune_24dp)
+        filterIcon.setImageResource(if (filters.hasActiveSecondaryFilters()) R.drawable.ic_filter_24px_new else R.drawable.ic_filter_24px_new)
     }
 
     private fun loadFiltersAndUpdateIcon() {
