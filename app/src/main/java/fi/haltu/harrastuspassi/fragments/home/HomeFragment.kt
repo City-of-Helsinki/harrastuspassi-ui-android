@@ -3,6 +3,7 @@ package fi.haltu.harrastuspassi.fragments.home
 import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Location
 import android.location.LocationListener
@@ -20,10 +21,10 @@ import android.widget.ScrollView
 import android.widget.TextView
 import androidx.appcompat.widget.Toolbar
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.google.firebase.analytics.FirebaseAnalytics
 import fi.haltu.harrastuspassi.R
+import fi.haltu.harrastuspassi.activities.FilterViewActivity
 import fi.haltu.harrastuspassi.activities.MainActivity
 import fi.haltu.harrastuspassi.adapters.CategorySearchAdapter
 import fi.haltu.harrastuspassi.fragments.SettingsFragment
@@ -47,6 +48,7 @@ class HomeFragment : Fragment(), LocationListener {
     lateinit var imageView: ImageView
     lateinit var scrollView: ScrollView
     lateinit var toolBar: Toolbar
+    lateinit var filterButton: ImageView
     var filters = Filters()
     var settings = Settings()
     private var locationManager: LocationManager? = null
@@ -81,6 +83,13 @@ class HomeFragment : Fragment(), LocationListener {
         searchIcon = view.findViewById(R.id.home_search_icon)
         searchIcon.setOnClickListener {
             search(searchEditText.text.toString())
+        }
+        filterButton = view.findViewById(R.id.home_filter_button)
+        filterButton.setOnClickListener {
+            val intent = Intent(this.context, FilterViewActivity::class.java)
+            intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT)
+            startActivityForResult(intent, 2)
+            this.activity?.overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left)
         }
 
         // Show "Harrastuspassi" in toolbar, if HP logo is scrolled out of view
@@ -169,8 +178,30 @@ class HomeFragment : Fragment(), LocationListener {
                 KeyboardUtils.hideKeyboard(activity!!)
                 view!!.clearFocus()
                 val mainActivity = context as MainActivity
-                mainActivity.performListClick()
+                mainActivity.performHobbyEventListClick()
                 break
+            }
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == 2) {
+            //FIREBASE ANALYTICS
+            val bundle = Bundle()
+            for(index in 0 until filters.categories.size) {
+                bundle.putInt("filterCategory$index", filters.categories.toIntArray()[index])
+            }
+            for(index in 0 until filters.dayOfWeeks.size) {
+                bundle.putInt("weekDay$index", filters.dayOfWeeks.toIntArray()[index])
+            }
+            bundle.putString("startTime", "${minutesToTime(filters.startTimeFrom)}, ${minutesToTime(filters.startTimeTo)}")
+            bundle.putBoolean("free", filters.showFree)
+            firebaseAnalytics.logEvent("hobbyFilter", bundle)
+            val mainActivity = context as MainActivity
+            filters = loadFilters(mainActivity)
+            if(filters.isModified) {
+                mainActivity.performHobbyEventListClick()
             }
         }
     }
