@@ -80,7 +80,7 @@ class HobbyCategoriesActivity : AppCompatActivity() {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == 1) {
 
-            filters = data!!.extras.getSerializable("EXTRA_FILTERS") as Filters
+            filters = data!!.extras?.getSerializable("EXTRA_FILTERS") as Filters
             val categoryAdapter = CategoryListAdapter(
                 categoryList,
                 this,
