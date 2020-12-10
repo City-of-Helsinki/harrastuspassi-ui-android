@@ -234,8 +234,8 @@ class HomeHobbiesFragment : Fragment() {
 
                         setHobbyEvents(rootView, hobbyEventArrayList)
 
-                        if (hobbyEventArrayList.size != 0) {
-                            popularHobbyList.adapter!!.notifyDataSetChanged()
+                        if (hobbyEventArrayList.size > 0) {
+                            popularHobbyList.adapter?.notifyDataSetChanged()
                         }
                     } catch (e: JSONException) {
                         userHobbyEventsText.visibility = View.INVISIBLE
