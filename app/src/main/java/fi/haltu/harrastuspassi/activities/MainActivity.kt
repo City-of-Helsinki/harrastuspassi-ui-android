@@ -93,9 +93,10 @@ class MainActivity : AppCompatActivity() {
             .addOnFailureListener(this) { e -> Log.w(TAG, "getDynamicLink:onFailure", e) }
     }
 
-    fun performListClick() {
+    fun performHobbyEventListClick() {
         switchFragment(hobbyEventListFragment, getString(R.string.hobbies))
         navigationView.selectedItemId = R.id.navigation_list
+        isMapFragment = false
     }
 
     fun switchBetweenMapAndListFragment() {

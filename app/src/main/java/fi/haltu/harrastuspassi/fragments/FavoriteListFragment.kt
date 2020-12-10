@@ -26,7 +26,6 @@ import fi.haltu.harrastuspassi.models.HobbyEvent
 import fi.haltu.harrastuspassi.utils.loadFavorites
 import fi.haltu.harrastuspassi.utils.loadFilters
 import fi.haltu.harrastuspassi.utils.verifyAvailableNetwork
-import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
 import java.io.IOException
@@ -68,7 +67,7 @@ class FavoriteListFragment : Fragment() {
 
         val navigateToHobbyList = View.OnClickListener {
             var mainActivity = context as MainActivity
-            mainActivity.performListClick()
+            mainActivity.performHobbyEventListClick()
         }
 
         progressBar = view.findViewById(R.id.progressbar)
