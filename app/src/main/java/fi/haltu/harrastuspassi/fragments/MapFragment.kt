@@ -16,6 +16,7 @@ import android.view.*
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -98,7 +99,6 @@ class MapFragment : Fragment(), OnMapReadyCallback {
         } catch (e: Exception) {
             e.printStackTrace()
         }
-
         mapView.getMapAsync(this)
 
         return view
@@ -187,7 +187,7 @@ class MapFragment : Fragment(), OnMapReadyCallback {
                 )
                 if (!gMap.isMyLocationEnabled) {
                     gMap.isMyLocationEnabled = true
-
+                    gMap.uiSettings.isMyLocationButtonEnabled =  true
                     val myLocation =
                         locationManager?.getLastKnownLocation(LocationManager.GPS_PROVIDER)
                     if (myLocation != null) {
@@ -286,7 +286,7 @@ class MapFragment : Fragment(), OnMapReadyCallback {
         }
     }
 
-    fun closeIcon(dialog:Dialog) {
+    private fun closeIcon(dialog:Dialog) {
         //CLOSE_ICON
         val closeIcon = dialog.findViewById<ImageView>(R.id.close_icon)
         closeIcon.setOnClickListener {
@@ -300,7 +300,7 @@ class MapFragment : Fragment(), OnMapReadyCallback {
         dialog.show()
     }
 
-    fun createHobbyEventListDialog(hobbyList: ArrayList<HobbyEvent>, tittle: String) {
+    private fun createHobbyEventListDialog(hobbyList: ArrayList<HobbyEvent>, tittle: String) {
         val dialog = Dialog(this.context!!)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.setCancelable(true)
@@ -362,7 +362,7 @@ class MapFragment : Fragment(), OnMapReadyCallback {
 
                         if (!gMap.isMyLocationEnabled) {
                             gMap.isMyLocationEnabled = true
-
+                            gMap.uiSettings.isMyLocationButtonEnabled =  true
                             val myLocation =
                                 locationManager?.getLastKnownLocation(LocationManager.GPS_PROVIDER)
                             if (myLocation != null) {
