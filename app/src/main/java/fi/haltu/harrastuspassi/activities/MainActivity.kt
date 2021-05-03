@@ -17,6 +17,8 @@ import fi.haltu.harrastuspassi.fragments.*
 import fi.haltu.harrastuspassi.fragments.home.HomeFragment
 import fi.haltu.harrastuspassi.utils.loadFilters
 import fi.haltu.harrastuspassi.utils.saveFilters
+import fi.haltu.harrastuspassi.utils.splashScreenUtil.AnimatedLoadingScreen
+import fi.haltu.harrastuspassi.utils.splashScreenUtil.HideAnimationType
 import kotlinx.android.synthetic.main.activity_main.*
 
 
@@ -39,6 +41,9 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         title = "Harrastuspassi"
+
+        AnimatedLoadingScreen.show(R.drawable.splash_screen_background,this)
+        AnimatedLoadingScreen.setHideAnimation(HideAnimationType.values().toList().shuffled().first(), 500)
 
         supportActionBar!!.setDisplayShowTitleEnabled(true)
         supportActionBar!!.setDisplayShowCustomEnabled(true)
@@ -91,6 +96,9 @@ class MainActivity : AppCompatActivity() {
                 }
             }
             .addOnFailureListener(this) { e -> Log.w(TAG, "getDynamicLink:onFailure", e) }
+        // Hides splash screen
+        AnimatedLoadingScreen.hide(this)
+
     }
 
     fun performHobbyEventListClick() {

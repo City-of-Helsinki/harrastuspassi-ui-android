@@ -286,6 +286,7 @@ class HomeFragment : Fragment(), LocationListener {
                     searchEditText.setOnItemClickListener { _, _, _, id ->
                         search(getCategoryNameById(categoryList, id.toInt()))
                     }
+
                 }
             }
         }
