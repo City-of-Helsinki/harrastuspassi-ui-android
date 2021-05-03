@@ -84,6 +84,7 @@
                             android:textColor="@color/hobbyGrey"
                             android:textCursorDrawable="@drawable/purple_cursor"
                             android:textSize="14sp"
+                            android:inputType="text"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toEndOf="@+id/home_search_icon"
