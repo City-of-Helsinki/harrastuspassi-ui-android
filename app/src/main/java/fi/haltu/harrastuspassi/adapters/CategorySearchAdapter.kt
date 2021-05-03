@@ -30,7 +30,7 @@ class CategorySearchAdapter(
         return categories[p0].id!!.toLong()
     }
 
-    override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
+    override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
         val view: TextView = convertView as TextView? ?: LayoutInflater.from(context).inflate(
             layoutResource,
             parent,

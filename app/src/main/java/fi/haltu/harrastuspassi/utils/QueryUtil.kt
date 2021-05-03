@@ -6,7 +6,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.HashSet
 
-fun createHobbyEventQueryUrl(filters: Filters, pageSize: Int): String {
+fun createHobbyEventQueryUrl(filters: Filters, pageSize: Int, maxDistance: Int? = null): String {
     var query = "hobbyevents/?include=location_detail&include=organizer_detail&include=hobby_detail"
     val categoryArrayList = filters.categories.toArray()
     val weekDayArrayList = filters.dayOfWeeks.toArray()
@@ -48,12 +48,15 @@ fun createHobbyEventQueryUrl(filters: Filters, pageSize: Int): String {
     query += "&near_longitude=${filters.longitude}"
     query += "&page_size=$pageSize"
 
+    if(maxDistance != null) {
+        query += "&max_distance=$maxDistance"
+    }
     Log.d("query", query)
 
     return query
 }
 
-fun createPromotionQueryUrl(filters: Filters, searchText: String? = null): String {
+fun createPromotionQueryUrl(filters: Filters, searchText: String? = null, maxDistance: Int? = null): String {
     var query = "promotions/?exclude_past_events=true&usable_only=true&include=location_detail&ordering=nearest"
     if (filters.latitude != 0.0 && filters.longitude != 0.0) {
         query += "&ordering=nearest"
@@ -62,6 +65,9 @@ fun createPromotionQueryUrl(filters: Filters, searchText: String? = null): Strin
     }
     if(!searchText.isNullOrEmpty()) {
         query += "&search=$searchText"
+    }
+    if(maxDistance != null) {
+        query += "&max_distance=$maxDistance"
     }
     Log.d("query_promotion", query)
     return query

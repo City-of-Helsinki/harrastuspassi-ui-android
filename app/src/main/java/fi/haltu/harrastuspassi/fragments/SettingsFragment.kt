@@ -182,7 +182,7 @@ class SettingsFragment : Fragment(), LocationListener {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == 1 && data != null) {
-            filters = data.extras.getSerializable("EXTRA_FILTERS") as Filters
+            filters = data.extras?.getSerializable("EXTRA_FILTERS") as Filters
             val addresses = geocoder.getFromLocation(filters.latitude, filters.longitude, 1)
             val location = Location()
             try {
