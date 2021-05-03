@@ -194,7 +194,7 @@
                         app:mrb_thumbSize="12dp"
                         app:mrb_temporaryPins="true"
                         app:mrb_tickDefaultColor="@color/blackOpacity0"
-                        app:mrb_tickEnd="1439"
+                        app:mrb_tickEnd="1440"
                         app:mrb_tickInterval="60"
                         app:mrb_tickStart="0" />
 
