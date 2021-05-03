@@ -7,7 +7,6 @@ import android.app.Dialog
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.content.res.ColorStateList
 import android.location.LocationListener
 import android.location.LocationManager
 import android.os.AsyncTask
@@ -17,7 +16,6 @@ import android.view.*
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -107,9 +105,8 @@ class MapFragment : Fragment(), OnMapReadyCallback {
     }
 
     private fun updateFilterIcon() {
-        filterIcon.setImageResource(
-            if (filters.hasActiveSecondaryFilters())
-                R.drawable.ic_round_tune_active_24dp else R.drawable.ic_round_tune_24dp)
+        filterIcon.setImageResource(if (filters.hasActiveSecondaryFilters())
+            R.drawable.ic_round_tune_active_24dp else R.drawable.ic_round_tune_24dp)
     }
 
     private fun loadFiltersAndUpdateIcon() {
@@ -228,84 +225,104 @@ class MapFragment : Fragment(), OnMapReadyCallback {
 
     private fun addUserLocationMarker(gMap: GoogleMap, latLng: LatLng) {
         userMarker = gMap.addMarker(
-            MarkerOptions().position(latLng)
-                .title(activity!!.getString(R.string.your_location))
-                .icon(
-                    bitmapDescriptorFromVector(
-                        this.context!!,
-                        R.drawable.ic_person_marker_24px
-                    )
+
+        MarkerOptions().position(latLng)
+            .title(activity!!.getString(R.string.your_location))
+            .icon(
+                bitmapDescriptorFromVector(
+                    this.context!!,
+                    R.drawable.ic_person_marker_24px
                 )
+            )
         )
     }
 
     private fun setUpClusterManager(googleMap: GoogleMap) {
-        val clusterManager = ClusterManager<Hobby>(this.context, googleMap)
+        val clusterManager = ClusterManager<HobbyEvent>(this.context, googleMap)
         //adds items to cluster
 
-        val markerClusterRenderer = MarkerClusterRenderer(this.context!!, googleMap, clusterManager)
+        val markerClusterRenderer = MarkerClusterRenderer(this.context!!, googleMap, clusterManager, activity!!)
         clusterManager.renderer = markerClusterRenderer
         //googleMap.setInfoWindowAdapter(clusterManager.markerManager)
 
         //clusterManager.markerCollection.setOnInfoWindowAdapter(HobbyInfoWindowAdapter(this.context!!))
 
-        for (event in hobbyArrayList) {
+        for (event in hobbyEventArrayList) {
             clusterManager.addItem(event)
         }
 
         googleMap.setOnCameraIdleListener(clusterManager)
+        googleMap.setOnMarkerClickListener(clusterManager)
 
-        googleMap.setOnMarkerClickListener { marker ->
-            if (marker.tag != null) {
-                val hobby: Hobby? = marker.tag as Hobby?
-                val dialog = Dialog(this.context!!)
-                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
-                dialog.setCancelable(true)
-                dialog.setContentView(R.layout.dialog_hobby_list)
-                //TITLE
-                val titleText = dialog.findViewById<TextView>(R.id.title)
-                titleText.text = hobby?.location?.name
-                //HOBBY_LIST
-                val recyclerView = dialog.findViewById<RecyclerView>(R.id.hobby_list)
-                var hobbyList = ArrayList<HobbyEvent>()
-                for (event in hobbyEventArrayList) {
-                    if (event.hobby.location.id == hobby!!.location.id) {
-                        hobbyList.add(event)
-                    }
-                }
-                val hobbyEventListAdapter =
-                    HobbyEventListAdapter(hobbyList) { hobbyEvent: HobbyEvent, hobbyImage: ImageView ->
-                        hobbyItemClicked(
-                            hobbyEvent,
-                            hobbyImage
-                        )
-                    }
-                recyclerView.apply {
-                    layoutManager = LinearLayoutManager(this.context)
-                    adapter = hobbyEventListAdapter
-                }
+        clusterManager.setOnClusterClickListener { cluster ->
 
-                //CLOSE_ICON
-                val closeIcon = dialog.findViewById<ImageView>(R.id.close_icon)
-                closeIcon.setOnClickListener {
-                    dialog.dismiss()
-                }
+            var hobbyEvents = ArrayList<HobbyEvent>()
 
-                dialog.window?.setLayout(
-                    WindowManager.LayoutParams.MATCH_PARENT,
-                    WindowManager.LayoutParams.MATCH_PARENT
-                )
-                dialog.show()
-            } else {
-                val markerPosition = LatLng(marker.position.latitude, marker.position.longitude)
-                var zoomLevel = googleMap.cameraPosition.zoom
-                marker.showInfoWindow()
-                val cameraPoint = CameraUpdateFactory.newLatLngZoom(markerPosition, zoomLevel + 2f)
-                gMap.animateCamera(cameraPoint)
+            for (location in cluster.items) {
+                hobbyEvents.add(location)
             }
+            //SHOW DIALOG
+            createHobbyEventListDialog(hobbyEvents, tittle = "")
 
             true
         }
+
+        clusterManager.setOnClusterItemClickListener {hobbyEvent ->
+
+            var hobbyEvents = ArrayList<HobbyEvent>()
+
+            for (event in hobbyEventArrayList) {
+                if (event.hobby.location.id == hobbyEvent!!.hobby!!.location.id) {
+                    hobbyEvents.add(event)
+                }
+            }
+            //TITTLE
+            var tittle = hobbyEvent!!.hobby!!.location.name
+
+            //SHOW DIALOG
+            createHobbyEventListDialog(hobbyEvents, tittle!!)
+
+            true
+        }
+    }
+
+    fun closeIcon(dialog:Dialog) {
+        //CLOSE_ICON
+        val closeIcon = dialog.findViewById<ImageView>(R.id.close_icon)
+        closeIcon.setOnClickListener {
+            dialog.dismiss()
+        }
+
+        dialog.window.setLayout(
+            WindowManager.LayoutParams.MATCH_PARENT,
+            WindowManager.LayoutParams.MATCH_PARENT
+        )
+        dialog.show()
+    }
+
+    fun createHobbyEventListDialog(hobbyList: ArrayList<HobbyEvent>, tittle: String) {
+        val dialog = Dialog(this.context!!)
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setCancelable(true)
+        dialog.setContentView(R.layout.dialog_hobby_list)
+
+        val titleText = dialog.findViewById<TextView>(R.id.title)
+        titleText.text = tittle
+
+        val recyclerView = dialog.findViewById<RecyclerView>(R.id.hobby_list)
+
+        val hobbyEventListAdapter =
+            HobbyEventListAdapter(hobbyList) { hobbyEvent: HobbyEvent, hobbyImage: ImageView ->
+                hobbyItemClicked(
+                    hobbyEvent,
+                    hobbyImage
+                )
+            }
+        recyclerView.apply {
+            layoutManager = LinearLayoutManager(this.context)
+            adapter = hobbyEventListAdapter
+        }
+        closeIcon(dialog)
     }
 
     private fun hobbyItemClicked(hobbyEvent: HobbyEvent, hobbyImage: ImageView) {

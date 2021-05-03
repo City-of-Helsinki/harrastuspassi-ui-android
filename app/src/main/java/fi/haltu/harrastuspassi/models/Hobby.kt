@@ -1,8 +1,10 @@
 package fi.haltu.harrastuspassi.models
 
 import android.util.Log
+import androidx.core.content.ContextCompat
 import com.google.android.gms.maps.model.LatLng
 import com.google.maps.android.clustering.ClusterItem
+import fi.haltu.harrastuspassi.R
 import fi.haltu.harrastuspassi.utils.getOptionalJSONObject
 import org.json.JSONObject
 import java.io.Serializable
@@ -46,9 +48,9 @@ class Hobby(json: JSONObject? = null) : Serializable, ClusterItem {
             priceType = json.getString("price_type")
             priceAmount = json.getDouble("price_amount")
             Log.d("Hobby $id", this.toString())
+
         }
     }
-
     override fun getSnippet(): String {
         return ""
     }
