@@ -43,7 +43,7 @@ class MainActivity : AppCompatActivity() {
         title = "Harrastuspassi"
 
         AnimatedLoadingScreen.show(R.drawable.splash_screen_background,this)
-        AnimatedLoadingScreen.setHideAnimation(HideAnimationType.CIRCULAR_HIDE, 500)
+        AnimatedLoadingScreen.setHideAnimation(HideAnimationType.values().toList().shuffled().first(), 500)
 
         supportActionBar!!.setDisplayShowTitleEnabled(true)
         supportActionBar!!.setDisplayShowCustomEnabled(true)
@@ -96,7 +96,9 @@ class MainActivity : AppCompatActivity() {
                 }
             }
             .addOnFailureListener(this) { e -> Log.w(TAG, "getDynamicLink:onFailure", e) }
+        // Hides splash screen
         AnimatedLoadingScreen.hide(this)
+
     }
 
     fun performHobbyEventListClick() {
