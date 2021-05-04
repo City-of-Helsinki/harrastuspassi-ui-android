@@ -11,12 +11,11 @@ import android.location.LocationListener
 import android.location.LocationManager
 import android.os.AsyncTask
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import android.widget.ImageView
+import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -62,6 +61,7 @@ class MapFragment : Fragment(), OnMapReadyCallback {
     private var isInit = true
     private lateinit var userMarker: Marker
     private lateinit var filterIcon: ImageView
+    private lateinit var progressCircular: ProgressBar
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -84,7 +84,7 @@ class MapFragment : Fragment(), OnMapReadyCallback {
         view.findViewById<TextView>(R.id.map_filter_text).setOnClickListener {
             startFilterActivity()
         }
-
+        progressCircular = view.findViewById(R.id.progress_circular)
         filterIcon = view.findViewById(R.id.map_filter_icon)
 
         settings = loadSettings(this.activity!!)
@@ -123,6 +123,7 @@ class MapFragment : Fragment(), OnMapReadyCallback {
         super.onResume()
         mapView.onResume()
         if (!isInit) {
+            progressCircular.visibility = View.VISIBLE
             updateMap()
         } else {
             isInit = false
@@ -147,6 +148,7 @@ class MapFragment : Fragment(), OnMapReadyCallback {
     override fun onHiddenChanged(hidden: Boolean) {
         super.onHiddenChanged(hidden)
         if (!hidden) {
+            progressCircular.visibility = View.VISIBLE
             updateMap()
         }
     }
@@ -437,6 +439,7 @@ class MapFragment : Fragment(), OnMapReadyCallback {
                         hobbyArrayList = uniqueByLocation(hobbyEventArrayList)
                         setUpClusterManager(gMap)
                         zoomToLocation(filters, settings)
+                        progressCircular.visibility = View.GONE
                     } catch (e: JSONException) {
 
                     }

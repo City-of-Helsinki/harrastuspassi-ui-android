@@ -113,7 +113,16 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/toolbar_padding"
                 tools:context=".MapsActivity">
-
         </com.google.android.gms.maps.MapView>
+
+        <ProgressBar
+                android:id="@+id/progress_circular"
+                style="?android:attr/progressBarStyleLarge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/map_fragment"
+                app:layout_constraintTop_toTopOf="@+id/map_toolbar"></ProgressBar>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>
