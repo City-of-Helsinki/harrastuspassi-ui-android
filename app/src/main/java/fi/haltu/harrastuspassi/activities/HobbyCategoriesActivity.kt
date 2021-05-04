@@ -51,7 +51,7 @@ class HobbyCategoriesActivity : AppCompatActivity() {
         filtersOriginal = intent.extras!!.getSerializable("EXTRA_FILTERS") as Filters
         if (intent.hasExtra("EXTRA_CATEGORY_BUNDLE")) {
             val bundle = intent.getBundleExtra("EXTRA_CATEGORY_BUNDLE")
-            categoryList = bundle.getSerializable("CATEGORY_LIST") as ArrayList<Category>
+            categoryList = bundle?.getSerializable("CATEGORY_LIST") as ArrayList<Category>
             (v.findViewById<View>(R.id.title) as TextView).text = intent.getStringExtra("EXTRA_CATEGORY_NAME")
         } else {
             (v.findViewById<View>(R.id.title) as TextView).text = resources.getString(R.string.choose_hobby)
