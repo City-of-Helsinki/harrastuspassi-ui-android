@@ -76,8 +76,8 @@ class HomeHobbiesFragment : Fragment() {
             var imageView = parentView.findViewById<ImageView>(R.id.home_promoted_image)
             Picasso.with(this.context)
                 .load(promotedHobby.hobby.imageUrl)
-                .placeholder(R.drawable.harrastuspassi_lil_kel)
-                .error(R.drawable.harrastuspassi_lil_kel)
+                .placeholder(R.drawable.hp_logo_pink)
+                .error(R.drawable.hp_logo_pink)
                 .into(imageView)
             //TITLE
             promotedTitle.text = promotedHobby.hobby.name

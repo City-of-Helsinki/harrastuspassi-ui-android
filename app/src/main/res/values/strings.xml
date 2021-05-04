@@ -3,7 +3,6 @@
     <string name="title_home">Home</string>
     <string name="item_detail" translatable="false">item_detail</string>
     <string name="hobby_image">Picture</string>
-    <string name="category_filter_component_title">Hobby</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hobby_tag">Hobby</string>
@@ -23,7 +22,6 @@
     <string name="error_try_again_later">Something went wrong, try again later</string>
     <string name="error_no_hobby_events">No hobby events</string>
     <string name="error_no_internet">No internet connection. Please check the connection and start the app again.</string>
-    <string name="not_specified">Not specified</string>
     <string name="your_location">location</string>
     <string name="monday">Monday</string>
     <string name="tuesday">Tuesday</string>
@@ -45,7 +43,6 @@
     <string name="find_favorites">Find your favorite hobbies here</string>
     <string name="accept_from_settings">Accept from settings</string>
     <string name="hobbies">hobbies</string>
-    <string name="home_title">Find hobbies near you</string>
     <string name="find_hobbies">Find hobbies</string>
     <string name="popular_promotions">Popular promotions</string>
     <string name="promotions_for_you">Promotions for you</string>
@@ -59,5 +56,4 @@
     <string name="use_location">Use this location</string>
     <string name="close_view">Close view</string>
     <string name="location_selector">Location selector</string>
-    <string name="remove_tag">Remove tag from selection</string>
 </resources>
