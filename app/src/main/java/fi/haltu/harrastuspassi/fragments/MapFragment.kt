@@ -106,7 +106,7 @@ class MapFragment : Fragment(), OnMapReadyCallback {
 
     private fun updateFilterIcon() {
         filterIcon.setImageResource(if (filters.hasActiveSecondaryFilters())
-            R.drawable.ic_filter_24px_new else R.drawable.ic_filter_24px_new)
+            R.drawable.ic_filter_24px_new_active else R.drawable.ic_filter_24px_new)
     }
 
     private fun loadFiltersAndUpdateIcon() {
