@@ -127,7 +127,10 @@ class FilterViewActivity : AppCompatActivity(), View.OnClickListener {
             ) {
 
                 val rangeStartValue: Int = leftPinValue.toInt()
-                val rangeEndValue: Int = rightPinValue.toInt()
+                var rangeEndValue: Int = rightPinValue.toInt()
+                if (rangeEndValue == 1440) {
+                    rangeEndValue = 1439
+                }
 
                 filters.startTimeFrom = rangeStartValue
                 filters.startTimeTo = rangeEndValue
@@ -298,9 +301,14 @@ class FilterViewActivity : AppCompatActivity(), View.OnClickListener {
                         FilterTagsListAdapter(chosenCategories) { category: Category ->
                             categoryClicked(category)
                         }
+                    var startTimeToForRangebar = filters.startTimeTo
+                    if (startTimeToForRangebar == 1439) {
+                        startTimeToForRangebar = 1440
+                    }
+
                     rangeBar.setRangePinsByValue(
                         filters.startTimeFrom.toFloat(),
-                        filters.startTimeTo.toFloat()
+                        startTimeToForRangebar.toFloat()
                     )
                 }
             }
