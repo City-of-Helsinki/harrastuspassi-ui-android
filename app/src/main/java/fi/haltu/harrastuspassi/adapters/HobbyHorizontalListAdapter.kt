@@ -50,8 +50,8 @@ class HobbyHorizontalListAdapter(
             }
             Picasso.with(itemView.context)
                 .load(hobbyEvent.hobby.imageUrl)
-                .placeholder(R.drawable.harrastuspassi_lil_kel)
-                .error(R.drawable.harrastuspassi_lil_kel)
+                .placeholder(R.drawable.hp_logo_pink)
+                .error(R.drawable.hp_logo_pink)
                 .into(image)
 
 
