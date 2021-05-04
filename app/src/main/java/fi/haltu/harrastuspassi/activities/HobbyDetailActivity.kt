@@ -248,7 +248,7 @@ class HobbyDetailActivity : AppCompatActivity(), OnMapReadyCallback {
         if (hobbyEvents[0].hobby.organizer != null) {
             organizerTextView.text = hobbyEvents[0].hobby.organizer!!.name
         } else {
-            organizerTextView.text = getString(R.string.not_specified)
+            organizerTextView.text = ""
         }
 
         //LOCATION

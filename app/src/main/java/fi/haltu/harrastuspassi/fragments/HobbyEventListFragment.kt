@@ -102,6 +102,7 @@ class HobbyEventListFragment : Fragment() {
 
         //SEARCH VIEW
         searchView = view.findViewById(R.id.hobby_event_search)
+        searchView.onActionViewExpanded()
         searchView.setOnClickListener {
             searchView.isIconified = false
         }
