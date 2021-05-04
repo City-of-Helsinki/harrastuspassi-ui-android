@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Harrastuspassi</string>
-    <string name="category_filter_component_title">Hobby</string>
     <string name="hobby_detail_description_title">Beskrivning</string>
     <string name="weekday_filter_title">Veckodag</string>
     <string name="title_home">Hem</string>
@@ -20,7 +19,6 @@
     <string name="error_no_internet">Ingen nätverksanslutning. Kontrollera din nätverksanslutning och starta om
         applikationen.
     </string>
-    <string name="not_specified">inte rapporterat</string>
     <string name="your_location">Din plats</string>
     <string name="sunday">Söndag</string>
     <string name="thursday">Torsdag</string>
@@ -49,7 +47,6 @@
     <string name="use_location">" Använd den här platsen"</string>
     <string name="close_view">" Närbild"</string>
     <string name="location_selector">Platsväljare</string>
-    <string name="remove_tag">" Ta bort kategorivalget från filtren"</string>
     <string name="available">Giltig</string>
     <string name="promotions_used">Använt</string>
     <string name="no_favorites">Du har inga favoriter!</string>

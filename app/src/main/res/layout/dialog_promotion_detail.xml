@@ -28,7 +28,6 @@
 
 
     <ScrollView
-            android:id="@+id/scrollView3"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:paddingBottom="16dp"

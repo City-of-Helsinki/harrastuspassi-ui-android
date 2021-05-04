@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Harrastuspassi</string>
-    <string name="category_filter_component_title">Harrastus</string>
     <string name="choose_hobby">Valitse harrastus</string>
     <string name="choose_location_from_map">Valitse sijainti kartalta</string>
     <string name="hobby_tag">Harrastus</string>
@@ -19,7 +18,6 @@
     <string name="error_try_again_later">Jokin meni vikaan. Kokeile myöhemmin uudelleen.</string>
     <string name="error_no_hobby_events">Ei harrastustapahtumia</string>
     <string name="error_no_internet">Ei verkkoyhteyttä. Tarkista verkkoyhteys ja käynnistä sovellus uudelleen.</string>
-    <string name="not_specified">Ei ilmoitettu</string>
     <string name="your_location">Sijaintisi</string>
     <string name="sunday">Sunnuntai</string>
     <string name="thursday">Torstai</string>
@@ -41,7 +39,6 @@
     <string name="find_favorites">Etsi lempiharrastuksesi täältä!</string>
     <string name="accept_from_settings">Anna lupaa asetuksista</string>
     <string name="hobbies">Harrastukset</string>
-    <string name="home_title">Löydä harrastuksia läheltäsi</string>
     <string name="find_hobbies">Löydä harrastus</string>
     <string name="popular_promotions">Suosituimmat etuudet</string>
     <string name="promotions_for_you">Etuuksia sinulle</string>
@@ -55,5 +52,4 @@
     <string name="use_location">Käytä tätä sijaintia</string>
     <string name="close_view">Sulje näkymä</string>
     <string name="location_selector">Sijainnin osoittaja</string>
-    <string name="remove_tag">Poista kategoria suodattimista</string>
 </resources>

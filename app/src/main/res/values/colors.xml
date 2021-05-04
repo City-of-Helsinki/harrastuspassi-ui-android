@@ -1,30 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <color name="hobbyPurpleDark">#170A36</color>
-    <color name="hobbyPurpleOpacity60">#6030146E</color>
     <color name="hobbyPurpleLight">#77329B</color>
-    <color name="hobbyPurpleLightOpacity20">#2077329B</color>
 
 
-    <color name="white60">#60FFFFFF</color>
-    <color name="white80">#80FFFFFF</color>
     <color name="blackOpacity40">#40000000</color>
-    <color name="blackOpacity60">#60000000</color>
     <color name="blackOpacity0">#00000000</color>
 
     <color name="hobbyPink">#FF3796</color>
     <color name="hobbyBlue">#0D0BB5</color>
-    <color name="hobbyBlue80">#800D0BB5</color>
-    <color name="hobbyBlue40">#400D0BB5</color>
     <color name="hobbyTurquoise">#03FAAC</color>
     <color name="white">#FFFFFF</color>
 
     <color name="hobbyGreyDark">#212121</color>
     <color name="hobbyGrey">#555555</color>
-    <color name="hobbyGreyMediumLight">#BCBCBC</color>
-    <color name="hobbyGreyLight">#0000001A</color>
     <color name="hobbyGreyExtraLight">#F3F3F3</color>
-    <color name="darkGreyOpacity35">#35212121</color>
 
 </resources>
