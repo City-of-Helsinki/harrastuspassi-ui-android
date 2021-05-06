@@ -54,7 +54,7 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         android:tint="@color/hobbyTurquoise"
-                        app:srcCompat="@drawable/hp_logo_new" />
+                        app:srcCompat="@drawable/hp_logo" />
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                         android:id="@+id/search_container"
@@ -82,7 +82,7 @@
                             android:fontFamily="@font/poppins_regular"
                             android:hint="@string/find_hobbies"
                             android:textColor="@color/hobbyGrey"
-                            android:textCursorDrawable="@drawable/purple_cursor"
+                            android:textCursorDrawable="@drawable/blue_cursor"
                             android:textSize="14sp"
                             android:inputType="text"
                             android:imeOptions="actionSearch"
@@ -109,7 +109,7 @@
                         android:id="@+id/home_filter_button"
                         android:layout_width="24dp"
                         android:layout_height="24dp"
-                        android:src="@drawable/ic_filter_24px_new"
+                        android:src="@drawable/ic_filter_24px"
                         app:layout_constraintEnd_toEndOf="@+id/home_filter_label"
                         app:layout_constraintStart_toStartOf="@+id/home_filter_label"
                         app:layout_constraintTop_toTopOf="@+id/search_container" />

@@ -43,7 +43,6 @@ class HomeHobbiesFragment : Fragment() {
         const val MAX_ITEM_AMOUNT = 5 //max amount of hobbies to show in recyclerViews
         const val MIN_ITEM_AMOUNT = 1 //min amount of hobbies to show in recyclerViews
         const val PAGE_SIZE = 50
-        const val MAX_DISTANCE = 45 // Km
     }
 
     override fun onCreateView(
@@ -77,8 +76,8 @@ class HomeHobbiesFragment : Fragment() {
             var imageView = parentView.findViewById<ImageView>(R.id.home_promoted_image)
             Picasso.with(this.context)
                 .load(promotedHobby.hobby.imageUrl)
-                .placeholder(R.drawable.harrastuspassi_lil_kel)
-                .error(R.drawable.harrastuspassi_lil_kel)
+                .placeholder(R.drawable.hp_logo_pink)
+                .error(R.drawable.hp_logo_pink)
                 .into(imageView)
             //TITLE
             promotedTitle.text = promotedHobby.hobby.name
@@ -188,7 +187,7 @@ class HomeHobbiesFragment : Fragment() {
             locationFilter.longitude = filters.longitude
             locationFilter.latitude = filters.latitude
             return try {
-                URL(getString(R.string.API_URL) + createHobbyEventQueryUrl(locationFilter, PAGE_SIZE, MAX_DISTANCE)).readText()
+                URL(getString(R.string.API_URL) + createHobbyEventQueryUrl(locationFilter, PAGE_SIZE)).readText()
 
             } catch (e: IOException) {
                 return when (!verifyAvailableNetwork(activity!!)) {

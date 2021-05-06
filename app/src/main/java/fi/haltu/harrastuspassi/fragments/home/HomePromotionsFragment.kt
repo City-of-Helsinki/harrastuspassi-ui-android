@@ -87,8 +87,8 @@ class HomePromotionsFragment : Fragment() {
             //IMAGE
             Picasso.with(this.context)
                 .load(promotedPromotion.imageUrl)
-                .placeholder(R.drawable.harrastuspassi_lil_kel)
-                .error(R.drawable.harrastuspassi_lil_kel)
+                .placeholder(R.drawable.hp_logo_pink)
+                .error(R.drawable.hp_logo_pink)
                 .into(parentView.findViewById<ImageView>(R.id.home_promoted_image))
             //TITLE
             parentView.findViewById<TextView>(R.id.home_promoted_title).text =
@@ -202,8 +202,8 @@ class HomePromotionsFragment : Fragment() {
         val imageView = dialog.findViewById<ImageView>(R.id.promotion_dialog_image)
         Picasso.with(context)
             .load(promotion.imageUrl)
-            .placeholder(R.drawable.harrastuspassi_lil_kel)
-            .error(R.drawable.harrastuspassi_lil_kel)
+            .placeholder(R.drawable.hp_logo_pink)
+            .error(R.drawable.hp_logo_pink)
             .into(imageView)
         //TITLE
         val titleText = dialog.findViewById<TextView>(R.id.promotion_dialog_title)

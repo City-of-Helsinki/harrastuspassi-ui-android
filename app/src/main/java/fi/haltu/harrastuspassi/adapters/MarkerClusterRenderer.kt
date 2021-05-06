@@ -25,7 +25,7 @@ class MarkerClusterRenderer(
     }
 
     override fun getColor(clusterSize: Int): Int {
-        return Color.parseColor("#77329B")
+        return Color.parseColor("#0D0BB5")
     }
 
     override fun onBeforeClusterItemRendered(item: HobbyEvent, markerOptions: MarkerOptions) { // 5
@@ -43,7 +43,7 @@ class MarkerClusterRenderer(
             markerOptions.icon(
                 bitmapDescriptorFromVector(
                     context,
-                    R.drawable.ic_location_on_purple_light_24dp
+                    R.drawable.ic_location_24dp
                 )
             )
         }

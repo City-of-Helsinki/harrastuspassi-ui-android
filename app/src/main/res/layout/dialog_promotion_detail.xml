@@ -28,7 +28,6 @@
 
 
     <ScrollView
-            android:id="@+id/scrollView3"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:paddingBottom="16dp"
@@ -64,7 +63,7 @@
                     android:id="@+id/promotion_location_icon"
                     android:layout_width="24dp"
                     android:layout_height="24dp"
-                    android:background="@drawable/location_icon"
+                    android:background="@drawable/ic_location_24dp"
                     android:backgroundTint="@color/hobbyBlue"
                     app:layout_constraintBottom_toBottomOf="@+id/promotion_location_address"
                     app:layout_constraintDimensionRatio="1:1"

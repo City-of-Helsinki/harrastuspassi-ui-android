@@ -3,7 +3,6 @@ package fi.haltu.harrastuspassi.fragments
 import android.annotation.SuppressLint
 import android.app.ActivityOptions
 import android.content.Intent
-import android.content.res.ColorStateList
 import android.os.AsyncTask
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -102,6 +101,7 @@ class HobbyEventListFragment : Fragment() {
 
         //SEARCH VIEW
         searchView = view.findViewById(R.id.hobby_event_search)
+        searchView.onActionViewExpanded()
         searchView.setOnClickListener {
             searchView.isIconified = false
         }
@@ -142,7 +142,7 @@ class HobbyEventListFragment : Fragment() {
     In case we need this code again, I don't remove these codes.
     */
     private fun updateFilterIcon() {
-        filterIcon.setImageResource(if (filters.hasActiveSecondaryFilters()) R.drawable.ic_filter_24px_new_active else R.drawable.ic_filter_24px_new)
+        filterIcon.setImageResource(if (filters.hasActiveSecondaryFilters()) R.drawable.ic_filter_active_24px else R.drawable.ic_filter_24px)
     }
 
     private fun loadFiltersAndUpdateIcon() {

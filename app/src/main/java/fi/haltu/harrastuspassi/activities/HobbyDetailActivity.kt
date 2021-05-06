@@ -140,7 +140,7 @@ class HobbyDetailActivity : AppCompatActivity(), OnMapReadyCallback {
         return super.onCreateOptionsMenu(menu)
     }
 
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
 
         when (item!!.itemId) {
             android.R.id.home -> {
@@ -238,8 +238,8 @@ class HobbyDetailActivity : AppCompatActivity(), OnMapReadyCallback {
         //COVER IMAGE
         Picasso.with(this)
             .load(hobbyEvents[0].hobby.imageUrl)
-            .placeholder(R.drawable.harrastuspassi_lil_kel)
-            .error(R.drawable.harrastuspassi_lil_kel)
+            .placeholder(R.drawable.hp_logo_pink)
+            .error(R.drawable.hp_logo_pink)
             .into(coverImageView)
 
         //TITLE
@@ -248,7 +248,7 @@ class HobbyDetailActivity : AppCompatActivity(), OnMapReadyCallback {
         if (hobbyEvents[0].hobby.organizer != null) {
             organizerTextView.text = hobbyEvents[0].hobby.organizer!!.name
         } else {
-            organizerTextView.text = getString(R.string.not_specified)
+            organizerTextView.text = ""
         }
 
         //LOCATION

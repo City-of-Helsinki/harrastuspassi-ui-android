@@ -85,7 +85,7 @@
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="16dp"
                 android:text="@string/accept_from_settings"
-                android:textColor="@color/hobbyPurpleLight"
+                android:textColor="@color/hobbyBlue"
                 app:layout_constraintBottom_toTopOf="@+id/location_map_button"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
